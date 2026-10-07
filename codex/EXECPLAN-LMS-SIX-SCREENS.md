@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1 и C1.5 Domain hardening завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–13 и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5 и C2 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–14, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -465,3 +465,37 @@ git diff --check
 ```
 
 **C1.5 завершён; G03 закрыт. Остановка до C2.** API/auth/read models/frontend не изменялись.
+
+## 14. C2 — implementation decisions (2026-10-07)
+
+Авторизован только C2. Ветка `codex/c2` перенесена из чистого worktree 7cff в 88c7 и fast-forward до C1.5 `43957ff`. Baseline: Domain 24, Application 15, Infrastructure 10 passed на реальном PostgreSQL.
+
+До implementation: Domain/state machine и PostgresWorkStore compare-and-save не меняются. Добавляются только access facts в PostgreSQL: active student/course enrollment с optional group, published/scheduled lesson по course/version/lesson, teacher grant на course либо group, attachment ownership/eligibility metadata. Это входы существующего IAccessPolicy, без enrollment CRUD, новых domain aggregates или workspace projections. Отсутствующие facts запрещают доступ.
+
+Authentication: стандартный JWT Bearer с проверкой signature/issuer/audience/lifetime через настраиваемый HTTPS authority; конкретный IdP не выбирается. Заменяемый IActorMapper принимает только authenticated identity с единственным UUID sub и единственной role Student/Teacher. Test authentication существует только в test assembly. Нет actor IDs из body/query/custom headers в production.
+
+Upload decision B: upload/storage deferred. Production metadata не заполняется фиктивными ID; тесты seed metadata только в своих изолированных БД. Будущий trusted upload producer обязан завершить storage/file validation до выставления eligibility. Сейчас text-only flow полноценный, неизвестные attachments fail closed.
+
+HTTP: submit 201, review/message 200; malformed 400 ValidationFailed, semantic 422, unauthenticated 401, access 403 Forbidden, missing 404 NotFound, workflow/concurrency 409. Feature-specific access/not-found aliases нормализуются в стабильные Forbidden/NotFound по C2 request. Missing version для существующего work остаётся 409 ConcurrencyConflict (existing Application semantics); review expectedVersion обязателен на wire, missing/null = 400 ValidationFailed. Единый Problem Details с code и traceId, включая framework failures. G03 закрыт; no retries.
+
+
+### C2 — verified results and exit criteria
+
+- [x] Реальный ASP.NET Core host; Kestrel Production smoke: 401 Problem Details без token.
+- [x] Четыре command endpoints работают через real PostgreSQL; thin HTTP boundary.
+- [x] Principal → Actor; настоящий JWT Bearer validation и test-only scheme; нет identity из request.
+- [x] Student/teacher course/group authorization, enrollment/lesson availability и attachment ownership; negative paths covered.
+- [x] Единый Problem Details, including framework errors; stale version = 409 ConcurrencyConflict, no retry.
+- [x] Два HTTP requests синхронизированы на начале двух real PostgreSQL transactions: first-submit/review races проверены.
+- [x] Full build: 0 warnings/errors. Domain 24 + Application 15 + Infrastructure 10 + API 50 = **99 passed**, 0 failed/skipped.
+- [x] Domain/Application/PostgresWorkStore/initial migration C1 без diff; G03 required feedback сохранён.
+- [x] Migration 20261007090442_CommandAccessFacts только добавляет 4 access tables; pending model changes отсутствуют.
+- [x] Upload B deferred явно, без fake production IDs; README и report с 14 пунктами обновлены.
+
+G04/G06 закрыты на уровне C2 transport/access boundary. Остаются deployment выбор IdP и provisioning
+trusted facts; если внешний subject не internal UUID, требуется trusted IActorMapper lookup.
+Upload/storage claiming/cleanup остаются отдельной dependency. Authorization проверяет facts на момент
+use case; синхронизация administrative revoke с in-flight transaction не вводилась и не меняет C1 semantics.
+
+Подробности DTO/status mappings, tests и воспроизведение: `codex/C2-RESULTS.md`, README.
+**C2 завершён. Остановка: C3/C4/read models/workspaces/frontend не начинались.**

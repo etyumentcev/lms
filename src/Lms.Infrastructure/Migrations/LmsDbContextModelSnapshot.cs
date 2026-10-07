@@ -196,6 +196,67 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.AttachmentAccess", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsEligible")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccessAttachments", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.EnrollmentAccess", b =>
+                {
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("StudentId", "CourseId");
+
+                    b.ToTable("AccessEnrollments", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.LessonAccess", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("CourseVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LessonId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("AvailableFrom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("CourseId", "CourseVersionId", "LessonId");
+
+                    b.ToTable("AccessLessons", (string)null);
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.StoredDomainEvent", b =>
                 {
                     b.Property<Guid>("Id")
@@ -227,6 +288,29 @@ namespace Lms.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("DomainEvents", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.TeacherAccess", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherId", "CourseId");
+
+                    b.ToTable("AccessTeachers", (string)null);
                 });
 
             modelBuilder.Entity("Lms.Domain.Message", b =>

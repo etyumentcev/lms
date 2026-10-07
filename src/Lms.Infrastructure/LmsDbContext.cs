@@ -22,8 +22,18 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
     public DbSet<ProblemWork> Works => Set<ProblemWork>();
     public DbSet<StoredDomainEvent> Events => Set<StoredDomainEvent>();
 
+    public DbSet<EnrollmentAccess> Enrollments => Set<EnrollmentAccess>();
+    public DbSet<LessonAccess> Lessons => Set<LessonAccess>();
+    public DbSet<TeacherAccess> TeacherGrants => Set<TeacherAccess>();
+    public DbSet<AttachmentAccess> AttachmentMetadata => Set<AttachmentAccess>();
+
     protected override void OnModelCreating(ModelBuilder model)
     {
+        model.Entity<EnrollmentAccess>().ToTable("AccessEnrollments").HasKey(x => new { x.StudentId, x.CourseId });
+        model.Entity<LessonAccess>().ToTable("AccessLessons").HasKey(x => new { x.CourseId, x.CourseVersionId, x.LessonId });
+        model.Entity<TeacherAccess>().ToTable("AccessTeachers").HasKey(x => x.Id);
+        model.Entity<TeacherAccess>().HasIndex(x => new { x.TeacherId, x.CourseId });
+        model.Entity<AttachmentAccess>().ToTable("AccessAttachments").HasKey(x => x.Id);
         var a = model.Entity<ProblemAssignment>();
         a.ToTable("ProblemAssignments", t => t.HasCheckConstraint("CK_Assignment_Status", "\"Status\" IN ('Active', 'Withdrawn')")); a.HasKey(x => x.Id);
         a.Property(x => x.Id).ValueGeneratedNever(); a.Property(x => x.StudentId);
