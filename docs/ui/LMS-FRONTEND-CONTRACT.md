@@ -1,6 +1,6 @@
 # LMS-FRONTEND-CONTRACT.md
 
-**Status:** Draft for implementation  
+**Status:** Draft for UI implementation; C2–C4 backend wire contract stabilized
 **Version:** 1.0  
 **Scope:** 6 основных экранов LMS  
 **Aligned with:** `LMS-DOMAIN-SPEC.md`, `FEATURE-SUBMISSION-REVIEW.md`, `LMS-UI-FLOW-SPEC-v2.md`
@@ -128,18 +128,24 @@ type UserSummaryDto = {
 
 ## 3.6. ApiErrorDto
 
-Используется единый error envelope:
+C4 transport source of truth (G06): HTTP errors use `application/problem+json`:
 
 ```ts
-type ApiErrorDto = {
+type ApiProblemDetailsDto = {
+  type: string; // urn:lms:error:<code>
+  title: string;
+  status: number;
+  instance: string;
   code: string;
-  message: string;
-  fieldErrors?: Record<string, string[]>;
-  traceId?: string;
+  traceId: string;
 };
 ```
 
-Frontend MUST ветвиться по `code`, а не по тексту `message`.
+`code` is required. Frontend MUST branch on `code`, never human-readable text.
+The earlier `ApiErrorDto { code, message, fieldErrors? }` is only a possible local
+client-adapter type, not the HTTP envelope. Backend does not currently return
+`message`, `detail` or `fieldErrors`. No client adapter is implemented in C4.
+Stable status/code mapping is recorded in Feature §C4 and `codex/C4-RESULTS.md`.
 
 ---
 
@@ -155,7 +161,11 @@ Frontend MUST ветвиться по `code`, а не по тексту `message
 
 ## 4.2. Version token
 
-Любой teacher command, изменяющий `ProblemWork`, MUST отправлять актуальный `version`.
+Submit for an existing work and both teacher review commands MUST send the latest
+read `version`. First submit sends null/omitted `expectedVersion`.
+PostMessage follows Feature UC-A06: it has no request or response version. It uses
+internal optimistic compare-and-save and can return `409 ConcurrencyConflict`.
+A subsequent workspace/work GET provides the new version; clients must not guess it.
 
 ```ts
 expectedVersion: number
@@ -727,7 +737,8 @@ No draft persistence or draft endpoint is part of C3. `localDraftExists` is fron
 
 ## 8.7. Upload command
 
-Existing assumption:
+Deferred dependency before the Student frontend photo submit flow. There is no
+production upload route in C2–C4. The following is a future assumption:
 
 ```http
 POST /api/v1/uploads
@@ -766,8 +777,9 @@ Request:
 
 ```ts
 type SubmitSolutionRequest = {
-  bodyMarkdown: string | null;
+  bodyMarkdown?: string | null;
   attachmentIds: string[];
+  expectedVersion?: number | null; // null/omitted only before the first submission
 };
 ```
 
@@ -905,6 +917,12 @@ type AttemptHistoryItemVm = {
 ```
 
 This is derived frontend data, not API/domain entity.
+
+C4 / G11: join review to attempt by `review.submissionId`, and feedback by
+`review.messageId`. General messages are work discussion, ordered by `createdAt`
+then `id`; they have no submission ID. Do not assign them to attempts by timestamp.
+The server returns submissions/reviews newest attempt first and one complete work
+message collection. `AttemptHistoryItemVm.messages` above is not a backend field.
 
 ## 9.5. Components
 
@@ -2149,3 +2167,38 @@ Queue search uses available course/lesson/problem titles and IDs, plus student U
 search awaits a trusted profile source. Summary includes every active filter and all pages.
 History submissions/reviews are newest attempt first; messages are CreatedAt ascending then ID.
 Missing exact content returns 503 ContentUnavailable, never a newer statement.
+
+
+## C4 stabilized backend wire boundary (2026-10-07)
+
+This section and the C3 amendment take precedence over earlier illustrative screen
+DTOs/additions. The nine implemented routes and exact response records are listed
+in `codex/C4-RESULTS.md`; executable wire assertions are in
+`tests/Lms.Api.Tests/ContractWorkflowTests.cs`. C# records remain in
+`src/Lms.Application/ReadModels.cs`, command request records in
+`src/Lms.Api/CommandsController.cs`, results in `ProblemWorkService.cs`.
+
+- No fields are added to satisfy unsourced profile/storage/design sketches. User
+  display names, labels and teacher profile remain nullable; attachmentIds are UUID
+  arrays, not AttachmentDto metadata. Enrichment requires a real backend source.
+- Course rows contain `lesson`, `availability`, `progress`, `courseVersionIds`;
+  LessonWorkspace contains `contentVersions` and `studentId` in assignment rows.
+  Both carry `materials`; StudentProblemWorkspace carries `history` and `usefulMaterials`.
+- All work-related permissions contain canSubmit/canPostMessage/canAccept/canRequestRevision.
+  They express access/state eligibility; valid payload, attachment ownership and current
+  version remain required. They cannot guarantee success after concurrent mutation.
+- Teacher course/group access is independent of student lesson availability/assignment
+  withdrawal. Authorized teacher details/review/message remain allowed for historical
+  works; active assignment lists/progress exclude withdrawn assignments. Group grants
+  require active matching membership. Whole-course grants do not require student enrollment.
+- G08: no server hasDraft. G09: progress uses the C3 formulas and no mutable persistence.
+  G15: summary and total include all active filters before paging, including search and
+  attemptKind. G16: teacher enrollment=null with teacherContext; no fabricated enrollment.
+- Empty/malformed requests use 400 ValidationFailed; semantic content failures use 422.
+  Review submissionId/expectedVersion are required; blank revision feedback is 422
+  FeedbackRequired. Missing existing-work submit version is 409 ConcurrencyConflict.
+  Duplicate review with stale version is ConcurrencyConflict; with current version it is
+  WorkNotSubmitted. SubmissionAlreadyReviewed remains a mapped defensive guard.
+- OpenAPI generation is not configured; tracked separately, no new documentation server.
+- Upload/storage/claiming and authenticated downloads remain prerequisites for photo flow.
+  Fixtures prove ownership metadata and attachment ID roundtrip, not file storage.
