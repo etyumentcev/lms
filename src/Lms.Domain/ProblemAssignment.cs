@@ -29,6 +29,7 @@ public enum AssignmentStatus { Active, Withdrawn }
 
 public sealed class ProblemAssignment
 {
+    private ProblemAssignment() { CourseId = null!; Content = null!; }
     public Guid Id { get; }
     public Guid StudentId { get; }
     public string CourseId { get; }

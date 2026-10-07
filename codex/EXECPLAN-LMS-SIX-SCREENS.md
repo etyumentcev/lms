@@ -1,5 +1,7 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
+**Текущее состояние: C1, C1.5 и C2 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–14, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
 Checkpoint B принят пользователем: greenfield foundation, solution/project references/test infrastructure и Domain/Application для ProblemAssignment, ProblemWork, Submission, Review, Message выполнены. На текущем запуске разрешено изменить только этот ExecPlan. Production code, Domain/Application implementation, packages, migrations, API endpoints, frontend и state machine не менять. C1–N ниже — план последующих запусков, не разрешение на их выполнение сейчас.
@@ -157,7 +159,7 @@ Refs/VO: CourseId, SourceRevision, VersionNumber, LessonContentReference, Proble
 | Student / SubmitSolution | Own active assignment/enrollment, available lesson, text OR attachment, valid ownership; только NotStarted/NeedsRevision; attempt+1 только при success; старые попытки immutable | ProblemWork (lazy creation); Submission, SubmissionAttachment, assignment/content refs, Version | SolutionSubmitted; ProblemWorkStarted MAY при первом submit | Domain §§10–12,18,20,23–24,31; Feature UC-A01, §§15–16 | NotStarted → Submitted; NeedsRevision → Submitted |
 | Teacher / GetReviewQueue | Только разрешённые Course/Group и Submitted; current attempt; filters до pagination | Projection ProblemWork + Submission + context | Нет | Domain §29; Feature UC-A02, §21 | Нет |
 | Teacher / GetProblemWork | Доступ Course/Group, immutable statement, исторические попытки | Чтение ProblemWork + assignment/content refs | Нет | Feature UC-A03; Frontend §11 | Нет |
-| Teacher / RequestRevision | Authorized teacher, Submitted, latest unreviewed submission, атомарный expectedVersion; application требует feedback; domain допускает optional согласно G03 | ProblemWork; Review(NeedsRevision), Message, SubmissionId, Version | RevisionRequested; проверить принятую политику MessagePosted для feedback | Domain §§15,21,23,32–33; Feature UC-A04, §§15–17 | Submitted → NeedsRevision |
+| Teacher / RequestRevision | Authorized teacher, Submitted, latest unreviewed submission, атомарный expectedVersion; Domain и Application требуют непустой feedback согласно закрытому G03 (C1.5) | ProblemWork; Review(NeedsRevision), Message, SubmissionId, Version | RevisionRequested; проверить принятую политику MessagePosted для feedback | Domain §§15,21,23,32–33; Feature UC-A04, §§15–17 | Submitted → NeedsRevision |
 | Teacher / AcceptSubmission | Те же access/current/version checks; feedback optional; Accepted terminal; одна финальная review | ProblemWork; Review(Accepted), optional Message, SubmissionId, Version | SubmissionAccepted | Domain §§15,22–23; Feature UC-A05 | Submitted → Accepted |
 | Student/Teacher / PostMessage | Доступ; непустое сообщение; ReplyTo в том же work; safe Markdown/attachments; не создаёт attempt/review | ProblemWork; Message/MessageAttachment/ReplyToMessageId | MessagePosted | Domain §13; Feature UC-A06, §18; Flow §12 | Нет |
 | Student/Teacher / History и progress | Preserved immutable attempts/reviews; feedback через Review.MessageId; прогресс производный | Read models из ProblemWork и assignment; не новый aggregate | Нет | Domain §§16,25,34; Feature AT-17–23; Frontend §9 | Нет |
@@ -183,7 +185,7 @@ Submitted --AcceptSubmission--> Accepted (terminal)
 |---|---|---|
 | G01 — repository, CLOSED | Пользователь подтвердил greenfield | Создать единственный solution по архитектуре §2 |
 | G02 — authorization, PLANNED | Greenfield, middleware пока не нужен | Application access port + negative tests; authenticated principal и production access adapter до API |
-| G03 — domain/application, OPEN architectural decision | Текущая реализация B: Domain operation допускает optional feedback; Application RequestRevision требует non-empty feedback. Domain §21 и требования Feature/UI различаются по строгости | Текущий код и тесты сохранить. Если правило «возврат на доработку всегда требует объяснения» глобальное, позднее сделать его domain invariant и синхронизировать LMS-DOMAIN-SPEC.md. До отдельного решения не расширять другие use cases возврата на доработку. Accept feedback остаётся optional |
+| G03 — CLOSED, C1.5 | Принято пользователем: RequestRevision всегда требует непустой feedback как глобальный domain invariant | Domain самостоятельно отклоняет null/empty/whitespace с FeedbackRequired без мутации; Application сохраняет раннюю validation. Domain Spec §21 и Feature UC-A04 синхронизированы. Accept feedback остаётся optional |
 | G04 — Application RESOLVED; API deferred | Feature UC-A01: `ExpectedVersion?`; §13.2 требует version от state-changing commands. Frontend §8.8 и Feature §9.1 omit version; Flow §8 допускает `ExpectedVersion?`; work до первой отправки отсутствует | Application реализует null для нового work и exact version для существующего. Save port требует atomic compare-and-save и unique assignment. Wire DTO и реальная PostgreSQL race проверяются позже |
 | G05 — deferred до content/read API | Domain §8 запрещает student content неопубликованного/ещё недоступного урока; Frontend §7.6 допускает содержимое недоступного урока по политике; Actors UC-S02 запрещает видеть сам урок | Current application access port требует available lesson для submit. Политика выдачи locked metadata/content отложена до read API; сейчас content не выдаётся |
 | G06 — API error shape | Feature §8: Problem Details `title/detail/code`; Frontend §3.6: `message/fieldErrors/code` | Один API-client adapter Problem Details → ApiErrorDto; ветвиться по code; согласовать transport fields, не менять домен |
@@ -267,17 +269,17 @@ Persistence invariants:
 
 **Exit criteria C1 — все пункты обязательны:**
 
-- [ ] PostgreSQL поднимается в integration test environment.
-- [ ] Initial migration применяется к чистой test database.
-- [ ] Persistence adapters реализуют существующие application persistence ports.
-- [ ] Unit tests B остаются зелёными: 17 domain + 12 application как принятый baseline.
-- [ ] Persistence/integration tests используют реальные concurrent transactions и отдельные units of work/DbContexts, а не последовательную имитацию race.
-- [ ] Race first submit не создаёт два ProblemWork на одно assignment и две успешные первые попытки.
-- [ ] Stale expectedVersion отвергается без записи изменений проигравшей транзакции; stale review не изменяет новую попытку.
-- [ ] State/history/events коммитятся атомарно; тест принудительной ошибки подтверждает rollback всех частей.
-- [ ] Остальные persistence invariants выше подтверждены тестами: immutable submissions, unique attempts, review linkage, terminal Accepted.
-- [ ] `dotnet build Lms.sln` проходит без warnings/errors; допустимы ранее использованные single-node flags окружения.
-- [ ] Domain/Application/Infrastructure tests проходят; команды и результаты внесены в отчёт C1.
+- [x] PostgreSQL поднимается в integration test environment.
+- [x] Initial migration применяется к чистой test database.
+- [x] Persistence adapters реализуют существующие application persistence ports.
+- [x] Unit tests B остаются зелёными: 17 domain + 12 application как принятый baseline.
+- [x] Persistence/integration tests используют реальные concurrent transactions и отдельные units of work/DbContexts, а не последовательную имитацию race.
+- [x] Race first submit не создаёт два ProblemWork на одно assignment и две успешные первые попытки.
+- [x] Stale expectedVersion отвергается без записи изменений проигравшей транзакции; stale review не изменяет новую попытку.
+- [x] State/history/events коммитятся атомарно; тест принудительной ошибки подтверждает rollback всех частей.
+- [x] Остальные persistence invariants выше подтверждены тестами: immutable submissions, unique attempts, review linkage, terminal Accepted.
+- [x] `dotnet build Lms.sln` проходит без warnings/errors; допустимы ранее использованные single-node flags окружения.
+- [x] Domain/Application/Infrastructure tests проходят; команды и результаты внесены в отчёт C1.
 
 ### 8.2. C2 — command API + authentication/access boundary
 
@@ -404,7 +406,7 @@ DDD review: Domain не имеет project/package dependencies; Application з�
 
 Оставшиеся решения перед соответствующими этапами:
 
-- **G03:** окончательно решить, является ли non-empty revision feedback глобальным domain invariant; при положительном решении синхронизировать Domain Spec и реализацию отдельным изменением. До него не расширять другие revision use cases.
+- **G03 CLOSED в C1.5:** non-empty revision feedback — глобальный domain invariant по решению пользователя; Domain Spec и implementation синхронизированы.
 - **C1:** зафиксировать EF mappings, concurrency token/atomic save, формат и lifecycle persisted domain events и PostgreSQL test environment; выбрать технические решения в границах существующих ports/invariants.
 - **C2 / G04 / G06:** способ authentication и источник access facts, wire semantics expectedVersion и стабильный Problem Details envelope; готовность upload/storage contract.
 - **C3 / G05 / G09 / G15 / G16:** допустимые locked metadata, формулы progress (включая пустые/optional/withdrawn assignments), filters для summary/facets, teacher CourseWorkspace без фиктивного enrollment.
@@ -412,3 +414,88 @@ DDD review: Domain не имеет project/package dependencies; Application з�
 - **G07:** planning recommendation зафиксирована — bodyMarkdown с optional explanation label, attachments, без отдельной comment entity и скрытого POST Message; реализовать только на будущем UI checkpoint.
 
 На этом запуске запрещены изменения production code, Domain/Application implementation, добавление EF Core packages, migrations, API endpoints, frontend и изменения state machine. **После краткого diff summary и списка open decisions остановиться; C1 не начинать.**
+
+## C1 implementation decision (2026-10-07)
+
+Текущий запуск разрешает C1; ограничения предыдущего documentation-only запуска исторические. Обнаружена materialization incompatibility: EF не может связать constructor ProblemWork(ProblemAssignment), owned Content в constructor assignment и несовпадающие параметры constructors history с mapped properties. До изменения Domain фиксируем минимальное решение: private parameterless constructors только для materialization; публичные constructors, invariants, state machine и Application прежние. Get-only properties mapped через backing fields. Reload имеет пустой список новых events. PostgreSQL + EF Core 10, append-only history, bigint Version conditional UPDATE, unique assignment INSERT, transactional event journal без publisher. Attachments — snapshot uuid[] существующих IDs; metadata/storage вне C1. G03 открыт.
+
+## 12. Фактический результат C1 (2026-10-07)
+
+C1 выполнен на базе 2124a15d10746a786278b9dd52b2d8edabcc36df. Все exit criteria §8.1 закрыты.
+
+- EF Core 10.0.12 / Npgsql provider 10.0.3; PostgreSQL 17.6 в Testcontainers 4.15.0.
+- Initial migration `20261007035847_InitialPersistence`: ProblemAssignments, ProblemWorks, Submissions, Reviews, Messages, DomainEvents. PK/FK/unique/check constraints, append-only history triggers и immutable assignment reference. Attachment IDs — uuid[] snapshots.
+- `PostgresWorkStore` реализует существующий IWorkStore: isolated single-query aggregate load, conditional version UPDATE / unique first INSERT, history/events в одной transaction. Stable event IDs предотвращают повторную запись, включая fresh store; внешней публикации нет.
+- Только private materialization constructors добавлены в Domain по заранее записанной incompatibility. Application, state machine и существующие tests не изменены. G03 остаётся OPEN.
+- SDK /tmp/lms-dotnet: 10.0.401, global.json соответствует. Restore успешен; build всей solution — **0 warnings / 0 errors**.
+- **17 Domain + 12 Application + 10 Infrastructure tests passed**, 0 failed, 0 skipped. Реальный PostgreSQL; migration на пустых БД; обе concurrent races используют отдельные DbContexts/transactions с barrier после BeginTransaction. Rollback fault injection происходит после SQL writes до commit.
+- Дополнительно подтверждены immutable submission/attachment snapshots, cross-work FK protection, stale review после новой попытки, optional Domain feedback, required Application feedback, Accepted terminal для submit/review и разрешённое message без смены статуса, event deduplication.
+- Команды: `/tmp/lms-dotnet/dotnet restore Lms.sln`; build `--no-restore -m:1 -p:UseSharedCompilation=false`; отдельные `dotnet test` Domain/Application/Infrastructure csproj `--no-build --no-restore -m:1`. `git diff --check` успешен.
+
+Полный отчёт по всем 11 пунктам prompt, package/file list, schema constraints, scenarios, воспроизведение и ограничения: [C1-RESULTS.md](C1-RESULTS.md). README обновлён. Sandbox mountinfo failure обойдён только через одобренные escalation calls; первые dependency audit/version conflicts устранены обновлением/выравниванием packages, без suppressions.
+
+**Остановка после C1.** C2/C3/C4, HTTP/auth, workspace/read queries и frontend не начаты. Дальнейшие открытые решения остаются в §11; C1 из этого списка выполнен. Исторические пометки B «persistence отложен» больше не описывают текущий статус.
+
+## 13. C1.5 — Domain hardening (2026-10-07)
+
+Scope: только аудит EF materialization constructors и закрытие G03; C2 не начинать. Исторические упоминания optional Domain feedback и OPEN G03 в B/C1 отражают состояние тех checkpoint и заменены текущим решением ниже.
+
+Проверены пять C1 constructors: `ProblemAssignment()`, `ProblemWork()`, `Submission()`, `Review()`, `Message()`. Все private; EF успешно materialize их в PostgreSQL tests C1. Изменения constructors не требуются и не внесены. Domain entities/children имеют get-only или private setters; read-only collections не выдают mutable lists. Internal constructors children существовали до C1 и вызываются только aggregate внутри Domain, InternalsVisibleTo отсутствует. Infrastructure не получает public/internal ORM factories или setters: EF materialization использует backing fields; обычный API создания/переходов остаётся domain-controlled.
+
+Решение G03: RequestRevision требует непустой feedback глобально. Проверка Domain находится до AddMessage/Review/status/version/events; ошибка DomainException(FeedbackRequired). Application уже выполняет раннюю проверку с UseCaseException(FeedbackRequired), поэтому production Application не меняется. Accept optional feedback сохранён. Persistence production code/schema/migration не меняются; тест event deduplication минимально адаптирован к обязательному feedback и дополнительному MessagePosted.
+
+Документы: Domain Spec §21, Feature UC-A04, README и этот ExecPlan. Исторический C1-RESULTS.md остаётся отчётом C1, а не текущим feedback contract.
+
+Проверки: Domain theory null/empty/spaces/tab-newline и полная неизменность aggregate с существующей history; valid revision создаёт linked message/review/events; Accept без feedback. Application theory проверяет раннюю ошибку и отсутствие mutation/save. Фактические результаты:
+
+- Full solution build: **0 warnings / 0 errors**.
+- Domain: **24 passed**, 0 failed/skipped (раньше 17; optional-revision test заменён required-feedback cases).
+- Application: **15 passed**, 0 failed/skipped (раньше 12; feedback theory расширена до четырёх inputs).
+- Infrastructure: **10 passed**, 0 failed/skipped, реальный PostgreSQL 17.6 в Testcontainers; migration/roundtrip/races/rollback/event deduplication сохранены.
+- `git diff --check`: успешно. Constructors и production Application/Infrastructure не изменены.
+
+Команды (SDK 10.0.401, соответствует global.json):
+
+```sh
+/tmp/lms-dotnet/dotnet build Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false
+/tmp/lms-dotnet/dotnet test tests/Lms.Domain.Tests/Lms.Domain.Tests.csproj --no-build --no-restore -m:1
+/tmp/lms-dotnet/dotnet test tests/Lms.Application.Tests/Lms.Application.Tests.csproj --no-build --no-restore -m:1
+/tmp/lms-dotnet/dotnet test tests/Lms.Infrastructure.Tests/Lms.Infrastructure.Tests.csproj --no-build --no-restore -m:1
+git diff --check
+```
+
+**C1.5 завершён; G03 закрыт. Остановка до C2.** API/auth/read models/frontend не изменялись.
+
+## 14. C2 — implementation decisions (2026-10-07)
+
+Авторизован только C2. Ветка `codex/c2` перенесена из чистого worktree 7cff в 88c7 и fast-forward до C1.5 `43957ff`. Baseline: Domain 24, Application 15, Infrastructure 10 passed на реальном PostgreSQL.
+
+До implementation: Domain/state machine и PostgresWorkStore compare-and-save не меняются. Добавляются только access facts в PostgreSQL: active student/course enrollment с optional group, published/scheduled lesson по course/version/lesson, teacher grant на course либо group, attachment ownership/eligibility metadata. Это входы существующего IAccessPolicy, без enrollment CRUD, новых domain aggregates или workspace projections. Отсутствующие facts запрещают доступ.
+
+Authentication: стандартный JWT Bearer с проверкой signature/issuer/audience/lifetime через настраиваемый HTTPS authority; конкретный IdP не выбирается. Заменяемый IActorMapper принимает только authenticated identity с единственным UUID sub и единственной role Student/Teacher. Test authentication существует только в test assembly. Нет actor IDs из body/query/custom headers в production.
+
+Upload decision B: upload/storage deferred. Production metadata не заполняется фиктивными ID; тесты seed metadata только в своих изолированных БД. Будущий trusted upload producer обязан завершить storage/file validation до выставления eligibility. Сейчас text-only flow полноценный, неизвестные attachments fail closed.
+
+HTTP: submit 201, review/message 200; malformed 400 ValidationFailed, semantic 422, unauthenticated 401, access 403 Forbidden, missing 404 NotFound, workflow/concurrency 409. Feature-specific access/not-found aliases нормализуются в стабильные Forbidden/NotFound по C2 request. Missing version для существующего work остаётся 409 ConcurrencyConflict (existing Application semantics); review expectedVersion обязателен на wire, missing/null = 400 ValidationFailed. Единый Problem Details с code и traceId, включая framework failures. G03 закрыт; no retries.
+
+
+### C2 — verified results and exit criteria
+
+- [x] Реальный ASP.NET Core host; Kestrel Production smoke: 401 Problem Details без token.
+- [x] Четыре command endpoints работают через real PostgreSQL; thin HTTP boundary.
+- [x] Principal → Actor; настоящий JWT Bearer validation и test-only scheme; нет identity из request.
+- [x] Student/teacher course/group authorization, enrollment/lesson availability и attachment ownership; negative paths covered.
+- [x] Единый Problem Details, including framework errors; stale version = 409 ConcurrencyConflict, no retry.
+- [x] Два HTTP requests синхронизированы на начале двух real PostgreSQL transactions: first-submit/review races проверены.
+- [x] Full build: 0 warnings/errors. Domain 24 + Application 15 + Infrastructure 10 + API 50 = **99 passed**, 0 failed/skipped.
+- [x] Domain/Application/PostgresWorkStore/initial migration C1 без diff; G03 required feedback сохранён.
+- [x] Migration 20261007090442_CommandAccessFacts только добавляет 4 access tables; pending model changes отсутствуют.
+- [x] Upload B deferred явно, без fake production IDs; README и report с 14 пунктами обновлены.
+
+G04/G06 закрыты на уровне C2 transport/access boundary. Остаются deployment выбор IdP и provisioning
+trusted facts; если внешний subject не internal UUID, требуется trusted IActorMapper lookup.
+Upload/storage claiming/cleanup остаются отдельной dependency. Authorization проверяет facts на момент
+use case; синхронизация administrative revoke с in-flight transaction не вводилась и не меняет C1 semantics.
+
+Подробности DTO/status mappings, tests и воспроизведение: `codex/C2-RESULTS.md`, README.
+**C2 завершён. Остановка: C3/C4/read models/workspaces/frontend не начинались.**

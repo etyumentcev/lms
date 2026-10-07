@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
     <ProjectReference Include="../Lms.Application/Lms.Application.csproj" />
     <ProjectReference Include="../Lms.Infrastructure/Lms.Infrastructure.csproj" />
   </ItemGroup>

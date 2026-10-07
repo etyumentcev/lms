@@ -6,6 +6,7 @@ public enum AuthorRole { Student, Teacher }
 
 public sealed class Submission
 {
+    private Submission() { AttachmentIds = Array.AsReadOnly(Array.Empty<Guid>()); }
     public Guid Id { get; } = Guid.NewGuid();
     public Guid ProblemWorkId { get; }
     public int AttemptNumber { get; }
@@ -27,6 +28,7 @@ public sealed class Submission
 
 public sealed class Message
 {
+    private Message() { BodyMarkdown = null!; AttachmentIds = Array.AsReadOnly(Array.Empty<Guid>()); }
     public Guid Id { get; } = Guid.NewGuid();
     public Guid ProblemWorkId { get; }
     public Guid AuthorId { get; }
@@ -50,6 +52,7 @@ public sealed class Message
 
 public sealed class Review
 {
+    private Review() { }
     public Guid Id { get; } = Guid.NewGuid();
     public Guid ProblemWorkId { get; }
     public Guid SubmissionId { get; }

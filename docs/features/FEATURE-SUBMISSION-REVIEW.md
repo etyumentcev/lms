@@ -456,7 +456,7 @@ RequestRevisionCommand
 3. Проверить optimistic version.
 4. Проверить status.
 5. Проверить Submission.
-6. Создать Message от Teacher с feedback.
+6. Проверить непустой feedback (`FeedbackRequired` при null/empty/whitespace) и создать Message от Teacher.
 7. Создать Review:
    ```text
    Decision = NeedsRevision
@@ -490,7 +490,7 @@ Version
 422 FeedbackRequired
 ```
 
-Для MVP `FeedbackMarkdown` SHOULD быть обязательным для `NeedsRevision`.
+`FeedbackMarkdown` MUST быть непустым для `NeedsRevision`: `null`, empty и whitespace запрещены. Это глобальный domain invariant `ProblemWork.RequestRevision`; Application сохраняет раннюю validation с `FeedbackRequired`, а Domain независимо отвергает невалидный feedback до любых изменений status/version/history/events. `AcceptSubmission` по-прежнему допускает отсутствие feedback.
 
 ---
 
