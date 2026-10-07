@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5, C2 и C3 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–15, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5, C2, C3 и C4 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–16, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -179,7 +179,7 @@ Submitted --AcceptSubmission--> Accepted (terminal)
 
 ## 6. Gaps и противоречия
 
-Ни один пункт не исправляется в нормативных документах в этой задаче. Для domain blockers действует final §24: не выбирать молча между конфликтующими контрактами.
+Исходный список gaps checkpoint B; строки G06/G08/G09/G11/G15/G16 ниже актуализированы после C4. Для domain blockers действует final §24: не выбирать молча между конфликтующими контрактами.
 
 | ID / слой | Evidence / расхождение | Минимальное дальнейшее действие |
 |---|---|---|
@@ -188,17 +188,18 @@ Submitted --AcceptSubmission--> Accepted (terminal)
 | G03 — CLOSED, C1.5 | Принято пользователем: RequestRevision всегда требует непустой feedback как глобальный domain invariant | Domain самостоятельно отклоняет null/empty/whitespace с FeedbackRequired без мутации; Application сохраняет раннюю validation. Domain Spec §21 и Feature UC-A04 синхронизированы. Accept feedback остаётся optional |
 | G04 — Application RESOLVED; API deferred | Feature UC-A01: `ExpectedVersion?`; §13.2 требует version от state-changing commands. Frontend §8.8 и Feature §9.1 omit version; Flow §8 допускает `ExpectedVersion?`; work до первой отправки отсутствует | Application реализует null для нового work и exact version для существующего. Save port требует atomic compare-and-save и unique assignment. Wire DTO и реальная PostgreSQL race проверяются позже |
 | G05 — deferred до content/read API | Domain §8 запрещает student content неопубликованного/ещё недоступного урока; Frontend §7.6 допускает содержимое недоступного урока по политике; Actors UC-S02 запрещает видеть сам урок | Current application access port требует available lesson для submit. Политика выдачи locked metadata/content отложена до read API; сейчас content не выдаётся |
-| G06 — API error shape | Feature §8: Problem Details `title/detail/code`; Frontend §3.6: `message/fieldErrors/code` | Один API-client adapter Problem Details → ApiErrorDto; ветвиться по code; согласовать transport fields, не менять домен |
+| G06 — CLOSED backend C4 | C2 Problem Details отличается от раннего Frontend ApiErrorDto | Frontend §3.6 уточнён: transport type/title/status/instance/code/traceId; code обязателен. Client adapter — будущий UI. Все 9 routes проверены |
 | G07 — application/UI student comment, PLANNING RECOMMENDATION | Submission состоит из `bodyMarkdown + attachments`; отдельная сущность «student solution comment» не нужна | Для будущего Student Solution UI использовать label «Пояснение к решению — необязательно» для bodyMarkdown. Не вводить отдельную persistence-сущность комментария и не делать скрытый второй POST Message при SubmitSolution. Это planning decision, без изменения кода сейчас |
-| G08 — read model/local draft | Frontend §7.2 и Feature UC-A08 возвращают `hasDraft`, но final §13 допускает только browser-local draft при отсутствии механизма | Не заставлять сервер угадывать local storage. Предложение: локальная подпись по `(studentId,assignmentId,nextAttemptNumber)` с явным разделением server DTO и UI state |
-| G09 — progress semantics | DTO требуют completedLessons/percent и lesson status; Domain §16 задаёт производность, но не формулы для required/optional, withdrawn, пустых уроков и denominator | До реализации согласовать формулы и zero-denominator examples; не сохранять mutable progress и не выводить логику из примерного percent=18 в Feature §9.7 |
+| G08 — CLOSED backend C4 | Browser-local draft не является server state | Backend не возвращает hasDraft; wire assertions фиксируют отсутствие. Локальный draft остаётся за пределами C4 |
+| G09 — CLOSED C3, verified C4 | Progress только derived | Lesson = Accepted / active assignments; Course = completed / available logical lessons; нулевой denominator = 0, empty lesson NotStarted. Withdrawn/locked rules и revision проверены, mutable persistence нет |
 | G10 — content/read model | DTO содержат hints/tags/difficulty/estimatedMinutes/grade/material metadata; Content v1 не задаёт все эти поля, Domain §37 исключает hints engine | Использовать существующие metadata/read sources, иначе null/[]/empty UI. Не расширять Front Matter или hints engine молча; teacher solutions не выдавать student |
-| G11 — history relationships | Message связан с work/reply, не Submission; Frontend §9.4 требует messages по попытке | Review feedback связывать строго через Review.MessageId/SubmissionId. Общие work messages показывать отдельным discussion внутри history, пока нет согласованного правила группировки; не сохранять выдуманный SubmissionId |
+| G11 — CLOSED backend C4 | Message связан с work/reply, не Submission | Review.SubmissionId + MessageId связывают feedback; общие messages — отдельная work discussion, без выдуманного SubmissionId. History linkage/order проверены HTTP tests |
 | G12 — stale descriptions | Frontend §§5,10.7,23 описывают workspace/search как недостающие, но Feature v1.1 уже документирует UC-A07–09 и search; это не доказательство существования кода | Использовать полный актуальный documented contract, проверить handler once, не дублировать use cases |
 | G13 — secondary documents | Feature/Frontend ссылаются на отсутствующий `LMS-UI-FLOW-SPEC-v2.md`; реальный файл без v2. Audit утверждает отсутствие mockup, хотя PNG есть; Flow §21 предлагает уже выполненную замену «Зачтено» | В плане использовать канонические пути final prompt; будущая отдельная docs cleanup без переопределения source of truth |
 | G14 — scope | Actors §13 считает шестым экраном group/student progress; final §4 и нормативные UI docs считают History отдельным экраном | Следовать текущему slice из final; не добавлять седьмой экран/analytics |
-| G15 — queue summary | Frontend §29.6 задаёт summary, но не уточняет facet counts при активном attemptKind | До query tests согласовать, какие фильтры применяются к summary; totals минимум соответствуют отфильтрованным данным, не странице |
-| G16 — Course workspace actor | Feature UC-A07 разрешает Teacher, но DTO enrollment обязателен как у Student | Уточнить teacher response/персональный progress. Не фабриковать enrollment преподавателю |
+| G15 — CLOSED C3, verified C4 | Summary semantics | Все active filters, включая attemptKind/search, до pagination; summary по полному filtered dataset. Dataset больше pageSize с исключаемыми строками проверен |
+| G16 — CLOSED C3, verified C4 | Teacher CourseWorkspace без student enrollment | enrollment=null и teacherContext с grants; progress только authorized active assignments. Same-course/group isolation проверена |
+| G18 — OpenAPI, DEFERRED | В C2–C4 нет OpenAPI package/registration/document route | Отдельный technical gap; генерация схем не добавляется в C4 |
 | G17 — source packaging | Final prompt/README/examples только untracked в основном checkout; worktree их не содержит | До будущего выполнения обеспечить доступность утверждённого prompt в выбранной базе; не коммитить пользовательские файлы автоматически |
 
 ## 7. Schema/migrations: решение с доказательством
@@ -538,3 +539,59 @@ null/[]; preserve attachment IDs. No new persistence just for these fields. G07 
 - [x] G08/G09/G16 decisions synchronized minimally in read contract; provisioning/profile/storage gaps recorded.
 
 Full 13-part report: `codex/C3-RESULTS.md`. C4 and frontend not started; stop after C3.
+
+
+## 16. C4 — pre-implementation contract audit (2026-10-07)
+
+Scope: backend contract/integration only. Base accepted C3 merge `16ee5c1`.
+Branch `codex/c4-contract`: `codex/c4` already belongs to worktree 88c7 at C2;
+that worktree/branch is preserved. Baseline full build: 0 warnings/errors;
+Domain 24 + Application 15 + Infrastructure 10 + API 78 = 127 passed, no skips.
+
+Discrepancies recorded before edits; source of truth is accepted C2/C3 decisions,
+Domain/Feature invariants and the C3 read-boundary amendment, not older UI sketches:
+
+- D01 / G06: Frontend §3.6 calls `{code,message}` the transport envelope, while C2
+  implements RFC Problem Details `{type,title,status,instance,code,traceId}`. Clarify
+  transport versus future client adapter; retain stable C2 statuses/codes.
+- D02: Frontend SubmitSolutionRequest omits expectedVersion; C2 and Flow require
+  null/omitted on first submit and the latest read version on resubmit. Fix the example.
+- D03: Frontend §4.2 says every teacher command needs a version, but Feature UC-A06
+  and accepted C2 PostMessage have no expectedVersion or response version. Document
+  the exception: internal compare-and-save, 409 on concurrent change, fresh GET for version.
+- D04 / G11: attempt view sketch suggests per-attempt general messages, while messages
+  belong to work. Only Review.SubmissionId/MessageId links feedback to an attempt;
+  preserve separate work discussion without inventing message SubmissionId.
+- Older rich read DTO sketches differ from accepted C3 (nullable profile/storage fields,
+  nested lesson metadata, attachmentIds, teacher enrollment=null). Make C3/C4 wire
+  precedence explicit and freeze actual JSON property sets in HTTP regression tests.
+- SubmissionAlreadyReviewed is a defensive Domain guard unreachable through valid
+  persisted workflow (status/current-submission guards win). Test middleware mapping
+  separately; do not fabricate corrupt persisted work or alter state-machine precedence.
+- OpenAPI is not configured (no package/registration/document route). Track technical
+  gap separately; no documentation subsystem or production test-only routes.
+
+Add complete HTTP/PostgreSQL flow, wire/error/auth matrices, capability-command checks,
+message concurrency, and stronger filtered pagination/progress regressions. Reuse existing
+historical-content tests unchanged. No confirmed Domain/command/persistence defect so far.
+
+
+### C4 — verified results and exit criteria
+
+- [x] Baseline C3: full build 0 warnings/errors; all original 127 tests passed before implementation.
+- [x] All 4 command and 5 read contracts checked; wire DTOs/statuses/errors stable.
+- [x] Full HTTP + real PostgreSQL flow: NotStarted → Submit → Revision → Resubmit → Accept.
+- [x] NotStarted GET writes no work/submission/event; versions and immutable history verified.
+- [x] Authentication and student/teacher course/group authorization matrices, same-course isolation.
+- [x] Publication A before/after B, exact old teacher content, existing DB immutability tests retained.
+- [x] Queue filters before pagination, full filtered summary, latest attempt and reviewed exclusions.
+- [x] Accepted-only derived progress, empty/partial/full/withdrawn/unavailable/revision cases.
+- [x] True capability → valid command succeeds under same access/state; message version/race checked.
+- [x] Full build: 0 warnings/errors; Domain 24 + Application 15 + Infrastructure 10 + API 138
+  = **187 passed**, 0 failed/skipped (127 unchanged existing + 60 new cases).
+- [x] No production/Domain/Application/persistence/migration changes; no existing tests altered.
+- [x] D01–D05 documentation discrepancies fixed; G06/G08/G09/G11/G15/G16 backend boundaries closed.
+- [x] OpenAPI absent: G18 deferred. Upload deferred and required before Student photo submit flow.
+
+Final report: `codex/C4-RESULTS.md` (14 requested sections). G03 remains CLOSED;
+G07 remains Submission bodyMarkdown + attachments. C4 complete; **stop before D/frontend**.

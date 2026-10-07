@@ -2609,3 +2609,45 @@ No domain-model change is required.
 C3 read decisions G08/G09/G16 and exact DTO gaps are recorded in LMS-FRONTEND-CONTRACT.md §C3.
 Server `hasDraft` is removed: browser-local drafts are not authoritative server data.
 Teacher CourseWorkspace enrollment is null; student enrollment is the actual C2 access record.
+
+
+## C4 HTTP contract clarification (2026-10-07)
+
+Accepted C2/C3 wire decisions override illustrative IDs, rich attachment metadata,
+error aliases and older examples above. C4 tests freeze these decisions without
+changing Domain, commands or persistence. Full route/DTO matrix: `codex/C4-RESULTS.md`.
+
+Every error is `application/problem+json` with `type`, `title`, `status`, `instance`,
+required machine-readable `code`, and `traceId`; type is `urn:lms:error:<code>`.
+Frontend MUST branch on code, not title/detail/message.
+
+| HTTP | Stable code |
+|---|---|
+| 400 | ValidationFailed (binding, required fields, query validation) |
+| 401 | Unauthenticated |
+| 403 | Forbidden; AttachmentNotOwned |
+| 404 | NotFound |
+| 405 | MethodNotAllowed |
+| 409 | ConcurrencyConflict, WorkAlreadySubmitted, WorkAlreadyAccepted, WorkNotSubmitted, SubmissionIsNotCurrent, SubmissionAlreadyReviewed |
+| 415 | ValidationFailed (unsupported media) |
+| 422 | EmptySubmission, FeedbackRequired, InvalidReplyTarget; ValidationFailed for other domain input errors |
+| 503 | ContentUnavailable (missing exact historical content) |
+| 500 | InternalError (unexpected failures only) |
+
+AssignmentNotFound/ProblemWorkNotFound normalize to NotFound. AssignmentInactive,
+AssignmentDoesNotBelongToStudent, StudentNotAuthorized, TeacherNotAuthorized normalize
+to Forbidden. Domain/application names themselves are unchanged.
+Valid persisted workflows reject duplicate reviews by version/state before reaching
+the defensive SubmissionAlreadyReviewed guard; its 409 middleware mapping is tested
+without fabricating a corrupt aggregate. No error-precedence change is introduced.
+
+Submit response is 201; other commands and all GETs are 200. First submit expectedVersion
+is null/omitted; resubmit requires the current read version. Both review commands
+require submissionId and expectedVersion. PostMessage has no expectedVersion and returns
+only messageId/createdAt, using internal compare-and-save; fresh GET returns the version.
+Feedback is linked by Review.SubmissionId and Review.MessageId; ordinary messages belong
+to work, never implicitly to a submission. G03 remains closed and G07 unchanged.
+
+Upload route/storage/claiming/downloads remain deferred, required before the Student
+frontend photo submit flow. AttachmentIds and prepared test ownership records are the
+current boundary. OpenAPI is not configured and remains a separate technical gap.
