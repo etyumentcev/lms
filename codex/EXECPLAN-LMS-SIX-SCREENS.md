@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5 и C2 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–14, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5, C2 и C3 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–15, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -499,3 +499,42 @@ use case; синхронизация administrative revoke с in-flight transact
 
 Подробности DTO/status mappings, tests и воспроизведение: `codex/C2-RESULTS.md`, README.
 **C2 завершён. Остановка: C3/C4/read models/workspaces/frontend не начинались.**
+
+## 15. C3 — decisions before implementation (2026-10-07)
+
+Only C3 authorized; branch `codex/c3` from accepted C2 merge `0b29654`.
+Baseline: build 0 warnings/errors; Domain 24, Application 15, Infrastructure 10, API 50 passed.
+No Domain/command-side changes. Existing schema has no published content source: historical
+resolution cannot be implemented from access facts alone. Add one immutable published-version
+snapshot table (JSONB compiled student-safe course/lesson/problem content, exact UUID identity,
+course/version uniqueness, source revision). This is content storage, not a UI projection table.
+Protect the entire snapshot against UPDATE/DELETE; no authoring/compiler/publication API in C3.
+Trusted provisioning supplies already compiled snapshots. Resolver never falls back to latest.
+Course/lesson catalogs use provisioned versioned lesson access facts, retaining versions referenced
+by assignments. Multiple lesson versions appear explicitly with CourseVersionId; lesson route
+combines their assignment rows, resolving each exactly. Final projection groups course rows by
+stable LessonId (version IDs retained), so publication does not double-count course progress. No invented enrollment/version binding.
+
+G08: no server hasDraft; browser-local only. G16: teacher enrollment null, separate context.
+G09: all active assignments required; accepted/active for lessons; completed/available for course;
+empty lesson is NotStarted, percent 0. Teacher progress is scoped to accessible assignments.
+Locked student lesson/problem => 403, course rows only safe metadata; inactive/withdrawn => 403.
+G15: queue summary uses all filters including attemptKind/search before pagination.
+User profile/group labels, hints, materials, events and attachment download metadata lack sources:
+null/[]; preserve attachment IDs. No new persistence just for these fields. G07 unchanged.
+
+### C3 — verified results and exit criteria
+
+- [x] All five authenticated GET endpoints implemented with C2 actor/access boundary.
+- [x] Exact immutable content resolution; old/new publication and DB mutation protection verified.
+- [x] Student NotStarted/no work, no GET writes; assignment-keyed navigation.
+- [x] Real student enrollment, teacher enrollment null and separate grant context.
+- [x] Derived progress; all active assignments required, zero safe, logical lesson identity across versions.
+- [x] Student unavailable content returns 403; course metadata redacted; mixed versions cannot leak locked statements.
+- [x] SQL queue Submitted-only, filters/search/page/summary; same filtered dataset and repeatable-read snapshot.
+- [x] Server permissions, current submission, deterministic immutable history/review/message linkage.
+- [x] Domain, command Application and C1/C2 store/access policy unchanged.
+- [x] Full build 0 warnings/errors; 24 Domain + 15 Application + 10 Infrastructure + 78 API = 127 passed (99 existing + 28 new), no failures/skips.
+- [x] G08/G09/G16 decisions synchronized minimally in read contract; provisioning/profile/storage gaps recorded.
+
+Full 13-part report: `codex/C3-RESULTS.md`. C4 and frontend not started; stop after C3.

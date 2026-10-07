@@ -257,6 +257,40 @@ namespace Lms.Infrastructure.Migrations
                     b.ToTable("AccessLessons", (string)null);
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.PublishedContentVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SourceRevision")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("VersionNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId", "VersionNumber")
+                        .IsUnique();
+
+                    b.ToTable("PublishedContentVersions", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_Content_Version", "\"VersionNumber\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.StoredDomainEvent", b =>
                 {
                     b.Property<Guid>("Id")

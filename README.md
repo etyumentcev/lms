@@ -1,6 +1,6 @@
 # LMS — greenfield foundation
 
-ASP.NET + PostgreSQL + DDD target architecture. Checkpoints B, C1, C1.5 and C2 implement Domain, Application, PostgreSQL persistence and authenticated command HTTP API for Submit → Review → Revise → Accept.
+ASP.NET + PostgreSQL + DDD target architecture. Checkpoints B through C3 implement Domain, Application, PostgreSQL persistence, immutable content resolution and authenticated command/read HTTP API for Submit → Review → Revise → Accept.
 
 ## Structure
 
@@ -103,7 +103,7 @@ See [C2 report](codex/C2-RESULTS.md) for DTOs, error mapping, test scenarios and
 
 Domain RequestRevision requires nonblank feedback as a global invariant (G03, C1.5). Application retains early validation with `FeedbackRequired`; Domain independently rejects null/empty/whitespace without mutation. Accept allows absent feedback. New work requires absent expectedVersion; existing work requires its current version.
 
-Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Upload/storage lifecycle, read queries and UI remain deferred.
+Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Read queries and immutable content resolution are implemented in C3. Upload/storage lifecycle and UI remain deferred.
 
 See [ExecPlan](codex/EXECPLAN-LMS-SIX-SCREENS.md) for decisions, remaining contracts and checkpoint results.
 
@@ -191,3 +191,22 @@ codex/CODEX-TASK-LMS-SIX-SCREENS.md
 ```
 
 Для Codex сначала использовать `codex/CODEX-TASK-LMS-SIX-SCREENS.md`.
+
+## Read API and immutable content (C3)
+
+Five authenticated GET endpoints now expose course/lesson/student workspaces, work details and teacher
+review queue. See [C3 report](codex/C3-RESULTS.md) for routes, DTOs, authorization, progress and gaps.
+Apply the new `ImmutableContentSnapshots` migration using the same EF procedure above.
+
+Trusted provisioning inserts complete `PublishedContentVersions` artifacts: exact version UUID,
+CourseId, positive unique VersionNumber, SourceRevision, UTC PublishedAt and camelCase ContentJson
+serialized from `PublishedCourseContent` (Infrastructure). Nested lessons/problems contain student-safe
+metadata and statementMarkdown only; never include teacher solutions. Database triggers reject mutation
+and duplicate references. Publish changes as a new version UUID. Existing assignments always resolve
+their original version. Missing exact artifacts return 503 ContentUnavailable, never latest content.
+There is no public content-authoring/publication endpoint or production seed in C3.
+
+Queries do not create work. Progress and review queues are computed, not persisted. Student locked
+content returns 403; course catalog retains safe metadata. Teacher enrollment is null. Browser-local
+drafts have no authoritative server hasDraft. Profiles, hints/materials and attachment download metadata
+remain explicit gaps; no synthetic content or URLs are returned. Upload/storage, C4 and frontend remain deferred.

@@ -240,9 +240,12 @@ type CourseWorkspaceDto = {
   };
 
   enrollment: {
-    id: string;
+    id: string | null; // C2 source has composite studentId/courseId identity.
+    studentId: string;
+    courseId: string;
+    groupId: string | null;
     status: "Active" | "Inactive";
-  };
+  } | null; // Real enrollment for Student; null for Teacher (G16).
 
   progress: {
     availableLessons: number;
@@ -422,7 +425,6 @@ type LessonProblemRowDto = {
     problemWorkId: string | null;
     status: ProblemWorkStatusDto;
     attemptCount: number;
-    hasDraft: boolean;
   };
 };
 ```
@@ -477,7 +479,7 @@ Accepted      -> Посмотреть
 Если:
 
 ```text
-status == NotStarted && hasDraft
+status == NotStarted && localDraftExists
 ```
 
 дополнительная подпись:
@@ -504,9 +506,9 @@ Empty:
 
 Unavailable lesson:
 
-- содержимое может быть показано согласно продуктовой политике;
-- task actions disabled;
-- причина берётся из DTO.
+- C3 policy: Student LessonWorkspace/ProblemWorkspace returns `403 Forbidden`;
+- course list may show only safe lesson title/order/version and availability metadata;
+- no statement, materials, hints or teacher-only content is disclosed.
 
 ## 7.7. Navigation
 
@@ -720,9 +722,8 @@ Draft identity SHOULD be:
 studentId + problemAssignmentId + nextAttemptNumber
 ```
 
-If draft persistence is server-side, a separate draft API may be added later.
-
-For MVP browser-local draft is acceptable if product requirements allow it.
+MVP decision G08: draft is browser-local. Server DTOs MUST NOT expose authoritative `hasDraft`.
+No draft persistence or draft endpoint is part of C3. `localDraftExists` is frontend-local state.
 
 ## 8.7. Upload command
 
@@ -2126,3 +2127,25 @@ It contains summaries, shortcuts and contextual data only.
 24. History is not duplicated in the right panel.
 25. Review actions stay visible in teacher review right panel.
 26. On mobile, context panel content is preserved and moved inline rather than dropped.
+
+
+## C3 implemented read boundary (2026-10-07)
+
+Authoritative C# DTOs: `src/Lms.Application/ReadModels.cs`. No frontend implementation in C3.
+G09: all active assignments are required; lesson percent = Accepted / active assigned × 100;
+empty lesson = NotStarted, percent 0. Course percent = completed / available logical lessons × 100;
+empty denominator = 0. Multiple content versions do not duplicate logical lessons in course progress.
+Course lesson rows carry `lesson` metadata plus `courseVersionIds`; LessonWorkspace carries primary
+`lesson` plus `contentVersions` and exact-version problem rows. Versions are ordered by publication
+number; primary metadata uses the earliest available version. Mixed-version course metadata has
+`publishedVersionId=null`; there is no modeled enrollment-to-version binding.
+Unavailable student versions are excluded from LessonWorkspace; if none are available, return 403.
+Withdrawn assignments are excluded from lists/progress and direct student reads return 403.
+Teacher progress covers only course/group-authorized active assignments; teacher enrollment is null.
+User display names, designated course teacher, group labels, grade, hints/materials/events and download
+metadata have no source: null/[] or omitted optional sections. Submission/Message DTOs preserve
+`attachmentIds`; they do not invent file metadata or URLs. Markdown is source text, never executable HTML.
+Queue search uses available course/lesson/problem titles and IDs, plus student UUID; profile-name
+search awaits a trusted profile source. Summary includes every active filter and all pages.
+History submissions/reviews are newest attempt first; messages are CreatedAt ascending then ID.
+Missing exact content returns 503 ContentUnavailable, never a newer statement.
