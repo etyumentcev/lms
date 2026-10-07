@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5, C2, C3 и C4 завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–16, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5, C2, C3, C4 и D завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–17, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -232,7 +232,7 @@ A и B завершены; результаты B сохранены. Крупн
 | C2 — command API + auth/access | Principal → Actor, access adapters, command HTTP endpoints, error/version mapping | HTTP/API integration tests; без frontend/workspace queries |
 | C3 — content resolver + read models/workspace queries | Immutable resolver, пять GET endpoints, capabilities, server-side queue/progress projections | No-work student state, исторический statement, корректные permissions и query results |
 | C4 — backend contract/integration tests | Совместная проверка C1–C3 | Контракты access/content/queue/pagination/errors/concurrency подтверждены до D |
-| D — Shared UI shell, DEFERRED | Создать минимальные tokens/components по контракту → общий shell/sidebar/context rail/status primitives; актуализировать таблицу reuse | Build + проверка composition, keyboard tabs, status text; без второй UI-библиотеки |
+| D — Shared UI shell, DONE | React/TypeScript/Vite; shared tokens/primitives, shell/sidebar/context, transport, placeholder routes | 49 frontend tests; browser responsive/keyboard/contrast smoke; 187 backend tests; оба build без warnings/errors; §17 |
 | E — Course | Course query, availability, server progress, metadata/materials | Loading/empty/access/error; CTA, отсутствие недоступного content |
 | F — Lesson | Assignment IDs, four task statuses, materials, progress, контекст | Nullable work; task actions; отсутствие client business availability logic |
 | G — Student Solution | Statement над tabs; photo-first; local draft; upload→IDs→submit; comment согласно решению G07 | Text-only/photo-only; empty disabled; no draft attempt; Submitted/Accepted read-only; NeedsRevision feedback+draft; failed submit сохраняет фото |
@@ -595,3 +595,79 @@ historical-content tests unchanged. No confirmed Domain/command/persistence defe
 
 Final report: `codex/C4-RESULTS.md` (14 requested sections). G03 remains CLOSED;
 G07 remains Submission bodyMarkdown + attachments. C4 complete; **stop before D/frontend**.
+
+## 17. D — decisions before implementation (2026-10-07)
+
+Only checkpoint D is authorized. Branch `codex/d-ui-shell` created from exact
+`b12cc2b` (initial worktree HEAD was C4 merge c1e72bd). Backend baseline before
+implementation: build 0 warnings/errors; 24 Domain + 15 Application + 10 Infrastructure
++ 138 API = 187 passed, no failures/skips. Logs: /tmp/lms-d-baseline-{build,tests}.log.
+Read ExecPlan, C4 report, Frontend contract, Flow, Feature and inspected the actual
+1536×1024 six-screen PNG. No AGENTS.md or existing frontend/test infrastructure found.
+
+Framework is not prescribed (React Query is illustrative only). Choose React + strict
+TypeScript + Vite, React Router for route matching/links, plain CSS tokens, Vitest +
+Testing Library/jsdom for component/API tests. No UI design system, cache library,
+feature DTO scaffolding or domain state machine. Pin dependencies with a pnpm lockfile.
+Use Node 24 runtime available in this environment; document portable pnpm commands.
+
+Implement reusable AppShell, MainContent, SidebarNavigation, ContextPanel/ContextSection,
+Breadcrumbs, PageHeader, keyboard Tabs, Button/AsyncButton, StatusBadge,
+AvailabilityBadge, ProgressBar, EmptyState/ErrorState/LoadingSkeleton/InlineError.
+Single central status presentation map and tokens; no feature-specific components.
+Desktop >=1200px: left/main/right grid. Tablet 768–1199px: compact navigation and
+collapsible context below workspace. Mobile <768px: disclosure navigation and always
+inline context after main; preserve a single mounted context tree across viewport changes.
+
+Five requested route patterns plus assignment ?tab=history use placeholders only.
+A clearly labelled shell demonstration at / provides navigation and primitive examples;
+role preview is presentation-only, never authentication. API foundation: injected bearer
+provider, same-origin /api/v1 transport, validated Problem Details/ApiError, decoder-based
+typed success boundary, cancellation, no automatic retries or feature requests.
+Backend contracts/domain/persistence/API remain unchanged. E–N are not authorized.
+Verification: component/API tests, full frontend build, real-browser responsive/keyboard
+smoke (existing bundled browser tooling, no heavy visual-regression installation), then
+full backend regression and build. Record actual results and remaining gaps here and
+in codex/D-RESULTS.md; stop after D.
+
+
+### D — actual reuse and verified results
+
+Section 4's original Create* inventory is historical. Created once and ready for reuse:
+AppShell, MainContent, SidebarNavigation, ContextPanel/ContextSection, Breadcrumbs,
+PageHeader, Tabs, Button/AsyncButton, StatusBadge/AvailabilityBadge, ProgressBar,
+EmptyState/ErrorState/LoadingSkeleton/InlineError and Section. Status mapping is central;
+future feature screens compose these components. AttachmentUploader, SubmissionView,
+AttemptTimeline, MessageThread, Markdown renderer and review components remain deferred.
+
+Final compatible pinned toolchain: React/DOM 19.3.0, TypeScript 7.0.2, Vite 7.3.7,
+React Router DOM 6.30.3, Vitest 4.0.18, Testing Library React 16.3.3 / user-event 14.6.7 /
+jest-dom 6.9.1, jsdom 30.1.2, pnpm 11.19.0, Node 24.19.0. Initial latest dependency
+combination had incompatible test types and a router client-directive build warning;
+resolved by compatible version pins, not skipLibCheck/warning suppression. Router future
+flags explicitly opt into transition updates/relative splat behavior. No UI framework.
+
+- [x] Frontend production build (strict tsc + Vite): no warnings/errors.
+- [x] 49 frontend tests passed: 14 shell/navigation/routes, 15 primitives/a11y, 20 transport.
+- [x] Desktop 1440×1000: left 216px / flexible main / right 288px; one context landmark.
+- [x] Tablet 1024×900 and 768×1024: compact sidebar and collapsible context below main.
+- [x] Mobile 390×844 and 320×720: compact Menu and inline context after main, no overflow.
+- [x] Actual tablet-collapse → mobile → desktop preserves context DOM and control state.
+- [x] Six placeholder views × desktop/mobile = 12 direct-route browser checks; no API requests.
+- [x] Keyboard tabs/arrows, skip link, visible focus, Menu/Escape; semantic labels retained.
+- [x] All nine measured token text pairs exceed 4.5:1 (minimum 4.92:1).
+- [x] Desktop/mobile screenshots inspected against reference; clean browser console.
+- [x] Final backend build: 0 warnings/errors. 24 + 15 + 10 + 138 = 187 passed, no failures/skips.
+- [x] Backend production/contracts/persistence/migrations/tests have zero diff from b12cc2b.
+
+Commands and evidence: frontend README; /tmp/lms-d-frontend-{build,tests}.log,
+/tmp/lms-d-{build,tests}.log, /tmp/lms-d-browser/results.json and screenshots. Browser
+smoke is optional standalone Playwright using the bundled runtime and installed Chrome;
+no heavy visual infrastructure or committed image baselines. The sandbox launcher still
+fails with bubblewrap mountinfo; approved escalated commands were used, not app workarounds.
+
+Remaining gaps: feature screens/queries, centralized feature DTO decoders, real session/IdP
+integration, upload/storage/downloads, safe Markdown/LaTeX, local drafts/history/review,
+cache invalidation, deployed SPA/API routing and complete workflow E2E. Existing unsourced
+profile/material metadata and OpenAPI G18 remain deferred. None is implemented as fake
+business data in D. D complete; **stop here, E/F/G and other checkpoints not started**.
