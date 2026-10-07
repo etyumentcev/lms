@@ -2,6 +2,7 @@ namespace Lms.Domain;
 
 public sealed class ProblemWork
 {
+    private ProblemWork() { }
     private readonly List<Submission> submissions = [];
     private readonly List<Review> reviews = [];
     private readonly List<Message> messages = [];

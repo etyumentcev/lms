@@ -10,6 +10,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <ProjectReference Include="../../src/Lms.Infrastructure/Lms.Infrastructure.csproj" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.15.0" />
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

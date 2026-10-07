@@ -1,5 +1,7 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
+**Текущее состояние: C1 завершён 2026-10-07.** Фактические результаты — §12 и `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
 Checkpoint B принят пользователем: greenfield foundation, solution/project references/test infrastructure и Domain/Application для ProblemAssignment, ProblemWork, Submission, Review, Message выполнены. На текущем запуске разрешено изменить только этот ExecPlan. Production code, Domain/Application implementation, packages, migrations, API endpoints, frontend и state machine не менять. C1–N ниже — план последующих запусков, не разрешение на их выполнение сейчас.
@@ -267,17 +269,17 @@ Persistence invariants:
 
 **Exit criteria C1 — все пункты обязательны:**
 
-- [ ] PostgreSQL поднимается в integration test environment.
-- [ ] Initial migration применяется к чистой test database.
-- [ ] Persistence adapters реализуют существующие application persistence ports.
-- [ ] Unit tests B остаются зелёными: 17 domain + 12 application как принятый baseline.
-- [ ] Persistence/integration tests используют реальные concurrent transactions и отдельные units of work/DbContexts, а не последовательную имитацию race.
-- [ ] Race first submit не создаёт два ProblemWork на одно assignment и две успешные первые попытки.
-- [ ] Stale expectedVersion отвергается без записи изменений проигравшей транзакции; stale review не изменяет новую попытку.
-- [ ] State/history/events коммитятся атомарно; тест принудительной ошибки подтверждает rollback всех частей.
-- [ ] Остальные persistence invariants выше подтверждены тестами: immutable submissions, unique attempts, review linkage, terminal Accepted.
-- [ ] `dotnet build Lms.sln` проходит без warnings/errors; допустимы ранее использованные single-node flags окружения.
-- [ ] Domain/Application/Infrastructure tests проходят; команды и результаты внесены в отчёт C1.
+- [x] PostgreSQL поднимается в integration test environment.
+- [x] Initial migration применяется к чистой test database.
+- [x] Persistence adapters реализуют существующие application persistence ports.
+- [x] Unit tests B остаются зелёными: 17 domain + 12 application как принятый baseline.
+- [x] Persistence/integration tests используют реальные concurrent transactions и отдельные units of work/DbContexts, а не последовательную имитацию race.
+- [x] Race first submit не создаёт два ProblemWork на одно assignment и две успешные первые попытки.
+- [x] Stale expectedVersion отвергается без записи изменений проигравшей транзакции; stale review не изменяет новую попытку.
+- [x] State/history/events коммитятся атомарно; тест принудительной ошибки подтверждает rollback всех частей.
+- [x] Остальные persistence invariants выше подтверждены тестами: immutable submissions, unique attempts, review linkage, terminal Accepted.
+- [x] `dotnet build Lms.sln` проходит без warnings/errors; допустимы ранее использованные single-node flags окружения.
+- [x] Domain/Application/Infrastructure tests проходят; команды и результаты внесены в отчёт C1.
 
 ### 8.2. C2 — command API + authentication/access boundary
 
@@ -412,3 +414,24 @@ DDD review: Domain не имеет project/package dependencies; Application з�
 - **G07:** planning recommendation зафиксирована — bodyMarkdown с optional explanation label, attachments, без отдельной comment entity и скрытого POST Message; реализовать только на будущем UI checkpoint.
 
 На этом запуске запрещены изменения production code, Domain/Application implementation, добавление EF Core packages, migrations, API endpoints, frontend и изменения state machine. **После краткого diff summary и списка open decisions остановиться; C1 не начинать.**
+
+## C1 implementation decision (2026-10-07)
+
+Текущий запуск разрешает C1; ограничения предыдущего documentation-only запуска исторические. Обнаружена materialization incompatibility: EF не может связать constructor ProblemWork(ProblemAssignment), owned Content в constructor assignment и несовпадающие параметры constructors history с mapped properties. До изменения Domain фиксируем минимальное решение: private parameterless constructors только для materialization; публичные constructors, invariants, state machine и Application прежние. Get-only properties mapped через backing fields. Reload имеет пустой список новых events. PostgreSQL + EF Core 10, append-only history, bigint Version conditional UPDATE, unique assignment INSERT, transactional event journal без publisher. Attachments — snapshot uuid[] существующих IDs; metadata/storage вне C1. G03 открыт.
+
+## 12. Фактический результат C1 (2026-10-07)
+
+C1 выполнен на базе 2124a15d10746a786278b9dd52b2d8edabcc36df. Все exit criteria §8.1 закрыты.
+
+- EF Core 10.0.12 / Npgsql provider 10.0.3; PostgreSQL 17.6 в Testcontainers 4.15.0.
+- Initial migration `20261007035847_InitialPersistence`: ProblemAssignments, ProblemWorks, Submissions, Reviews, Messages, DomainEvents. PK/FK/unique/check constraints, append-only history triggers и immutable assignment reference. Attachment IDs — uuid[] snapshots.
+- `PostgresWorkStore` реализует существующий IWorkStore: isolated single-query aggregate load, conditional version UPDATE / unique first INSERT, history/events в одной transaction. Stable event IDs предотвращают повторную запись, включая fresh store; внешней публикации нет.
+- Только private materialization constructors добавлены в Domain по заранее записанной incompatibility. Application, state machine и существующие tests не изменены. G03 остаётся OPEN.
+- SDK /tmp/lms-dotnet: 10.0.401, global.json соответствует. Restore успешен; build всей solution — **0 warnings / 0 errors**.
+- **17 Domain + 12 Application + 10 Infrastructure tests passed**, 0 failed, 0 skipped. Реальный PostgreSQL; migration на пустых БД; обе concurrent races используют отдельные DbContexts/transactions с barrier после BeginTransaction. Rollback fault injection происходит после SQL writes до commit.
+- Дополнительно подтверждены immutable submission/attachment snapshots, cross-work FK protection, stale review после новой попытки, optional Domain feedback, required Application feedback, Accepted terminal для submit/review и разрешённое message без смены статуса, event deduplication.
+- Команды: `/tmp/lms-dotnet/dotnet restore Lms.sln`; build `--no-restore -m:1 -p:UseSharedCompilation=false`; отдельные `dotnet test` Domain/Application/Infrastructure csproj `--no-build --no-restore -m:1`. `git diff --check` успешен.
+
+Полный отчёт по всем 11 пунктам prompt, package/file list, schema constraints, scenarios, воспроизведение и ограничения: [C1-RESULTS.md](C1-RESULTS.md). README обновлён. Sandbox mountinfo failure обойдён только через одобренные escalation calls; первые dependency audit/version conflicts устранены обновлением/выравниванием packages, без suppressions.
+
+**Остановка после C1.** C2/C3/C4, HTTP/auth, workspace/read queries и frontend не начаты. Дальнейшие открытые решения остаются в §11; C1 из этого списка выполнен. Исторические пометки B «persistence отложен» больше не описывают текущий статус.
