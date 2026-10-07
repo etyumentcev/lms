@@ -26,9 +26,9 @@ export function MainContent({ children }: { children: ReactNode }) {
   return <main id="main-content" className="main-content" tabIndex={-1}>{children}</main>;
 }
 
-export function AppShell({ role, children, context }: { role: NavigationRole; children: ReactNode; context: ReactNode }) {
+export function AppShell({ role, children, context, preview = true }: { role: NavigationRole; children: ReactNode; context: ReactNode; preview?: boolean }) {
   return <><a className="skip-link" href="#main-content">К основному содержимому</a>
-    <div className="app-shell"><SidebarNavigation role={role} />
+    <div className="app-shell"><SidebarNavigation role={role} preview={preview} />
       <MainContent>{children}</MainContent><ContextPanel>{context}</ContextPanel>
     </div>
   </>;

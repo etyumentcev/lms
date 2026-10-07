@@ -100,7 +100,7 @@ try {
     });
   });
   for (const pair of contrast) assert(pair.ratio >= 4.5, `Contrast: ${JSON.stringify(pair)}`);
-  const routes = ['/courses/demo', '/courses/demo/lessons/one', '/problem-assignments/one',
+  const routes = ['/courses/demo/lessons/one', '/problem-assignments/one',
     '/problem-assignments/one?tab=history', '/teacher/reviews', '/teacher/reviews/one'];
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });

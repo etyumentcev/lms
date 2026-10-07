@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5, C2, C3, C4 и D завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–17, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5, C2, C3, C4, D и E завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–18, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -233,7 +233,7 @@ A и B завершены; результаты B сохранены. Крупн
 | C3 — content resolver + read models/workspace queries | Immutable resolver, пять GET endpoints, capabilities, server-side queue/progress projections | No-work student state, исторический statement, корректные permissions и query results |
 | C4 — backend contract/integration tests | Совместная проверка C1–C3 | Контракты access/content/queue/pagination/errors/concurrency подтверждены до D |
 | D — Shared UI shell, DONE | React/TypeScript/Vite; shared tokens/primitives, shell/sidebar/context, transport, placeholder routes | 49 frontend tests; browser responsive/keyboard/contrast smoke; 187 backend tests; оба build без warnings/errors; §17 |
-| E — Course | Course query, availability, server progress, metadata/materials | Loading/empty/access/error; CTA, отсутствие недоступного content |
+| E — Course, DONE | C4 CourseWorkspace query/decoder, Student/Teacher, server progress, locked rows, actual context | 83 frontend + 187 backend tests; responsive and live Course API smoke; оба build без warnings/errors; §18 |
 | F — Lesson | Assignment IDs, four task statuses, materials, progress, контекст | Nullable work; task actions; отсутствие client business availability logic |
 | G — Student Solution | Statement над tabs; photo-first; local draft; upload→IDs→submit; comment согласно решению G07 | Text-only/photo-only; empty disabled; no draft attempt; Submitted/Accepted read-only; NeedsRevision feedback+draft; failed submit сохраняет фото |
 | H — Student History | Общий workspace, newest attempts, reviews/messages, безопасный renderer | Обе immutable попытки и правильный feedback; сообщения не меняют state; full timeline не дублируется справа |
@@ -671,3 +671,83 @@ integration, upload/storage/downloads, safe Markdown/LaTeX, local drafts/history
 cache invalidation, deployed SPA/API routing and complete workflow E2E. Existing unsourced
 profile/material metadata and OpenAPI G18 remain deferred. None is implemented as fake
 business data in D. D complete; **stop here, E/F/G and other checkpoints not started**.
+
+## 18. E — decisions before implementation (2026-10-07)
+
+Only Course screen authorized; branch `codex/e-course` from exact `6b4df3a`.
+Read current ExecPlan/D/C3/C4 reports and Course/availability/responsive sections of
+Frontend/Flow; the previously inspected unchanged six-screen PNG remains visual source.
+Baseline passed: frontend build without warnings/errors, 49 frontend tests, full backend
+build without warnings/errors and 187 backend tests. No backend changes authorized/needed.
+
+Use D shell/primitives/tokens, one course feature with its own query/hook/components/CSS.
+Central API/contracts CourseWorkspace type plus runtime decoder mirrors ReadModels.cs:
+nested lesson/progress, nullable titles/publishedVersionId/profile/enrollment, teacherContext,
+courseVersionIds, materials; no earlier flat CourseLessonRow sketch. Progress values are
+rendered from server, not recomputed. Teacher progress is explicitly course/group scoped.
+Use AvailabilityBadge (not ProblemWork StatusBadge for derived lesson states). A local
+lesson presentation map uses existing semantic token classes; no new global status enum.
+
+Context: one server progress section, optional real teacher/materials only. No events field,
+course-level status/availability, designated teacher/profile source or material provider
+exists in C4; omit unsourced sections, never manufacture rows. No decorative empty cards.
+Locked rows use isAvailable, show server reason/date and have no link/protected summary.
+Course-to-Lesson React Router navigation targets the existing placeholder only.
+
+User confirmed no OIDC settings exist. Preserve D auth-provider boundary: a documented
+trusted host runtime adapter supplies current bearer tokens and handles 401; absent adapter
+sends anonymous request and renders login-required state, never fake auth or hardcoded
+credentials. No new IdP selection/login framework. Same-origin /api proxy configurable for
+local dev/preview; production must route API before SPA fallback. Verify provider wiring
+with HTTP fixtures and real unauthenticated API; deployed IdP login remains a named gap.
+
+Query: loading/success/error, AbortController cleanup + stale-response exclusion, manual GET
+retry, no global cache or command changes. Shell remains visible in all states. Tests cover
+Student/Teacher, C4 shape, errors, cancellation/races, progress, optional data, locked rows,
+navigation/a11y; browser smoke covers actual layouts and HTTP-controlled response states,
+clearly distinguished from backend live smoke. Finish backend regression/build and report;
+stop after E, no F or later checkpoints.
+
+
+### E — verified results and exit criteria
+
+- [x] Course route calls the existing same-origin CourseWorkspace endpoint via D client.
+- [x] Central C4 DTO + decoder; nested lesson/version IDs, nullable metadata/enrollment,
+  teacherContext and materials match actual records; no backend changes/discrepancies requiring fixes.
+- [x] Student enrollment and Teacher enrollment=null supported; Teacher progress scoped wording.
+- [x] Server progress/counts preserved; 0/partial/100/zero available cases verified, no recomputation.
+- [x] Available lesson Router links; locked rows no link/protected summary, reason/date retained.
+- [x] D shell/tokens/primitives reused; one progress panel, only actual teacher/materials,
+  no invented events, course-level availability/status, instructor identity or data cards.
+- [x] Loading/error/empty UI keeps shell; 401 callback, 403/404, network/server retry, cancellation,
+  stale-response guard and runtime invalid-response boundary verified.
+- [x] 83 frontend tests passed (49 baseline cases retained/adapted + 34 Course cases).
+- [x] Browser smoke at 1440/1024/768/390/320px: normal/empty/30 rows/unbroken titles,
+  locked rows, Teacher and same DOM context restored on mobile; no horizontal overflow.
+- [x] Course state browser checks: held loading, 401/403/404/503, network and explicit retry;
+  keyboard navigation goes only to Lesson placeholder with main focus; screenshots inspected.
+- [x] Real Course API smoke: unchanged API + real Bearer handler + isolated PostgreSQL,
+  actual browser client/proxy/decoder/rendering. Student 200, Teacher 200/enrollment=null,
+  anonymous 401, foreign Student 403. Temporary test-only signing config/HTTP bridge outside repo.
+- [x] D shell browser regression remains green for root/primitives and five non-Course placeholders.
+- [x] Frontend strict typecheck/Vite and full solution build: no warnings/errors.
+- [x] Backend 24 Domain + 15 Application + 10 Infrastructure + 138 API = 187 passed, no skips.
+- [x] Backend production/contracts/tests/persistence/migrations have zero diff from 6b4df3a.
+
+Evidence: /tmp/lms-e-{frontend-build,frontend-tests,build,tests}.log,
+/tmp/lms-e-browser/results.json and screenshots, /tmp/lms-e-shell-browser/results.json,
+/tmp/lms-e-live/host.log. Temporary harness /tmp/lms-e-live/Smoke.cs references existing
+ApiFactory and uses its real migrations/PostgreSQL, overriding only IdP signing config
+like the established BearerAuthenticationTests; no fake success endpoint or production seed.
+No command/workflow E2E, new package/global cache/UI kit introduced.
+
+Contract gaps retained: no events/course availability/status; profiles/designated teacher/
+grade/materials have no current source; null/[] are normal. Teacher ID grants are not a
+teacher profile; strings/UUID arrays/nulls match C4. OpenAPI G18 unchanged. User confirmed
+no OIDC settings; window.lmsAuth is the trusted host integration boundary, not an IdP or
+login implementation. Without it the real endpoint yields login-required 401. The host
+must provide live tokens/session handling and remount on identity changes; deployment
+must proxy API before SPA fallback. Live smoke proves signed test-token validation and
+Course rendering, not production provider login/discovery. No blocker for Course rendering.
+
+Full 17-part report: codex/E-RESULTS.md. **E complete; stop, F and later not started.**

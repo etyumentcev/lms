@@ -1,0 +1,96 @@
+{
+  "course": {
+    "id": "olympiad-7",
+    "title": "Интенсивная олимпиадная подготовка",
+    "publishedVersionId": "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa",
+    "description": "Подготовка к олимпиадам: задачи, методы, регулярная практика и разборы.",
+    "gradeLabel": null,
+    "teacher": null
+  },
+  "enrollment": {
+    "id": null,
+    "studentId": "5494322d-8090-4b69-a2db-27a01111cebb",
+    "courseId": "olympiad-7",
+    "groupId": "group-a",
+    "status": "Active"
+  },
+  "teacherContext": null,
+  "progress": {
+    "completedLessons": 1,
+    "availableLessons": 2,
+    "totalLessons": 3,
+    "percent": 50
+  },
+  "lessons": [
+    {
+      "lesson": {
+        "id": "lesson-1",
+        "courseVersionId": "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa",
+        "order": 1,
+        "title": "Вводное занятие. Диагностика",
+        "summary": "Краткое описание урока"
+      },
+      "availability": {
+        "isAvailable": true,
+        "availableFrom": null,
+        "reason": "Available"
+      },
+      "progress": {
+        "status": "Completed",
+        "acceptedProblems": 3,
+        "totalAssignedProblems": 3,
+        "percent": 100
+      },
+      "courseVersionIds": [
+        "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa"
+      ]
+    },
+    {
+      "lesson": {
+        "id": "lesson-2",
+        "courseVersionId": "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa",
+        "order": 2,
+        "title": "Делимость и остатки",
+        "summary": "Краткое описание урока"
+      },
+      "availability": {
+        "isAvailable": true,
+        "availableFrom": null,
+        "reason": "Available"
+      },
+      "progress": {
+        "status": "NotStarted",
+        "acceptedProblems": 0,
+        "totalAssignedProblems": 3,
+        "percent": 0
+      },
+      "courseVersionIds": [
+        "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa"
+      ]
+    },
+    {
+      "lesson": {
+        "id": "lesson-3",
+        "courseVersionId": "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa",
+        "order": 3,
+        "title": "Принцип Дирихле",
+        "summary": null
+      },
+      "availability": {
+        "isAvailable": false,
+        "availableFrom": "2027-10-15T07:00:00+00:00",
+        "reason": "Scheduled"
+      },
+      "progress": {
+        "status": "NotStarted",
+        "acceptedProblems": 0,
+        "totalAssignedProblems": 0,
+        "percent": 0
+      },
+      "courseVersionIds": [
+        "b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa"
+      ]
+    }
+  ],
+  "materials": []
+}
