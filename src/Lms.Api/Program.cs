@@ -7,6 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+if (args.Contains("--dev-token"))
+{
+    if (!LocalDevelopment.Enabled(builder)) throw new InvalidOperationException("Local tokens require Development and LocalDemo:Enabled.");
+    var role = args.Contains("Teacher") ? "Teacher" : "Student";
+    Console.WriteLine(LocalDevelopment.Token(builder.Configuration, role));
+    return;
+}
 builder.Services.AddDbContext<LmsDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("Lms") ?? builder.Configuration["LMS_POSTGRES"]
     ?? throw new InvalidOperationException("Configure ConnectionStrings:Lms or LMS_POSTGRES.")));
@@ -29,6 +36,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.TokenValidationParameters.ValidateLifetime = true;
     options.TokenValidationParameters.RequireSignedTokens = true;
     options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+    if (LocalDevelopment.Enabled(builder))
+    {
+        options.Authority = null;
+        options.TokenValidationParameters.ValidIssuer = LocalDevelopment.Issuer;
+        options.TokenValidationParameters.ValidAudience = LocalDevelopment.Audience;
+        options.TokenValidationParameters.IssuerSigningKey = LocalDevelopment.Key(builder.Configuration);
+    }
     // Without configured authority/audience no untrusted token can authenticate.
 });
 builder.Services.AddAuthorization();
@@ -44,6 +58,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     { ContentTypes = { "application/problem+json" } };
 });
 var app = builder.Build();
+if (args.Contains("--migrate-only"))
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    var db = scope.ServiceProvider.GetRequiredService<LmsDbContext>();
+    await db.Database.MigrateAsync();
+    if (LocalDevelopment.Enabled(builder)) await LocalDevelopment.Seed(db);
+    return;
+}
 app.UseMiddleware<ApiExceptionMiddleware>();
 app.UseStatusCodePages(async context =>
 {
@@ -53,6 +75,11 @@ app.UseStatusCodePages(async context =>
 });
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapGet("/api/health", async (LmsDbContext db, CancellationToken ct) =>
+{
+    try { return await db.Database.CanConnectAsync(ct) ? Results.Ok() : Results.StatusCode(503); }
+    catch { return Results.StatusCode(503); }
+});
 app.MapControllers();
 app.Run();
 

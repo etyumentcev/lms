@@ -2,6 +2,94 @@
 
 ASP.NET + PostgreSQL + DDD target architecture. Checkpoints B through C4 implement and verify Domain, Application, PostgreSQL persistence, immutable content resolution and authenticated command/read HTTP API for Submit → Review → Revise → Accept.
 
+## Local startup with Docker Compose
+
+Requirements: **Docker Engine + Docker Compose** only. Run from the repository root:
+
+```sh
+docker compose up --build
+```
+
+Wait for `postgres` and `api` to become healthy and `web` to start. On first use,
+Docker downloads build/runtime images and dependencies; no host .NET SDK, Node/npm or
+PostgreSQL installation is needed. Open **http://localhost:8080/local-login.html**.
+The application is served at **http://localhost:8080**; readiness is
+**http://localhost:8080/api/health**. The web port is bound to loopback only.
+
+### Development authentication
+
+In another terminal, from the same repository, obtain an eight-hour Student bearer token:
+
+```sh
+docker compose exec api dotnet Lms.Api.dll --dev-token
+```
+
+Paste the printed token into the local login page and choose “Открыть учебный курс”.
+This opens `/courses/local-demo`. Open “Делимость и остатки”, then any problem to
+reach the existing Problem placeholder. Nested routes support browser refresh.
+The application does not sign in anonymous visitors automatically: without a valid token,
+workspace requests return 401. API signature, issuer, audience, lifetime and resource
+permissions remain enforced. Tokens are kept in sessionStorage by the **Compose-only**
+host adapter, for the current tab; close the tab/clear sessionStorage to sign out.
+After eight hours obtain a new token and revisit the local login page.
+
+For the seeded Teacher, use:
+
+```sh
+docker compose exec api dotnet Lms.Api.dll --dev-token Teacher
+```
+
+Teacher sees the granted course and real assignment rows; Lesson has no role/profile field,
+so its shell uses neutral navigation and does not invent a student enrollment or personal progress.
+The Problem page remains a placeholder in checkpoint F.
+
+Compose sets both `ASPNETCORE_ENVIRONMENT=Development` and `LocalDemo__Enabled=true`.
+The local token command, signing configuration and seed are disabled outside Development.
+The checked-in database credentials and signing key are **public local-only defaults**,
+not production secrets. Do not deploy this Compose configuration or local-development
+web image. The generic web Docker target `production` contains only built static files;
+the explicit `local-development` target adds the login page and host bearer adapter.
+Production authentication still requires the existing trusted OIDC authority/audience setup.
+
+### Services, migrations and demo data
+
+Startup order: PostgreSQL 17.6 healthcheck → one-shot `migrate` → API healthcheck → nginx web.
+`migrate` runs the checked-in EF migrations with `MigrateAsync` and migration history,
+including `20261007035847_InitialPersistence`; it never uses EnsureCreated or handwritten schema.
+Re-running is safe. API and migration containers use the ASP.NET runtime image, not an SDK.
+The web container proxies `/api/*` to `api:8080` before its React SPA fallback: one browser origin,
+no feature-specific API URLs or CORS configuration. API errors keep their HTTP status/body.
+
+After migration, the Development-only seed atomically provisions the immutable `local-demo`
+course, one available lesson, a Student, a Teacher grant and four active assignments via the
+existing model/access facts. It creates no ProblemWork or submissions. Its deterministic IDs
+and publication marker make subsequent startup a no-op; existing learner data is preserved.
+The other three workflow statuses are covered by feature/contract tests; this seed intentionally
+remains a NotStarted vertical slice. There is no user/profile management subsystem.
+
+PostgreSQL data lives in the named Docker volume `lms-local_postgres-data` (managed by Docker).
+PostgreSQL and API have no host ports; only nginx exposes loopback port 8080. To change that
+port, edit the web port mapping in `docker-compose.yml`.
+
+```sh
+# Inspect services and logs
+docker compose ps -a
+docker compose logs -f api
+docker compose logs -f web
+docker compose logs -f postgres
+docker compose logs migrate
+
+# Stop; preserve the database
+docker compose down
+# Start again; existing migrations and data are retained
+docker compose up --build
+
+# Full local database reset (deletes ALL data in the development volume)
+docker compose down -v
+# Reapply migrations and recreate the deterministic demo
+docker compose up --build
+```
+
 ## Structure
 
 - `Lms.Domain`: ProblemAssignment, ProblemWork, immutable Submission/Review/Message, domain events. No framework dependencies.

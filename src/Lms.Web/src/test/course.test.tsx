@@ -96,14 +96,14 @@ describe('Course route through the shared client', () => {
     mount(data); await loaded();
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '33.33');
   });
-  it('navigates to the existing Lesson placeholder with Router and predictable focus', async () => {
+  it('navigates to the Lesson query with Router and predictable focus', async () => {
     mount(); await loaded();
     const link = screen.getByRole('link', { name: 'Открыть: Делимость и остатки' });
     expect(link).toHaveAttribute('href', '/courses/olympiad-7/lessons/lesson-2');
     link.focus(); await userEvent.keyboard('{Enter}');
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Урок');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Занятие');
     expect(screen.getByRole('main')).toHaveFocus();
-    expect(screen.getByText('Раздел готовится')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Не удалось загрузить занятие');
   });
   it('locked lessons never expose navigation/protected summaries, regardless of progress', async () => {
     const data = fixture(); const locked = data.lessons[2]!;

@@ -1,0 +1,8 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Локальный вход · LMS</title>
+<style>body{font:18px system-ui;max-width:640px;margin:48px auto;padding:16px}textarea{box-sizing:border-box;width:100%;min-height:130px}button{padding:12px;margin-top:16px}code{overflow-wrap:anywhere}</style>
+<h1>Локальный вход</h1><p>Только для Docker Compose на вашем компьютере. Получите временный bearer token командой:</p>
+<p><code>docker compose exec api dotnet Lms.Api.dll --dev-token</code></p>
+<form><label for="token">Вставьте token</label><textarea id="token" required autocomplete="off" spellcheck="false"></textarea><button>Открыть учебный курс</button></form>
+<p>Token хранится только в текущей вкладке. Для выхода закройте вкладку или очистите sessionStorage. Срок действия — 8 часов.</p>
+<script>document.querySelector('form').addEventListener('submit', event => { event.preventDefault(); sessionStorage.setItem('lms-local-token',document.querySelector('textarea').value.trim()); location.href='/courses/local-demo'; });</script></html>

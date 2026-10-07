@@ -33,6 +33,7 @@ try {
   await context.addInitScript(() => { window.lmsAuth = { getAccessToken: () => 'fixture-session',
     onUnauthenticated: () => { document.documentElement.dataset.sessionExpired = 'true'; } }; });
   const page = await context.newPage();
+  await page.route('**/local-auth.js', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
   page.on('pageerror', error => errors.push(error.message));
   let data = structuredClone(fixture), status = 200, requests = 0, network = false;
   let hold = false, release;
@@ -104,12 +105,14 @@ try {
   network = false; await page.getByRole('button', { name: 'Повторить' }).click();
   await page.getByRole('heading', { level: 1, name: fixture.course.title }).waitFor();
   results.push({ state: 'GET server/network manual retry' });
+  const lessonFixture = JSON.parse(await readFile(new URL('../src/test/fixtures/lesson-student.json', import.meta.url), 'utf8'));
+  await page.route('**/api/v1/courses/*/lessons/*/workspace', route => route.fulfill({ json: lessonFixture }));
   const lessonLink = page.getByRole('link', { name: 'Открыть: Делимость и остатки' });
   await lessonLink.focus(); await page.keyboard.press('Enter');
-  await page.getByRole('heading', { level: 1, name: 'Урок', exact: true }).waitFor();
+  await page.getByRole('heading', { level: 1, name: lessonFixture.lesson.title, exact: true }).waitFor();
   assert.equal(await page.getByRole('main').evaluate(node => node === document.activeElement), true);
   assert(page.url().endsWith('/courses/olympiad-7/lessons/lesson-2'));
-  results.push({ state: 'keyboard Course → Lesson placeholder, focus main' });
+  results.push({ state: 'keyboard Course → Lesson, focus main' });
   await context.close();
 
   // Optional true backend smoke: temporary test-host session file, never production fixtures.

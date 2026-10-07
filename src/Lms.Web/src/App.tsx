@@ -6,6 +6,7 @@ import { AsyncButton, Breadcrumbs, EmptyState, ErrorState, InlineError, LoadingS
 import { AvailabilityBadge, StatusBadge, statusPresentation } from './components/StatusBadge';
 import type { ProblemWorkStatus } from './components/StatusBadge';
 import { Tabs } from './components/Tabs';
+import { LessonPage } from './features/lesson/LessonPage';
 import { CoursePage } from './features/course/CoursePage';
 import { browserApiClient } from './api/browserClient';
 import type { ApiClient } from './api/client';
@@ -71,8 +72,13 @@ export function App({ client = browserApiClient }: { client?: ApiClient }) {
     if (previous.current !== location) document.getElementById('main-content')?.focus();
     previous.current = location;
   }, [location]);
-  let courseId = match?.params.courseId;
-  if (courseId) { try { courseId = decodeURIComponent(courseId); } catch { /* Keep malformed encoding as an opaque ID; server rejects it. */ } }
+  function routeId(value: string) {
+    try { return decodeURIComponent(value); } catch { return value; }
+  }
+  const courseId = match?.params.courseId ? routeId(match.params.courseId) : undefined;
+  const lessonMatch = matchPath('/courses/:courseId/lessons/:lessonId', location.pathname);
+  if (lessonMatch?.params.courseId && lessonMatch.params.lessonId) return <LessonPage
+    courseId={routeId(lessonMatch.params.courseId)} lessonId={routeId(lessonMatch.params.lessonId)} client={client} />;
   return courseId
     ? <CoursePage key={courseId} courseId={courseId} client={client} />
     : <DemoApp />;
@@ -106,7 +112,6 @@ function DemoApp() {
       : [{ label: 'Главная', to: '/' }, { label: 'Предварительный просмотр' }]} />
     <div className="workspace-content"><Routes>
       <Route path="/" element={<ShellDemo />} />
-      <Route path="/courses/:courseId/lessons/:lessonId" element={<Placeholder title="Урок" />} />
       <Route path="/problem-assignments/:assignmentId" element={<Placeholder title={history ? 'Задача · История' : 'Задача · Решение'} />} />
       <Route path="/teacher/reviews" element={<Placeholder title="Проверка" />} />
       <Route path="/teacher/reviews/:problemWorkId" element={<Placeholder title="Проверка решения" />} />
