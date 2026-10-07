@@ -50,7 +50,7 @@ See [C1 report](codex/C1-RESULTS.md) for schema, constraints and verification re
 
 ## Boundaries
 
-Domain RequestRevision allows optional feedback per Domain Spec §21. The Application use case requires nonblank feedback for this slice. Accept allows absent feedback. New work requires absent expectedVersion; existing work requires its current version.
+Domain RequestRevision requires nonblank feedback as a global invariant (G03, C1.5). Application retains early validation with `FeedbackRequired`; Domain independently rejects null/empty/whitespace without mutation. Accept allows absent feedback. New work requires absent expectedVersion; existing work requires its current version.
 
 Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production authorization and storage adapters, HTTP contracts and UI are deferred.
 

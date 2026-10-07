@@ -837,7 +837,7 @@ Input:
 TeacherId
 ProblemWorkId
 SubmissionId
-MessageMarkdown?
+MessageMarkdown
 ```
 
 Algorithm:
@@ -846,10 +846,15 @@ Algorithm:
 2. загрузить ProblemWork;
 3. проверить `Status == Submitted`;
 4. проверить, что Submission — последняя непроверенная попытка;
-5. при наличии текста создать Message;
-6. создать Review(NeedsRevision);
-7. установить `Status = NeedsRevision`;
-8. зафиксировать `RevisionRequested`.
+5. проверить непустой feedback: `null`, empty и whitespace MUST быть отклонены с `FeedbackRequired`;
+6. создать Message от Teacher с feedback;
+7. создать Review(NeedsRevision), связанный с Message и Submission;
+8. установить `Status = NeedsRevision` и увеличить Version;
+9. зафиксировать `MessagePosted` и `RevisionRequested`.
+
+Непустой feedback — глобальный domain invariant `ProblemWork.RequestRevision`, а не только validation Application/UI. Domain MUST самостоятельно проверять его до изменения status, version, history или events. При отказе aggregate MUST оставаться неизменным. Application MUST сохранять раннюю validation с ошибкой `FeedbackRequired` до вызова domain operation.
+
+Для `ReviewSubmissionAsAccepted` feedback остаётся optional (§22).
 
 ---
 

@@ -161,13 +161,16 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
         await using var db = PostgresFixture.Open(cs); var store = new PostgresWorkStore(db); var work = Submit(a);
         await store.Save(work, null, Ct); await store.Save(work, 1, Ct);
-        work.RequestRevision(Teacher, work.Submissions[0].Id, null, At);
+        work.RequestRevision(Teacher, work.Submissions[0].Id, "Explain step 2", At);
         await store.Save(work, 1, Ct); await store.Save(work, 2, Ct);
         await Save(cs, work, 2); // A fresh unit of work must not re-enqueue the old event list.
         var loaded = (await store.FindWork(work.Id, Ct))!;
-        Assert.Empty(loaded.Events); Assert.Empty(loaded.Messages); Assert.Null(loaded.Reviews[0].MessageId);
+        Assert.Empty(loaded.Events);
+        var feedback = Assert.Single(loaded.Messages);
+        Assert.Equal("Explain step 2", feedback.BodyMarkdown);
+        Assert.Equal(feedback.Id, loaded.Reviews[0].MessageId);
         await store.Save(loaded, 2, Ct);
-        Assert.Equal(2, await db.Events.CountAsync());
+        Assert.Equal(3, await db.Events.CountAsync());
         var payload = (await db.Events.SingleAsync(x => x.Type == nameof(SolutionSubmitted))).Payload;
         Assert.Contains(work.Submissions[0].Id.ToString(), payload);
     }

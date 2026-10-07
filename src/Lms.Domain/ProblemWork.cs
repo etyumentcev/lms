@@ -48,7 +48,6 @@ public sealed class ProblemWork
         return submission;
     }
 
-    // Domain §21 permits absent feedback; the slice application use case requires it.
     public Review RequestRevision(Guid teacherId, Guid submissionId, string? feedback, DateTimeOffset at)
         => ReviewCurrent(teacherId, submissionId, feedback, ReviewDecision.NeedsRevision, at);
 
@@ -61,6 +60,8 @@ public sealed class ProblemWork
         if (Status != ProblemWorkStatus.Submitted) throw new DomainException("WorkNotSubmitted");
         if (submissions[^1].Id != submissionId) throw new DomainException("SubmissionIsNotCurrent");
         if (reviews.Any(r => r.SubmissionId == submissionId)) throw new DomainException("SubmissionAlreadyReviewed");
+        if (decision == ReviewDecision.NeedsRevision && string.IsNullOrWhiteSpace(feedback))
+            throw new DomainException("FeedbackRequired");
         Message? message = null;
         if (!string.IsNullOrWhiteSpace(feedback))
             message = AddMessage(teacherId, AuthorRole.Teacher, feedback, null, [], at);

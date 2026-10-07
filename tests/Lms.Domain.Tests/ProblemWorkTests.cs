@@ -159,16 +159,78 @@ public sealed class ProblemWorkTests
         Assert.Empty(work.Events);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("\t\r\n")]
+    public void Revision_requires_feedback_and_failure_preserves_entire_aggregate(string? feedback)
+    {
+        var assignment = Assignment();
+        var work = AtState(assignment, ProblemWorkStatus.NeedsRevision);
+        var submission = Submit(work, assignment);
+        var version = work.Version;
+        var submissions = work.Submissions.ToArray();
+        var reviews = work.Reviews.ToArray();
+        var messages = work.Messages.ToArray();
+        var events = work.Events.ToArray();
+        var lastReviewedAt = work.LastReviewedAt;
+        var lastSubmissionAt = work.LastSubmissionAt;
+
+        Error("FeedbackRequired", () => work.RequestRevision(Teacher, submission.Id, feedback, Now.AddHours(1)));
+
+        Assert.Equal(ProblemWorkStatus.Submitted, work.Status);
+        Assert.Equal(version, work.Version);
+        Assert.Equal(submissions, work.Submissions);
+        Assert.Equal(reviews, work.Reviews);
+        Assert.Equal(messages, work.Messages);
+        Assert.Equal(events, work.Events);
+        Assert.Equal(submissions.Length, work.AttemptCount);
+        Assert.Equal(lastReviewedAt, work.LastReviewedAt);
+        Assert.Equal(lastSubmissionAt, work.LastSubmissionAt);
+        Assert.Null(work.AcceptedAt);
+    }
+
     [Fact]
-    public void Domain_optional_revision_feedback_does_not_invent_message()
+    public void Valid_revision_creates_linked_feedback_review_and_events()
     {
         var assignment = Assignment();
         var work = new ProblemWork(Guid.NewGuid(), assignment);
         var submission = Submit(work, assignment);
-        var review = work.RequestRevision(Teacher, submission.Id, null, Now);
+        var review = work.RequestRevision(Teacher, submission.Id, "Explain step 2", Now.AddHours(1));
+
+        Assert.Equal(ProblemWorkStatus.NeedsRevision, work.Status);
+        Assert.Equal(2, work.Version);
+        Assert.Single(work.Submissions);
+        Assert.Same(review, Assert.Single(work.Reviews));
+        Assert.Equal(ReviewDecision.NeedsRevision, review.Decision);
+        Assert.Equal(submission.Id, review.SubmissionId);
+        var message = Assert.Single(work.Messages);
+        Assert.Equal(message.Id, review.MessageId);
+        Assert.Equal("Explain step 2", message.BodyMarkdown);
+        Assert.Equal(Teacher, message.AuthorId);
+        Assert.Equal(AuthorRole.Teacher, message.AuthorRole);
+        Assert.Equal(3, work.Events.Count);
+        Assert.Equal(message.Id, Assert.IsType<MessagePosted>(work.Events[1]).MessageId);
+        Assert.Equal(review.Id, Assert.IsType<RevisionRequested>(work.Events[2]).ReviewId);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Accept_still_allows_absent_feedback(string? feedback)
+    {
+        var assignment = Assignment();
+        var work = new ProblemWork(Guid.NewGuid(), assignment);
+        var submission = Submit(work, assignment);
+        var review = work.Accept(Teacher, submission.Id, feedback, Now);
+        Assert.Equal(ProblemWorkStatus.Accepted, work.Status);
+        Assert.Equal(2, work.Version);
         Assert.Null(review.MessageId);
         Assert.Empty(work.Messages);
-        Assert.Equal(ProblemWorkStatus.NeedsRevision, work.Status);
+        Assert.Equal(2, work.Events.Count);
+        Assert.IsType<SubmissionAccepted>(work.Events[1]);
     }
 
     private static ProblemWork AtState(ProblemAssignment assignment, ProblemWorkStatus state)

@@ -23,15 +23,29 @@ public sealed class ProblemWorkServiceTests
         Assert.Equal(2, f.Policy.ReviewChecks);
     }
 
-    [Fact]
-    public async Task Slice_requires_revision_feedback_even_though_domain_operation_is_more_general()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("\t\r\n")]
+    public async Task Revision_feedback_is_validated_before_domain_mutation_or_save(string? feedback)
     {
         var f = new Fixture();
         var first = await f.Submit();
-        await Error("FeedbackRequired", () => f.Service.RequestRevision(f.Teacher, first.ProblemWorkId, first.SubmissionId, "  ", first.Version));
+        var work = f.Store.Work!;
+        var submissions = work.Submissions.ToArray();
+        var events = work.Events.ToArray();
+        // Deliberately exercise runtime null despite the non-nullable command contract.
+        await Error("FeedbackRequired", () => f.Service.RequestRevision(f.Teacher, first.ProblemWorkId, first.SubmissionId, feedback!, first.Version));
         Assert.Single(f.Store.ExpectedVersions);
-        Assert.Equal(ProblemWorkStatus.Submitted, f.Store.Work!.Status);
-        Assert.Empty(f.Store.Work.Reviews);
+        Assert.Equal(1, f.Store.SaveCalls);
+        Assert.Equal(ProblemWorkStatus.Submitted, work.Status);
+        Assert.Equal(first.Version, work.Version);
+        Assert.Equal(submissions, work.Submissions);
+        Assert.Equal(events, work.Events);
+        Assert.Empty(work.Reviews);
+        Assert.Empty(work.Messages);
+        Assert.Null(work.AcceptedAt);
     }
 
     [Fact]
