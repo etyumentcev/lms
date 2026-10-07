@@ -688,7 +688,6 @@ LessonWorkspace
     - ProblemWorkId?
     - Status: NotStarted | Submitted | NeedsRevision | Accepted
     - AttemptCount
-    - HasDraft
 - Materials[]
 ```
 
@@ -1091,8 +1090,7 @@ Response MUST содержать `ProblemAssignmentId` для каждой за�
   "work": {
     "problemWorkId": null,
     "status": "NotStarted",
-    "attemptCount": 0,
-    "hasDraft": false
+    "attemptCount": 0
   }
 }
 ```
@@ -2606,3 +2604,8 @@ Read model must support:
 Right-panel data remains semantically available on mobile; frontend may render it inline below the primary workflow.
 
 No domain-model change is required.
+
+
+C3 read decisions G08/G09/G16 and exact DTO gaps are recorded in LMS-FRONTEND-CONTRACT.md §C3.
+Server `hasDraft` is removed: browser-local drafts are not authoritative server data.
+Teacher CourseWorkspace enrollment is null; student enrollment is the actual C2 access record.

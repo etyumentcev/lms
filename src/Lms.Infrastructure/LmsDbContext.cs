@@ -27,6 +27,8 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
     public DbSet<TeacherAccess> TeacherGrants => Set<TeacherAccess>();
     public DbSet<AttachmentAccess> AttachmentMetadata => Set<AttachmentAccess>();
 
+    public DbSet<PublishedContentVersion> ContentVersions => Set<PublishedContentVersion>();
+
     protected override void OnModelCreating(ModelBuilder model)
     {
         model.Entity<EnrollmentAccess>().ToTable("AccessEnrollments").HasKey(x => new { x.StudentId, x.CourseId });
@@ -34,6 +36,12 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
         model.Entity<TeacherAccess>().ToTable("AccessTeachers").HasKey(x => x.Id);
         model.Entity<TeacherAccess>().HasIndex(x => new { x.TeacherId, x.CourseId });
         model.Entity<AttachmentAccess>().ToTable("AccessAttachments").HasKey(x => x.Id);
+        var content = model.Entity<PublishedContentVersion>();
+        content.ToTable("PublishedContentVersions", t => t.HasCheckConstraint("CK_Content_Version", "\"VersionNumber\" > 0"));
+        content.HasKey(x => x.Id);
+        content.Property(x => x.Id).ValueGeneratedNever();
+        content.HasIndex(x => new { x.CourseId, x.VersionNumber }).IsUnique();
+        content.Property(x => x.ContentJson).HasColumnType("jsonb");
         var a = model.Entity<ProblemAssignment>();
         a.ToTable("ProblemAssignments", t => t.HasCheckConstraint("CK_Assignment_Status", "\"Status\" IN ('Active', 'Withdrawn')")); a.HasKey(x => x.Id);
         a.Property(x => x.Id).ValueGeneratedNever(); a.Property(x => x.StudentId);

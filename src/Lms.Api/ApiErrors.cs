@@ -19,6 +19,7 @@ public static class ApiErrors
     public static (string Code, int Status) Map(string code) => code switch
     {
         "Unauthenticated" => (code, 401),
+        "ContentUnavailable" => (code, 503),
         "AssignmentNotFound" or "ProblemWorkNotFound" or "NotFound" => ("NotFound", 404),
         "AssignmentDoesNotBelongToStudent" or "AssignmentInactive" or "StudentNotAuthorized" or
             "TeacherNotAuthorized" or "Forbidden" => ("Forbidden", 403),

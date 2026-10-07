@@ -13,6 +13,8 @@ builder.Services.AddDbContext<LmsDbContext>(options => options.UseNpgsql(
 builder.Services.AddScoped<IWorkStore, PostgresWorkStore>();
 builder.Services.AddScoped<IAccessPolicy, PostgresAccessPolicy>();
 builder.Services.AddScoped<ProblemWorkService>();
+builder.Services.AddScoped<IImmutableContentResolver, PostgresContentResolver>();
+builder.Services.AddScoped<IWorkspaceQueries, PostgresWorkspaceQueries>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IActorMapper, ClaimsActorMapper>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
