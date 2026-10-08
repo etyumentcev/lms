@@ -46,8 +46,8 @@ describe('J1 teacher read workspace', () => {
   it('shows a single attachment and disables paging at both boundaries', async () => { const data = fixture(); data.currentSubmission!.attachmentIds = [uuid(20)]; mount(data); await loaded(); await screen.findByRole('img'); expect(screen.getByText('Страница 1 из 1')).toBeVisible(); expect(screen.getByRole('button', { name: 'Предыдущая' })).toBeDisabled(); expect(screen.getByRole('button', { name: 'Следующая' })).toBeDisabled(); });
   it('loads only current page in original attachment order', async () => { const { request } = mount(); await screen.findByRole('img'); await userEvent.click(screen.getByRole('button', { name: 'Следующая' })); await screen.findByAltText('Страница 2 — фото решения'); expect(request.mock.calls.filter(([url]) => url.endsWith('/content')).map(([url]) => url)).toEqual([`/attachments/${uuid(20)}/content`, `/attachments/${uuid(21)}/content`]); expect(screen.getByText('Страница 2 из 2')).toBeVisible(); });
   it('uses protected blob original links without public filesystem URLs', async () => { mount(); const link = await screen.findByRole('link', { name: 'Открыть страницу 1 в полном размере (новая вкладка)' }); expect(link).toHaveAttribute('href', 'blob:protected-original'); expect(link).toHaveAttribute('rel', 'noopener noreferrer'); });
-  it('enlarges, reduces and resets photo without altering original', async () => { mount(); await loaded(); await userEvent.click(screen.getByRole('button', { name: 'Увеличить фото' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('150%'); expect(document.querySelector('.review-photo')).toHaveStyle({ width: '150%' }); await userEvent.click(screen.getByRole('button', { name: 'Уменьшить фото' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('100%'); await userEvent.click(screen.getByRole('button', { name: 'Увеличить фото' })); await userEvent.click(screen.getByRole('button', { name: 'По ширине' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('100%'); });
-  it('keyboard page navigation preserves feedback and uses bounded pages', async () => { mount(); await loaded(); await userEvent.type(editor(), 'Черновик'); const photo = screen.getByRole('region', { name: 'Просмотр фото' }); photo.focus(); await userEvent.keyboard('{Alt>}{ArrowRight}{/Alt}'); expect(screen.getByText('Страница 2 из 2')).toBeVisible(); await userEvent.keyboard('{Alt>}{ArrowLeft}{/Alt}'); expect(screen.getByText('Страница 1 из 2')).toBeVisible(); expect(editor()).toHaveValue('Черновик'); });
+  it('enlarges, reduces and resets photo without altering original', async () => { mount(); await loaded(); await userEvent.click(screen.getByRole('button', { name: 'Увеличить фото' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('150%'); expect(document.querySelector('.annotation-image')).toHaveStyle({ transform: 'translate(0px, 0px) scale(1.5)' }); await userEvent.click(screen.getByRole('button', { name: 'Уменьшить фото' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('100%'); await userEvent.click(screen.getByRole('button', { name: 'Увеличить фото' })); await userEvent.click(screen.getByRole('button', { name: 'Вписать страницу' })); expect(screen.getByLabelText('Масштаб')).toHaveTextContent('100%'); });
+  it('keyboard page navigation preserves feedback and uses bounded pages', async () => { mount(); await loaded(); await userEvent.type(editor(), 'Черновик'); const photo = screen.getByRole('region', { name: 'Просмотр фото' }); photo.focus(); await userEvent.keyboard('{Alt>}{ArrowRight}{/Alt}'); expect(screen.getByText('Страница 2 из 2')).toBeVisible(); await waitFor(() => expect(screen.getByRole('region', { name: 'Просмотр фото' })).toHaveFocus()); await userEvent.keyboard('{Alt>}{ArrowLeft}{/Alt}'); expect(screen.getByText('Страница 1 из 2')).toBeVisible(); expect(editor()).toHaveValue('Черновик'); });
   it('previous attempt opens its own photos and focuses viewer; return retains draft', async () => { const { request } = mount(); await loaded(); await userEvent.type(editor(), 'Draft'); await archive(); expect(screen.getByRole('region', { name: 'Отправленное решение' })).toHaveFocus(); expect(screen.getByRole('article', { name: 'Просмотр попытки №1' })).toHaveTextContent('Пояснение попытки 1'); expect(request.mock.calls.some(([url]) => url === `/attachments/${uuid(10)}/content`)).toBe(true); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull(); await userEvent.click(screen.getByRole('button', { name: 'К текущей попытке' })); expect(editor()).toHaveValue('Draft'); });
   it('last actionable feedback is joined by messageId and displayed exactly once', async () => { const data = fixture(); data.messages.push({ ...data.messages[0]!, id: uuid(99), bodyMarkdown: 'Постороннее сообщение', createdAt: '2026-10-03T00:00:00Z' }); mount(data); await loaded(); expect(screen.getAllByText(/Исправьте второй переход/)).toHaveLength(1); expect(screen.getByRole('complementary')).toHaveTextContent('Обоснуйте вывод'); expect(screen.queryByText('Постороннее сообщение')).toBeNull(); });
   it('chooses latest revision by attempt even if review array order differs', async () => { const data = fixture(); data.currentSubmission = { ...data.currentSubmission!, id: uuid(3), attemptNumber: 3 }; data.submissions.unshift(data.currentSubmission); data.attemptCount = 3; data.reviews[0]!.submissionId = uuid(2); data.reviews.unshift({ ...data.reviews[0]!, id: uuid(55), submissionId: uuid(1), messageId: uuid(35) }); data.messages.push({ ...data.messages[0]!, id: uuid(35), bodyMarkdown: 'Старое замечание' }); mount(data); await screen.findByRole('heading', { name: 'Попытка №3' }); expect(screen.getByRole('region', { name: 'Последнее замечание' })).toHaveTextContent('Исправьте второй переход'); });
@@ -91,4 +91,46 @@ describe('J1 errors, identity and navigation', () => {
   it('safe integer version and required capabilities are enforced', () => { expect(() => decodeProblemWork({ ...fixture(), version: Number.MAX_SAFE_INTEGER + 1 })).toThrow(); expect(() => decodeProblemWork({ ...fixture(), permissions: {} })).toThrow(); });
   it('real client transports bearer on protected photo GET', async () => { const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue({ ok: true, status: 200, blob: async () => new Blob(['photo']) } as Response); const client = createApiClient({ fetch, getAccessToken: () => 'test-token' }); const { attachmentApi } = await import('../components/attachments/api'); await attachmentApi(client).content(uuid(20), new AbortController().signal); expect(fetch.mock.calls[0]![0]).toBe(`/api/v1/attachments/${uuid(20)}/content`); expect(new Headers(fetch.mock.calls[0]![1]?.headers).get('Authorization')).toBe('Bearer test-token'); });
   it('revokes photo URLs when changing page and unmounting', async () => { const { unmount } = mount(); await screen.findByRole('img'); await userEvent.click(screen.getByRole('button', { name: 'Следующая' })); await screen.findByAltText('Страница 2 — фото решения'); expect(URL.revokeObjectURL).toHaveBeenCalledOnce(); unmount(); expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2); });
+});
+
+describe('J2 annotation integration', () => {
+  async function drawAnnotation() {
+    await screen.findByAltText('Страница 1 — фото решения');
+    Object.defineProperties(screen.getByAltText('Страница 1 — фото решения'), { naturalWidth: { value: 100, configurable: true }, naturalHeight: { value: 100, configurable: true } });
+    fireEvent.load(screen.getByAltText('Страница 1 — фото решения'));
+    const layer = screen.getByLabelText('Слой пометок страницы 1');
+    vi.spyOn(layer, 'getBoundingClientRect').mockReturnValue({ left: 0, top: 0, width: 100, height: 100 } as DOMRect);
+    const event = (name: string, x: number) => {
+      const e = new MouseEvent(name, { bubbles: true, clientX: x, clientY: 30, button: 0 });
+      Object.defineProperties(e, { pointerId: { value: 1 }, pointerType: { value: 'pen' }, pressure: { value: .7 } });
+      fireEvent(layer, e);
+    };
+    event('pointerdown', 20); event('pointermove', 40); event('pointerup', 40);
+    expect(screen.getByText(/Графические пометки: 1/)).toBeVisible();
+  }
+  it.each(['accept', 'needs-revision'] as const)('sends %s with normalized current attachment strokes atomically', async decision => {
+    const data = fixture(); const { request } = mount(data, (url, options) => options.method === 'POST' ? {} : content(url, data));
+    await drawAnnotation(); await userEvent.type(editor(), 'Комментарий'); await userEvent.click(decision === 'accept' ? accept() : revise());
+    const body = posts(request)[0]![2]!.body as { annotations: { attachmentId: string; strokes: { points: { x: number; pressure: number }[] }[] }[] };
+    expect(body.annotations[0]!.attachmentId).toBe(uuid(20)); expect(body.annotations[0]!.strokes[0]!.points[0]).toMatchObject({ x: .2, pressure: .7 });
+    await waitFor(() => expect(screen.queryByText(/Есть несохранённые графические/)).toBeNull());
+  });
+  it.each([409, 500])('preserves strokes after failed command %s and never retries', async status => {
+    const data = fixture(); const { request } = mount(data, (url, options) => { if (options.method === 'POST') throw new ApiError(status, status === 409 ? 'ConcurrencyConflict' : 'InternalError'); return content(url, data); });
+    await drawAnnotation(); await userEvent.click(accept()); expect(screen.getByText(/Графические пометки: 1/)).toBeVisible(); expect(accept()).toBeDisabled(); expect(posts(request)).toHaveLength(1);
+  });
+  it('warns on SPA navigation and browser reload while retaining rejected navigation draft', async () => {
+    mount(); await drawAnnotation(); const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    await userEvent.click(screen.getByText('Другая работа')); expect(confirm).toHaveBeenCalled(); expect(screen.getByLabelText('URL')).toHaveTextContent(path);
+    const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); expect(e.defaultPrevented).toBe(true);
+    expect(screen.getByText(/Графические пометки: 1/)).toBeVisible(); confirm.mockRestore();
+  });
+  it('historical view does not move draft strokes to the old attempt', async () => {
+    mount(); await drawAnnotation(); await archive(); expect(screen.getByText(/Графические пометки: 0/)).toBeVisible(); expect(screen.queryByText('Перо')).toBeNull();
+    await userEvent.click(screen.getByText('К текущей попытке')); expect(screen.getByText(/Графические пометки: 1/)).toBeVisible();
+  });
+  it('completed review renders only strokes matching its attachment', async () => {
+    const data = decided('Accepted'); data.reviews[0]!.annotations = [{ attachmentId: uuid(999), strokes: [{ id: uuid(90), tool: 'pen', color: '#dc2626', width: .003, points: [{ x: .2, y: .3 }] }] }];
+    mount(data); await loaded(); expect(screen.getByText(/Графические пометки: 0/)).toBeVisible(); expect(screen.queryByText('Перо')).toBeNull();
+  });
 });

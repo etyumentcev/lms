@@ -30,7 +30,7 @@ public static class ApiErrors
         "AttachmentNotOwned" => (code, 403),
         "ConcurrencyConflict" or "WorkAlreadySubmitted" or "WorkAlreadyAccepted" or "WorkNotSubmitted" or
             "SubmissionIsNotCurrent" or "SubmissionAlreadyReviewed" => (code, 409),
-        "EmptySubmission" or "FeedbackRequired" or "InvalidReplyTarget" => (code, 422),
+        "InvalidAnnotations" or "EmptySubmission" or "FeedbackRequired" or "InvalidReplyTarget" => (code, 422),
         "InvalidId" or "EmptyValue" or "EmptyMessage" or "InvalidAttachment" or "InvalidAuthorRole" => ("ValidationFailed", 422),
         "ValidationFailed" => (code, 400),
         _ => ("InternalError", 500)

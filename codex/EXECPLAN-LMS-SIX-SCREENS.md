@@ -1006,3 +1006,31 @@ Source order: Domain → Feature → Frontend C3/C4 amendments → Flow → mock
   dedicated clean reset PASS; shared shell smoke PASS.
 - Full report/evidence/limitations: `codex/J1-RESULTS.md`. Commit and clean tree checked
   as final step. Only J1 delivered. J2 annotations not started.
+
+## 25. J2 — контракт до реализации (2026-10-08)
+
+Ветка codex/j2-image-annotation, база bf3b750. Review получает immutable value objects
+AnnotatedAttachment → PenStroke → StrokePoint. JSONB выбран потому, что набор читается
+и сохраняется целиком, без независимого lifecycle или запросов по отдельным точкам.
+ReviewId/SubmissionId принадлежат Review; attachmentId проверяется по current Submission.
+Старые записи получают пустой массив. Существующий запрет UPDATE/DELETE Review и
+транзакция PostgresWorkStore сохраняются. Optional annotations в обоих review commands.
+Координаты [0,1] относительно изображения после EXIF orientation браузером; width —
+доля меньшей стороны. Только pen, #RRGGBB, pressure optional [0,1].
+Лимиты: 20 страниц, 2000 штрихов всего, 4096 точек на штрих, 100000 точек всего,
+4 MiB HTTP body. Пустые наборы допустимы. Серверных черновиков нет.
+UI: общий слой canvas над protected original, локальная история каждой страницы;
+финальная команда атомарна, ошибки сохраняют draft. Student получает read-only слой.
+Новые статусы, aggregates и endpoints не добавляются.
+
+- [x] Backend/domain/persistence/API и тесты
+- [x] Editor, teacher/student integration и тесты
+- [x] Browser/responsive verification
+- [x] J2-RESULTS; итоговый commit содержит этот отчёт
+
+J2 completed: 362 frontend / 248 backend tests, .NET/Vite builds, PostgreSQL migration/
+rollback/concurrency, Chrome workflow и tablet EXIF/DPR/native-pen stress PASS.
+20,002 points / 201 strokes за ~3.6s, original bytes unchanged. Исправлены geometry
+CSS cascade, keyboard focus, empty coalesced samples и image-error overlay.
+Hardware iPad/Safari не проверялись; draft crash recovery не заявляется.
+Подробности и evidence: `codex/J2-RESULTS.md`. После итогового commit — остановка.

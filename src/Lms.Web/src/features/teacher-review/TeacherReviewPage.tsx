@@ -1,3 +1,5 @@
+import { newPage, type PageState } from '../../components/annotations/model';
+import { useUnsavedAnnotations } from './useUnsavedAnnotations';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import type { ApiClient } from '../../api/client';
@@ -18,6 +20,10 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
   const queueSearch = typeof location.state?.queueSearch === 'string' ? normalizeQueueQuery(new URLSearchParams(location.state.queueSearch)).toString() : '';
   const queueUrl = `/teacher/reviews${queueSearch ? `?${queueSearch}` : ''}`;
   const { state, refresh } = useProblemWork(client, problemWorkId);
+  const [pages, setPages] = useState<Record<string, PageState>>({});
+  const [busy, setBusy] = useState(false);
+  const dirty = Object.values(pages).some(p => p.strokes.length > 0 || p.undo.length > 0);
+  useUnsavedAnnotations(dirty);
   const [feedback, setFeedback] = useState('');
   const [saved, setSaved] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -31,7 +37,7 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
   const review = data?.reviews.find(item => item.submissionId === submission?.id);
   const reviewedFeedback = data?.messages.find(item => item.id === review?.messageId);
   const title = data ? data.problem.title?.trim() || `Задача ${data.problem.order}` : 'Проверка решения';
-  const reload = () => { focusAfterRefresh.current = true; setSelected(null); refresh(); };
+  const reload = () => { if (dirty && !window.confirm('Пометки останутся локально. После обновления работа может оказаться уже проверенной. Обновить?')) return; focusAfterRefresh.current = true; setSelected(null); refresh(); };
   function selectAttempt(id: string | null) { focusViewer.current = true; setSelected(id); }
   useEffect(() => { document.title = `${title} · Sapientum`; }, [title]);
   useEffect(() => {
@@ -45,6 +51,7 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
     <div className="workspace-content teacher-review" aria-busy={state.phase === 'loading'}>
       <PageHeader title={title} meta={data ? <StatusBadge status={data.status} /> : undefined} />
       <Link className="text-link review-queue-link" to={queueUrl}>К очереди проверок</Link>
+      {dirty && <p role="status">Есть несохранённые графические пометки. Они сохранятся вместе с решением проверки.</p>}
       {saved && <p role="status">{state.phase === 'success' ? 'Проверка сохранена. Состояние работы обновлено.' : 'Проверка сохранена. Ожидается обновление состояния работы.'}</p>}
       {state.phase === 'loading' && <><LoadingSkeleton label="Загрузка условия задачи" rows={3} /><LoadingSkeleton label="Загрузка решения" rows={6} /></>}
       {state.phase === 'error' && <ErrorState title={state.error.status === 401 ? 'Войдите, чтобы открыть работу' : state.error.status === 403 ? 'Нет доступа к работе'
@@ -57,14 +64,18 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
         <section ref={viewerRef} tabIndex={-1} aria-label="Отправленное решение" className="review-work-area">
           {archived && <div className="review-archive-note"><p>Просмотр предыдущей попытки. Проверка относится к текущей попытке №{current?.attemptNumber}.</p>
             <Button onClick={() => selectAttempt(null)}>К текущей попытке</Button></div>}
-          {submission ? <SubmissionViewer key={submission.id} submission={submission} api={api} /> : <EmptyState title="Отправленных попыток нет" />}
+          {submission ? <SubmissionViewer key={submission.id} submission={submission} api={api} annotations={review?.annotations ?? []}
+            editable={!archived && !review && !busy && data.status === 'Submitted' && (data.permissions.canAccept || data.permissions.canRequestRevision)}
+            pages={!archived && !review ? pages : undefined} changePages={!archived && !review ? setPages : undefined} /> : <EmptyState title="Отправленных попыток нет" />}
           {review && !archived && <section className="review-outcome" aria-label="Результат проверки"><h2>Результат проверки</h2><StatusBadge status={review.decision} />
             <p><time dateTime={review.createdAt}>{new Intl.DateTimeFormat('ru', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(review.createdAt))}</time></p>
             {reviewedFeedback && <div className="review-text"><MarkdownContent>{reviewedFeedback.bodyMarkdown}</MarkdownContent></div>}
           </section>}
         </section>
         {current && data.status === 'Submitted' && (data.permissions.canAccept || data.permissions.canRequestRevision)
-          ? <div hidden={archived}><ReviewForm data={data} client={client} feedback={feedback} changeFeedback={setFeedback} refresh={reload} completed={() => { setSaved(true); reload(); }} /></div>
+          ? <div hidden={archived}><ReviewForm data={data} client={client} feedback={feedback} changeFeedback={setFeedback} refresh={reload} busy={setBusy} annotations={current.attachmentIds.flatMap(id => {
+            const p = pages[id] ?? newPage(); return p.strokes.length ? [{ attachmentId: id, strokes: p.strokes }] : [];
+          })} completed={() => { setPages({}); setSaved(true); focusAfterRefresh.current = true; setSelected(null); refresh(); }} /></div>
           : !archived && <p className="muted">{data.status === 'Accepted' ? 'Решение принято. Работа доступна только для чтения.'
             : data.status === 'NeedsRevision' ? 'Работа возвращена на доработку. Ожидается новая попытка ученика.' : 'Действия проверки недоступны.'}</p>}
       </>}

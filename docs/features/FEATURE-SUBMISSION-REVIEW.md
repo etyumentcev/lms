@@ -2664,3 +2664,35 @@ Ordered AttachmentIds and all Submit/Review state transitions remain unchanged. 
 illustrative reuse of the same ID in a submission and a message is replaced by separate
 uploads; immutable content is never reassigned. This changes technical resource eligibility,
 not the Domain state machine. Historical arrays are not migrated or rewritten.
+
+
+## J2 image annotations (2026-10-08)
+
+Review now contains immutable `annotations: AnnotatedAttachment[]`. Each item is
+`{ attachmentId, strokes }`; each stroke is `{ id, tool: "pen", color: "#RRGGBB",
+width, points: [{ x, y, pressure? }] }`. Review identity and SubmissionId provide
+the enclosing association; clients cannot choose a separate ReviewId. AttachmentId
+must belong to the current submission. Original uploaded bytes never change.
+
+Both existing review POST routes accept optional `annotations`; omitted/null means
+empty. Final decision and annotations use one existing transaction/version check.
+Review read DTOs (teacher details and student history) return annotations, including
+empty arrays for legacy records. Invalid annotations return 422 InvalidAnnotations;
+invalid JSON/shape returns 400 ValidationFailed. No server annotation draft exists.
+
+Coordinates are normalized [0,1] in the browser-oriented original image (including
+EXIF). Width is a fraction of the smaller oriented image dimension, in [.0005,.05].
+Pressure is optional [0,1]; renderer uses width × (.5 + pressure), default pressure .5.
+Rendering and pointer positions use the image rectangle, excluding contain margins.
+Only the pen tool is persisted; erasing removes whole strokes locally.
+
+Limits per review: 20 annotated pages, 2000 strokes total, 4096 points per stroke,
+100000 points total; both review HTTP request bodies are capped at 4 MiB. IDs of
+annotated pages and strokes must be unique. No arbitrary metadata or HTML is accepted.
+Annotations are copied into read-only value collections and persisted in Review JSONB.
+Existing immutable history database triggers prohibit subsequent changes.
+
+Local undo/redo, zoom/pan are separate per page. Undo retains the latest 50 actions.
+Drafts survive command failures and explicit refresh in the mounted page, with
+unsaved-navigation/reload warnings. No crash/reload recovery is promised. Students
+and completed teacher reviews can toggle/zoom the layer but cannot edit it.

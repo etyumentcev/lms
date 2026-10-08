@@ -110,7 +110,7 @@ public sealed partial class ContractApiTests
         Assert.Equal(originalSubmission.GetRawText(), submissions[1].GetRawText());
         var reviews = final.GetProperty("history").GetProperty("reviews").EnumerateArray().ToArray();
         Assert.Equal(new[] { "Accepted", "NeedsRevision" }, reviews.Select(r => r.GetProperty("decision").GetString()));
-        foreach (var review in reviews) Fields(review, "id", "submissionId", "teacherId", "decision", "messageId", "createdAt");
+        foreach (var review in reviews) Fields(review, "id", "submissionId", "teacherId", "decision", "messageId", "createdAt", "annotations");
         Assert.Equal(second.GetProperty("submissionId").GetGuid(), reviews[0].GetProperty("submissionId").GetGuid());
         Assert.Equal(first.GetProperty("submissionId").GetGuid(), reviews[1].GetProperty("submissionId").GetGuid());
         Assert.Equal(feedback.GetProperty("id").GetGuid(), reviews[1].GetProperty("messageId").GetGuid());

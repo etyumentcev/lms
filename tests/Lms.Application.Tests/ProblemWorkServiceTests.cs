@@ -5,6 +5,19 @@ namespace Lms.Application.Tests;
 public sealed class ProblemWorkServiceTests
 {
     [Fact]
+    public async Task Annotation_validation_precedes_save_and_review_uses_one_save()
+    {
+        var f = new Fixture(); var attachment = Guid.NewGuid();
+        var first = await f.Service.SubmitSolution(f.Student, f.Assignment.Id, null, [attachment], null);
+        var pages = new[] { new AnnotatedAttachment(Guid.NewGuid(), [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])]) };
+        await Assert.ThrowsAsync<DomainException>(() => f.Service.AcceptSubmission(f.Teacher, first.ProblemWorkId, first.SubmissionId, null, first.Version, annotations: pages));
+        Assert.Equal(1, f.Store.SaveCalls); Assert.Empty(f.Store.Work!.Reviews);
+        pages[0] = pages[0] with { AttachmentId = attachment };
+        await f.Service.AcceptSubmission(f.Teacher, first.ProblemWorkId, first.SubmissionId, null, first.Version, annotations: pages);
+        Assert.Equal(2, f.Store.SaveCalls); Assert.Single(f.Store.Work.Reviews[0].Annotations);
+    }
+
+    [Fact]
     public async Task Full_slice_uses_same_work_and_expected_versions()
     {
         var f = new Fixture();

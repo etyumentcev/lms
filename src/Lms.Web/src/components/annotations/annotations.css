@@ -1,0 +1,16 @@
+.annotation-tools { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.annotation-tools button, .annotation-tools select, .review-toolbar button { min-height: 44px; }
+.annotation-tools button[aria-pressed=true] { background: var(--color-primary, #225b55); color: white; }
+.annotation-tools label { display: inline-flex; gap: .3rem; align-items: center; }
+.annotation-tools input[type=color] { width: 38px; height: 32px; padding: 2px; }
+.annotation-viewport { overflow: hidden; background: #eef0f0; padding: 0 0 2.5rem; min-height: 100px; }
+.annotation-image { position: relative; width: fit-content; max-width: 100%; margin: auto; transform-origin: center top; }
+.annotation-photo .annotation-viewport .annotation-image img { display: block; width: 100%; max-width: 100%; max-height: none; height: auto; margin: 0; object-fit: contain; image-orientation: from-image; }
+.annotation-image canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.annotation-original { position: absolute; top: 100%; left: 0; z-index: 1; white-space: nowrap; }
+.annotation-fullscreen { position: fixed; inset: 0; z-index: 10000; background: white; padding: .6rem; overflow: auto; }
+.annotation-fullscreen { --annotation-height: calc(100dvh - 230px); }
+.annotation-fullscreen .annotation-photo > p:last-child { display: none; }
+@media (max-width: 400px) { .annotation-tools { font-size: .85rem; } .annotation-fullscreen { padding: .25rem; } }
+
+.annotation-tools .button { padding: .4rem .65rem; font-size: .85rem; }

@@ -101,6 +101,11 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
         r.ToTable("Reviews", t => t.HasCheckConstraint("CK_Review_Decision", "\"Decision\" IN ('Accepted', 'NeedsRevision')")); r.HasKey(x => x.Id); r.Property(x => x.Id).ValueGeneratedNever();
         r.Property(x => x.ProblemWorkId); r.Property(x => x.SubmissionId); r.Property(x => x.TeacherId);
         r.Property(x => x.Decision).HasConversion<string>(); r.Property(x => x.MessageId); r.Property(x => x.CreatedAt);
+        r.Property(x => x.Annotations).HasConversion(
+            x => AnnotationJson.Serialize(x), x => AnnotationJson.Deserialize(x)).HasColumnType("jsonb").HasDefaultValueSql("'[]'::jsonb");
+        r.Property(x => x.Annotations).Metadata.SetValueComparer(new ValueComparer<IReadOnlyList<AnnotatedAttachment>>(
+            (a, b) => AnnotationJson.Serialize(a!) == AnnotationJson.Serialize(b!),
+            x => AnnotationJson.Serialize(x).GetHashCode(), x => AnnotationJson.Deserialize(AnnotationJson.Serialize(x))));
         r.HasIndex(x => x.SubmissionId).IsUnique();
         r.HasOne<Submission>().WithMany().HasForeignKey(x => new { x.ProblemWorkId, x.SubmissionId })
             .HasPrincipalKey(x => new { x.ProblemWorkId, x.Id }).OnDelete(DeleteBehavior.Restrict);

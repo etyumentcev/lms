@@ -1,3 +1,4 @@
+import { validAnnotations, type AnnotatedAttachment } from '../../components/annotations/model';
 import { useEffect, useRef, useState } from 'react';
 import { ApiError, type ApiClient } from '../../api/client';
 import type { ProblemWorkDetails } from '../../api/contracts/problemWork';
@@ -13,9 +14,9 @@ function errorMessage(error: ApiError) {
   if (error.status === 404) return 'Работа не найдена. Обновите работу.';
   return 'Не удалось подтвердить проверку. Решение могло сохраниться. Обновите работу перед следующим действием.';
 }
-export function ReviewForm({ data, client, feedback, changeFeedback, refresh, completed }: {
+export function ReviewForm({ data, client, feedback, changeFeedback, refresh, completed, annotations = [], busy }: {
   data: ProblemWorkDetails; client: ApiClient; feedback: string; changeFeedback: (value: string) => void;
-  refresh: () => void; completed: () => void;
+  refresh: () => void; completed: () => void; annotations?: AnnotatedAttachment[]; busy?: (value: boolean) => void;
 }) {
   const [pending, setPending] = useState<'accept' | 'needs-revision' | null>(null);
   const [failure, setFailure] = useState<{ text: string; blocked: boolean; field?: boolean } | null>(null);
@@ -29,18 +30,20 @@ export function ReviewForm({ data, client, feedback, changeFeedback, refresh, co
     if (decision === 'needs-revision' && !feedback.trim()) {
       setFailure({ text: 'Укажите, что ученику нужно исправить.', blocked: false, field: true }); return;
     }
+    if (!validAnnotations(annotations) || new TextEncoder().encode(JSON.stringify(annotations)).length > 4000000) { setFailure({ text: 'Пометки превышают допустимый размер или содержат ошибку. Удалите лишние штрихи.', blocked: false }); return; }
+    busy?.(true);
     locked.current = true; setPending(decision); setFailure(null);
     try {
       await reviewSubmission(client, data.id, decision, { submissionId: data.currentSubmission.id,
-        expectedVersion: data.version, feedbackMarkdown: feedback.trim() ? feedback : null });
+        expectedVersion: data.version, feedbackMarkdown: feedback.trim() ? feedback : null, ...(annotations.length ? { annotations } : {}) });
       if (active.current) completed();
     } catch (error) {
       if (!active.current) return;
       const failure = error instanceof ApiError ? error : new ApiError(0, 'NetworkError');
-      const recoverable = [400, 422].includes(failure.status) && ['FeedbackRequired', 'ValidationFailed'].includes(failure.code);
+      const recoverable = [400, 422].includes(failure.status) && ['FeedbackRequired', 'ValidationFailed', 'InvalidAnnotations'].includes(failure.code);
       locked.current = !recoverable;
       setFailure({ text: errorMessage(failure), blocked: !recoverable, field: recoverable });
-    } finally { if (active.current) setPending(null); }
+    } finally { busy?.(false); if (active.current) setPending(null); }
   }
   return <form className="solution-form review-form" aria-label="Проверка решения" onSubmit={event => event.preventDefault()}>
     <label htmlFor="review-feedback">Комментарий преподавателя</label>

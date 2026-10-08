@@ -1,3 +1,4 @@
+import type { AnnotatedAttachment } from '../../components/annotations/model';
 import type { LessonWorkspace, Submission, Review, Message } from './lessonWorkspace';
 import { course, lesson, problem, permissions, user, submission, review, message, oneOf } from './lessonWorkspace';
 import { object, array, string, count, nullable } from './validation';
@@ -20,4 +21,4 @@ export function decodeProblemWork(value: unknown): ProblemWorkDetails {
   if (!details(value)) throw Error('Invalid ProblemWorkDetails');
   return value as ProblemWorkDetails;
 }
-export type ReviewRequest = { submissionId: string; feedbackMarkdown: string | null; expectedVersion: number };
+export type ReviewRequest = { submissionId: string; feedbackMarkdown: string | null; expectedVersion: number; annotations?: AnnotatedAttachment[] };

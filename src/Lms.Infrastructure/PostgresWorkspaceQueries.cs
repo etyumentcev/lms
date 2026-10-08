@@ -45,7 +45,7 @@ public sealed partial class PostgresWorkspaceQueries(LmsDbContext db, IAccessPol
         => new(work?.Submissions.OrderByDescending(s => s.AttemptNumber).Select(s =>
                 new SubmissionDto(s.Id, s.AttemptNumber, s.BodyMarkdown, s.SubmittedAt, s.AttachmentIds)).ToArray() ?? [],
             work?.Reviews.OrderByDescending(r => work.Submissions.Single(s => s.Id == r.SubmissionId).AttemptNumber)
-                .Select(r => new ReviewDto(r.Id, r.SubmissionId, r.TeacherId, r.Decision, r.MessageId, r.CreatedAt)).ToArray() ?? [],
+                .Select(r => new ReviewDto(r.Id, r.SubmissionId, r.TeacherId, r.Decision, r.MessageId, r.CreatedAt, r.Annotations)).ToArray() ?? [],
             work?.Messages.OrderBy(m => m.CreatedAt).ThenBy(m => m.Id).Select(m =>
                 new MessageDto(m.Id, new(m.AuthorId), m.AuthorRole, m.BodyMarkdown, m.ReplyToMessageId, m.CreatedAt, m.AttachmentIds)).ToArray() ?? []);
 

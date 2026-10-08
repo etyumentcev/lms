@@ -1,3 +1,6 @@
+import { AnnotationPhoto } from '../../components/annotations/AnnotationPhoto';
+import { newPage, type AnnotatedAttachment } from '../../components/annotations/model';
+import { useState } from 'react';
 import type { ProblemWorkspace } from '../../api/contracts/problemWorkspace';
 import type { Message, Review, Submission } from '../../api/contracts/lessonWorkspace';
 import type { AttachmentApi } from '../../components/attachments/api';
@@ -9,10 +12,14 @@ import { StatusBadge } from '../../components/StatusBadge';
 function DateLabel({ value }: { value: string }) {
   return <time dateTime={value}>{new Intl.DateTimeFormat('ru', { dateStyle: 'long', timeStyle: 'short' }).format(new Date(value))}</time>;
 }
-function Pages({ ids, api }: { ids: readonly string[]; api: AttachmentApi }) {
+function ReadPhoto({ id, api, page, annotations }: { id: string; api: AttachmentApi; page: number; annotations: AnnotatedAttachment[] }) {
+  const [state, setState] = useState(() => newPage(annotations.find(a => a.attachmentId === id)?.strokes));
+  return <AnnotationPhoto api={api} id={id} page={page} state={state} change={setState} />;
+}
+function Pages({ ids, api, annotations }: { ids: readonly string[]; api: AttachmentApi; annotations?: AnnotatedAttachment[] }) {
   if (!ids.length) return null;
   return <ol className="attachment-pages" aria-label="Фотографии в исходном порядке">{ids.map((id, index) => <li key={id}>
-    <h4>Страница {index + 1}</h4><AttachmentPreview api={api} id={id} page={index + 1} />
+    <h4>Страница {index + 1}</h4>{annotations ? <ReadPhoto id={id} api={api} page={index + 1} annotations={annotations} /> : <AttachmentPreview api={api} id={id} page={index + 1} />}
   </li>)}</ol>;
 }
 function ReviewResult({ review, feedback, api }: { review: Review; feedback?: Message; api: AttachmentApi }) {
@@ -70,7 +77,7 @@ export function HistoryTimeline({ data, api }: { data: ProblemWorkspace; api: At
       return <li key={submission.id} className="history-attempt"><article aria-labelledby={`attempt-${submission.id}`}>
         <h2 id={`attempt-${submission.id}`}>Попытка №{submission.attemptNumber}</h2>
         <p className="history-submitted">Решение отправлено · <DateLabel value={submission.submittedAt} /></p>
-        <Pages ids={submission.attachmentIds} api={api} />
+        <Pages ids={submission.attachmentIds} api={api} annotations={review?.annotations} />
         {submission.bodyMarkdown && <div className="history-text"><MarkdownContent>{submission.bodyMarkdown}</MarkdownContent></div>}
         {review && <ReviewResult review={review} feedback={review.messageId ? messages.get(review.messageId) : undefined} api={api} />}
       </article></li>;

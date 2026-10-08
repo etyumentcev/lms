@@ -1393,3 +1393,12 @@ SubmissionAccepted
 И главный архитектурный принцип:
 
 > **Content описывает условие обучения. Learning Process описывает историю действий вокруг этого условия.**
+
+
+## J2 amendment — immutable Review annotations
+
+Review additionally owns AnnotatedAttachment/PenStroke/StrokePoint value objects.
+Annotations belong to Review.SubmissionId and only its AttachmentIds, never to a
+subsequent submission. The original photo is unchanged. Validation precedes any
+feedback/message/status mutation. No new aggregate, status or review lifecycle is
+introduced. See FEATURE-SUBMISSION-REVIEW J2 amendment for geometry and limits.

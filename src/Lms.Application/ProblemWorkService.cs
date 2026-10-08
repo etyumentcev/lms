@@ -30,15 +30,15 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
     }
 
     public Task<ReviewResult> RequestRevision(Actor actor, Guid workId, Guid submissionId,
-        string feedback, long expectedVersion, CancellationToken cancellationToken = default)
-        => Review(actor, workId, submissionId, feedback, expectedVersion, true, cancellationToken);
+        string feedback, long expectedVersion, CancellationToken cancellationToken = default, IReadOnlyList<AnnotatedAttachment>? annotations = null)
+        => Review(actor, workId, submissionId, feedback, expectedVersion, true, cancellationToken, annotations);
 
     public Task<ReviewResult> AcceptSubmission(Actor actor, Guid workId, Guid submissionId,
-        string? feedback, long expectedVersion, CancellationToken cancellationToken = default)
-        => Review(actor, workId, submissionId, feedback, expectedVersion, false, cancellationToken);
+        string? feedback, long expectedVersion, CancellationToken cancellationToken = default, IReadOnlyList<AnnotatedAttachment>? annotations = null)
+        => Review(actor, workId, submissionId, feedback, expectedVersion, false, cancellationToken, annotations);
 
     private async Task<ReviewResult> Review(Actor actor, Guid workId, Guid submissionId,
-        string? feedback, long expectedVersion, bool revision, CancellationToken cancellationToken)
+        string? feedback, long expectedVersion, bool revision, CancellationToken cancellationToken, IReadOnlyList<AnnotatedAttachment>? annotations)
     {
         EnsureRole(actor, AuthorRole.Teacher);
         var work = await Work(workId, cancellationToken);
@@ -47,8 +47,8 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
         CheckVersion(work, expectedVersion);
         if (revision && string.IsNullOrWhiteSpace(feedback)) throw new UseCaseException("FeedbackRequired");
         var review = revision
-            ? work.RequestRevision(actor.Id, submissionId, feedback, time.GetUtcNow())
-            : work.Accept(actor.Id, submissionId, feedback, time.GetUtcNow());
+            ? work.RequestRevision(actor.Id, submissionId, feedback, time.GetUtcNow(), annotations)
+            : work.Accept(actor.Id, submissionId, feedback, time.GetUtcNow(), annotations);
         await store.Save(work, expectedVersion, cancellationToken);
         return new(review.Id, review.MessageId, work.Status, work.Version);
     }
