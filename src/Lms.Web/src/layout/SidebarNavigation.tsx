@@ -18,7 +18,7 @@ export function navigationItems(role: NavigationRole) {
   ];
 }
 
-export function SidebarNavigation({ role }: { role: NavigationRole }) {
+export function SidebarNavigation({ role, preview = true }: { role: NavigationRole; preview?: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const navId = useId();
@@ -44,7 +44,7 @@ export function SidebarNavigation({ role }: { role: NavigationRole }) {
       </Link></li>)}</ul>
     </nav>
     <div className="sidebar-footer"><span className="avatar" aria-hidden="true">S</span>
-      <div className="nav-label"><strong>Демо-пространство</strong><span>{role === 'Teacher' ? 'Преподаватель' : 'Ученик'}</span></div>
+      <div className="nav-label"><strong>{preview ? 'Демо-пространство' : 'Учебное пространство'}</strong><span>{role === 'Teacher' ? 'Преподаватель' : 'Ученик'}</span></div>
     </div>
   </div>;
 }

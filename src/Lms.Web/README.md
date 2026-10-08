@@ -1,7 +1,7 @@
-# Lms.Web — checkpoint D
+# Lms.Web — checkpoints D/E
 
-Shared UI foundation only. All course/lesson/assignment/review routes render
-placeholders inside the same shell. `/` is an explicitly labelled shell demo;
+Shared UI foundation plus the Course screen. `/courses/:courseId` reads the real
+CourseWorkspace endpoint; Lesson/assignment/review routes remain placeholders. `/` is an explicitly labelled shell demo;
 its six links are navigation examples, not course data. Role selection changes
 menu presentation only; it does not authenticate or grant access.
 
@@ -27,7 +27,7 @@ React 19.3, TypeScript 7.0, Vite 7.3 and React Router DOM 6.30; plain CSS,
 Vitest 4.0/Testing Library/jsdom. Exact versions and transitive integrity are pinned.
 Router future flags enable transition updates and relative splat behavior explicitly.
 Only esbuild's required install script is allowed by pnpm-workspace.yaml.
-No UI framework, data cache or feature queries. Backend build remains the independent
+No UI framework or global data cache. Course has one cancellable feature query. Backend build remains the independent
 `dotnet build Lms.sln`; run both builds for a complete repository check.
 
 ## Structure and composition
@@ -36,7 +36,10 @@ No UI framework, data cache or feature queries. Backend build remains the indepe
 - `src/components/`: presentation primitives, central status map and accessible Tabs.
 - `src/styles/`: shared tokens and responsive layout/component styling.
 - `src/api/client.ts`: transport only, independent of React.
-- `src/App.tsx`: static demonstration and route placeholders.
+- `src/App.tsx`: static demonstration, Course route and remaining placeholders.
+- `src/features/course/`: Course page, local query lifecycle, rendering and CSS.
+- `src/api/contracts/courseWorkspace.ts`: single C3/C4 DTO definition/runtime decoder.
+- `src/api/browserClient.ts`: trusted host session adapter to the D bearer client.
 - `src/test/`: component/navigation and API boundary tests.
 
 ```tsx
@@ -70,7 +73,7 @@ AvailabilityBadge accepts availability/explanation and does not calculate eligib
 - `/teacher/reviews`
 - `/teacher/reviews/:problemWorkId`
 
-Sidebar destinations also have generic placeholders. Unknown URLs stay inside the
+Course renders actual data; remaining sidebar destinations have generic placeholders. Unknown URLs stay inside the
 shell with a not-found message. No separate submit/history endpoint or feature screen.
 Production hosting must serve `index.html` for frontend deep links and route `/api/*`
 to the existing backend before applying that fallback. Hosting is not configured in D.
@@ -81,16 +84,15 @@ to the existing backend before applying that fallback. Hosting is not configured
 same-origin client (default `/api/v1`). The integration supplies a current bearer token
 per request. No token storage, actor/role headers, login UI or mock identity.
 `request(path, decode, { method?, body?, signal? })` passes unknown JSON to a required
-runtime decoder, returning its inferred type. Future feature DTOs/decoders belong in
-one API/contracts layer, based on the actual C3/C4 records; none are copied here.
+runtime decoder, returning its inferred type. Feature DTOs/decoders belong in one API/contracts layer, based on the actual C3/C4
+records. CourseWorkspace is implemented there; other feature DTOs remain deferred.
 
 C4 Problem Details retains type/title/status/instance/code/traceId in ApiError.problem.
 Branch on ApiError.code, never human text. Network failures use NetworkError/status 0;
 malformed error responses use HttpError; invalid success JSON/shapes use InvalidResponse.
 401 invokes the supplied session callback; 403/409 propagate without refresh/retry.
 AbortSignal is forwarded and cancellations remain cancellations. Relative paths and
-redirect rejection keep credentials within the configured origin. No requests are
-made by the shell demo itself. Deployment identity/proxy integration is still deferred.
+redirect rejection keep credentials within the configured origin. No requests are made by the shell demo itself; opening Course performs its GET. Deployment identity/proxy integration is still deferred.
 
 ## Optional browser smoke
 
@@ -103,9 +105,91 @@ LMS_PLAYWRIGHT_MODULE=/absolute/path/to/node_modules/playwright node scripts/smo
 
 `LMS_SMOKE_URL` defaults to `http://127.0.0.1:4173`;
 `LMS_SMOKE_OUTPUT` defaults to ignored `.qa/`. The script checks real CSS geometry at
-1440/1024/768/390/320px, all six placeholder views at desktop/mobile sizes, context
+1440/1024/768/390/320px, the five remaining placeholder views at desktop/mobile sizes, context
 identity/state across breakpoints, compact navigation/Escape, skip link, keyboard tabs,
 focus outline, semantic-token text contrast >=4.5:1, no feature requests and a clean
 console. Screenshots and JSON evidence are generated for inspection; they are not baselines.
 
-See `../../codex/D-RESULTS.md` for verified results and intentional remaining gaps.
+See `../../codex/D-RESULTS.md` and `../../codex/E-RESULTS.md` for verified results and intentional remaining gaps.
+
+
+## Course integration (E)
+
+`/courses/:courseId` -> browserApiClient ->
+`GET /api/v1/courses/{encodedCourseId}/workspace` -> validated C3/C4 contract -> CoursePage.
+The decoder checks nested row shape, all required fields/nulls, enum/type/number validity
+and query response course identity. It never calculates progress or availability.
+
+Student uses actual enrollment; Teacher accepts enrollment=null and teacherContext.
+Teacher progress is labelled as scoped to accessible course/group works. Optional teacher
+and materials are rendered only if present; current backend returns null/[] for those.
+Events/course status/course availability are absent in C4 and have no invented UI fields.
+Course names/descriptions are plain text, not raw HTML. Only HTTP(S)/relative material
+links are actionable; unsafe URLs remain text. Locked lessons have no navigation or
+protected summary. Available lessons open the existing Lesson placeholder via Router.
+
+A local query hook handles loading/success/error, cleanup cancellation, stale-result
+exclusion, identity changes and explicit GET retry; there is no global cache. 401 invokes
+D's session callback; 403/404 have distinct states; network/5xx/malformed responses allow
+manual retry. Shell and a single responsive ContextPanel remain mounted across query states.
+
+### Authentication and same-origin API hosting
+
+The user confirmed that OIDC Authority/Client ID/scope are not configured yet. E does not
+invent a login provider or ship test credentials. The trusted hosting application's session
+integration must set `window.lmsAuth` before mounting App:
+
+```ts
+window.lmsAuth = {
+  getAccessToken: () => existingSession.getCurrentAccessToken(),
+  onUnauthenticated: () => existingSession.handleSessionExpired(),
+};
+```
+
+`existingSession` here denotes the host's actual OIDC/session integration, not a provided
+fake implementation. It supplies a current access token per request. Without an adapter,
+the client sends an anonymous request and renders the API's 401 login-required state.
+The host must remount App on account/session changes so previous-account UI is discarded;
+there is no account-switcher or shared user-data cache in E. Never put bearer tokens in
+Vite environment variables, HTML build artifacts, URL parameters or test fixtures used by
+production. Role selection on the shell demo has no effect on Course authorization.
+
+For local development/preview with the real backend on 5187:
+
+```sh
+LMS_API_TARGET=http://127.0.0.1:5187 pnpm dev
+# Or build first, then:
+LMS_API_TARGET=http://127.0.0.1:5187 pnpm preview --port 4174 --strictPort
+```
+
+LMS_API_TARGET is a Vite server-side proxy setting, not a browser API origin or credential.
+Deployed hosting must proxy `/api/*` before applying the SPA index.html fallback. Backend
+JWT issuer/audience/signature/lifetime and course access checks remain authoritative.
+A deployed IdP login has not been tested without provider settings.
+
+### Course tests and browser smoke
+
+`pnpm test`: 83 tests, including 34 Course cases. The JSON fixture under src/test/fixtures
+mirrors C4 wire names/nullability; it is test-only and is never imported by production code.
+Optional enrichment fixtures exercise DTO-supported data that today's backend does not source.
+Two D tests now check the courses landing placeholder / Lesson navigation, since the Course
+route is covered by actual feature tests. The D browser script similarly leaves Course to:
+
+```sh
+LMS_PLAYWRIGHT_MODULE=/absolute/path/to/playwright \
+LMS_SMOKE_URL=http://127.0.0.1:4174 \
+node scripts/course-smoke.mjs
+```
+
+The script intercepts only the Course HTTP response for deterministic loading/success/empty/
+error/race-free screenshot checks: 1440/1024/768/390/320px, long unbroken names, 30 rows,
+locked rows, Teacher, tablet collapse -> mobile context, 401/403/404/503/network/retry,
+and keyboard navigation to the Lesson placeholder. No submission/review workflow E2E.
+
+For optional real API smoke, set LMS_LIVE_SESSION to an external JSON file containing
+courseId/studentToken/teacherToken/foreignToken from an isolated test environment. Tokens
+are never logged or committed. Production preview must proxy to that API. During E this
+used the existing ApiFactory, real JWT Bearer handler and PostgreSQL/Testcontainers via a
+temporary local HTTP bridge; no backend source changes. Both roles returned 200, anonymous
+401, foreign Student 403. This verifies Course transport/auth/access/rendering, not a
+selected provider's discovery/login flow. Screenshots/results go to LMS_SMOKE_OUTPUT.

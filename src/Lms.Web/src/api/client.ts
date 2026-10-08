@@ -83,3 +83,5 @@ export function createApiClient({ basePath = '/api/v1', getAccessToken, onUnauth
     },
   };
 }
+
+export type ApiClient = ReturnType<typeof createApiClient>;

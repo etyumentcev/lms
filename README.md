@@ -8,7 +8,7 @@ ASP.NET + PostgreSQL + DDD target architecture. Checkpoints B through C4 impleme
 - `Lms.Application`: four use cases; access and atomic persistence ports. Depends only on Domain.
 - `Lms.Infrastructure`: EF Core/Npgsql mappings, migrations, atomic `IWorkStore`, PostgreSQL access facts/policy and transactional event journal.
 - `Lms.Api`: ASP.NET Core command host, JWT Bearer authentication, principal-to-Actor adapter and uniform Problem Details.
-- `Lms.Web`: React/TypeScript shared UI shell (checkpoint D), responsive context panel, reusable primitives and placeholder routes. See [frontend commands](src/Lms.Web/README.md).
+- `Lms.Web`: React/TypeScript shared UI shell (D) and CourseWorkspace screen (E), responsive context panel, reusable primitives; other feature routes remain placeholders. See [frontend commands](src/Lms.Web/README.md).
 - `tests`: xUnit Domain/Application tests, real PostgreSQL persistence tests and WebApplicationFactory API tests with PostgreSQL.
 
 ## Build and test
@@ -103,7 +103,7 @@ See [C2 report](codex/C2-RESULTS.md) for DTOs, error mapping, test scenarios and
 
 Domain RequestRevision requires nonblank feedback as a global invariant (G03, C1.5). Application retains early validation with `FeedbackRequired`; Domain independently rejects null/empty/whitespace without mutation. Accept allows absent feedback. New work requires absent expectedVersion; existing work requires its current version.
 
-Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Read queries and immutable content resolution are implemented in C3. Upload/storage lifecycle and feature screens remain deferred; the shared UI shell is implemented in D.
+Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Read queries and immutable content resolution are implemented in C3. Shared UI shell and Course screen are implemented in D/E; upload/storage and subsequent feature screens remain deferred.
 
 See [ExecPlan](codex/EXECPLAN-LMS-SIX-SCREENS.md) for decisions, remaining contracts and checkpoint results.
 
@@ -209,11 +209,21 @@ There is no public content-authoring/publication endpoint or production seed in 
 Queries do not create work. Progress and review queues are computed, not persisted. Student locked
 content returns 403; course catalog retains safe metadata. Teacher enrollment is null. Browser-local
 drafts have no authoritative server hasDraft. Profiles, hints/materials and attachment download metadata
-remain explicit gaps; no synthetic content or URLs are returned. C4 backend stabilization and D shared UI shell are complete. Upload/storage and feature-screen implementation remain deferred.
+remain explicit gaps; no synthetic content or URLs are returned. C4 backend stabilization and D shared UI shell are complete. Course screen is implemented in E; upload/storage and subsequent feature screens remain deferred.
 
 ## Shared UI shell (D)
 
 Frontend setup, build/test commands and optional responsive browser smoke are in
 [src/Lms.Web/README.md](src/Lms.Web/README.md). The shell demo makes no API requests;
-all six future views are placeholders. [D results](codex/D-RESULTS.md) record the
+Course now reads the real CourseWorkspace API; other views remain placeholders. [D results](codex/D-RESULTS.md) record the
 49 frontend tests, 187 backend regressions and desktop/tablet/mobile verification.
+
+
+## Course screen (E)
+
+`/courses/:courseId` supports Student and Teacher through the C4 CourseWorkspace contract.
+Server-derived progress, available/locked lessons and real optional context compose D's
+shared UI. [E results](codex/E-RESULTS.md) describe 83 frontend / 187 backend passing tests,
+responsive/browser/live-API checks, and contract/deployment gaps. No OIDC provider settings
+exist yet: connect the trusted host bearer adapter and same-origin API proxy as documented
+in [frontend setup](src/Lms.Web/README.md). F and later checkpoints remain deferred.

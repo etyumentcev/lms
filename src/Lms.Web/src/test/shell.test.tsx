@@ -55,7 +55,7 @@ describe('Shared shell', () => {
 
 describe('Routes inside shell', () => {
   it.each([
-    ['/courses/algebra', 'Курс'],
+    ['/courses', 'Мои курсы'],
     ['/courses/algebra/lessons/fractions', 'Урок'],
     ['/problem-assignments/assignment-1', 'Задача · Решение'],
     ['/problem-assignments/assignment-1?tab=history', 'Задача · История'],
@@ -71,8 +71,8 @@ describe('Routes inside shell', () => {
   });
   it('navigates from the demo and focuses main content', async () => {
     renderApp();
-    await userEvent.click(screen.getByRole('link', { name: /Курс.*Уроки и материалы/ }));
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Курс');
+    await userEvent.click(screen.getByRole('link', { name: /Урок.*Задачи и контекст урока/ }));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Урок');
     expect(screen.getByRole('main')).toHaveFocus();
     expect(screen.getByRole('link', { name: 'Мои курсы' })).toHaveAttribute('aria-current', 'page');
   });

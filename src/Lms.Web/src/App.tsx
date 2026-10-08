@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, matchPath } from 'react-router-dom';
 import { AppShell, ContextSection } from './layout/AppShell';
 import type { NavigationRole } from './layout/SidebarNavigation';
 import { AsyncButton, Breadcrumbs, EmptyState, ErrorState, InlineError, LoadingSkeleton, PageHeader, ProgressBar, Section } from './components/primitives';
 import { AvailabilityBadge, StatusBadge, statusPresentation } from './components/StatusBadge';
 import type { ProblemWorkStatus } from './components/StatusBadge';
 import { Tabs } from './components/Tabs';
+import { CoursePage } from './features/course/CoursePage';
+import { browserApiClient } from './api/browserClient';
+import type { ApiClient } from './api/client';
 
 const demos = [
   { title: 'Курс', subtitle: 'Уроки и материалы', to: '/courses/demo-course' },
@@ -60,7 +63,22 @@ function Placeholder({ title }: { title: string }) {
   </>;
 }
 
-export function App() {
+export function App({ client = browserApiClient }: { client?: ApiClient }) {
+  const location = useLocation();
+  const previous = useRef(location);
+  const match = matchPath('/courses/:courseId', location.pathname);
+  useEffect(() => {
+    if (previous.current !== location) document.getElementById('main-content')?.focus();
+    previous.current = location;
+  }, [location]);
+  let courseId = match?.params.courseId;
+  if (courseId) { try { courseId = decodeURIComponent(courseId); } catch { /* Keep malformed encoding as an opaque ID; server rejects it. */ } }
+  return courseId
+    ? <CoursePage key={courseId} courseId={courseId} client={client} />
+    : <DemoApp />;
+}
+
+function DemoApp() {
   const location = useLocation();
   const [previewRole, setPreviewRole] = useState<NavigationRole>('Student');
   const role = location.pathname.startsWith('/teacher/') ? 'Teacher' : previewRole;
@@ -88,7 +106,6 @@ export function App() {
       : [{ label: 'Главная', to: '/' }, { label: 'Предварительный просмотр' }]} />
     <div className="workspace-content"><Routes>
       <Route path="/" element={<ShellDemo />} />
-      <Route path="/courses/:courseId" element={<Placeholder title="Курс" />} />
       <Route path="/courses/:courseId/lessons/:lessonId" element={<Placeholder title="Урок" />} />
       <Route path="/problem-assignments/:assignmentId" element={<Placeholder title={history ? 'Задача · История' : 'Задача · Решение'} />} />
       <Route path="/teacher/reviews" element={<Placeholder title="Проверка" />} />
