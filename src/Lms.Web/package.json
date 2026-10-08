@@ -15,9 +15,13 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "katex": "0.16.47",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-router-dom": "6.30.3"
+    "react-markdown": "10.1.0",
+    "react-router-dom": "6.30.3",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.9.1",

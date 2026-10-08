@@ -42,11 +42,11 @@ describe('Lesson C4 workspace', () => {
     mount(fixture(), fetch); await loaded(); await userEvent.click(screen.getByRole('link', { name: course.course.title }));
     await screen.findByRole('heading', { level: 1, name: course.course.title }); expect(screen.getByRole('main')).toHaveFocus();
   });
-  it('navigates by assignment with null work using keyboard and focuses placeholder', async () => {
+  it('navigates by assignment with null work using keyboard and focuses workspace', async () => {
     mount(); await loaded(); const link = screen.getByRole('link', { name: 'Открыть задачу: Задача 1' });
     expect(link).toHaveAttribute('href', `/problem-assignments/${fixtureJson.problems[0]!.problemAssignmentId}`);
-    link.focus(); await userEvent.keyboard('{Enter}'); expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Задача · Решение');
-    expect(screen.getByRole('main')).toHaveFocus(); expect(screen.getByText('Раздел готовится')).toBeInTheDocument();
+    link.focus(); await userEvent.keyboard('{Enter}'); expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Задача');
+    expect(screen.getByRole('main')).toHaveFocus(); expect(screen.getByRole('complementary')).toBeInTheDocument();
   });
   it.each(['Не начата', 'На проверке', 'Нужна доработка', 'Принята'])('renders canonical status %s as text', async label => {
     mount(); await loaded(); expect(screen.getByText(label)).toBeInTheDocument();

@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage завершён 2026-10-08; G03 CLOSED. G не начат.** Фактические результаты — §12–20, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H/I/J не начаты.** Фактические результаты — §12–21, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -855,3 +855,39 @@ cannot authorize new submissions. Historical ID arrays and C1 migration are unch
 
 Evidence and all 26 requested report items are in `codex/U1-RESULTS.md`. The dev harness has no
 Submit action and no server/browser draft persistence. **Stop after U1. Do not start G.**
+
+
+## 21. G — Student Problem / Solution (complete, 2026-10-08)
+
+Base f35096d, branch codex/g-student-solution. Baseline verified before implementation:
+143 frontend + 225 backend tests; both builds 0 warnings/errors; Compose healthy.
+Read Domain > Feature > Frontend/C4/U1 > Flow; inspected composition reference.
+GET identity is ProblemAssignmentId, supports absent work. Reuse D/E/F client,
+validators, shell/tabs and U1 upload/content/delete lifecycle. No backend defect found.
+Submission accepts body OR photos; optional body belongs to Submission (G07).
+In-memory form survives tabs, not navigation; no draft persistence/cleanup changes.
+Command has synchronous duplicate guard, no retry, supplied version and mandatory
+workspace refresh. Ambiguous command outcomes lock sending until explicit GET refresh.
+History remains H boundary. Latest feedback comes only from work projection.
+C4 hints/materials currently empty; render only supplied student-safe entries.
+A shared safe Markdown/math renderer and protected original preview complete content
+presentation; no teacher controls, history timeline or new uploader/client.
+
+G verified exit checklist:
+- [x] Assignment workspace, null work, immutable statement always above keyboard/URL tabs.
+- [x] Real U1 photo-first upload/preview/order/delete/retry and optional body; no alternate lifecycle.
+- [x] Real Submit, supplied version, synchronous double guard, no automatic retry, authoritative refresh.
+- [x] NotStarted/Submitted/NeedsRevision/Accepted, permissions, projected feedback and current submission.
+- [x] Hints/materials only from contract; History remains placeholder; one responsive ContextPanel.
+- [x] 196 frontend tests (143 existing + 53 G), 225 unchanged backend tests, zero failures/skips.
+- [x] Frontend/full solution builds zero warnings/errors; git diff --check.
+- [x] Real Compose Student Course→Lesson→Problem→two A4 uploads→Submit→reload→Lesson updated.
+- [x] Real review API fixtures verify revision/new attempt/Accepted; no teacher UI or invalid DB rows.
+- [x] 320/375/768/1024/1440 no page overflow, long statement/math, keyboard and context preservation.
+- [x] Isolated Compose restart/down-up persistence and down-v clean DB/uploads reset.
+- [x] D/E/F browser regressions; README and 33-part G report with evidence/limitations.
+
+No backend contract defect or backend production changes. Unsourced hints/materials and immutable
+Markdown image assets remain existing enrichment gaps; no invented data. Local draft survives tabs
+but is not persisted across navigation/refresh; pending uploads remain for U1 future cleanup.
+See `codex/G-RESULTS.md`. **Stop after G; H/I/J not started.**

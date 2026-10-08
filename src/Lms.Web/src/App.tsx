@@ -6,6 +6,7 @@ import { AsyncButton, Breadcrumbs, EmptyState, ErrorState, InlineError, LoadingS
 import { AvailabilityBadge, StatusBadge, statusPresentation } from './components/StatusBadge';
 import type { ProblemWorkStatus } from './components/StatusBadge';
 import { Tabs } from './components/Tabs';
+import { ProblemPage } from './features/problem-workspace/ProblemPage';
 import { LessonPage } from './features/lesson/LessonPage';
 import { CoursePage } from './features/course/CoursePage';
 import { browserApiClient } from './api/browserClient';
@@ -71,12 +72,15 @@ export function App({ client = browserApiClient }: { client?: ApiClient }) {
   const previous = useRef(location);
   const match = matchPath('/courses/:courseId', location.pathname);
   useEffect(() => {
-    if (previous.current !== location) document.getElementById('main-content')?.focus();
+    if (previous.current.pathname !== location.pathname) document.getElementById('main-content')?.focus();
     previous.current = location;
   }, [location]);
   function routeId(value: string) {
     try { return decodeURIComponent(value); } catch { return value; }
   }
+  const problemMatch = matchPath('/problem-assignments/:assignmentId', location.pathname);
+  if (problemMatch?.params.assignmentId) return <ProblemPage key={problemMatch.params.assignmentId}
+    assignmentId={routeId(problemMatch.params.assignmentId)} client={client} />;
   const courseId = match?.params.courseId ? routeId(match.params.courseId) : undefined;
   const lessonMatch = matchPath('/courses/:courseId/lessons/:lessonId', location.pathname);
   if (lessonMatch?.params.courseId && lessonMatch.params.lessonId) return <LessonPage
@@ -100,7 +104,6 @@ function DemoApp() {
     if (previousLocation.current !== location) document.getElementById('main-content')?.focus();
     previousLocation.current = location;
   }, [location]);
-  const history = new URLSearchParams(location.search).get('tab') === 'history';
   return <AppShell role={role} context={<>
     <ContextSection title="О пространстве"><p>Учебные материалы и работа над задачами собраны в отдельных разделах.</p>
       <p className="muted">Сейчас доступен предварительный просмотр интерфейса.</p></ContextSection>
@@ -116,7 +119,6 @@ function DemoApp() {
       : [{ label: 'Главная', to: '/' }, { label: 'Предварительный просмотр' }]} />
     <div className="workspace-content"><Routes>
       <Route path="/" element={<ShellDemo />} />
-      <Route path="/problem-assignments/:assignmentId" element={<Placeholder title={history ? 'Задача · История' : 'Задача · Решение'} />} />
       <Route path="/teacher/reviews" element={<Placeholder title="Проверка" />} />
       <Route path="/teacher/reviews/:problemWorkId" element={<Placeholder title="Проверка решения" />} />
       {[

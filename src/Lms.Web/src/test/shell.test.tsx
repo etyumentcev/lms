@@ -56,8 +56,6 @@ describe('Shared shell', () => {
 describe('Routes inside shell', () => {
   it.each([
     ['/courses', 'Мои курсы'],
-    ['/problem-assignments/assignment-1', 'Задача · Решение'],
-    ['/problem-assignments/assignment-1?tab=history', 'Задача · История'],
     ['/teacher/reviews', 'Проверка'],
     ['/teacher/reviews/work-1', 'Проверка решения'],
   ])('%s is only a placeholder', (path, title) => {
@@ -67,6 +65,11 @@ describe('Routes inside shell', () => {
     expect(screen.getByRole('complementary')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Отправить|Принять решение/ })).not.toBeInTheDocument();
     expect(document.title).toBe(`${title} · Sapientum`);
+  });
+  it.each(['', '?tab=history'])('Problem route keeps shell while loading %s', search => {
+    renderApp(`/problem-assignments/assignment-1${search}`);
+    expect(screen.getByRole('status', { name: 'Загрузка условия задачи' })).toBeInTheDocument();
+    expect(screen.getByRole('complementary')).toBeInTheDocument();
   });
   it('Lesson route keeps shell while loading the real query', () => {
     renderApp('/courses/algebra/lessons/fractions');

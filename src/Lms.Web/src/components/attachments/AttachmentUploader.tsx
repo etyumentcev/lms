@@ -3,6 +3,7 @@ import { Button } from '../primitives';
 import { ApiError } from '../../api/client';
 import type { AttachmentApi, UploadedAttachment } from './api';
 import './attachments.css';
+import { AttachmentImage } from './AttachmentPreview';
 
 type Page = { key: string; file: File; state: 'uploading' | 'uploaded' | 'failed'; progress: number;
   attachment?: UploadedAttachment; preview?: string; error?: string; busy?: boolean };
@@ -18,7 +19,7 @@ function errorText(error: unknown) {
   return 'Не удалось выполнить запрос. Попробуйте ещё раз.';
 }
 
-/** Pending resources only. The future solution screen owns Submit and local draft persistence. */
+/** Pending resources only. The solution screen owns Submit and in-memory draft state. */
 export function AttachmentUploader({ api, onChange }: { api: AttachmentApi;
   onChange?: (attachments: UploadedAttachment[], ready: boolean) => void }) {
   const inputId = useId();
@@ -77,17 +78,17 @@ export function AttachmentUploader({ api, onChange }: { api: AttachmentApi;
     try { await preview(page.key, page.attachment!, controller); } finally { controllers.current.delete(controller); }
   }
   return <section className="attachment-uploader" aria-label="Фотографии решения">
-    <label htmlFor={inputId}>Добавить фото решения</label>
     <p id={`${inputId}-help`}>Выберите фотографии из галереи или сделайте снимок. JPEG или PNG, одна фотография на страницу.</p>
-    <input id={inputId} type="file" accept="image/jpeg,image/png" multiple aria-describedby={`${inputId}-help`}
-      onChange={event => { add(event.target.files); event.target.value = ''; }} />
+    <div className="attachment-picker"><label className="button button--secondary" htmlFor={inputId}>Добавить фото решения</label>
+    <input className="attachment-file-input" id={inputId} type="file" accept="image/jpeg,image/png" multiple aria-describedby={`${inputId}-help`}
+      onChange={event => { add(event.target.files); event.target.value = ''; }} /></div>
     {pages.length === 0 && <p>Фотографии пока не добавлены.</p>}
-    <ol className="attachment-pages">{pages.map((page, index) => <li key={page.key}>
+    <ol className="attachment-pages">{pages.map((page, index) => <li key={page.key} aria-describedby={page.error ? `${inputId}-${page.key}-error` : undefined}>
       <h3>Страница {index + 1}</h3><p className="attachment-filename">{page.file.name}</p>
-      {page.preview && <img src={page.preview} alt={`Страница ${index + 1} — фото решения`} />}
+      {page.preview && <AttachmentImage url={page.preview} page={index + 1} />}
       <div role="status">{page.state === 'uploading' ? `Загрузка: ${page.progress}%` : page.state === 'uploaded' ? 'Фото загружено' : 'Ошибка загрузки'}</div>
       {page.state === 'uploading' && <progress value={page.progress} max={100} aria-label={`Загрузка страницы ${index + 1}`} />}
-      {page.error && <p role="alert">{page.error}</p>}
+      {page.error && <p id={`${inputId}-${page.key}-error`} role="alert">{page.error}</p>}
       <div className="attachment-actions">
         {page.state === 'failed' && <Button variant="secondary" onClick={() => void upload(page)}>Повторить загрузку страницы {index + 1}</Button>}
         {page.attachment && !page.preview && page.error && <Button variant="secondary" onClick={() => void retryPreview(page)}>Повторить предпросмотр страницы {index + 1}</Button>}

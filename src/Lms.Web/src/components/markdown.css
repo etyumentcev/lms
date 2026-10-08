@@ -1,0 +1,6 @@
+.markdown-content { overflow-wrap: anywhere; line-height: 1.65; min-width: 0; }
+.markdown-content > :first-child { margin-top: 0; }
+.markdown-content > :last-child { margin-bottom: 0; }
+.markdown-content pre, .markdown-content .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.markdown-content pre { white-space: pre-wrap; }
+.markdown-content blockquote { margin-inline: 0; padding-left: 1rem; border-left: 3px solid var(--border); }

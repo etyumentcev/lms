@@ -1,7 +1,7 @@
-# Lms.Web — checkpoints D/E
+# Lms.Web — checkpoints D/E/F/U1/G
 
-Shared UI foundation plus the Course screen. `/courses/:courseId` reads the real
-CourseWorkspace endpoint; Lesson/assignment/review routes remain placeholders. `/` is an explicitly labelled shell demo;
+Shared UI foundation plus Course, Lesson and Student Problem / Solution screens.
+Course/Lesson/assignment routes read real workspace APIs; teacher routes remain placeholders. `/` is an explicitly labelled shell demo;
 its six links are navigation examples, not course data. Role selection changes
 menu presentation only; it does not authenticate or grant access.
 
@@ -237,3 +237,34 @@ using Compose. The script uses the real API/storage and a generated tiny test im
 checks login, two uploads, protected previews, keyboard reorder, delete, foreign access,
 no work creation and 320/375/768/1024/1440 layouts. It requires the clean local demo
 (no submitted work); outputs default to `/tmp/lms-u1-browser`. No user photos are used.
+
+
+## Student Problem / Solution (G)
+
+`features/problem-workspace` owns the assignment query, page, current submission and
+Submit form. It reuses the shared ApiClient, D shell/tabs, F nested DTO validators and
+U1 attachment API/uploader. `?tab=solution|hints|history` preserves form state and supports
+Back/Forward. Statement is always visible; History is only an H placeholder.
+
+A shared react-markdown / remark-math / rehype-katex renderer displays text and formulas,
+without raw HTML or trusted TeX commands. Content images require a future immutable asset
+resolver and currently render alt text. Protected solution photos use U1 Blob content
+with revocable object URLs and native full-size browser viewing.
+
+`pnpm test`: 196 cases (143 baseline + 53 G). Both build and tests are required.
+The G browser script requires a clean local demo and an existing Playwright/Chrome:
+
+```sh
+LMS_PLAYWRIGHT_MODULE=/absolute/path/to/playwright \
+LMS_SMOKE_URL=http://127.0.0.1:8080 node src/Lms.Web/scripts/problem-smoke.mjs
+```
+
+Run from repository root. It uploads generated A4 test images and submits/reviews the
+first demo assignment through real commands. Use a separate Compose project for repeatable
+smoke. `LMS_G_LIFECYCLE=1` additionally tests restart/down/up and **destructive down -v**;
+it refuses that reset unless Compose config.name is exactly `lms-g-smoke`.
+Set COMPOSE_FILE to a dedicated config derived from the root Compose with that project
+name and an unused loopback port (verified at 8081). Keep its database/uploads separate.
+Default browser evidence directory is `/tmp/lms-g-browser`; no tokens are written there.
+
+See [G report](../../codex/G-RESULTS.md) for coverage and accepted scope limits.
