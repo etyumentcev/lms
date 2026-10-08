@@ -244,14 +244,14 @@ no work creation and 320/375/768/1024/1440 layouts. It requires the clean local 
 `features/problem-workspace` owns the assignment query, page, current submission and
 Submit form. It reuses the shared ApiClient, D shell/tabs, F nested DTO validators and
 U1 attachment API/uploader. `?tab=solution|hints|history` preserves form state and supports
-Back/Forward. Statement is always visible; History is only an H placeholder.
+Back/Forward. Statement is always visible; H implements read-only History on the same route.
 
 A shared react-markdown / remark-math / rehype-katex renderer displays text and formulas,
 without raw HTML or trusted TeX commands. Content images require a future immutable asset
 resolver and currently render alt text. Protected solution photos use U1 Blob content
 with revocable object URLs and native full-size browser viewing.
 
-`pnpm test`: 196 cases (143 baseline + 53 G). Both build and tests are required.
+`pnpm test`: 233 cases (196 baseline including G + 37 H). Both build and tests are required.
 The G browser script requires a clean local demo and an existing Playwright/Chrome:
 
 ```sh
@@ -268,3 +268,20 @@ name and an unused loopback port (verified at 8081). Keep its database/uploads s
 Default browser evidence directory is `/tmp/lms-g-browser`; no tokens are written there.
 
 See [G report](../../codex/G-RESULTS.md) for coverage and accepted scope limits.
+
+
+## H: Student History
+
+History reads the complete C4 workspace snapshot. Opening the tab refetches workspace
+without hiding the statement. Attempts retain server newest-first order; reviews and
+feedback join by IDs, and independent messages remain timeline siblings. Protected
+original attachments preserve each attempt's ordered IDs. No history mutation controls.
+Exact assignment content is used; latest content is never requested.
+
+Run `scripts/history-smoke.mjs` against a **clean dedicated** Compose project named
+`lms-h-smoke` with its own volumes and web port 8082. Set `COMPOSE_FILE` to that config,
+`LMS_PLAYWRIGHT_MODULE` to Playwright, and optionally `LMS_SMOKE_URL`/`LMS_SMOKE_OUTPUT`.
+The script prepares reviews/messages through authorized APIs, checks both attempts and
+original hashes, responsive geometry, keyboard navigation and API restart persistence.
+It refuses another Compose project name. It does not reset volumes itself.
+See `../../codex/H-RESULTS.md` for evidence, ordering decisions and contract limitations.

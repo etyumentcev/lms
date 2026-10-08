@@ -54,8 +54,8 @@ try {
   await page.getByRole('tab', { name:'Решение' }).focus(); await page.keyboard.press('ArrowRight');
   assert.equal(await page.getByRole('tab', { name:'Подсказки' }).evaluate(node => document.activeElement === node),true);
   assert(await page.getByRole('region',{ name:'Условие задачи' }).isVisible()); await page.keyboard.press('End');
-  await page.getByText('История будет доступна здесь').waitFor(); assert(await page.getByRole('region',{ name:'Условие задачи' }).isVisible());
-  await page.goBack(); await page.getByText('Подсказок пока нет').waitFor(); await page.goForward(); await page.getByText('История будет доступна здесь').waitFor();
+  await page.getByText('Вы ещё не отправляли решение').waitFor(); assert(await page.getByRole('region',{ name:'Условие задачи' }).isVisible());
+  await page.goBack(); await page.getByText('Подсказок пока нет').waitFor(); await page.goForward(); await page.getByText('Вы ещё не отправляли решение').waitFor();
   await page.getByRole('tab', { name:'Решение' }).click(); assert.equal(await page.getByRole('textbox').inputValue(),'Рассмотрел все остатки.');
   for (const width of [320,375,768,1024,1440]) {
     await page.setViewportSize({width,height:1000});

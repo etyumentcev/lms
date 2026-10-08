@@ -385,8 +385,7 @@ Open a problem from Course → Lesson, or `/problem-assignments/{assignmentId}`.
 The immutable statement stays above Solution / Hints / History tabs. Upload one or
 more photos with the U1 picker, preview/reorder pages, optionally explain the solution,
 and submit. Text-only solutions are also supported. Submission refreshes the authoritative
-workspace; NeedsRevision enables a new attempt, Accepted is read-only. History remains
-a placeholder for H; no teacher review UI is added.
+workspace; NeedsRevision enables a new attempt, Accepted is read-only. History is implemented by H on the same route; no teacher review UI is added.
 
 Draft text/pages survive tab changes in memory, not navigation/reload. Failed validation
 preserves the form. Concurrency or uncertain network outcomes require an explicit state
@@ -396,3 +395,14 @@ content adapter; photos are never public.
 
 See [G results](codex/G-RESULTS.md) for the complete 33-part report: 196 frontend tests,
 225 backend tests, both builds, live Docker workflow and isolated persistence/reset checks.
+
+
+### H — Student History
+
+Read-only `?tab=history` now shows immutable attempts, linked reviews/feedback and
+independent work messages from the existing workspace read model. Each attempt keeps
+its own ordered protected originals. Reopening History refetches server state while
+retaining the problem statement; ContextPanel contains only summary/navigation.
+
+See [H results](codex/H-RESULTS.md): 233 frontend tests, 225 backend regressions, builds,
+Docker and browser Submit → Revision → Submit → Accept smoke. I/J remain deferred.

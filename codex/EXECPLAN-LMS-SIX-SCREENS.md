@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H/I/J не начаты.** Фактические результаты — §12–21, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History завершён 2026-10-08; I/J не начаты.** Фактические результаты — §12–22, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -891,3 +891,47 @@ No backend contract defect or backend production changes. Unsourced hints/materi
 Markdown image assets remain existing enrichment gaps; no invented data. Local draft survives tabs
 but is not persisted across navigation/refresh; pending uploads remain for U1 future cleanup.
 See `codex/G-RESULTS.md`. **Stop after G; H/I/J not started.**
+
+
+## 22. H — Student History (complete, 2026-10-08)
+
+Base `6157592`, branch `codex/h-student-history`, canonical `/home/tea/github/lms`;
+no additional worktree or parallel agents. Baseline: 196 frontend, 225 backend tests,
+both builds zero warnings/errors. Domain/Feature, C3/C4 wire amendments, U1/G results,
+Frontend History and UI Flow §9 plus composition mockup informed implementation.
+
+Pre-implementation decisions: workspace already contains complete history, so use the
+existing assignment GET without duplicating work-details GET. Preserve server newest
+attempt order; join Review.SubmissionId/MessageId, never attach work discussion by time.
+General messages are independent entries, newest first from reversed server CreatedAt/ID
+order; timestamp merge positions them among attempt blocks. Equal cross-kind timestamps
+put messages first; server order resolves same-kind ties. Backend has no common event
+sequence, so this is deterministic presentation, not a reconstructed domain audit log.
+Historical content is assignment-level exact immutable problem/courseVersionId; no
+per-attempt revision field exists. Do not fetch latest publication or invent snapshots.
+
+History refresh uses the existing workspace state, retains statement/tabs during GET,
+hides stale timeline during loading/error and updates server context atomically on success.
+Initial deep link needs one GET; reopening History refetches. Solution has no extra history
+request or old-photo rendering, though C3 workspace payload itself always includes history.
+No endpoint/backend production defect found; no backend/dependency/state-machine changes.
+
+H verified exit checklist:
+- [x] Real read-only History on existing query-tab route, condition remains above tabs.
+- [x] Null work / empty history; no work creation or null work GET.
+- [x] Pure immutable attempt grouping, correct review/feedback and separate messages.
+- [x] Protected original pages retain attempt identity/order; no edit/delete; error/retry.
+- [x] Available historical content reference used, no latest revision fallback.
+- [x] Context status/count/latest/materials/return link, no duplicated timeline, mobile after main.
+- [x] Loading/errors/GET retry/focus, cancellation/stale protection, Submit → History refresh.
+- [x] 233 frontend tests = 196 prior + 37 H; 225 backend regressions, zero failed/skipped.
+- [x] Frontend/full solution builds zero warnings/errors; default and isolated Compose healthy.
+- [x] Real browser Submit #1 → Revision → Message → Submit #2 → Accept; immutable hashes.
+- [x] Reload/API restart persistence, keyboard enlargement/tabs/Back/Forward, no page errors.
+- [x] Five widths 320/375/768/1024/1440, long feedback/body/12 attempts, no horizontal overflow.
+- [x] Documentation/result report updated; final commit and clean tree verified at delivery.
+
+Evidence and all 22 report items: `codex/H-RESULTS.md`; logs `/tmp/lms-h-*`, screenshots
+and browser result JSON `/tmp/lms-h-browser/`. G03 remains CLOSED. Existing enrichment,
+workspace full-payload and per-attempt content-reference limits are documented honestly.
+**Stop after H. I Teacher Queue and J Teacher Review not started.**
