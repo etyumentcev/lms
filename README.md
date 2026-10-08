@@ -377,3 +377,22 @@ clears the local database and all uploaded photos.** Run `docker compose up --bu
 after reset to migrate and seed a fresh local environment.
 
 See [U1 results](codex/U1-RESULTS.md) for schema, consistency assumptions, tests and scope.
+
+
+## Student Problem / Solution (G)
+
+Open a problem from Course → Lesson, or `/problem-assignments/{assignmentId}`.
+The immutable statement stays above Solution / Hints / History tabs. Upload one or
+more photos with the U1 picker, preview/reorder pages, optionally explain the solution,
+and submit. Text-only solutions are also supported. Submission refreshes the authoritative
+workspace; NeedsRevision enables a new attempt, Accepted is read-only. History remains
+a placeholder for H; no teacher review UI is added.
+
+Draft text/pages survive tab changes in memory, not navigation/reload. Failed validation
+preserves the form. Concurrency or uncertain network outcomes require an explicit state
+refresh before another submit; commands never retry automatically. Pending uploads are
+not deleted on navigation. Protected originals open through the existing authenticated
+content adapter; photos are never public.
+
+See [G results](codex/G-RESULTS.md) for the complete 33-part report: 196 frontend tests,
+225 backend tests, both builds, live Docker workflow and isolated persistence/reset checks.

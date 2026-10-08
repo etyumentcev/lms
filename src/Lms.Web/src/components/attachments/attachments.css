@@ -6,3 +6,8 @@
 .attachment-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 .attachment-actions button { min-height: 44px; }
 .attachment-filename { overflow-wrap: anywhere; }
+
+.attachment-picker { display: inline-block; position: relative; max-width: 100%; }
+.attachment-picker .button { min-height: 44px; }
+.attachment-file-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.attachment-picker:focus-within { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--radius-small); }

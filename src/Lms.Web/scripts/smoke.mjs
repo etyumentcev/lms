@@ -101,8 +101,8 @@ try {
     });
   });
   for (const pair of contrast) assert(pair.ratio >= 4.5, `Contrast: ${JSON.stringify(pair)}`);
-  const routes = ['/courses', '/problem-assignments/one',
-    '/problem-assignments/one?tab=history', '/teacher/reviews', '/teacher/reviews/one'];
+  // G assignment routes are verified with their real API in problem-smoke.mjs.
+  const routes = ['/courses', '/teacher/reviews', '/teacher/reviews/one'];
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of routes) {

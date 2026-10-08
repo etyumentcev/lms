@@ -31,6 +31,12 @@ try {
     await route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
   });
   await page.route('**/api/v1/courses/olympiad-7/workspace', route => route.fulfill({ json: course }));
+  const row = fixture.problems[0];
+  await page.route('**/api/v1/problem-assignments/*/workspace', route => route.fulfill({ json: {
+    assignment: { id: row.problemAssignmentId, isActive: true }, course: fixture.course, lesson: fixture.lesson,
+    problem: row.problem, availability: row.availability, work: row.work, permissions: row.permissions,
+    hints: [], usefulMaterials: [], history: { submissions: [], reviews: [], messages: [] },
+  } }));
   const path = `${base}/courses/olympiad-7/lessons/lesson-2`;
   for (const width of [320, 375, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 960 });
@@ -59,7 +65,7 @@ try {
   await page.setViewportSize({ width: 1024, height: 900 }); await page.getByRole('button', { name: 'Свернуть контекст' }).click();
   await page.setViewportSize({ width: 375, height: 900 }); assert(await page.getByRole('progressbar').isVisible());
   const link = page.getByRole('link', { name: 'Открыть задачу: Задача 1', exact: true });
-  await link.focus(); await page.keyboard.press('Enter'); await page.getByText('Раздел готовится').waitFor();
+  await link.focus(); await page.keyboard.press('Enter'); await page.getByRole('heading', { level: 1, name: 'Задача 1' }).waitFor();
   assert(page.url().endsWith(`/problem-assignments/${fixture.problems[0].problemAssignmentId}`));
   await page.waitForFunction(() => document.activeElement?.id === 'main-content');
   for (const code of [401,403,404,500]) {
@@ -87,10 +93,10 @@ try {
       const response = await page.evaluate(async () => (await fetch('/api/v1/courses/local-demo/lessons/divisibility/workspace', { headers: { Authorization: `Bearer ${await window.lmsAuth.getAccessToken()}` } })).json());
       assert.equal(response.problems.length, 4); assert(response.problems.every(p => p.work.problemWorkId === null));
       const problem = page.getByRole('link', { name: 'Открыть задачу: Делимость суммы', exact: true });
-      await problem.focus(); await page.keyboard.press('Enter'); await page.getByText('Раздел готовится').waitFor();
+      await problem.focus(); await page.keyboard.press('Enter'); await page.getByRole('heading', { level: 1, name: 'Делимость суммы' }).waitFor();
       assert(page.url().endsWith('/problem-assignments/40000000-0000-0000-0000-000000000001'));
       await page.waitForFunction(() => document.activeElement?.id === 'main-content');
-      await page.reload(); await page.getByText('Раздел готовится').waitFor();
+      await page.reload(); await page.getByRole('heading', { level: 1, name: 'Делимость суммы' }).waitFor();
     }
     const teacher = execFileSync('docker', ['compose','exec','-T','api','dotnet','Lms.Api.dll','--dev-token','Teacher'], { encoding: 'utf8' }).trim();
     await page.goto(`${base}/local-login.html`); await page.getByLabel('Вставьте token').fill(teacher); await page.getByRole('button').click();

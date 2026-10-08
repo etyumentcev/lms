@@ -1,0 +1,18 @@
+.problem-workspace { min-width: 0; }
+.problem-statement { max-width: 76ch; margin-bottom: 2rem; }
+.problem-workspace .tab-panel > * + * { margin-top: 2rem; }
+.solution-form { display: grid; gap: 1rem; min-width: 0; }
+.solution-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: .8rem; }
+.solution-form textarea { display: block; width: 100%; min-height: 8rem; resize: vertical; font: inherit; padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-small); }
+.solution-form > .button { justify-self: start; }
+.revision-feedback { border-left: 3px solid var(--status-warning-text); padding: .5rem 1rem; background: var(--status-warning-surface); }
+.revision-feedback h2 { margin-top: 0; }
+.problem-hints { padding-left: 1.5rem; }
+.problem-workspace .attachment-pages a { display: block; min-width: 0; }
+@media (max-width: 767px) { .solution-form > .button { width: 100%; } }
+
+.problem-workspace .attachment-uploader { margin: 0; padding: 0; max-width: none; }
+
+.problem-workspace .attachment-pages { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.problem-workspace .attachment-pages img { height: 22rem; max-height: none; }
+.problem-workspace .attachment-pages li { border-radius: var(--radius-small); }
