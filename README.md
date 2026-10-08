@@ -418,3 +418,14 @@ placeholder using ProblemWorkId; returning preserves filters and refreshes the q
 
 See [I results](codex/I-RESULTS.md): 276 frontend tests, 225 backend regressions,
 Docker/browser smoke, responsive checks and isolated persistence/reset. J is not implemented.
+
+### J1 — Teacher Review Workspace
+
+`/teacher/reviews/{problemWorkId}` now reads the existing authorized work details:
+immutable statement, current submission, ordered protected photos with paging/zoom,
+prior attempts and linked feedback. Teachers can request revision (nonblank feedback)
+or accept (optional feedback), using server capabilities and expectedVersion.
+Conflicts/uncertain failures require explicit refresh; commands never automatically retry.
+Returning to Queue preserves filters and refetches server data. Reference solutions,
+criteria and materials are hidden because the current teacher contract has no source.
+See [J1 results](codex/J1-RESULTS.md). Image annotations remain deferred to J2.

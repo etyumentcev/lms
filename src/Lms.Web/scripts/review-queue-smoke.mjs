@@ -51,9 +51,9 @@ try {
   await page.goto(`${base}/teacher/reviews?courseId=local-demo&pageSize=1`);await page.getByText('Найдено работ: 2 · Страница 1').waitFor();assert.equal(await page.locator('.queue-row').count(),1);assert.equal(await page.locator('.queue-total').innerText(),'2');await page.getByRole('button',{name:'Следующая'}).click();await page.getByText('Найдено работ: 2 · Страница 2').waitFor();assert(await page.getByText('Попытка №2').isVisible());assert.equal(await page.locator('.queue-total').innerText(),'2');
   await page.goBack();await page.getByText('Найдено работ: 2 · Страница 1').waitFor();await page.goForward();await page.getByText('Найдено работ: 2 · Страница 2').waitFor();
   const target=(await queue('?courseId=local-demo&page=2&pageSize=1')).items[0].problemWorkId;
-  const reviewLink=page.getByRole('link',{name:/Проверить:/});assert.equal(await reviewLink.getAttribute('href'),`/teacher/reviews/${target}`);await reviewLink.focus();await page.keyboard.press('Enter');await page.getByText('Раздел готовится').waitFor();assert(page.url().endsWith(`/teacher/reviews/${target}`));assert(await page.getByRole('main').evaluate(n=>document.activeElement===n));
-  await page.getByRole('link',{name:'Вернуться к очереди →'}).click();await page.getByText('Найдено работ: 2 · Страница 2').waitFor();assert.match(page.url(),/courseId=local-demo/);
-  results.push('Server course/group/attempt/search filters, combined search, reset, real pageSize=1 pagination and all-pages summary; URL Back/Forward; ProblemWorkId → placeholder J → preserved queue URL');
+  const reviewLink=page.getByRole('link',{name:/Проверить:/});assert.equal(await reviewLink.getAttribute('href'),`/teacher/reviews/${target}`);await reviewLink.focus();await page.keyboard.press('Enter');await page.getByRole('region',{name:'Отправленное решение'}).waitFor();assert(page.url().endsWith(`/teacher/reviews/${target}`));assert(await page.getByRole('main').evaluate(n=>document.activeElement===n));
+  await page.getByRole('link',{name:'К очереди проверок'}).click();await page.getByText('Найдено работ: 2 · Страница 2').waitFor();assert.match(page.url(),/courseId=local-demo/);
+  results.push('Server course/group/attempt/search filters, combined search, reset, real pageSize=1 pagination and all-pages summary; URL Back/Forward; ProblemWorkId → J1 workspace → preserved queue URL');
   await page.goto(`${base}/teacher/reviews`);await page.getByText('Найдено работ: 2 · Страница 1').waitFor();
   for(const width of [320,375,768,1024,1440]){
     await page.setViewportSize({width,height:1100});
@@ -69,8 +69,8 @@ try {
   const attachment=first.latestSubmission.attachmentIds[0];const original=async()=>{const r=await request(`/attachments/${attachment}/content`);assert.equal(r.status,200);return hash(Buffer.from(await r.arrayBuffer()));};
   assert.equal(await original(),hash(photo));compose('restart','api');compose('up','-d','--wait');await page.reload();await page.getByText('Найдено работ: 2 · Страница 1').waitFor();assert.equal((await queue()).total,2);assert.equal(await original(),hash(photo));
   // Existing backend command acts as a future J completion while the user is away.
-  await page.getByRole('link',{name:/Проверить:/}).first().click();await page.getByText('Раздел готовится').waitFor();await review(1,'accept');await page.getByRole('link',{name:'Вернуться к очереди →'}).click();await page.getByText('Найдено работ: 1 · Страница 1').waitFor();assert.equal(await page.getByRole('heading',{name:'Делимость суммы',exact:true}).count(),0);
-  results.push('API restart preserves queue and uploaded photo hash; return from placeholder fetches fresh queue after valid acceptance command');
+  await page.getByRole('link',{name:/Проверить:/}).first().click();await page.getByRole('region',{name:'Отправленное решение'}).waitFor();await review(1,'accept');await page.getByRole('link',{name:'К очереди проверок'}).click();await page.getByText('Найдено работ: 1 · Страница 1').waitFor();assert.equal(await page.getByRole('heading',{name:'Делимость суммы',exact:true}).count(),0);
+  results.push('API restart preserves queue and uploaded photo hash; return from review workspace fetches fresh queue after valid acceptance command');
   // Explicit C4-shaped HTTP fixture for long names; real source has nullable profile names.
   const enriched=await queue();enriched.items[0].studentDisplayName='ОченьДлинноеИмя'.repeat(15);enriched.items[0].problemTitle='ОченьДлинноеНазваниеЗадачи'.repeat(20);
   await page.route('**/api/v1/teacher/review-queue?*',r=>r.fulfill({json:enriched}));await page.reload();await page.getByText('Найдено работ: 1 · Страница 1').waitFor();

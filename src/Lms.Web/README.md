@@ -312,3 +312,17 @@ checks Student/anonymous denial, filters/search/pagination, responsive and API r
 Output defaults to `/tmp/lms-i-browser`. Controlled long-name HTTP fixture is labelled
 separately from persisted real data. Never reset a user's database to run this smoke.
 See `../../codex/I-RESULTS.md` for contract gaps, full evidence and scope.
+
+## J1 Teacher Review
+
+Real `/teacher/reviews/:problemWorkId` workspace uses C4 GET/review commands and U1
+protected originals. Paging, 100–300% zoom, prior attempts, mandatory revision feedback,
+optional accept feedback and explicit conflict refresh are implemented. Draft survives
+page/attempt switches and refresh in memory, but not navigation or reload.
+
+`teacher-review-smoke.mjs` uses an existing Playwright installation (`LMS_PLAYWRIGHT_MODULE`)
+and requires a **clean disposable** Compose project named `lms-j1-smoke` at port 8084
+(or `LMS_SMOKE_URL`). Set `COMPOSE_FILE` to its configuration. It creates real submissions,
+reviews and photos, checks responsive/persistence, and deliberately performs `down -v`
+**only on that project** at the end. Never point this workflow at user data.
+Output defaults to `/tmp/lms-j1-browser`; override `LMS_SMOKE_OUTPUT` if needed.

@@ -9,6 +9,7 @@ import { Tabs } from './components/Tabs';
 import { ProblemPage } from './features/problem-workspace/ProblemPage';
 import { LessonPage } from './features/lesson/LessonPage';
 import { normalizeQueueQuery } from './features/review-queue/query';
+import { TeacherReviewPage } from './features/teacher-review/TeacherReviewPage';
 import { ReviewQueuePage } from './features/review-queue/ReviewQueuePage';
 import { CoursePage } from './features/course/CoursePage';
 import { browserApiClient } from './api/browserClient';
@@ -86,6 +87,9 @@ export function App({ client = browserApiClient }: { client?: ApiClient }) {
   if (problemMatch?.params.assignmentId) return <ProblemPage key={problemMatch.params.assignmentId}
     assignmentId={routeId(problemMatch.params.assignmentId)} client={client} />;
   if (location.pathname === '/teacher/reviews') return <ReviewQueuePage client={client} />;
+  const reviewMatch = matchPath('/teacher/reviews/:problemWorkId', location.pathname);
+  if (reviewMatch?.params.problemWorkId) return <TeacherReviewPage key={reviewMatch.params.problemWorkId}
+    problemWorkId={routeId(reviewMatch.params.problemWorkId)} client={client} />;
   const courseId = match?.params.courseId ? routeId(match.params.courseId) : undefined;
   const lessonMatch = matchPath('/courses/:courseId/lessons/:lessonId', location.pathname);
   if (lessonMatch?.params.courseId && lessonMatch.params.lessonId) return <LessonPage
@@ -124,7 +128,6 @@ function DemoApp() {
       : [{ label: 'Главная', to: '/' }, { label: 'Предварительный просмотр' }]} />
     <div className="workspace-content"><Routes>
       <Route path="/" element={<ShellDemo />} />
-      <Route path="/teacher/reviews/:problemWorkId" element={<Placeholder title="Проверка решения" />} />
       {[
         ['/courses', 'Мои курсы'], ['/schedule', 'Расписание'], ['/tasks', 'Текущие задачи'],
         ['/archive', 'Архив задач'], ['/progress', 'Прогресс'], ['/messages', 'Сообщения'],

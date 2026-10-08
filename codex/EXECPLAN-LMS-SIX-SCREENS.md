@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History и I Teacher Review Queue завершены 2026-10-08; J не начат.** Фактические результаты — §12–23, `codex/I-RESULTS.md`, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History, I Teacher Review Queue и J1 Teacher Review Workspace завершены 2026-10-08; J2 не начат.** Фактические результаты — §12–23, `codex/I-RESULTS.md`, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -974,3 +974,35 @@ I exit checklist:
 24-part report: `codex/I-RESULTS.md`. Evidence `/tmp/lms-i-*.log`, browser screenshots/
 results `/tmp/lms-i-browser/`, lifecycle `/tmp/lms-i-lifecycle.json`. G03 remains CLOSED.
 **Stop after I. Do not start J.**
+
+## 24. J1 Teacher Review — decisions before implementation (2026-10-08)
+
+Scope: J1 only, branch `codex/j1-teacher-review`, base `a388c6d`, canonical checkout.
+Source order: Domain → Feature → Frontend C3/C4 amendments → Flow → mockup.
+- Existing ProblemWorkDetailsDto provides exact immutable statement, currentSubmission,
+  ordered attachmentIds, history, permissions and version. No backend change needed.
+- Teacher details has no reference solutions, evaluation criteria or materials and no
+  trusted source for them. Nonblocking gap: omit sections; do not invent DTO fields/tests.
+- Earlier Frontend §29.7 puts actions in the right panel; explicit J1 composition places
+  feedback/actions in main. Follow J1; context holds identity and compact prior attempts.
+- Feature UC-A03/C4 permits Student to GET their own work. This is not a teacher-only
+  endpoint; review commands remain forbidden, and UI follows separate server capabilities.
+  No fabricated role field or stricter backend policy; foreign work and review denial tested.
+- Feedback joins Review.messageId; attempt joins Review.submissionId. No time-based guesses.
+- Existing native textarea styling/form conventions, common API client and U1 protected
+  AttachmentPreview will be reused. J1 adds paging/zoom without a canvas or annotations.
+- Commands use currentSubmission.id/version; immediate mutual exclusion, no automatic retry,
+  explicit refresh after conflict/uncertain outcome, authoritative GET after success.
+
+### J1 results and exit checklist
+
+- Real ProblemWork GET, immutable statement, protected paged/zoom viewer, compact history,
+  feedback and both commands implemented with existing capabilities/version.
+- Immediate double-submit lock, explicit conflict/uncertain refresh, authoritative success
+  GET and fresh queue return with original filters. Backend unchanged; gaps above retained.
+- Frontend 331/331 (276 baseline +55); backend 225/225; both builds 0 warnings/errors.
+- Docker/browser real Submit → Revision → Submit → Accept, responsive five widths,
+  concurrency/double-click/Student denial, immutable photos/history, restart/down-up and
+  dedicated clean reset PASS; shared shell smoke PASS.
+- Full report/evidence/limitations: `codex/J1-RESULTS.md`. Commit and clean tree checked
+  as final step. Only J1 delivered. J2 annotations not started.

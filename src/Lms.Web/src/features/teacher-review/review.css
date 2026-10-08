@@ -1,0 +1,32 @@
+.teacher-review { min-width: 0; overflow-wrap: anywhere; }
+.teacher-review > .loading-skeleton { margin-block: var(--space-5); }
+.review-queue-link { margin-bottom: var(--space-4); }
+.review-statement { background: var(--surface); padding-block: var(--space-3); border-bottom: 1px solid var(--border); margin-bottom: var(--space-5); }
+.review-statement h2 { font-size: var(--font-body); margin-bottom: var(--space-2); }
+.review-work-area { scroll-margin-top: 36vh; }
+.review-text .markdown-content { white-space: pre-wrap; }
+.review-submission, .review-viewer, .review-photo-scroll { min-width: 0; }
+.review-toolbar, .review-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-block: var(--space-3); }
+.review-toolbar > span { flex: 1; text-align: center; }
+.review-photo-scroll { overflow: auto; max-height: 75vh; border: 1px solid var(--border); background: var(--surface-subtle); }
+.review-photo { min-width: 100%; }
+.review-photo a { display: block; }
+.review-photo img { display: block; width: 100%; height: auto; object-fit: contain; }
+.review-form, .review-outcome { margin-top: var(--space-6); border-top: 1px solid var(--border); padding-top: var(--space-5); }
+.review-history details + details { border-top: 1px solid var(--border); margin-top: var(--space-3); }
+.review-history summary { cursor: pointer; padding-block: var(--space-3); }
+.review-history .button { margin-top: var(--space-3); max-width: 100%; }
+.review-archive-note { padding: var(--space-4); background: var(--status-info-surface); margin-bottom: var(--space-4); }
+@media (min-width: 1200px) {
+  .review-statement { position: sticky; top: 0; z-index: 2; max-height: 35vh; overflow: auto; }
+}
+@media (max-width: 767px) {
+  .review-actions { display: grid; }
+  .review-actions .button { width: 100%; }
+  .review-toolbar { gap: var(--space-2); }
+  .review-toolbar .button { padding-inline: var(--space-2); }
+}
+@media (max-width: 767px) {
+  .review-toolbar > span { flex-basis: 100%; order: -1; white-space: nowrap; }
+  .review-toolbar[aria-label='Страницы решения'] { justify-content: space-between; }
+}

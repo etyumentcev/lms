@@ -103,7 +103,8 @@ try {
   for (const pair of contrast) assert(pair.ratio >= 4.5, `Contrast: ${JSON.stringify(pair)}`);
   // G assignment routes are verified with their real API in problem-smoke.mjs.
   // I queue is verified against its real endpoint in review-queue-smoke.mjs.
-  const routes = ['/courses', '/teacher/reviews/one'];
+  // J1 work route is verified against real API in teacher-review-smoke.mjs.
+  const routes = ['/courses'];
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of routes) {
