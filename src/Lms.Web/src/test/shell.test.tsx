@@ -56,7 +56,6 @@ describe('Shared shell', () => {
 describe('Routes inside shell', () => {
   it.each([
     ['/courses', 'Мои курсы'],
-    ['/teacher/reviews', 'Проверка'],
     ['/teacher/reviews/work-1', 'Проверка решения'],
   ])('%s is only a placeholder', (path, title) => {
     renderApp(path);
@@ -69,6 +68,11 @@ describe('Routes inside shell', () => {
   it.each(['', '?tab=history'])('Problem route keeps shell while loading %s', search => {
     renderApp(`/problem-assignments/assignment-1${search}`);
     expect(screen.getByRole('status', { name: 'Загрузка условия задачи' })).toBeInTheDocument();
+    expect(screen.getByRole('complementary')).toBeInTheDocument();
+  });
+  it('Queue route keeps shell while loading the real query', () => {
+    renderApp('/teacher/reviews');
+    expect(screen.getByRole('status', { name: 'Загрузка работ' })).toBeInTheDocument();
     expect(screen.getByRole('complementary')).toBeInTheDocument();
   });
   it('Lesson route keeps shell while loading the real query', () => {

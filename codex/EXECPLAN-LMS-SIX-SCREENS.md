@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History завершён 2026-10-08; I/J не начаты.** Фактические результаты — §12–22, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History и I Teacher Review Queue завершены 2026-10-08; J не начат.** Фактические результаты — §12–23, `codex/I-RESULTS.md`, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -935,3 +935,42 @@ Evidence and all 22 report items: `codex/H-RESULTS.md`; logs `/tmp/lms-h-*`, scr
 and browser result JSON `/tmp/lms-h-browser/`. G03 remains CLOSED. Existing enrichment,
 workspace full-payload and per-attempt content-reference limits are documented honestly.
 **Stop after H. I Teacher Queue and J Teacher Review not started.**
+
+
+## 23. Checkpoint I — Teacher Review Queue (2026-10-08)
+
+База `200ab25`, новая запрошенная ветка `codex/i-teacher-queue`; canonical checkout,
+последовательно, без новых worktrees. Baseline: 233 frontend/225 backend tests,
+обе сборки zero warnings/errors, default Docker Compose healthy.
+
+Decisions: Domain §29 → Feature UC-A02/queue → C3/C4 amendments/ReadModels.cs/
+PostgresReviewQueue.cs → UI Flow §10 → mockup composition. Queue — server projection
+Submitted/latest submission. Стабильный порядок SubmittedAt/ProblemWorkId. Exact C4
+DTO; nullable names fallback на IDs без lookup. Нет filter catalog/grade/byGroup или
+global unfiltered total: не изобретать эти данные из paginated rows/filtered byCourse.
+
+Реализованы /teacher/reviews, cancellable bearer GET/runtime decoder, все documented
+filters и explicit-submit search, URL normalization/Back/Forward, server pagination,
+filtered all-pages summary/context, loading/error/retry/empty, responsive rows.
+J остаётся placeholder; CTA uses ProblemWorkId; return URL сохраняется в Router state,
+возврат/remount получает актуальную queue. Нет polling, mutable aggregate, local
+business-state mirror, dependencies или backend changes. Имена/группы — existing gap.
+
+I exit checklist:
+- [x] Real authorized Submitted queue; first/revision и excluded states live verified.
+- [x] Server course/group/student/attempt/search filters and page/pageSize/total.
+- [x] Summary independent of page size; available context only, no duplicated rows.
+- [x] Validated URL, Back/Forward, reset to page one, cancellation/stale guards.
+- [x] ProblemWorkId → unchanged J placeholder → preserved URL + authoritative refresh.
+- [x] 401/403/404/errors/retry/empty; live Student API/UI forbidden.
+- [x] 320/375/768/1024/1440, long labels, no overflow, keyboard and landmarks.
+- [x] 276 frontend = 233 baseline + 43 I; 225 backend, zero failed/skipped.
+- [x] Both builds zero warnings/errors, default/dedicated Compose startup healthy.
+- [x] Real Student photo → Teacher queue, filters/search/pagination/J browser smoke PASS.
+- [x] API restart/down-up history/photo persistence; dedicated clean reset PASS.
+- [x] Shared shell browser smoke and git diff --check PASS.
+- [x] Results/README updated, final commit and clean working tree verified at delivery.
+
+24-part report: `codex/I-RESULTS.md`. Evidence `/tmp/lms-i-*.log`, browser screenshots/
+results `/tmp/lms-i-browser/`, lifecycle `/tmp/lms-i-lifecycle.json`. G03 remains CLOSED.
+**Stop after I. Do not start J.**

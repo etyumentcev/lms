@@ -8,6 +8,8 @@ import type { ProblemWorkStatus } from './components/StatusBadge';
 import { Tabs } from './components/Tabs';
 import { ProblemPage } from './features/problem-workspace/ProblemPage';
 import { LessonPage } from './features/lesson/LessonPage';
+import { normalizeQueueQuery } from './features/review-queue/query';
+import { ReviewQueuePage } from './features/review-queue/ReviewQueuePage';
 import { CoursePage } from './features/course/CoursePage';
 import { browserApiClient } from './api/browserClient';
 import { AttachmentUploader } from './components/attachments/AttachmentUploader';
@@ -61,9 +63,11 @@ function PrimitiveDemo() {
 }
 
 function Placeholder({ title }: { title: string }) {
+  const location = useLocation();
+  const queueSearch = typeof location.state?.queueSearch === 'string' ? normalizeQueueQuery(new URLSearchParams(location.state.queueSearch)).toString() : '';
   return <><PageHeader title={title} meta={<span>Демонстрация интерфейса</span>} />
     <EmptyState title="Раздел готовится" description="Здесь появится содержимое выбранного раздела."
-      action={<Link className="text-link" to="/">Вернуться к обзору →</Link>} />
+      action={location.pathname.startsWith('/teacher/reviews/') ? <Link className="text-link" to={`/teacher/reviews${queueSearch ? `?${queueSearch}` : ''}`}>Вернуться к очереди →</Link> : <Link className="text-link" to="/">Вернуться к обзору →</Link>} />
   </>;
 }
 
@@ -81,6 +85,7 @@ export function App({ client = browserApiClient }: { client?: ApiClient }) {
   const problemMatch = matchPath('/problem-assignments/:assignmentId', location.pathname);
   if (problemMatch?.params.assignmentId) return <ProblemPage key={problemMatch.params.assignmentId}
     assignmentId={routeId(problemMatch.params.assignmentId)} client={client} />;
+  if (location.pathname === '/teacher/reviews') return <ReviewQueuePage client={client} />;
   const courseId = match?.params.courseId ? routeId(match.params.courseId) : undefined;
   const lessonMatch = matchPath('/courses/:courseId/lessons/:lessonId', location.pathname);
   if (lessonMatch?.params.courseId && lessonMatch.params.lessonId) return <LessonPage
@@ -119,7 +124,6 @@ function DemoApp() {
       : [{ label: 'Главная', to: '/' }, { label: 'Предварительный просмотр' }]} />
     <div className="workspace-content"><Routes>
       <Route path="/" element={<ShellDemo />} />
-      <Route path="/teacher/reviews" element={<Placeholder title="Проверка" />} />
       <Route path="/teacher/reviews/:problemWorkId" element={<Placeholder title="Проверка решения" />} />
       {[
         ['/courses', 'Мои курсы'], ['/schedule', 'Расписание'], ['/tasks', 'Текущие задачи'],

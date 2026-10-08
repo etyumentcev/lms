@@ -285,3 +285,30 @@ The script prepares reviews/messages through authorized APIs, checks both attemp
 original hashes, responsive geometry, keyboard navigation and API restart persistence.
 It refuses another Compose project name. It does not reset volumes itself.
 See `../../codex/H-RESULTS.md` for evidence, ordering decisions and contract limitations.
+
+
+## I — Teacher Review Queue
+
+`/teacher/reviews` uses the existing bearer ApiClient and exact C4 queue DTO. The backend
+owns eligibility, oldest-first order, filters, search, paging and all-pages summary.
+Native form controls keep an unapplied filter draft; **Применить** updates the one applied
+URL state. No request per keystroke. Course/group IDs and student UUID are supported;
+there is no trusted filter catalog or profile-name source. Attempt kind is all/first/revision.
+`pageSize` is 1–200; changing it resets the page. All requests are cancellable and stale
+responses cannot replace a newer query. The host's existing session-remount rule applies.
+
+AppShell/ContextPanel display server summary and available course breakdown. Rows preserve
+student/problem identity, semantic timestamp, server waiting duration and a Submitted badge
+(the endpoint's invariant; QueueItem has no status field). CTA uses ProblemWorkId, opens the
+unchanged J placeholder and carries the queue URL in Router state for the return link.
+Each queue mount fetches current data. No polling, global cache, J actions or backend changes.
+
+Tests: `src/test/reviewQueue.test.tsx` (43 cases); total 276. Real workflow smoke:
+`COMPOSE_FILE=/path/to/dedicated-compose.yml LMS_PLAYWRIGHT_MODULE=/path/to/playwright
+LMS_SMOKE_URL=http://127.0.0.1:8083 node scripts/review-queue-smoke.mjs` (single shell line).
+Use a clean dedicated **lms-i-smoke** project with its own database/uploads volumes; script
+asserts the project name and clean first assignment. It makes valid submit/review commands,
+checks Student/anonymous denial, filters/search/pagination, responsive and API restart.
+Output defaults to `/tmp/lms-i-browser`. Controlled long-name HTTP fixture is labelled
+separately from persisted real data. Never reset a user's database to run this smoke.
+See `../../codex/I-RESULTS.md` for contract gaps, full evidence and scope.

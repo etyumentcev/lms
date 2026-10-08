@@ -405,4 +405,16 @@ its own ordered protected originals. Reopening History refetches server state wh
 retaining the problem statement; ContextPanel contains only summary/navigation.
 
 See [H results](codex/H-RESULTS.md): 233 frontend tests, 225 backend regressions, builds,
-Docker and browser Submit → Revision → Submit → Accept smoke. I/J remain deferred.
+Docker and browser Submit → Revision → Submit → Accept smoke. J remains deferred.
+
+
+### I — Teacher Review Queue
+
+Teacher navigation opens `/teacher/reviews`, backed by the real authorized queue endpoint.
+Search and course/group/student-ID/attempt filters apply together with **Применить**;
+pagination and summary stay server-side. Applied filters/search/page live in the URL.
+Nullable profile names fall back to supplied IDs. **Проверить** opens the existing J
+placeholder using ProblemWorkId; returning preserves filters and refreshes the queue.
+
+See [I results](codex/I-RESULTS.md): 276 frontend tests, 225 backend regressions,
+Docker/browser smoke, responsive checks and isolated persistence/reset. J is not implemented.
