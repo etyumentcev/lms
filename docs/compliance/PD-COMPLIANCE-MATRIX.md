@@ -1,5 +1,7 @@
 # L0.1 — Compliance matrix и release gate
 
+> L0.2: актуальная квалификация сторон — [controller/processor model](PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое предположение об ООО как единственном операторе ниже уточняется по целям; см. amendment в конце.
+
 Все нормативные R берутся из [реестра с точными кандидатами пунктов и дат](PD-LEGAL-REQUIREMENTS.md): **LEGAL SOURCE NOT VERIFIED**. Норма/применимость и реализация — отдельные оси; ни одна строка не объявляет юридический PASS. Инвентарь I — [данные](PD-DATA-INVENTORY.md), B — [основания](PD-PROCESSING-BASES.md), C — [меры](PD-SECURITY-CONTROLS.md), F — [потоки](PD-DATA-FLOW-MAP.md), T — [угрозы](PD-THREAT-MODEL.md).
 
 | Норма | Applicability | Компонент/процесс | Способ исполнения (PROPOSAL) | Проверяемое evidence | Owner | Gate / этап | Статус |
@@ -40,3 +42,15 @@ K historical evidence: scoped authorization, file validation/parent access, immu
 5. Директор принимает scope и отдельный запуск. Успешный doc-check, подписанный ADR или разрешение L1 сами по себе не дают READY_FOR_PILOT.
 
 Любой обязательный gap → **NOT_READY**. Юридическое согласование без технических доказательств и зелёные тесты без организационных документов одинаково недостаточны. **Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.**
+
+## L0.2 — организационное уточнение
+
+| Control L0.2 | Evidence / owner | Gate / этап / статус |
+|---|---|---|
+| Роли по цели, поручение A→P, own purposes отдельно | Legal memo/подписанные документы; стороны/юрист | ORG-G03/05, PD-G02/12/14; NOT VERIFIED |
+| Membership/query/file isolation | Two-org DB/HTTP negative matrix; engineer/ИБ | ORG-G01/02/04/07; L1/L2; NOT VERIFIED |
+| Scope erasure/backup | A erased/B intact, mixed-subject manifest, restore drill; ПД/ops | ORG-G06, PD-G07–09; L2–L4; NOT VERIFIED |
+| Platform без blanket educational access | Grants/break-glass audit/expiry drill; ИБ/ops | ORG-G04; L1/L3/L4; NOT VERIFIED |
+| 273-ФЗ applicability | Реальные программы/статус/лицензия либо мотивированная неприменимость; юрист | ORG-G08; A до пилота/P до своих курсов; NOT VERIFIED |
+
+R01–R20 остаются открытыми до evidence по каждой применимой стороне/цели. [Модель](PD-CONTROLLER-PROCESSOR-MODEL.md) и [gates](../../codex/L02-DECISION-GATES.md) дополняют матрицу, не заменяют требования 152-ФЗ. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

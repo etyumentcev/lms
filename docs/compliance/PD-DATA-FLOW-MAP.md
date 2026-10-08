@@ -1,5 +1,7 @@
 # L0.1 — Потоки данных и локализация
 
+> L0.2: актуальная квалификация сторон — [controller/processor model](PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое предположение об ООО как единственном операторе ниже уточняется по целям; см. amendment в конце.
+
 **FACT:** [Compose](../../docker-compose.yml) — локальный Development: nginx → API → PostgreSQL 17.6, два volumes; bearer adapter в браузере. **PROPOSAL:** следующая схема пилота. Ни одного выбранного реального ЦОД/провайдера нет. Норма локализации и трансграничной передачи: [R05/R06](PD-LEGAL-REQUIREMENTS.md), **LEGAL SOURCE NOT VERIFIED**.
 
 ```mermaid
@@ -73,3 +75,7 @@ Identity физически предлагается в той же БД, отд
 Локализация по ст. 18 ч. 5 и трансграничная передача по ст. 12 — разные проверки. Вход/backup/логи за пределами РФ не становятся допустимыми лишь от наличия PostgreSQL в РФ; зарубежный сервис не запрещён автоматически без анализа операций, субъектов, оснований и уведомлений. Для пилота рекомендован весь управляемый контур в РФ и отсутствие необязательных внешних потоков. Это снижает объём доказательств, но не является доказательством соблюдения.
 
 Evidence packet: подписанный перечень систем/получателей/адресов ЦОД, договоры с provider commitments, egress allowlist + network trace, конфигурации без секретов, backup manifests/удаление, проверка remote support и version/date/owner. IP-geolocation в одиночку не достаточна.
+
+## L0.2 — организационное уточнение
+
+F01/F02: браузер→проверенный membership→course owner→context→scope query, без объединения A/B. F03/F04: shared DB/private storage не объединяют правовые роли; pending binding и parent-file guards обязательны. F05: backup содержит несколько contexts, ledger/сроки по каждому, restore quarantine до reconciliation всех. F06: A утверждает roster/case, P исполняет в пределах поручения; platform administrator не получает учебный read. F07/support: минимальные события, временный допуск и отдельный purpose review; F08 по-прежнему не разрешён автоматически. Дополнительный будущий поток P как организатор B изолирован от A, передачи истории между ними по умолчанию нет. [Роли/договор](PD-CONTROLLER-PROCESSOR-MODEL.md), [копии](PD-ORGANIZATION-LIFECYCLE.md).

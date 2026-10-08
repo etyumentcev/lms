@@ -1,5 +1,7 @@
 # L0.1 — Lifecycle, уничтожение и восстановление
 
+> L0.2: актуальная квалификация сторон — [controller/processor model](PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое предположение об ООО как единственном операторе ниже уточняется по целям; см. amendment в конце.
+
 **PROPOSAL**, [ADR-L09](../adr/ADR-L09-personal-data-lifecycle.md), [ADR-L10](../adr/ADR-L10-erasure-and-immutable-history.md); PD-G02/03/07/08/09 должны быть согласованы. Источники и сроки [R10–R13](PD-LEGAL-REQUIREMENTS.md) имеют статус **LEGAL SOURCE NOT VERIFIED**. Числа ниже — кандидаты правового SLA, не утверждённый регламент. Отдельные рабочие/календарные дни не взаимозаменяемы.
 
 ## Различия операций
@@ -56,3 +58,7 @@ Restore runbook:
 6. Удалить quarantine temp/старые copies в согласованные сроки, оформить акт/drill и measured full RTO/RPO. Нельзя считать baseline restore counts, включавшие уничтоженные работы, обязательными после правомерного erasure: изменение объясняет manifest.
 
 Acceptance L3/L4: snapshot до удаления ученика и до отзыва teacher grant; новые запросы во время restore; старый consent/старые session keys; отсутствующий ledger; частичный unlink; corrupted set; повтор job; provider copy. Проверить, что ни один публичный запрос не получил старые ПД. Все сценарии пока NOT VERIFIED.
+
+## L0.2 — организационное уточнение
+
+Каждый case/manifest получает controller/context/organization scope и проверенное полномочие инициатора. Запрос A не удаляет B; общий Identity не каскадирует историю. Сценарии ученика/родителя/поручения/завершения обучения/договора/отзыва teacher/закрытия собственного направления: [организационный lifecycle](PD-ORGANIZATION-LIFECYCLE.md). Independent lawful holds, mixed-subject review и separate privileged erasure сохраняются. Shared backup не продлевает срок A до срока B; очищенная согласованная копия/уничтожение replicas и актуальный ledger всех contexts обязательны до cutover. Старые сроки-кандидаты выше не становятся утверждёнными.

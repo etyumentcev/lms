@@ -1,5 +1,7 @@
 # L — Architecture baseline and proposed pilot boundary
 
+> Актуальное уточнение L0.2: [Organization](../docs/architecture/ORGANIZATION-MODEL.md) и [controller/processor](../docs/compliance/PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое «ООО оператор» ниже читать по цели согласно D4a–d; внешняя организация входит уже в первый пилот.
+
 Дата: 2026-10-09. FACT baseline `c7a500f56f26d94e3249a8c8a87e76018b0f5683`, ветка результата `codex/l0-architecture`. L0 меняет только документацию. **NOT_READY** из K сохраняется. D1 VPS/сервер, D2 Compose, D3 ASP.NET Core Identity приняты владельцем; D4/D5 добавлены и ACCEPTED в L0.1: ООО РФ — оператор, compliance обязателен до первого real-data пилота; всё будущее устройство ниже PROPOSAL. [Decision register](L-DECISION-REGISTER.md) отделяет accepted/technical/owner, [план](L-IMPLEMENTATION-PLAN.md) — будущие этапы.
 
 ## FACT — слои и точки интеграции
@@ -81,3 +83,11 @@ L1 PROPOSAL: стандартные Identity tables, ActorIdentities, IdentitySe
 - Организационный контур: российское ООО оператор (D4), ПД/ИБ/issuer/ops/incident роли назначаются; [документы](../docs/compliance/PD-ORGANIZATIONAL-DOCUMENTS.md) — неподписанные шаблоны. Future external schools потребуют нового legal/isolation решения.
 
 Все обязательные [gates](L01-DECISION-GATES.md) и [compliance evidence](../docs/compliance/PD-COMPLIANCE-MATRIX.md) должны быть закрыты до первого пилота (D5). **NOT_READY; compliance NOT VERIFIED.**
+
+## L0.2 — организационная граница (PROPOSED)
+
+Organization→Course registry→assignment→work→history/files; LearningSpace отдельной entity пока не нужен. IdentityUser→ActorId→membership→course/group grants; platform permissions отдельно. ProcessingContext/version/basis находится вне учебных агрегатов, наследуется через course root и проверяется вместе с current blocks. [Модель и фактические зависимости](../docs/architecture/ORGANIZATION-MODEL.md), [Identity](../docs/architecture/IDENTITY-ORGANIZATION-SCOPES.md), [изоляция](../docs/architecture/CROSS-ORGANIZATION-ISOLATION.md).
+
+Server boundary покрывает Application policy, LINQ, raw SQL queue/counts, pending/attached files, exports/jobs и maintenance. CourseId остаётся globally unique offering ID; новые registry/FK и проверенный legacy mapping допускают аддитивное расширение без переписывания immutable history. Unknown legacy fail closed. Контракт future revoke уточнён: повторная проверка перед commit и barrier/drain до подтверждения effective revoke; сейчас этого нет.
+
+API routes/DTO/state machine в L0.2 не меняются. В L1 существующие single-context routes могут разрешать scope сервером; неоднозначный upload/list требует отказа/будущего explicit context contract, не угадывания. Platform root технически способен обходить app — нужны ops credentials/audit и договорные ограничения. Compliance NOT VERIFIED, NOT_READY.

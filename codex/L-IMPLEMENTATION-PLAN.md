@@ -1,5 +1,7 @@
 # L — Sequential implementation plan
 
+> Текущий следующий шаг: согласование L0.2 и [ORG gates](L02-DECISION-GATES.md) вместе с L0.1. Новое уточнение D4a–d заменяет предположение об ООО как операторе всех целей. L1 не разрешён.
+
 **PROPOSAL. L1–L4 не начаты и этим документом не разрешаются.** L0.1 расширяет анализ; следующее действие — согласовать [результат](L01-RESULTS.md), [PD gates](L01-DECISION-GATES.md) и [decision register](L-DECISION-REGISTER.md). Accepted D1–D5: VPS/сервер, Compose, ASP.NET Core Identity, российское ООО оператор, compliance до первого real-data пилота. Production readiness остаётся NOT_READY.
 
 ## Общая стратегия проверки и веток
@@ -81,3 +83,14 @@ Exit: D5 запрещает READY_FOR_PILOT при любом обязатель
 ## Приоритет L0.1 и оценки
 
 Эта редакция включает lifecycle/erasure как обязательную часть будущего плана. Исторические оценки дней L0 выше относятся к прежнему техническому scope и **не включают надёжно оценённую стоимость compliance**; переоценить после PD-G02/03/06/08/09. Нельзя использовать их как срок закрытия юридических/провайдерских gates. Ни один L1–L4 этап не начат. [Compliance matrix](../docs/compliance/PD-COMPLIANCE-MATRIX.md) — обязательное приложение к L4, результат сейчас **NOT_READY / NOT VERIFIED**.
+
+## L0.2 — изменения последовательных L1–L4
+
+| Этап | Дополнительный scope | Проверка / exit |
+|---|---|---|
+| L1 Identity | После ORG/PD/C schema gates: Organization/course registry, account→Actor, memberships/role/grants, closed provisioning и recovery, current session/scope/privacy checks; pending file binding и atomic same-scope claim. Не откладывать базовую file isolation до L2 | Clean/upgrade synthetic migration с immutable history, unknown legacy deny; real PostgreSQL/HTTP two-org IDOR/SQL/counts/files, revoke races, issuer self-grant deny, browser context reset; отдельное разрешение владельца |
+| L2 Resource Protection & Lifecycle | Organization+actor quota/reservation boundaries (общий account не объединяет бюджеты), pending expiry, scoped retention/manifest/holds и erasure/audit | Concurrency/claim/quota races, erase A сохраняет B, mixed-subject cases, no ordinary immutable bypass; сроки PD-G07/09 |
+| L3 Secure Deployment | Operator/processor duty matrix, contracts/subcontractors, РФ stores/flows, named ops/support grants/audit; shared backups и независимый ledger | Localization evidence, break-glass expiry, restore A erased/B intact до ingress, current grants/session invalidation, incident forwarding drill |
+| L4 Pilot Acceptance | A видит только свои данные; ООО platform-only не получает учебное чтение; правильный controller для каждого case; signed договор/поручение, роли и 152-ФЗ evidence; 273-ФЗ applicability | Полная ORG/PD matrix + прежние K/device gates; будущий B доказывается synthetic, не запускается автоматически; любой обязательный gap → NOT_READY |
+
+Все L1–L4 остаются не начатыми. Новые schema предложения не считать принятыми из этой таблицы. Первый пилот не включает SaaS billing, public onboarding, multi-role UI или licensing functionality. Правовые основания конкретных workflows согласуются до реализации, live evidence до real data. Исторические результаты тестов не переносятся в PASS.

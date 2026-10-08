@@ -32,3 +32,9 @@ Manifest строит полное замыкание зависимостей; 
 До принятия: PD-G08 manifest/роль/reviewer/смешанные данные; PD-G09 копии/сроки; юрист проверяет формы подтверждений и сроки. До пилота: schema review, app-role inability to bypass, обычные immutable regression, полный negative search по synthetic PII в text/photo/EXIF/JSONB/events, foreign-subject preservation, crash/retry, concurrent submit/backup/delete, missing ledger fail-closed restore, акт + log export и provider proof. В L0.1 ни один такой PASS не заявлен.
 
 Цена — сложность maintenance и потеря части исторической статистики; это принимаемое следствие законного прекращения обработки, а не повод нарушать обязательный gate. Последующее согласование владельцем и юристом обязательно перед реализацией workflow; текущее разрешение заканчивается документацией.
+
+## L0.2 amendment — несколько операторов
+
+Статус остаётся PROPOSAL / DECISION REQUIRED, не принят автоматически. Исторический D4 уточнён D4a–d. Policy/case/manifest имеют Organization/context/controller scope; decision authority A не распространяется на B или собственные цели P. Identity disable/delete не заменяет purpose-specific erasure. Ordinary immutable workflow сохраняется, privileged erasure отдельно.
+
+[ADR-L13](ADR-L13-processing-context.md) определяет наследование и версии; [организационный lifecycle](../compliance/PD-ORGANIZATION-LIFECYCLE.md) — mixed-subject cases, shared copies и ledger. Scope проверяется до closure и исполнения, чужой subset требует отдельного решения. Принятие границы ORG-G03/06 до L1, реализация и доказательства L2–L4; ни один новый PASS не заявлен.

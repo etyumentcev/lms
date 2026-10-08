@@ -30,3 +30,9 @@ A: всё в IdentityUser/IsActive — просто, но не останавл�
 L1 evidence: невозможность активации без утверждённого основания, версии/отзыв/представитель, whole-course Teacher deny на blocked work, session revoke, срок case, scoped export, synthetic возрастные сценарии. L2 evidence: race-safe erasure и retention. L3: restore/ledger. L4: документы/юрист/оператор плюс E2E. Детали [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md).
 
 Решение принимает владелец после правового review; пока не принято и ничего не реализовано. Альтернатива ручных процедур допустима лишь при доказанной полноте, сроках и доступе; «разберёмся после пилота» D5 не допускает.
+
+## L0.2 amendment — несколько операторов
+
+Статус остаётся PROPOSAL / DECISION REQUIRED, не принят автоматически. Исторический D4 уточнён D4a–d. Policy/case/manifest имеют Organization/context/controller scope; decision authority A не распространяется на B или собственные цели P. Identity disable/delete не заменяет purpose-specific erasure. Ordinary immutable workflow сохраняется, privileged erasure отдельно.
+
+[ADR-L13](ADR-L13-processing-context.md) определяет наследование и версии; [организационный lifecycle](../compliance/PD-ORGANIZATION-LIFECYCLE.md) — mixed-subject cases, shared copies и ledger. Scope проверяется до closure и исполнения, чужой subset требует отдельного решения. Принятие границы ORG-G03/06 до L1, реализация и доказательства L2–L4; ни один новый PASS не заявлен.

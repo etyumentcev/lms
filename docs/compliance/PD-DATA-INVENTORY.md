@@ -1,5 +1,7 @@
 # L0.1 — Инвентаризация персональных данных
 
+> L0.2: актуальная квалификация сторон — [controller/processor model](PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое предположение об ООО как единственном операторе ниже уточняется по целям; см. amendment в конце.
+
 Дата 2026-10-09. FACT относится к исходникам `b1e4084`, не к обследованию реального сервера. Сроки/основания ниже — PROPOSAL / DECISION REQUIRED. Правовой источник для всех категорий: [R01–R20](PD-LEGAL-REQUIREMENTS.md), **LEGAL SOURCE NOT VERIFIED**. Для каждой цели B см. [реестр оснований](PD-PROCESSING-BASES.md). ПД/ИБ/ops назначаются через PD-G10/13.
 
 FACT: отдельных Student/Teacher profiles и IdentityUser persistence нет. Actor — `Actor(Guid Id, AuthorRole Role)` в Application. Enrollment реализован как AccessEnrollments. Course/Lesson — опубликованный ContentJson и AccessLessons, а не редактируемые профили людей. Прогресс вычисляется запросами, не отдельная таблица аналитики. UUID, timestamps, связи курса и почерк позволяют связать запись с человеком.
@@ -268,3 +270,7 @@ FACT: отдельных Student/Teacher profiles и IdentityUser persistence н
 Не собирать паспорт родителя, дату рождения, телефон, биометрию или device fingerprint только потому, что это удобно Identity. Фото не биометрические ПД автоматически: критерий — обработка физиологических/биологических характеристик для установления личности, а не формат JPEG. Свободный текст способен содержать чувствительные данные без выделенного поля: предусмотреть жалобу, блокирование и уничтожение; договорный запрет ввода не устраняет обязанностей после фактического получения.
 
 Для фото PD-G04 выбирает: (а) сохранение исходных байтов с обоснованной необходимостью metadata и минимизацией при съёмке; (б) новый pipeline очищенной копии до принятия immutable оригинала с отдельным ADR/контрактом и проверкой orientation/annotations. Вариант (б) меняет U1 и не реализуется здесь. Предупреждение пользователю само по себе не доказывает минимизацию EXIF.
+
+## L0.2 — организационное уточнение
+
+I01 Identity остаётся proposal и имеет unresolved role до purpose review. I02 profiles scoped по Organization; I03 enrollment и учебные I04–I10 наследуют course owner/context. Pending I09 требует actor+organization binding, linked file — parent scope. I11 audit, I13 backups и support нельзя автоматически отнести к собственным целям ООО. Добавляемые registry/membership/context/version/case refs тоже могут быть ПД. Категории/сроки T сохраняются как кандидаты, раздельно по controller. Полная Data→owner→controller→processor→purpose→basis→retention→access→authority матрица: [модель](PD-CONTROLLER-PROCESSOR-MODEL.md).

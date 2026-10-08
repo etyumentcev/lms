@@ -1128,3 +1128,9 @@ D4 **ACCEPTED**: российское ООО владельца — операт
 План обновлён: L1 Identity & Personal Data Lifecycle → L2 Resource Protection & Data Lifecycle → L3 Secure Deployment & Recovery → L4 Compliance & Pilot Acceptance. Минимальный пакет запуска L1 теперь C01/C02 + согласованные основания/несовершеннолетние/поля/ADR и retention принципы; одних прежних двух ответов L0 недостаточно. Всё локальное до real-data gates — synthetic-only.
 
 Production code/migrations не изменялись; app tests не перезапускались, 366/260 только baseline K. Проверка документации/ссылок/diff и commit описаны в отчёте. **Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.** После commit/clean tree остановиться; L1–L4, push/merge/deployment не разрешены.
+
+## L0.2 — Organization / processing context checkpoint
+
+Documentation-only: [результат](L02-RESULTS.md), [gates](L02-DECISION-GATES.md), [обновлённый план L1–L4](L-IMPLEMENTATION-PLAN.md). Принят pilot scope одной сторонней организации/5–8 классов/closed accounts и возможность собственных курсов ООО; роли ПД по цели требуют юридической проверки.
+
+PROPOSED: Organization/course boundary без отдельной LearningSpace entity, membership отдельно от Identity/Actor, durable ProcessingContext, scope guards для SQL/files/exports и scoped lifecycle. ADR-L11–L14 не ACCEPTED. Обычные immutable attempts/reviews, exact content refs, шесть экранов и API не изменены. Реализация L1 не начата, app tests не запускались; исторические PASS не подтверждают новую изоляцию. Следующий шаг — согласование ORG и прежних PD/C gates, затем отдельное разрешение L1. Compliance NOT VERIFIED; NOT_READY. Push/merge/deployment не выполнялись.
