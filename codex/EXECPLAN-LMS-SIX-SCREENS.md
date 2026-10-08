@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: шесть экранов и J2 реализованы; K Integration & Release Hardening завершён 2026-10-08, решение NOT_READY для pilot/production.** Актуальные результаты — §26 и `codex/K-RESULTS.md`; J2 — §25 и `codex/J2-RESULTS.md`. Старые scope/status записи ниже являются историей соответствующих checkpoint и не заменяют текущее разрешение пользователя на K.
+**Текущее состояние: шесть экранов и J2 реализованы; K завершён, pilot/production NOT_READY. L0 Architecture & Decision Gates подготовлен 2026-10-09: только документы, L1–L4 не начаты.** Актуальный L0 — §27 и `codex/L0-RESULTS.md`; K — §26 и `codex/K-RESULTS.md`. Старые scope/status записи ниже — история checkpoint; разрешение текущего запуска ограничено L0.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -1070,3 +1070,44 @@ Safari/physical devices unavailable. P0 finding fixed, open P1 gates explicitly 
 with remediation, not masked as nonblocking limitations. Names/lookups/reference/criteria
 classified, not implemented speculatively. Recommend staged Identity & Operations
 Readiness only after a new instruction. Stop after K commit; no next checkpoint.
+
+
+## 27. L0 — Architecture & Decision Gates (2026-10-09)
+
+Canonical `/home/tea/github/lms`, clean base `c7a500f`, requested branch
+`codex/l0-architecture` непосредственно от K. Последовательно, без новых worktrees,
+без изменения кода/Domain/schema/migrations/Docker. D1 собственный VPS/сервер,
+D2 Compose и D3 ASP.NET Core Identity приняты пользователем; остальные рекомендации
+не считаются принятыми. Полный результат: [L0-RESULTS](L0-RESULTS.md).
+
+- [x] Изучены обязательные K/normative sources и фактические слои/auth/storage/E2E.
+- [x] Созданы ADR-L01–L08: Identity, provisioning, VPS, HTTPS/secrets, backup,
+  resource protection, device scope, operations/privacy.
+- [x] [L-ARCHITECTURE](L-ARCHITECTURE.md): Actor mapping и existing component boundaries.
+- [x] [L-DECISION-REGISTER](L-DECISION-REGISTER.md): accepted D1–D3, proposed B01–B09,
+  open C01–C09; минимум для L1 — C01 provisioning и C02 initial access/recovery.
+- [x] [L-IMPLEMENTATION-PLAN](L-IMPLEMENTATION-PLAN.md): последовательность, gates,
+  changes/tests/exit/complexity/risks, future branch/merge policy.
+- [x] Source links, Domain consistency, docs-only diff и whitespace проверены;
+  app tests не перезапускались, K baseline 366 frontend/260 backend исторический.
+
+PROPOSAL: same-origin Identity cookie + CSRF/server session validation; независимый
+IdentityUserId→ActorId без переписывания истории; operator-only provisioning; private
+single-host topology; coordinated DB+originals+keys backup; durable resource admission
+и cleanup, не удаляющий linked history. Safari/Apple Pencil не объявлены проверенными.
+Owner hosting/recovery/privacy/quotas/devices/ops gates остаются открытыми.
+
+| Следующий этап | Prerequisites / scope | Exit |
+|---|---|---|
+| L1 Identity | Разрешение L1 + C01/C02; Identity mapping/session/login/CSRF/provisioning, synthetic data | Real Identity auth/scope/lifecycle/upgrade/browser tests; no demo pilot auth |
+| L2 Resource Protection | Accepted L1 + разрешение; C06/C08 для product quotas/retention | Rate/concurrency/quota/cleanup races, disk safety, immutable history preserved |
+| L3 Deployment & Backup | Accepted L2 + разрешение; C03–C05/C09, capacity/privacy inputs | HTTPS/private Compose/secrets/keys, migration/rollback и off-host clean-host restore доказаны |
+| L4 Pilot Acceptance | Accepted L1–L3 + разрешение; owner gates закрыты | Real-account E2E, recovery/performance/physical devices, evidence-based readiness |
+
+Будущий порядок: review L0 → отдельно разрешённая integration K+L0 → L1 review/merge
+→ L2 → L3 → L4, каждый от accepted predecessor, отдельная ветка, sequential canonical
+checkout. Сейчас push/merge/deployment не выполняются. Исторический ранний пункт
+«L — Responsive/a11y» в §8 остаётся историей первоначального плана; текущее задание
+переопределяет новый L как Pilot Identity & Operations Readiness.
+
+**После L0 остановиться: согласовать результат с владельцем. L1–L4 не начинать.**
