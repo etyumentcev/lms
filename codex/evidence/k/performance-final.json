@@ -1,0 +1,278 @@
+{
+  "environment": {
+    "browser": "154.0.8037.57",
+    "viewport": [
+      1440,
+      1100
+    ],
+    "generatedPhoto": [
+      1190,
+      1684
+    ],
+    "concurrency": 1,
+    "photoBytes": 288369
+  },
+  "profiles": [
+    {
+      "profile": "P1",
+      "photos": 1,
+      "uploadMs": {
+        "n": 1,
+        "p50": 142.30906499999992,
+        "p95": 142.30906499999992,
+        "max": 142.30906499999992
+      },
+      "submitMs": 127.96504099999993,
+      "read": {
+        "ms": {
+          "n": 20,
+          "p50": 11.11183600000004,
+          "p95": 14.731896000000006,
+          "max": 15.174485999999888
+        },
+        "jsonBytes": 1482,
+        "warmups": 1
+      },
+      "initialImageMs": 119.65464999999995,
+      "memoryBefore": {
+        "Documents": 1,
+        "JSEventListeners": 196,
+        "Nodes": 256,
+        "JSHeapUsedSize": 3877668
+      },
+      "pageSwitchMs": null,
+      "memoryAfter": {
+        "Documents": 1,
+        "JSEventListeners": 196,
+        "Nodes": 256,
+        "JSHeapUsedSize": 3877508
+      },
+      "activeObjectUrls": 1,
+      "urlsAfterUnmount": 0
+    },
+    {
+      "profile": "P2",
+      "photos": 5,
+      "uploadMs": {
+        "n": 5,
+        "p50": 24.21566900000016,
+        "p95": 38.681798999999955,
+        "max": 38.681798999999955
+      },
+      "submitMs": 23.804531000000225,
+      "read": {
+        "ms": {
+          "n": 20,
+          "p50": 10.36335599999984,
+          "p95": 12.812860999999884,
+          "max": 12.959877000000233
+        },
+        "jsonBytes": 1779,
+        "warmups": 1
+      },
+      "initialImageMs": 71.356675,
+      "memoryBefore": {
+        "Documents": 1,
+        "JSEventListeners": 196,
+        "Nodes": 256,
+        "JSHeapUsedSize": 4011584
+      },
+      "pageSwitchMs": {
+        "n": 24,
+        "p50": 66.70073300000013,
+        "p95": 74.54568699999982,
+        "max": 78.19141499999978
+      },
+      "memoryAfter": {
+        "Documents": 1,
+        "JSEventListeners": 209,
+        "Nodes": 260,
+        "JSHeapUsedSize": 5284360
+      },
+      "activeObjectUrls": 1,
+      "urlsAfterUnmount": 0
+    },
+    {
+      "profile": "P3",
+      "photos": 10,
+      "uploadMs": {
+        "n": 10,
+        "p50": 20.74258700000064,
+        "p95": 23.123747999999978,
+        "max": 23.123747999999978
+      },
+      "submitMs": 18.006227999999282,
+      "read": {
+        "ms": {
+          "n": 20,
+          "p50": 9.580847999999605,
+          "p95": 13.465046000000257,
+          "max": 14.014963999999964
+        },
+        "jsonBytes": 2184,
+        "warmups": 1
+      },
+      "initialImageMs": 62.39510800000062,
+      "memoryBefore": {
+        "Documents": 1,
+        "JSEventListeners": 196,
+        "Nodes": 256,
+        "JSHeapUsedSize": 4014576
+      },
+      "pageSwitchMs": {
+        "n": 54,
+        "p50": 66.67443900000035,
+        "p95": 70.02384499999971,
+        "max": 83.47542200000134
+      },
+      "memoryAfter": {
+        "Documents": 1,
+        "JSEventListeners": 209,
+        "Nodes": 260,
+        "JSHeapUsedSize": 5395312
+      },
+      "activeObjectUrls": 1,
+      "urlsAfterUnmount": 0
+    },
+    {
+      "profile": "P4",
+      "strokes": 500,
+      "points": 50000,
+      "durationMs": 15662.09999999404,
+      "frameWaitMs": {
+        "n": 500,
+        "p50": 23.5,
+        "p95": 73,
+        "max": 77.7000000178814
+      },
+      "strokeHandlerMs": {
+        "n": 500,
+        "p50": 0.800000011920929,
+        "p95": 1.5,
+        "max": 7.0999999940395355
+      },
+      "longTasks": [
+        69,
+        69,
+        70,
+        70,
+        71,
+        70,
+        69,
+        69,
+        71,
+        72,
+        69,
+        70,
+        73,
+        75,
+        74,
+        72,
+        75,
+        70,
+        70,
+        69,
+        73,
+        69,
+        69,
+        70,
+        74,
+        69,
+        70,
+        69,
+        70,
+        71,
+        76,
+        74,
+        74,
+        72,
+        73,
+        71,
+        79,
+        73,
+        73,
+        73,
+        73,
+        73,
+        74,
+        75,
+        73,
+        75,
+        72,
+        73,
+        74,
+        76,
+        75,
+        74,
+        73,
+        74,
+        79,
+        73,
+        76,
+        79,
+        75,
+        73,
+        74,
+        77,
+        74,
+        74,
+        75,
+        76,
+        73,
+        73
+      ],
+      "saveAndRefreshMs": 1188.6468449999993,
+      "requestBytes": 3769083,
+      "read": {
+        "ms": {
+          "n": 20,
+          "p50": 144.0697689999979,
+          "p95": 188.61500400000295,
+          "max": 193.4254230000006
+        },
+        "jsonBytes": 3770703,
+        "warmups": 1
+      },
+      "memory": {
+        "Documents": 1,
+        "JSEventListeners": 197,
+        "Nodes": 199,
+        "JSHeapUsedSize": 9035976
+      }
+    },
+    {
+      "profile": "P5",
+      "attempts": 20,
+      "strokesPerReview": 10,
+      "pointsPerStroke": 100,
+      "teacherRead": {
+        "ms": {
+          "n": 20,
+          "p50": 49.160274999998364,
+          "p95": 59.35643800000253,
+          "max": 60.874260000000504
+        },
+        "jsonBytes": 803259,
+        "warmups": 1
+      },
+      "studentRead": {
+        "ms": {
+          "n": 20,
+          "p50": 55.16345299999739,
+          "p95": 71.86736799999926,
+          "max": 72.63339699999779
+        },
+        "jsonBytes": 843264,
+        "warmups": 1
+      },
+      "historyImagesMs": 281.7152730000016,
+      "memory": {
+        "Documents": 1,
+        "JSEventListeners": 360,
+        "Nodes": 1353,
+        "JSHeapUsedSize": 6580960
+      }
+    }
+  ],
+  "errors": []
+}

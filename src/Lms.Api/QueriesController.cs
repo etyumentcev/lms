@@ -17,6 +17,16 @@ public sealed class QueriesController(IWorkspaceQueries queries, IActorMapper ac
     public Task<ProblemWorkDetailsDto> ProblemWork(Guid problemWorkId, CancellationToken ct)
         => queries.ProblemWork(actors.Map(User), problemWorkId, ct);
 
+    // The general work endpoint remains available to its student owner (C4).
+    // Teacher UI uses this role-gated alias, including after the work is Accepted.
+    [HttpGet("teacher/problem-works/{problemWorkId}")]
+    public Task<ProblemWorkDetailsDto> TeacherProblemWork(Guid problemWorkId, CancellationToken ct)
+    {
+        var actor = actors.Map(User);
+        if (actor.Role != Lms.Domain.AuthorRole.Teacher) throw new UseCaseException("Forbidden");
+        return queries.ProblemWork(actor, problemWorkId, ct);
+    }
+
     [HttpGet("courses/{courseId}/workspace")]
     public Task<CourseWorkspaceDto> Course(string courseId, CancellationToken ct)
         => queries.Course(actors.Map(User), courseId, ct);

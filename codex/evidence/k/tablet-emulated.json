@@ -1,0 +1,17 @@
+{
+  "nativePen": true,
+  "orientation": 6,
+  "originalPixels": [
+    4200,
+    3000
+  ],
+  "orientedPixels": [
+    3000,
+    4200
+  ],
+  "dpr": 2,
+  "strokes": 201,
+  "points": 20002,
+  "drawingMs": 3501.9000000059605,
+  "errors": []
+}

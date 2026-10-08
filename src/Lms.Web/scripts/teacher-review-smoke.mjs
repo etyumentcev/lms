@@ -119,9 +119,9 @@ try {
   assert.equal((await request(`/problem-works/${workId}/reviews/accept`, { method: 'POST', body: forbiddenBody })).status, 403);
   assert.equal((await request('/teacher/review-queue')).status, 403);
   assert.equal((await request(`/problem-works/${workId}`, { role: null })).status, 401);
-  await page.goto(`${base}${workRoute}`); await page.getByRole('heading', { name: 'Попытка №2', exact: true }).waitFor(); assert.equal(await page.getByRole('textbox').count(), 0);
+  await page.goto(`${base}${workRoute}`); await page.getByText('Нет доступа к работе', { exact: true }).waitFor(); assert.equal(await page.getByRole('textbox').count(), 0);
   // Own-work GET is deliberately permitted by C4; foreign and teacher command access remain denied.
-  results.push('Student History preserves both immutable attempts/reviews; Student queue/review POST forbidden, anonymous GET 401, own-work GET is read-only by existing C4 policy');
+  results.push('Student History preserves both immutable attempts/reviews; Student queue/review POST forbidden, anonymous GET 401, teacher screen denied, general own-work API remains readable by C4 policy');
   for (let i = 0; i < 2; i++) assert.equal(await original(first.attachmentIds[i]), hash(photos[i]));
   compose('restart', 'api'); compose('up', '-d', '--wait'); assert.deepEqual((await workspace()).history, data.history);
   compose('down'); compose('up', '-d', '--wait'); assert.deepEqual((await workspace()).history, data.history);

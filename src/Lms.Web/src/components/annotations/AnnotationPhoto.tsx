@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { AttachmentPreview } from '../attachments/AttachmentPreview';
 import type { AttachmentApi } from '../attachments/api';
-import { edit, hit, normalizedPoint, redo, undo, type PageState, type PenStroke } from './model';
+import { strokeId, edit, hit, normalizedPoint, redo, undo, type PageState, type PenStroke } from './model';
 import './annotations.css';
 type Tool = 'pen' | 'eraser' | 'hand';
 export function AnnotationPhoto({ api, id, page, state, change, editable = false }: {
@@ -59,6 +59,7 @@ export function AnnotationPhoto({ api, id, page, state, change, editable = false
     if (pointers.current.size > 1) { gesture.current = null; schedule(); return; }
     if (event.button !== 0 || (event.pointerType === 'touch' && (penSeen.current || !touchPen) && tool !== 'hand')) return;
     const p = position(event); if (!p) return;
+    event.preventDefault();
     event.currentTarget.setPointerCapture?.(event.pointerId);
     if (tool === 'hand' || !editable) { gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY, before: current.current }; return; }
     if (!visible) setVisible(true);
@@ -69,7 +70,7 @@ export function AnnotationPhoto({ api, id, page, state, change, editable = false
     } else {
       if (state.strokes.length >= 2000) { setNotice('Достигнут лимит штрихов.'); return; }
       gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY, before: current.current,
-        stroke: { id: crypto.randomUUID(), tool: 'pen', color, width, points: [p] } }; schedule();
+        stroke: { id: strokeId(), tool: 'pen', color, width, points: [p] } }; schedule();
     }
   }
   function move(event: ReactPointerEvent<HTMLCanvasElement>) {
@@ -109,10 +110,10 @@ export function AnnotationPhoto({ api, id, page, state, change, editable = false
     }}>
       <div ref={photo} className="annotation-image" style={{ width: `min(100%, calc(var(--annotation-height, 65vh) * ${ratio}))`, transform: `translate(${state.x}px, ${state.y}px) scale(${state.zoom})` }}>
         <AttachmentPreview api={api} id={id} page={page} annotation />
-        <canvas ref={layer} hidden={!ready} aria-label={`Слой пометок страницы ${page}`} style={{ touchAction: editable && touchPen ? 'none' : 'pinch-zoom' }}
+        <canvas ref={layer} hidden={!ready} aria-label={`Слой пометок страницы ${page}`} style={{ touchAction: editable && tool !== 'hand' ? 'none' : 'pinch-zoom' }}
           onPointerDown={start} onPointerMove={move} onPointerUp={e => finish(e)} onPointerCancel={e => finish(e, true)} onLostPointerCapture={e => finish(e, true)} />
       </div>
     </div>
-    <p className="small muted">Оригинал доступен по ссылке под фотографией. Масштаб — кнопками; перемещение — рукой или стрелками. Для пера касания пальцем отключены по умолчанию.</p>
+    <p className="small muted">Оригинал доступен по ссылке под фотографией. Масштаб — кнопками; перемещение — рукой или стрелками. Для пера касания пальцем отключены по умолчанию. Жест масштабирования доступен в режиме «Рука».</p>
   </div>;
 }

@@ -1,0 +1,9 @@
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/annotations.test.tsx (27 tests) 317ms
+
+ Test Files  1 passed (1)
+      Tests  27 passed (27)
+   Start at  23:32:23
+   Duration  996ms (transform 102ms, setup 89ms, import 186ms, tests 317ms, environment 303ms)

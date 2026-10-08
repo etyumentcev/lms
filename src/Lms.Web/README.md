@@ -326,3 +326,14 @@ and requires a **clean disposable** Compose project named `lms-j1-smoke` at port
 reviews and photos, checks responsive/persistence, and deliberately performs `down -v`
 **only on that project** at the end. Never point this workflow at user data.
 Output defaults to `/tmp/lms-j1-browser`; override `LMS_SMOKE_OUTPUT` if needed.
+
+## K — release verification
+
+Run `bash src/Lms.Web/scripts/release-check.sh` **from the repository with Node 24,
+Docker, Playwright and Chrome available**. Set `LMS_PLAYWRIGHT_MODULE` if Playwright is
+outside local node_modules. Optional `LMS_K_OUTPUT` selects an absolute evidence folder.
+Runner reserves `lms-k-smoke` / loopback8086, refuses an existing project, creates clean
+test data, executes real workflow + emulated tablet + P1–P5 measurements, then removes
+only its own test volumes. P6/query counts run in `ReleasePerformanceTests`.
+No physical-device or production readiness is implied. Reports: `codex/K-RESULTS.md`.
+Teacher screen GET now uses `/teacher/problem-works/{id}`; review commands are unchanged.

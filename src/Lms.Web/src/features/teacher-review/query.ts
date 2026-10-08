@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ApiError, type ApiClient } from '../../api/client';
 import { decodeProblemWork, type ProblemWorkDetails, type ReviewRequest } from '../../api/contracts/problemWork';
 export function getProblemWork(client: ApiClient, id: string, signal: AbortSignal) {
-  return client.request(`/problem-works/${encodeURIComponent(id)}`, value => {
+  return client.request(`/teacher/problem-works/${encodeURIComponent(id)}`, value => {
     const data = decodeProblemWork(value);
     if (data.id !== id) throw Error('ProblemWork identity mismatch');
     return data;

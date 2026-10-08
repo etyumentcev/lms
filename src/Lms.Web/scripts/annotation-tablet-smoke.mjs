@@ -8,7 +8,7 @@ const { chromium } = require(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.LMS_SMOKE_URL || 'http://127.0.0.1:8085';
 const output = process.env.LMS_SMOKE_OUTPUT || '/tmp/lms-j2-tablet'; await mkdir(output, { recursive: true });
 const compose = (...args) => execFileSync('docker', ['compose', ...args], { encoding: 'utf8' }).trim();
-assert.equal(JSON.parse(compose('config', '--format', 'json')).name, 'lms-j2-smoke');
+assert(['lms-j2-smoke', 'lms-k-smoke'].includes(JSON.parse(compose('config', '--format', 'json')).name));
 const student = compose('exec', '-T', 'api', 'dotnet', 'Lms.Api.dll', '--dev-token');
 const teacher = compose('exec', '-T', 'api', 'dotnet', 'Lms.Api.dll', '--dev-token', 'Teacher');
 async function api(path, token, body) {
@@ -38,7 +38,9 @@ try {
   await page.getByText(/Графические пометки: 1 штр/).waitFor();
   for (const size of [{ width: 1024, height: 768 }, { width: 768, height: 1024 }]) {
     await page.setViewportSize(size);
-    assert(await canvas.evaluate(c => { const i = c.parentElement.querySelector('img'); const r = i.getBoundingClientRect(); const s = c.getBoundingClientRect(); return Math.abs(r.width / r.height - 3000 / 4200) < .001 && Math.abs(s.height - r.height) < 1 && Math.abs(c.width - i.clientWidth * devicePixelRatio) <= 1; }));
+    // ResizeObserver schedules backing-buffer resize on the next animation frame.
+    // Await the same exact geometry invariant instead of racing that asynchronous frame.
+    await page.waitForFunction(() => { const c = document.querySelector('canvas[aria-label^="Слой"]'); const i = c.parentElement.querySelector('img'); const r = i.getBoundingClientRect(); const s = c.getBoundingClientRect(); return Math.abs(r.width / r.height - 3000 / 4200) < .001 && Math.abs(s.height - r.height) < 1 && Math.abs(c.width - i.clientWidth * devicePixelRatio) <= 1; });
   }
   // Force Fullscreen API refusal to verify the tablet CSS fallback independently.
   await page.evaluate(() => { HTMLElement.prototype.requestFullscreen = async () => { throw Error('Fullscreen unavailable'); }; });

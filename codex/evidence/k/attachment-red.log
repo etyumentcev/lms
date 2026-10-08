@@ -1,0 +1,55 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:04.72]     Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "assignment") [FAIL]
+  Failed Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "assignment") [1 s]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 404
+Actual:   200
+  Stack Trace:
+     at Lms.Api.Tests.AttachmentApiTests.Error(HttpResponseMessage response, Int32 status, String code) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 29
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:05.01]     Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "enrollment") [FAIL]
+[xUnit.net 00:00:05.22]     Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "lesson") [FAIL]
+[xUnit.net 00:00:05.61]     Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant [FAIL]
+  Failed Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "enrollment") [286 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 404
+Actual:   200
+  Stack Trace:
+     at Lms.Api.Tests.AttachmentApiTests.Error(HttpResponseMessage response, Int32 status, String code) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 29
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+--- End of stack trace from previous location ---
+  Failed Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(reason: "lesson") [211 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 404
+Actual:   200
+  Stack Trace:
+     at Lms.Api.Tests.AttachmentApiTests.Error(HttpResponseMessage response, Int32 status, String code) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 29
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+   at Lms.Api.Tests.AttachmentApiTests.Attached_original_rechecks_student_access_after_revocation(String reason) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 251
+--- End of stack trace from previous location ---
+  Failed Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant [390 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 404
+Actual:   200
+  Stack Trace:
+     at Lms.Api.Tests.AttachmentApiTests.Error(HttpResponseMessage response, Int32 status, String code) in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 29
+   at Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant() in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 265
+   at Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant() in /home/tea/github/lms/tests/Lms.Api.Tests/AttachmentApiTests.cs:line 265
+--- End of stack trace from previous location ---
+
+Failed!  - Failed:     4, Passed:     0, Skipped:     0, Total:     4, Duration: 2 s - Lms.Api.Tests.dll (net10.0)

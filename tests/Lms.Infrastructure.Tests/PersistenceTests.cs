@@ -177,6 +177,54 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         if (!firstSubmit) Assert.Single((await Load(cs, work.Id)).Reviews[0].Annotations);
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task Commit_failure_rolls_back_and_retry_keeps_attempt_and_annotations(bool firstSubmit)
+    {
+        var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
+        var attachment = Guid.NewGuid(); var work = Submit(a, attachment);
+        if (!firstSubmit)
+        {
+            await Save(cs, work, null); work = await Load(cs, work.Id);
+            work.RequestRevision(Teacher, work.Submissions[0].Id, "feedback", At,
+                [new(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])])]);
+        }
+        await using (var db = PostgresFixture.Open(cs, new FailAtCommit()))
+            await Assert.ThrowsAsync<InvalidOperationException>(() => new PostgresWorkStore(db).Save(work, firstSubmit ? null : 1, Ct));
+        await using (var verify = PostgresFixture.Open(cs))
+        {
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Works.CountAsync());
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Set<Submission>().CountAsync());
+            Assert.Empty(await verify.Set<Review>().ToArrayAsync()); Assert.Empty(await verify.Set<Message>().ToArrayAsync());
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Events.CountAsync());
+        }
+        await Save(cs, work, firstSubmit ? null : 1);
+        var restored = await Load(cs, work.Id); Assert.Equal(1, restored.AttemptCount);
+        Assert.Equal(firstSubmit ? 1 : 2, restored.Version);
+        if (!firstSubmit) Assert.Single(Assert.Single(restored.Reviews).Annotations);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Split_history_load_keeps_one_snapshot_when_review_commits_between_queries(bool existingTransaction)
+    {
+        var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
+        var original = Submit(a); await Save(cs, original, null);
+        var changed = await Load(cs, original.Id); changed.RequestRevision(Teacher, changed.Submissions[0].Id, "concurrent", At);
+        var duringRead = new BetweenHistoryQueries(() => Save(cs, changed, 1));
+        await using (var db = PostgresFixture.Open(cs, duringRead))
+        {
+            await using var tx = existingTransaction ? await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead) : null;
+            var read = (await new PostgresWorkStore(db).FindByAssignment(a.Id, Ct))!;
+            Assert.True(duringRead.Triggered); Assert.Equal(1, read.Version); Assert.Equal(ProblemWorkStatus.Submitted, read.Status);
+            Assert.Single(read.Submissions); Assert.Empty(read.Reviews); Assert.Empty(read.Messages);
+        }
+        var fresh = await Load(cs, original.Id); Assert.Equal(2, fresh.Version);
+        Assert.Single(fresh.Reviews); Assert.Single(fresh.Messages);
+    }
+
     [Fact]
     public async Task Committed_events_are_not_replayed_on_same_instance_or_reload()
     {

@@ -429,3 +429,16 @@ Conflicts/uncertain failures require explicit refresh; commands never automatica
 Returning to Queue preserves filters and refetches server data. Reference solutions,
 criteria and materials are hidden because the current teacher contract has no source.
 See [J1 results](codex/J1-RESULTS.md). Image annotations remain deferred to J2.
+
+## K — integration and release hardening
+
+All six screens and immutable image annotations are implemented. Current readiness,
+security findings, reproducible real E2E and measurements are in [K results](codex/K-RESULTS.md)
+and [release readiness](codex/K-RELEASE-READINESS.md); earlier checkpoint sections above
+are historical. Development Compose is not a pilot/production deployment.
+
+K hardens attached-file access after revocation, provides a Teacher-role screen read
+alias, loads history through consistent split-query snapshots, and carries forward the
+stylus compatibility fix. Attached originals follow parent-work permissions, including
+for their uploader; general student-own-work GET remains compatible. No migrations or
+new domain workflows are introduced. [Verification instructions](src/Lms.Web/README.md).

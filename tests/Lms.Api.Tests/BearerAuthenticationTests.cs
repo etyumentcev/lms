@@ -16,6 +16,7 @@ public sealed class BearerAuthenticationTests(ApiPostgresFixture postgres) : ICl
     [Theory]
     [InlineData("valid", 201)]
     [InlineData("signature", 401)]
+    [InlineData("unsigned", 401)]
     [InlineData("issuer", 401)]
     [InlineData("audience", 401)]
     [InlineData("expired", 401)]
@@ -45,7 +46,7 @@ public sealed class BearerAuthenticationTests(ApiPostgresFixture postgres) : ICl
                 new Claim("role", scenario == "role" ? "Admin" : "Student")],
             notBefore: scenario == "future" ? now.AddHours(1) : now.AddHours(-2),
             expires: scenario == "expired" ? now.AddHours(-1) : now.AddHours(2),
-            signingCredentials: new SigningCredentials(scenario == "signature"
+            signingCredentials: scenario == "unsigned" ? null : new SigningCredentials(scenario == "signature"
                 ? new SymmetricSecurityKey(RandomNumberGenerator.GetBytes(32)) : key, SecurityAlgorithms.HmacSha256));
         client.DefaultRequestHeaders.Authorization = new("Bearer", new JwtSecurityTokenHandler().WriteToken(token));
         var response = await client.PostAsJsonAsync($"/api/v1/problem-assignments/{assignment.Id}/submissions",

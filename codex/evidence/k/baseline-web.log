@@ -1,0 +1,25 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/shell.test.tsx (14 tests) 989ms
+     ✓ composes navigation, main and one required contextual region  317ms
+ ✓ src/test/course.test.tsx (34 tests) 1591ms
+ ✓ src/test/lesson.test.tsx (37 tests) 1967ms
+ ✓ src/test/attachments.test.tsx (19 tests) 988ms
+ ✓ src/test/history.test.tsx (37 tests) 2828ms
+ ✓ src/test/annotations.test.tsx (24 tests) 522ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 3112ms
+ ✓ src/test/primitives.test.tsx (15 tests) 458ms
+ ✓ src/test/api.test.ts (20 tests) 11ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 8ms
+ ✓ src/test/problem.test.tsx (53 tests) 3755ms
+ ✓ src/test/teacherReview.test.tsx (62 tests) 4719ms
+     ✓ enlarges, reduces and resets photo without altering original  325ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  329ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  310ms
+
+ Test Files  12 passed (12)
+      Tests  362 passed (362)
+   Start at  23:26:21
+   Duration  6.02s (transform 1.57s, setup 1.17s, import 3.69s, tests 20.95s, environment 6.03s)

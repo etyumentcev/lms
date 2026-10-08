@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { useState } from 'react';
+import { Profiler, useState } from 'react';
 import { AnnotationPhoto } from '../components/annotations/AnnotationPhoto';
-import { edit, hit, newPage, normalizedPoint, redo, undo, validAnnotations, type PenStroke } from '../components/annotations/model';
+import { strokeId, edit, hit, newPage, normalizedPoint, redo, undo, validAnnotations, type PenStroke } from '../components/annotations/model';
 import { SubmissionViewer } from '../features/teacher-review/SubmissionViewer';
 const stroke = (): PenStroke => ({ id: crypto.randomUUID(), tool: 'pen', color: '#dc2626', width: .003, points: [{ x: .2, y: .3 }, { x: .8, y: .9 }] });
 const api = { content: vi.fn(async () => new Blob(['image'])), upload: vi.fn(), remove: vi.fn() };
@@ -54,4 +54,37 @@ it('empty coalesced event arrays still record the pointermove sample', async () 
 it('image decode failure exposes retry without an intercepting canvas', async () => {
   render(<Editor />); await screen.findByRole('img'); canvas(); fireEvent.error(screen.getByRole('img'));
   expect(screen.getByText('Повторить предпросмотр страницы 1')).toBeVisible(); expect(screen.getByLabelText('Слой пометок страницы 1')).not.toBeVisible();
+});
+
+it('creates valid unique stroke UUIDs without secure-context randomUUID', () => {
+  const randomUUID = vi.spyOn(crypto, 'randomUUID').mockImplementation(undefined!);
+  Object.defineProperty(crypto, 'randomUUID', { value: undefined, configurable: true });
+  try {
+    const ids = Array.from({ length: 100 }, strokeId);
+    expect(new Set(ids).size).toBe(100);
+    for (const id of ids) expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+  } finally { randomUUID.mockRestore(); }
+});
+it('pen mode reserves the drawing surface before contact; Hand permits browser pinch', async () => {
+  render(<Editor />); await screen.findByRole('img');
+  expect(canvas().style.touchAction).toBe('none');
+  fireEvent.click(screen.getByText('Ластик')); expect(canvas().style.touchAction).toBe('none');
+  fireEvent.click(screen.getByText('Рука')); expect(canvas().style.touchAction).toBe('pinch-zoom');
+});
+it('stylus draws when randomUUID is unavailable', async () => {
+  const randomUUID = vi.spyOn(crypto, 'randomUUID');
+  Object.defineProperty(crypto, 'randomUUID', { value: undefined, configurable: true });
+  try { render(<Editor />); await screen.findByRole('img'); draw('pen'); expect(screen.getByText(/Графические пометки: 1/)).toBeVisible(); }
+  finally { randomUUID.mockRestore(); }
+});
+
+it('records a long stroke without React commits for each point', async () => {
+  const commits = vi.fn(); render(<Profiler id="drawing" onRender={commits}><Editor /></Profiler>);
+  await screen.findByRole('img'); const c = canvas(); const before = commits.mock.calls.length;
+  fireEvent.pointerDown(c, { pointerId: 7, pointerType: 'pen', clientX: 30, clientY: 80, button: 0 });
+  for (let n = 0; n < 100; n++) fireEvent.pointerMove(c, { pointerId: 7, pointerType: 'pen', clientX: 30 + n / 2, clientY: 80 });
+  expect(commits.mock.calls.length).toBe(before);
+  fireEvent.pointerUp(c, { pointerId: 7, pointerType: 'pen' });
+  expect(commits.mock.calls.length).toBeGreaterThan(before);
+  expect(screen.getByText(/Графические пометки: 1/)).toBeVisible();
 });

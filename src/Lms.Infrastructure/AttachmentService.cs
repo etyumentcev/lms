@@ -52,18 +52,27 @@ public sealed class AttachmentService(LmsDbContext db, IAttachmentStorage storag
     {
         var item = await db.StoredAttachments.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && !x.Deleted, ct)
             ?? throw new UseCaseException("NotFound");
-        if (item.OwnerId != actor.Id)
+        if (item.SubmissionId is null && item.MessageId is null)
         {
-            if (actor.Role != AuthorRole.Teacher || (item.SubmissionId is null && item.MessageId is null))
-                throw new UseCaseException("NotFound");
+            if (item.OwnerId != actor.Id) throw new UseCaseException("NotFound");
+        }
+        else
+        {
+            // Once attached, access follows the parent work even for the uploader.
+            // Ownership must not bypass revoked enrollment, availability or teacher scope.
             Guid workId;
             if (item.SubmissionId is { } submission)
                 workId = await db.Set<Submission>().Where(x => x.Id == submission).Select(x => x.ProblemWorkId).SingleAsync(ct);
             else workId = await db.Set<Message>().Where(x => x.Id == item.MessageId).Select(x => x.ProblemWorkId).SingleAsync(ct);
             var assignmentId = await db.Works.Where(x => x.Id == workId).Select(x => x.ProblemAssignmentId).SingleAsync(ct);
             var assignment = await db.Assignments.AsNoTracking().SingleAsync(x => x.Id == assignmentId, ct);
-            try { await access.EnsureCanReview(actor, assignment, ct); }
-            catch (UseCaseException) { throw new UseCaseException("NotFound"); }
+            try
+            {
+                if (actor.Role == AuthorRole.Student) await access.EnsureCanSubmit(actor, assignment, ct);
+                else await access.EnsureCanReview(actor, assignment, ct);
+            }
+            catch (Exception e) when (e is UseCaseException or DomainException)
+            { throw new UseCaseException("NotFound"); }
         }
         try { return (await storage.Open(item.StorageKey, ct), item.MediaType); }
         catch (FileNotFoundException) { throw new UseCaseException("ContentUnavailable"); }

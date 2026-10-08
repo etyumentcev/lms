@@ -178,7 +178,7 @@ public sealed partial class PostgresWorkspaceQueries(LmsDbContext db, IAccessPol
         var assignments = await VisibleAssignments(actor, courseId).Where(a => a.Content.LessonId == lessonId && ids.Contains(a.Content.CourseVersionId)).ToListAsync(ct);
         var assignmentIds = assignments.Select(a => a.Id).ToArray();
         var works = await db.Works.AsNoTracking().Include(w => w.Submissions).Include(w => w.Reviews).Include(w => w.Messages)
-            .AsSingleQuery().Where(w => assignmentIds.Contains(w.ProblemAssignmentId)).ToDictionaryAsync(w => w.ProblemAssignmentId, ct);
+            .AsSplitQuery().Where(w => assignmentIds.Contains(w.ProblemAssignmentId)).ToDictionaryAsync(w => w.ProblemAssignmentId, ct);
         var problems = new List<LessonProblemRowDto>();
         foreach (var assignment in assignments)
         {

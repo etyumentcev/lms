@@ -2254,3 +2254,12 @@ Local undo/redo, zoom/pan are separate per page. Undo retains the latest 50 acti
 Drafts survive command failures and explicit refresh in the mounted page, with
 unsaved-navigation/reload warnings. No crash/reload recovery is promised. Students
 and completed teacher reviews can toggle/zoom the layer but cannot edit it.
+
+## K hardening amendment (2026-10-08)
+
+Teacher Review route uses `/teacher/problem-works/{id}` (same DTO); Student receives403
+on this role-gated endpoint even for their own work. General `/problem-works/{id}` and
+Student workspace remain backward-compatible. Review POST URLs/payloads unchanged.
+Pen/eraser reserve touch gestures before pointer contact; native pinch is in Hand mode.
+UUID generation supports browsers without secure-context `crypto.randomUUID` using
+`crypto.getRandomValues`; production deployment still requires HTTPS.

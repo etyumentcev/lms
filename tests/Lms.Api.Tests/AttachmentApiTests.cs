@@ -231,4 +231,40 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
         await Error(await owner.DeleteAsync($"/api/v1/attachments/{item.AttachmentId}"), 409, "AttachmentAlreadyAttached");
         using var teacher = app.Client(ApiFactory.Teacher, "Teacher"); await Error(await teacher.GetAsync(item.PreviewUrl), 404, "NotFound");
     }
+    [Theory]
+    [InlineData("enrollment")]
+    [InlineData("lesson")]
+    [InlineData("assignment")]
+    public async Task Attached_original_rechecks_student_access_after_revocation(string reason)
+    {
+        await using var app = await fixture.CreateApp(); using var student = app.Client(ApiFactory.Student);
+        var a = await app.Seed(); var item = await Uploaded(student);
+        Assert.Equal(HttpStatusCode.Created, (await Submit(student, a.Id, item.AttachmentId)).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await student.GetAsync(item.PreviewUrl)).StatusCode);
+        await using (var db = app.Open())
+        {
+            if (reason == "enrollment") (await db.Enrollments.SingleAsync()).IsActive = false;
+            if (reason == "lesson") (await db.Lessons.SingleAsync()).IsPublished = false;
+            if (reason == "assignment") (await db.Assignments.SingleAsync()).Withdraw();
+            await db.SaveChangesAsync();
+        }
+        await Error(await student.GetAsync(item.PreviewUrl), 404, "NotFound");
+    }
+
+    [Fact]
+    public async Task Teacher_owned_message_original_rechecks_revoked_grant()
+    {
+        await using var app = await fixture.CreateApp(); using var student = app.Client(ApiFactory.Student);
+        using var teacher = app.Client(ApiFactory.Teacher, "Teacher"); var a = await app.Seed();
+        var submitted = (await (await student.PostAsJsonAsync($"/api/v1/problem-assignments/{a.Id}/submissions",
+            new { bodyMarkdown = "text", attachmentIds = Array.Empty<Guid>() })).Content.ReadFromJsonAsync<SubmissionResult>(ApiFactory.Json))!;
+        var item = await Uploaded(teacher);
+        (await teacher.PostAsJsonAsync($"/api/v1/problem-works/{submitted.ProblemWorkId}/messages",
+            new { bodyMarkdown = "feedback photo", attachmentIds = new[] { item.AttachmentId } })).EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.OK, (await student.GetAsync(item.PreviewUrl)).StatusCode);
+        using var other = app.Client(Guid.NewGuid()); await Error(await other.GetAsync(item.PreviewUrl), 404, "NotFound");
+        await using (var db = app.Open()) { db.TeacherGrants.Remove(await db.TeacherGrants.SingleAsync()); await db.SaveChangesAsync(); }
+        await Error(await teacher.GetAsync(item.PreviewUrl), 404, "NotFound");
+    }
+
 }

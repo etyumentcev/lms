@@ -36,6 +36,8 @@ public sealed class TransactionBarrier : DbTransactionInterceptor
     public override async ValueTask<DbTransaction> TransactionStartedAsync(DbConnection connection,
         TransactionEndEventData eventData, DbTransaction result, CancellationToken cancellationToken = default)
     {
+        // Synchronize write transactions only; aggregate reads now own a snapshot.
+        if (result.IsolationLevel == System.Data.IsolationLevel.RepeatableRead) return result;
         if (Interlocked.Increment(ref arrivals) == 2) ready.TrySetResult();
         await ready.Task.WaitAsync(TimeSpan.FromSeconds(20), cancellationToken);
         return result;
@@ -46,4 +48,24 @@ public sealed class FailAfterWrites : SaveChangesInterceptor
 {
     public override ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result,
         CancellationToken cancellationToken = default) => throw new InvalidOperationException("Injected before commit");
+}
+
+// Acknowledgement-loss after commit is a different case; this injects before DB commit.
+public sealed class FailAtCommit : DbTransactionInterceptor
+{
+    public override ValueTask<InterceptionResult> TransactionCommittingAsync(DbTransaction transaction,
+        TransactionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
+        => throw new InvalidOperationException("Injected at commit boundary");
+}
+
+public sealed class BetweenHistoryQueries(Func<Task> write) : DbCommandInterceptor
+{
+    private int queries;
+    public bool Triggered { get; private set; }
+    public override async ValueTask<InterceptionResult<DbDataReader>> ReaderExecutingAsync(DbCommand command,
+        CommandEventData eventData, InterceptionResult<DbDataReader> result, CancellationToken cancellationToken = default)
+    {
+        if (++queries == 2) { await write(); Triggered = true; }
+        return result;
+    }
 }

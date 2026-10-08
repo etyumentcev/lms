@@ -1,0 +1,32 @@
+[
+  {
+    "size": 1,
+    "samples": 20,
+    "p50Ms": 38.0073,
+    "p95Ms": 66.5379,
+    "bytes": 765,
+    "queries": 5
+  },
+  {
+    "size": 50,
+    "samples": 20,
+    "p50Ms": 37.7085,
+    "p95Ms": 39.2777,
+    "bytes": 25609,
+    "queries": 5
+  },
+  {
+    "size": 200,
+    "samples": 20,
+    "p50Ms": 37.7026,
+    "p95Ms": 39.7709,
+    "bytes": 101635,
+    "queries": 5
+  },
+  {
+    "profile": "teacherLesson1001Assignments",
+    "ms": 1166.2038,
+    "bytes": 794146,
+    "queries": 2011
+  }
+]

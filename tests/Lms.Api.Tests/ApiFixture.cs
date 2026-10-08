@@ -147,7 +147,7 @@ public sealed class ApiTransactionBarrier : DbTransactionInterceptor
     public override async ValueTask<DbTransaction> TransactionStartedAsync(DbConnection connection,
         TransactionEndEventData eventData, DbTransaction result, CancellationToken cancellationToken = default)
     {
-        if (Armed)
+        if (Armed && result.IsolationLevel != System.Data.IsolationLevel.RepeatableRead)
         {
             if (Interlocked.Increment(ref arrivals) == 2) ready.TrySetResult();
             await ready.Task.WaitAsync(TimeSpan.FromSeconds(20), cancellationToken);

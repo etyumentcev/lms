@@ -2696,3 +2696,13 @@ Local undo/redo, zoom/pan are separate per page. Undo retains the latest 50 acti
 Drafts survive command failures and explicit refresh in the mounted page, with
 unsaved-navigation/reload warnings. No crash/reload recovery is promised. Students
 and completed teacher reviews can toggle/zoom the layer but cannot edit it.
+
+## K hardening amendment (2026-10-08)
+
+Teacher screen reads `GET /api/v1/teacher/problem-works/{problemWorkId}`: the same
+ProblemWorkDetails DTO, but Teacher role plus existing course/group scope are required.
+General `/problem-works/{id}` retains C4 student-own-work access. Commands are unchanged.
+Attached originals now authorize through their parent Submission/Message work for every
+caller, including the uploader. Revoked access returns the same 404 as a missing file.
+Pending uploads remain owner-only. An authorized student can read a teacher's photo
+message on their own work; ownership is not a substitute for parent-work permission.

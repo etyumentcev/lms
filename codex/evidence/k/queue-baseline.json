@@ -1,0 +1,26 @@
+[
+  {
+    "size": 1,
+    "samples": 20,
+    "p50Ms": 38.3416,
+    "p95Ms": 60.0066,
+    "bytes": 759,
+    "queries": 5
+  },
+  {
+    "size": 50,
+    "samples": 20,
+    "p50Ms": 38.349,
+    "p95Ms": 55.8383,
+    "bytes": 25606,
+    "queries": 5
+  },
+  {
+    "size": 200,
+    "samples": 20,
+    "p50Ms": 38.9587,
+    "p95Ms": 40.7691,
+    "bytes": 101642,
+    "queries": 5
+  }
+]

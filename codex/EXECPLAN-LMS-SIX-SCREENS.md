@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H Student History, I Teacher Review Queue и J1 Teacher Review Workspace завершены 2026-10-08; J2 не начат.** Фактические результаты — §12–23, `codex/I-RESULTS.md`, `codex/H-RESULTS.md`, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: шесть экранов и J2 реализованы; K Integration & Release Hardening завершён 2026-10-08, решение NOT_READY для pilot/production.** Актуальные результаты — §26 и `codex/K-RESULTS.md`; J2 — §25 и `codex/J2-RESULTS.md`. Старые scope/status записи ниже являются историей соответствующих checkpoint и не заменяют текущее разрешение пользователя на K.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -1034,3 +1034,39 @@ rollback/concurrency, Chrome workflow и tablet EXIF/DPR/native-pen stress PASS.
 CSS cascade, keyboard focus, empty coalesced samples и image-error overlay.
 Hardware iPad/Safari не проверялись; draft crash recovery не заявляется.
 Подробности и evidence: `codex/J2-RESULTS.md`. После итогового commit — остановка.
+
+
+## 26. K — Integration & Release Hardening (2026-10-08)
+
+Canonical checkout, requested branch `codex/k-release-hardening` from `47d6de3`.
+Audit-first baseline before fixes:362 frontend /248 backend PASS. Existing contracts,
+authorization, storage/migrations/Docker and actual smoke coverage inspected; risk matrix
+recorded before implementation. No worktree, parallel agent, new framework or schema.
+
+New evidence: reproducible Playwright real-API release runner (35 main steps, negative
+uploads/submit/role/terminal/navigation boundaries), six performance profiles, SQL-count
+queue/lesson measurement, unsigned JWT, attachment revocation, commit-boundary failure
+and interleaved snapshot tests. Existing tests remain; write barriers explicitly exclude
+read-only snapshot transactions. Physical-device protocol90 rows honestly BLOCKED.
+
+Confirmed fixes: P0 uploader bypass of revoked parent-work access; P1 Cartesian history
+read (20-attempt teacher p95 5520.76→59.36ms, student5328.28→71.87ms); ported proven P1
+stylus/UUID compatibility fix from post-base594578d; P2 teacher-screen role gate; asynchronous
+resize assertion in tablet smoke. General C4 own-work API remains backward-compatible;
+new teacher-only alias has the same DTO. Attached bytes, Domain transitions and migrations
+unchanged. Split reads share RepeatableRead snapshot; concurrency tests verify consistency.
+
+Final evidence:366 frontend /260 backend PASS, both builds PASS (.NET0 warnings/errors),
+Docker/real browser and CDP tablet runner PASS, no browser errors, cleanup PASS. P6 queue
+5 SQL queries at page sizes1/50/200; adjacent Lesson1001 assignments2011queries/1166.20ms
+remains P2, as does dense500-stroke next-frame p95 73ms. No fabricated performance budgets.
+Raw summaries and logs retained in `codex/evidence/k`, screenshots in `/tmp/lms-k-run`.
+
+Seven deliverables: K-TEST-MATRIX, K-SECURITY-AUDIT, K-PERFORMANCE-REPORT,
+K-DEVICE-TEST-PROTOCOL, K-MVP-GAPS, K-RELEASE-READINESS, K-RESULTS.
+**NOT_READY**: real IdP/session/provisioning, deployment security/resource protections,
+coordinated DB+photo backup/restore and operational recovery remain release gates;
+Safari/physical devices unavailable. P0 finding fixed, open P1 gates explicitly tracked
+with remediation, not masked as nonblocking limitations. Names/lookups/reference/criteria
+classified, not implemented speculatively. Recommend staged Identity & Operations
+Readiness only after a new instruction. Stop after K commit; no next checkpoint.

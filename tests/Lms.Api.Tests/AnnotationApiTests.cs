@@ -35,4 +35,22 @@ public sealed partial class ContractApiTests
             await Assert.ThrowsAsync<Npgsql.PostgresException>(() => db.Database.ExecuteSqlRawAsync("UPDATE \"Reviews\" SET \"Annotations\" = '[]'::jsonb"));
         }
     }
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Teacher_screen_endpoint_requires_role_and_scope_including_terminal_state(bool accepted)
+    {
+        await using var app = await postgres.CreateApp(); var a = await app.Seed(); await Publish(app, a);
+        using var student = app.Client(ApiFactory.Student); using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        var id = await Submit(student, a); var original = await Get(teacher, WorkPath(id));
+        if (accepted) await Json(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/accept", ReviewBody(original, null)));
+        var path = $"/api/v1/teacher/problem-works/{id}";
+        using var anonymous = app.Client(); using var foreign = app.Client(Guid.NewGuid(), "Teacher");
+        await Error(await anonymous.GetAsync(path), 401, "Unauthenticated");
+        await Error(await student.GetAsync(path), 403, "Forbidden");
+        await Error(await foreign.GetAsync(path), 403, "Forbidden");
+        Assert.Equal(id, (await Get(teacher, path)).GetProperty("id").GetGuid());
+        Assert.Equal(id, (await Get(student, WorkPath(id))).GetProperty("id").GetGuid());
+    }
+
 }

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Data;
 using Lms.Application;
 using Lms.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +13,24 @@ public sealed class PostgresWorkStore(LmsDbContext db) : IWorkStore
     public Task<ProblemAssignment?> FindAssignment(Guid assignmentId, CancellationToken cancellationToken)
         => db.Assignments.AsNoTracking().SingleOrDefaultAsync(x => x.Id == assignmentId, cancellationToken);
 
-    // A single SQL statement gives one consistent aggregate snapshot under READ COMMITTED.
-    private IQueryable<ProblemWork> Aggregate => db.Works.AsNoTracking().AsSingleQuery()
+    // Separate collection queries avoid multiplying submissions × reviews × messages.
+    // Every load shares a repeatable-read snapshot (or the caller's existing read transaction).
+    private IQueryable<ProblemWork> Aggregate => db.Works.AsNoTracking().AsSplitQuery()
         .Include(x => x.Submissions.OrderBy(s => s.AttemptNumber))
         .Include(x => x.Reviews.OrderBy(r => db.Set<Submission>().Where(s => s.Id == r.SubmissionId).Select(s => s.AttemptNumber).First()))
         .Include(x => x.Messages.OrderBy(m => m.CreatedAt).ThenBy(m => m.Id));
 
     public Task<ProblemWork?> FindByAssignment(Guid assignmentId, CancellationToken cancellationToken)
-        => Aggregate.SingleOrDefaultAsync(x => x.ProblemAssignmentId == assignmentId, cancellationToken);
+        => Load(Aggregate.Where(x => x.ProblemAssignmentId == assignmentId), cancellationToken);
     public Task<ProblemWork?> FindWork(Guid workId, CancellationToken cancellationToken)
-        => Aggregate.SingleOrDefaultAsync(x => x.Id == workId, cancellationToken);
+        => Load(Aggregate.Where(x => x.Id == workId), cancellationToken);
+
+    private async Task<ProblemWork?> Load(IQueryable<ProblemWork> query, CancellationToken ct)
+    {
+        if (db.Database.CurrentTransaction is not null) return await query.SingleOrDefaultAsync(ct);
+        await using var snapshot = await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead, ct);
+        return await query.SingleOrDefaultAsync(ct);
+    }
 
     public async Task Save(ProblemWork work, long? expectedPersistedVersion, CancellationToken cancellationToken)
     {
