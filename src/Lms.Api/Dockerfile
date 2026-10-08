@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf 
 WORKDIR /app
 COPY --from=build /app ./
 ENV ASPNETCORE_HTTP_PORTS=8080
+RUN mkdir -p /var/lib/lms/attachments && chown $APP_UID:$APP_UID /var/lib/lms/attachments
 USER $APP_UID
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Lms.Api.dll"]

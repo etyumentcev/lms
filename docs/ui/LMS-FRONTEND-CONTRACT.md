@@ -2202,3 +2202,23 @@ in `codex/C4-RESULTS.md`; executable wire assertions are in
 - OpenAPI generation is not configured; tracked separately, no new documentation server.
 - Upload/storage/claiming and authenticated downloads remain prerequisites for photo flow.
   Fixtures prove ownership metadata and attachment ID roundtrip, not file storage.
+
+
+## U1 attachment foundation amendment (2026-10-08)
+
+U1 supersedes the deferred §8.7 response sketch, while preserving `POST /api/v1/uploads`
+with multipart field `file`. One file per request. Response: required UUID `attachmentId`,
+`fileName`, `mediaType` (image/jpeg or image/png), positive integer `size`, UTC `createdAt`,
+protected relative `previewUrl` (`/api/v1/attachments/{id}/content`). Fetch preview with
+current bearer through the common ApiClient, create a browser object URL and revoke it
+on removal/unmount; never place tokens in URLs or expose filesystem keys.
+
+DELETE `/api/v1/attachments/{id}` returns 204 only for owner pending resources; attached
+resources return 409 AttachmentAlreadyAttached. GET/DELETE foreign or missing = 404,
+anonymous = 401. Upload size = 413 AttachmentTooLarge, MIME = 415 UnsupportedAttachmentType,
+invalid/empty image = 400 InvalidAttachment, malformed multipart = 400 InvalidAttachment.
+All use existing Problem Details. Request attachmentIds order remains the page order.
+Uploaded IDs are server resources, not domain attempts/drafts. Do not submit while any
+page is uploading/failed/deleting. A failed page retry does not repeat successful pages.
+The U1 component provides ordered confirmed IDs and a readiness flag to its future parent.
+No full Student Solution, History or Teacher Review screen is part of U1.

@@ -61,6 +61,11 @@ public sealed class PostgresWorkStore(LmsDbContext db) : IWorkStore
             await transaction.CommitAsync(cancellationToken);
             // No external publication; only committed journal rows are visible to future readers.
         }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException { SqlState: "P0001" } pg &&
+            pg.MessageText is "AttachmentNotOwned" or "AttachmentAlreadyAttached")
+        {
+            throw new UseCaseException(((PostgresException)ex.InnerException!).MessageText);
+        }
         catch (DbUpdateConcurrencyException)
         {
             throw new UseCaseException("ConcurrencyConflict");

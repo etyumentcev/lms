@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5, C2, C3, C4, D, E и F завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–19, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage завершён 2026-10-08; G03 CLOSED. G не начат.** Фактические результаты — §12–20, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -806,3 +806,52 @@ Verification and final exit checklist are recorded below after completion; G onw
 Evidence and all 29 report points: `codex/F-RESULTS.md`. Teacher unavailable-content/role distinction,
 material/profile sources and production IdP remain explicit enrichment/integration gaps, not fabricated
 client state. **Stop after F. No G/upload/History/Teacher Queue/Review implementation.**
+
+
+## 20. U1 — Attachment Upload & Storage (complete, 2026-10-08)
+
+Authorized base `4d1400d`, branch `codex/u1-attachments`. Baseline: 120 frontend,
+195 backend tests pass; both builds have zero warnings/errors; Compose startup healthy.
+No G screens or ProblemWork state/Submit/Review semantics changes.
+
+Pre-implementation decisions: preserve the documented POST `/api/v1/uploads` route.
+U1 response uses the requested mediaType/size/createdAt names, superseding the older
+recommended contentType/sizeBytes sketch. JPEG/PNG only, originals preserved; 10 MiB
+configurable default. Protected content and pending delete under `/api/v1/attachments`.
+Storage port belongs in Application; filesystem adapter and metadata in Infrastructure.
+StoredAttachment is distinct from immutable ordered Submission.AttachmentIds.
+Claim metadata in the same PostgreSQL transaction as new history. Existing Message
+attachments must also be claimed to avoid deleting a file referenced by message history.
+This is persistence protection of the existing contract, not a new message feature.
+
+Uploaded → Attached; pending delete marks a technical Deleted tombstone before physical
+delete, so a concurrent submit cannot claim it. Failed physical deletion is retryable.
+File write precedes metadata commit, with best-effort compensation on database failure.
+There is no filesystem/database distributed transaction. Crashes can leave unreferenced
+files; future cleanup may remove old pending/tombstoned/unreferenced files after a grace
+period. No scheduler in U1. Attached originals and ownership cannot change.
+
+
+U1 verified exit checklist:
+- [x] Real JPEG/PNG multipart upload, owner-derived metadata, protected content and pending delete.
+- [x] Local storage port/adapter; originals unchanged; random safe keys; configured 10 MiB default.
+- [x] Additive AttachmentStorage EF migration; F upgrade and clean four-migration bootstrap.
+- [x] Uploaded/Attached/technical Deleted lifecycle; ownership/metadata/reference immutability.
+- [x] Atomic PostgreSQL claims for ordered Submission snapshots and existing Message attachments.
+- [x] Reuse, foreign access, concurrent claim/delete and failure rollback/compensation tested.
+- [x] 225 backend tests (195 baseline + 30 U1), zero failures/skips.
+- [x] 143 frontend tests (120 baseline + 23 U1), zero failures/skips.
+- [x] Frontend and full solution builds: zero warnings/errors.
+- [x] Real Compose browser uploader smoke, keyboard reorder, mobile preview and cross-user checks.
+- [x] API restart/down-up preserve original hash; down -v removes DB and attachment volumes.
+- [x] README, Feature/Frontend amendments and 26-part U1 report updated.
+
+Final refinements: confirm DB metadata absence before compensating an uncertain upload commit;
+otherwise retain original for later reconciliation. Deleted tombstones block claim before physical
+removal and allow retry. Existing positive attachment test fixtures now perform real uploads.
+One read-projection fixture formerly reused a submission ID in a message; it now uploads a separate
+message photo, retaining all projection/history/status assertions. Metadata-only legacy records
+cannot authorize new submissions. Historical ID arrays and C1 migration are unchanged.
+
+Evidence and all 26 requested report items are in `codex/U1-RESULTS.md`. The dev harness has no
+Submit action and no server/browser draft persistence. **Stop after U1. Do not start G.**

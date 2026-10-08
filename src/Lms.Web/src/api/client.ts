@@ -32,6 +32,8 @@ export type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;
   signal?: AbortSignal;
+  responseType?: 'blob';
+  onUploadProgress?: (percent: number) => void;
 };
 export type ApiClientOptions = {
   basePath?: string;
@@ -55,11 +57,14 @@ export function createApiClient({ basePath = '/api/v1', getAccessToken, onUnauth
       options.signal?.throwIfAborted();
       const headers = new Headers({ Accept: 'application/json, application/problem+json' });
       if (token) headers.set('Authorization', `Bearer ${token}`);
-      if (options.body !== undefined) headers.set('Content-Type', 'application/json');
-      const body = options.body === undefined ? undefined : JSON.stringify(options.body);
+      const multipart = options.body instanceof FormData;
+      if (options.body !== undefined && !multipart) headers.set('Content-Type', 'application/json');
+      const body = multipart ? options.body as FormData : options.body === undefined ? undefined : JSON.stringify(options.body);
       let response: Response;
       try {
-        response = await fetchRequest(`${url.pathname}${url.search}`, {
+        response = multipart && options.onUploadProgress
+          ? await uploadTransport(`${url.pathname}${url.search}`, headers, body as FormData, options)
+          : await fetchRequest(`${url.pathname}${url.search}`, {
           method: options.method ?? 'GET', headers, body, signal: options.signal,
           credentials: 'same-origin', redirect: 'error',
         });
@@ -69,7 +74,7 @@ export function createApiClient({ basePath = '/api/v1', getAccessToken, onUnauth
       }
       if (response.status === 401) onUnauthenticated?.();
       let data: unknown;
-      try { data = response.status === 204 ? undefined : await response.json(); }
+      try { data = response.status === 204 ? undefined : response.ok && options.responseType === 'blob' ? await response.blob() : await response.json(); }
       catch {
         if (options.signal?.aborted) options.signal.throwIfAborted();
         throw new ApiError(response.status, response.ok ? 'InvalidResponse' : 'HttpError');
@@ -85,3 +90,30 @@ export function createApiClient({ basePath = '/api/v1', getAccessToken, onUnauth
 }
 
 export type ApiClient = ReturnType<typeof createApiClient>;
+
+/** Multipart-only progress adapter; auth, decoding and Problem Details remain in ApiClient. */
+function uploadTransport(url: string, headers: Headers, body: FormData, options: RequestOptions): Promise<Response> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const cleanup = () => options.signal?.removeEventListener('abort', abort);
+    const abort = () => { xhr.abort(); cleanup(); reject(new DOMException('Aborted', 'AbortError')); };
+    xhr.open('POST', url);
+    headers.forEach((value, key) => xhr.setRequestHeader(key, value));
+    xhr.upload.onprogress = event => {
+      if (event.lengthComputable) options.onUploadProgress?.(Math.round(event.loaded / event.total * 100));
+    };
+    xhr.onload = () => {
+      cleanup();
+      if (xhr.responseURL && new URL(xhr.responseURL).origin !== window.location.origin) {
+        reject(new Error('Unexpected upload redirect')); return;
+      }
+      resolve(new Response(xhr.status === 204 ? null : xhr.responseText, { status: xhr.status,
+        headers: { 'Content-Type': xhr.getResponseHeader('Content-Type') ?? '' } }));
+    };
+    xhr.onerror = () => { cleanup(); reject(new Error('Upload network failure')); };
+    xhr.onabort = () => { cleanup(); reject(new DOMException('Aborted', 'AbortError')); };
+    options.signal?.addEventListener('abort', abort, { once: true });
+    if (options.signal?.aborted) { abort(); return; }
+    xhr.send(body);
+  });
+}

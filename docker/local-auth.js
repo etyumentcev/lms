@@ -3,3 +3,6 @@ window.lmsAuth = {
   getAccessToken: () => sessionStorage.getItem('lms-local-token'),
   onUnauthenticated: () => sessionStorage.removeItem('lms-local-token')
 };
+
+// Explicit local-development-only component harness.
+window.lmsAttachmentHarness = true;

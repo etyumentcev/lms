@@ -17,6 +17,16 @@ if (args.Contains("--dev-token"))
 builder.Services.AddDbContext<LmsDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("Lms") ?? builder.Configuration["LMS_POSTGRES"]
     ?? throw new InvalidOperationException("Configure ConnectionStrings:Lms or LMS_POSTGRES.")));
+var attachmentOptions = new AttachmentOptions();
+builder.Configuration.GetSection("Attachments").Bind(attachmentOptions);
+if (attachmentOptions.MaxBytes <= 0 || attachmentOptions.MaxBytes > 100 * 1024 * 1024)
+    throw new InvalidOperationException("Attachments:MaxBytes must be between 1 and 104857600.");
+builder.Services.AddSingleton(attachmentOptions);
+var localStorageOptions = new LocalAttachmentStorageOptions();
+builder.Configuration.GetSection("Attachments").Bind(localStorageOptions);
+builder.Services.AddSingleton(localStorageOptions);
+builder.Services.AddSingleton<IAttachmentStorage, LocalFileAttachmentStorage>();
+builder.Services.AddScoped<AttachmentService>();
 builder.Services.AddScoped<IWorkStore, PostgresWorkStore>();
 builder.Services.AddScoped<IAccessPolicy, PostgresAccessPolicy>();
 builder.Services.AddScoped<ProblemWorkService>();

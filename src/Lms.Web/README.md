@@ -219,3 +219,21 @@ Run from the repository root after Compose is healthy. Default URL: http://127.0
 and layouts at 320/375/768/1024/1440px. Live mode separately uses real Compose bearer tokens,
 Course → Lesson → placeholder, Student/Teacher, direct refresh, anonymous 401 and API 404.
 Tokens are never printed by the test or stored in repository artifacts. No workflow mutations.
+
+
+### U1 attachment component smoke
+
+The reusable `AttachmentUploader` lives in `src/components/attachments`. Its parent
+receives ordered confirmed attachments plus readiness; it never submits a solution.
+Use `/dev/attachments` in Vite development or the explicit Compose local-development
+host adapter after local login. Generic production hosting does not enable this route.
+
+```sh
+LMS_PLAYWRIGHT_MODULE=/path/to/playwright node scripts/attachments-smoke.mjs
+```
+
+Run from repository root with `node src/Lms.Web/scripts/attachments-smoke.mjs` when
+using Compose. The script uses the real API/storage and a generated tiny test image,
+checks login, two uploads, protected previews, keyboard reorder, delete, foreign access,
+no work creation and 320/375/768/1024/1440 layouts. It requires the clean local demo
+(no submitted work); outputs default to `/tmp/lms-u1-browser`. No user photos are used.

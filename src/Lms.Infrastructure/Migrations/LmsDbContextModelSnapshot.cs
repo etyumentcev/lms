@@ -291,6 +291,58 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.StoredAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StorageKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SubmissionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("StorageKey")
+                        .IsUnique();
+
+                    b.HasIndex("SubmissionId");
+
+                    b.ToTable("StoredAttachments", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_StoredAttachment_Link", "NOT (\"SubmissionId\" IS NOT NULL AND \"MessageId\" IS NOT NULL) AND (NOT \"Deleted\" OR (\"SubmissionId\" IS NULL AND \"MessageId\" IS NULL))");
+
+                            t.HasCheckConstraint("CK_StoredAttachment_Size", "\"Size\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.StoredDomainEvent", b =>
                 {
                     b.Property<Guid>("Id")
@@ -434,6 +486,25 @@ namespace Lms.Infrastructure.Migrations
                         .HasForeignKey("ProblemWorkId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.StoredAttachment", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.AttachmentAccess", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.StoredAttachment", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Domain.Message", null)
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Lms.Domain.Submission", null)
+                        .WithMany()
+                        .HasForeignKey("SubmissionId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Lms.Infrastructure.StoredDomainEvent", b =>

@@ -1,0 +1,8 @@
+.attachment-uploader { max-width: 54rem; padding: 1rem; margin: auto; }
+.attachment-uploader input { max-width: 100%; }
+.attachment-pages { padding: 0; list-style: none; display: grid; gap: 1rem; }
+.attachment-pages li { border: 1px solid var(--border, #ccc); border-radius: .5rem; padding: 1rem; min-width: 0; }
+.attachment-pages img { display: block; width: 100%; max-height: 32rem; object-fit: contain; margin: .75rem 0; }
+.attachment-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.attachment-actions button { min-height: 44px; }
+.attachment-filename { overflow-wrap: anywhere; }

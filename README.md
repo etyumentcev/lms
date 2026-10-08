@@ -68,6 +68,7 @@ The other three workflow statuses are covered by feature/contract tests; this se
 remains a NotStarted vertical slice. There is no user/profile management subsystem.
 
 PostgreSQL data lives in the named Docker volume `lms-local_postgres-data` (managed by Docker).
+Original uploaded photos live in the separate `lms-local_lms-attachments` named volume.
 PostgreSQL and API have no host ports; only nginx exposes loopback port 8080. To change that
 port, edit the web port mapping in `docker-compose.yml`.
 
@@ -79,12 +80,12 @@ docker compose logs -f web
 docker compose logs -f postgres
 docker compose logs migrate
 
-# Stop; preserve the database
+# Stop; preserve the database and uploaded photos
 docker compose down
 # Start again; existing migrations and data are retained
 docker compose up --build
 
-# Full local database reset (deletes ALL data in the development volume)
+# Full local reset (deletes ALL local database data AND uploaded photos)
 docker compose down -v
 # Reapply migrations and recreate the deterministic demo
 docker compose up --build
@@ -133,7 +134,7 @@ Assignments can be seeded using the context; no assignment management use case i
 untracked aggregates. Failed commands require a fresh load; the adapter never retries conflicts.
 `DomainEvents` is an immutable transactional journal, with stable IDs from the corresponding
 Submission/Review/Message, type name and JSON payload. It has no dispatcher or external publication.
-Attachments are ordered snapshots of IDs (`uuid[]`); ownership/eligibility metadata is checked by C2; upload/storage and its lifecycle are deferred.
+Attachments remain ordered snapshots of IDs (`uuid[]`). U1 validates real stored resources and atomically claims them for immutable Submission/Message history.
 
 See [C1 report](codex/C1-RESULTS.md) for schema, constraints and verification results.
 
@@ -178,12 +179,11 @@ Access facts are provisioned by trusted infrastructure into `AccessEnrollments`,
 are provided. Students require ownership, active assignment/enrollment, a published lesson for the
 exact content version and an elapsed optional `AvailableFrom`. Teacher grants authorize either the
 whole course (`GroupId = null`) or only a matching active enrollment group. Missing facts deny access.
-Attachments require current ownership, eligibility and unexpired metadata.
+Attachments require current ownership, eligibility, unexpired metadata and an undeleted StoredAttachment; previously claimed resources cannot be reused.
 
-**Upload decision B:** `/uploads` and object storage are deferred. Text-only commands work now.
-The future storage producer must validate/store a file before publishing eligible metadata, and
-implement atomic claiming/link lifecycle and cleanup. Synthetic attachment metadata exists only
-in isolated integration test databases. No fake production attachments are available.
+**Upload decision B is superseded by U1.** Real upload/storage, protected downloads,
+pending deletion and atomic claiming are implemented. Old metadata-only attachment
+records cannot be used for new commands. Existing historical ID arrays are retained.
 
 See [C2 report](codex/C2-RESULTS.md) for DTOs, error mapping, test scenarios and remaining decisions.
 
@@ -191,7 +191,7 @@ See [C2 report](codex/C2-RESULTS.md) for DTOs, error mapping, test scenarios and
 
 Domain RequestRevision requires nonblank feedback as a global invariant (G03, C1.5). Application retains early validation with `FeedbackRequired`; Domain independently rejects null/empty/whitespace without mutation. Accept allows absent feedback. New work requires absent expectedVersion; existing work requires its current version.
 
-Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Read queries and immutable content resolution are implemented in C3. Shared UI shell and Course screen are implemented in D/E; upload/storage and subsequent feature screens remain deferred.
+Persistence adapters must provide isolated aggregate instances, atomic compare-and-save, uniqueness per assignment, transactional attachment linking and event persistence. Unit test doubles do not prove database concurrency. Production access checks and command HTTP contracts are implemented in C2. Read queries and immutable content resolution are implemented in C3. Shared UI shell and Course screen are implemented in D/E; U1 attachment storage is implemented; subsequent feature screens remain deferred.
 
 See [ExecPlan](codex/EXECPLAN-LMS-SIX-SCREENS.md) for decisions, remaining contracts and checkpoint results.
 
@@ -297,7 +297,7 @@ There is no public content-authoring/publication endpoint or production seed in 
 Queries do not create work. Progress and review queues are computed, not persisted. Student locked
 content returns 403; course catalog retains safe metadata. Teacher enrollment is null. Browser-local
 drafts have no authoritative server hasDraft. Profiles, hints/materials and attachment download metadata
-remain explicit gaps; no synthetic content or URLs are returned. C4 backend stabilization and D shared UI shell are complete. Course screen is implemented in E; upload/storage and subsequent feature screens remain deferred.
+remain explicit gaps; no synthetic content or URLs are returned. C4 backend stabilization and D shared UI shell are complete. Course screen is implemented in E; U1 attachment storage is implemented; subsequent feature screens remain deferred.
 
 ## Shared UI shell (D)
 
@@ -315,3 +315,65 @@ shared UI. [E results](codex/E-RESULTS.md) describe 83 frontend / 187 backend pa
 responsive/browser/live-API checks, and contract/deployment gaps. No OIDC provider settings
 exist yet: connect the trusted host bearer adapter and same-origin API proxy as documented
 in [frontend setup](src/Lms.Web/README.md). F and later checkpoints remain deferred.
+
+
+## U1 — photo attachment foundation
+
+Upload a single JPEG or PNG per `POST /api/v1/uploads` request, multipart field `file`.
+The route preserves the earlier Feature/Frontend contract. The U1 response is
+`attachmentId`, `fileName`, `mediaType`, `size`, `createdAt`, `previewUrl`.
+Original bytes are preserved; filenames are metadata only, including Unicode names.
+No PDF, WebP, cropping, recompression or OCR is provided. Server checks signatures,
+PNG chunk CRC/bounds, bounded decompressed scanlines and JPEG segment structure; image area is limited to 60 million
+pixels. This is structural validation, not a complete image decoder/forensics service.
+
+The default maximum file size is **10 MiB (10,485,760 bytes)**, configured by
+`Attachments__MaxBytes`. Compose sets this value explicitly. The API enforces both
+file and bounded multipart envelope limits. Nginx forwards requests to the API without
+its own competing file-size limit. The reusable frontend displays server validation errors.
+
+`Attachments__Root` configures the filesystem adapter. In Compose the API mounts
+its dedicated named volume at `/var/lib/lms/attachments`, outside the web root and
+repository; Docker manages its physical host location (`docker volume inspect
+lms-local_lms-attachments`). Without Compose, the default is the current user's
+LocalApplicationData directory under `lms/attachments`; override it for your deployment.
+The adapter creates server-generated random keys and atomically renames temporary files.
+PostgreSQL stores metadata, never image bytes. Paths/keys are not returned by the API.
+
+- `GET /api/v1/attachments/{id}/content`: bearer-authenticated original image; owner
+  or a teacher authorized for the referenced Submission/Message course/group.
+- `DELETE /api/v1/attachments/{id}`: owner-only pending removal, 204. Attached history
+  returns 409 `AttachmentAlreadyAttached`. Deleted records retain technical tombstones;
+  repeating DELETE retries physical removal safely.
+- Missing/foreign content and delete return the same 404. Anonymous requests return 401.
+  Submit with unknown/foreign/ineligible resources returns 403 `AttachmentNotOwned`.
+- Oversize: 413 `AttachmentTooLarge`; unsupported MIME: 415 `UnsupportedAttachmentType`;
+  invalid image/empty file: 400 `InvalidAttachment`; malformed multipart: 400
+  `InvalidAttachment`. All errors use the existing Problem Details envelope.
+
+Uploaded resources do not create ProblemWork, Submission, attempts or domain drafts.
+A successful Submit atomically claims all IDs in PostgreSQL, retaining request order in
+Submission.AttachmentIds. Each resource is claimed once by a Submission or existing
+Message; reuse requires a new upload. Owners cannot delete or replace attached originals.
+
+Files and PostgreSQL do not share an ACID transaction: upload writes the file first,
+then metadata. Database failure compensates only if absence of committed metadata can
+be confirmed; uncertain outcomes retain the file for future reconciliation. Pending
+DELETE commits a tombstone before physical removal. A crash can leave an orphan file
+or a tombstoned file awaiting retry. No background cleanup job is installed in U1.
+Future cleanup must use a grace period and never remove referenced history. Back up
+and restore the database and attachment volume together.
+
+For a reusable component smoke, sign in via the local login page and open
+`http://localhost:8080/dev/attachments`. This is a dev/test harness enabled by the
+Compose-only host adapter (or Vite development), with no Solution page or Submit action.
+Add photos, preview, reorder with keyboard-accessible buttons, delete pending pages,
+or retry failures. Mobile input accepts multiple images without forcing capture, so
+browsers can offer camera and gallery. Leaving the harness does not persist a local
+page list; successfully uploaded resources remain pending until deleted or later cleanup.
+
+`docker compose down` preserves both volumes. **`docker compose down -v` permanently
+clears the local database and all uploaded photos.** Run `docker compose up --build`
+after reset to migrate and seed a fresh local environment.
+
+See [U1 results](codex/U1-RESULTS.md) for schema, consistency assumptions, tests and scope.

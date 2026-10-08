@@ -42,6 +42,7 @@ public sealed class ApiPostgresFixture : IAsyncLifetime
 
 public sealed class ApiFactory(string connectionString, bool testAuthentication) : WebApplicationFactory<Program>
 {
+    public string StorageRoot { get; } = Path.Combine(Path.GetTempPath(), "lms-u1-test-" + Guid.NewGuid().ToString("N"));
     public ApiTransactionBarrier Barrier { get; } = new();
     public static readonly Guid Student = Guid.NewGuid();
     public static readonly Guid Teacher = Guid.NewGuid();
@@ -51,10 +52,18 @@ public sealed class ApiFactory(string connectionString, bool testAuthentication)
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseSetting("ConnectionStrings:Lms", connectionString);
+        builder.UseSetting("Attachments:Root", StorageRoot);
+        builder.UseSetting("Attachments:MaxBytes", "1024");
         builder.ConfigureTestServices(services => services.ConfigureDbContext<LmsDbContext>(options => options.AddInterceptors(Barrier)));
         if (testAuthentication)
             builder.ConfigureTestServices(services => services.AddAuthentication("Test")
                 .AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("Test", _ => { }));
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        await base.DisposeAsync();
+        if (Directory.Exists(StorageRoot)) Directory.Delete(StorageRoot, recursive: true);
     }
 
     public LmsDbContext Open() => new(new DbContextOptionsBuilder<LmsDbContext>().UseNpgsql(connectionString).Options);
@@ -89,11 +98,20 @@ public sealed class ApiFactory(string connectionString, bool testAuthentication)
 
     public async Task<Guid> Attachment(Guid owner, bool eligible = true, bool expired = false)
     {
-        // Test-only metadata fixture. No production upload or fake storage is registered.
-        var id = Guid.NewGuid();
+        // Every eligible fixture now has real, validated immutable binary storage.
+        using var client = Client(owner);
+        using var form = new MultipartFormDataContent();
+        using var file = new ByteArrayContent(AttachmentImages.Png);
+        file.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+        form.Add(file, "file", "fixture.png");
+        var response = await client.PostAsync("/api/v1/uploads", form);
+        response.EnsureSuccessStatusCode();
+        var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        var id = json.RootElement.GetProperty("attachmentId").GetGuid();
         await using var db = Open();
-        db.AttachmentMetadata.Add(new AttachmentAccess { Id = id, OwnerId = owner, IsEligible = eligible,
-            ExpiresAt = DateTimeOffset.UtcNow.AddHours(expired ? -1 : 1) });
+        var metadata = await db.AttachmentMetadata.SingleAsync(x => x.Id == id);
+        metadata.IsEligible = eligible;
+        metadata.ExpiresAt = DateTimeOffset.UtcNow.AddHours(expired ? -1 : 1);
         await db.SaveChangesAsync();
         return id;
     }
