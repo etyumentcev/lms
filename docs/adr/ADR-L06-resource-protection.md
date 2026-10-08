@@ -42,3 +42,10 @@ StoredAttachment immutable metadata/claim triggers и row-lock delete уже з�
 ## Exit и зависимости
 
 L1 identity даёт trusted actor/login; L2 обеспечивает API controls/ledger/safe cleanup, L3 добавляет edge/host controls; L4 измеряет целый stack. Unit+real PostgreSQL races: параллельные uploads разных users/одного user, cancel/crash/uncertain commit, cleanup vs Submit/Message/Delete, DB outage, quota rebuild, backup lock. Fault injection не считать доказательством power-loss durability. Нельзя закрывать K-S02 только тестом 413, K-S05 — лишь наличием cron.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Обычный cleanup сохраняет запрет удаления linked history. Отдельный privileged workflow ADR-L10 обязателен при применимых требованиях прекращения/уничтожения до пилота и не является расширением orphan cleanup. Pending metadata/filename/OwnerId тоже ПД; tombstone не полное уничтожение. Retention/races/audit evidence относятся к PD-G07/08.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

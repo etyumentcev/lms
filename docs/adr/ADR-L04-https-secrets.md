@@ -34,3 +34,10 @@ Operator runbook: generate вне Git, deliver ограниченным кана
 | Владелец | DNS/real secrets/hosting расходы, backup custodians и notification channel | Явные owner decisions, L0 их не закрывает |
 
 Tests: no credentials в bundle/logs/redirect URLs; insecure login не выдаёт usable cookie; external forwarded spoof ignored; HTTPS session survives benign restart; keys missing → readiness fail, не silent regenerate; CSRF wrong/missing rejected для uploads/logout/commands/reset; renewal failure alert доставлен. Точные host/IP/cert paths неизвестны до C03. DNS и сертификаты в L0 не изменялись/не выпускались.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Key inventory/custody/rotation/recovery включает Identity Data Protection, backup encryption и отдельный ledger. TLS/шифрование at rest — меры по угрозам; их наличие не доказывает выполнение всех требований к СКЗИ. Нужна применимость PD-G06, а не автоматическая сертификация обычного TLS.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

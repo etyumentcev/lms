@@ -38,3 +38,10 @@ Retention варианты: pending upload — короткий согласов
 B09: bounded redacted logs, access audit, operational runbooks и synthetic alert drills можно проектировать без выбора закона. Реальные people data — только после C08/C09 и readiness gates. Секреты, bodies, photos, session/reset tokens не логировать; хранить traceId, route template, status, минимальный operator action/target/time. Audit IDs тоже sensitive; доступ/retention ограничены.
 
 Tests L3/L4: backup failure и low disk вызывают уведомление, оператор выполняет инструкцию; revoke возвращает denial и не уничтожает submissions; logs не содержат synthetic canary secrets; restore не оживляет удалённые/отозванные accounts; retention job не трогает linked originals; fallback operator получает escrow. Риски: неизвестная ответственность, retention forever по умолчанию, silent backup failures, утечка через logs/EXIF/roster, противоречивые обещания удаления. До закрытия owner gates readiness остаётся NOT_READY.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Историческое UNKNOWN выбора оператора/применимости РФ выше закрыто D4/D5: российское ООО владельца — оператор, применимые нормы РФ обязательны до пилота. Реквизиты/состав субъектов/другие юрисдикции остаются UNKNOWN. Exceptional lifecycle спроектирован ADR-L09/L10 и включён в L1–L4, а не улучшение после production. Правовые сроки/уведомления/роли и шаблоны теперь в compliance пакете; официальные источники NOT VERIFIED.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

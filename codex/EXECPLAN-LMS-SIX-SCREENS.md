@@ -1,6 +1,8 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: шесть экранов и J2 реализованы; K завершён, pilot/production NOT_READY. L0 Architecture & Decision Gates подготовлен 2026-10-09: только документы, L1–L4 не начаты.** Актуальный L0 — §27 и `codex/L0-RESULTS.md`; K — §26 и `codex/K-RESULTS.md`. Старые scope/status записи ниже — история checkpoint; разрешение текущего запуска ограничено L0.
+**Текущий checkpoint: L0.1 documentation-only; compliance NOT VERIFIED, pilot NOT_READY. Следующее действие — review [L01-RESULTS](L01-RESULTS.md) и [PD gates](L01-DECISION-GATES.md), не реализация L1.**
+
+**Историческое состояние после L0: шесть экранов и J2 реализованы; K завершён, pilot/production NOT_READY. L0 Architecture & Decision Gates подготовлен 2026-10-09: только документы, L1–L4 не начаты.** Актуальный L0 — §27 и `codex/L0-RESULTS.md`; K — §26 и `codex/K-RESULTS.md`. Старые scope/status записи ниже — история checkpoint; разрешение того запуска ограничивалось L0. Текущий L0.1 — §28.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -1111,3 +1113,18 @@ checkout. Сейчас push/merge/deployment не выполняются. Ист
 переопределяет новый L как Pilot Identity & Operations Readiness.
 
 **После L0 остановиться: согласовать результат с владельцем. L1–L4 не начинать.**
+
+
+## 28. L0.1 — Personal Data Compliance Architecture (2026-10-09)
+
+Documentation-only от exact `b1e4084`, ветка `codex/l01-personal-data-compliance`; canonical checkout, без новых worktrees/агентов. История C–L0 сохранена. [L01-RESULTS](L01-RESULTS.md) и [PD decision gates](L01-DECISION-GATES.md) определяют следующий review.
+
+D4 **ACCEPTED**: российское ООО владельца — оператор, реквизиты UNKNOWN. D5 **ACCEPTED**: применимые требования 152-ФЗ и связанных актов — обязательный release gate до самого первого пилота с реальными ПД. Не переносить на production.
+
+Созданы 9 документов `docs/compliance`, ADR-L09/L10, PD-G01–14 и результат. Инвентарь привязан к фактическим UUID/JSONB/Markdown/files/EXIF/browser/logs; Identity/profiles ещё proposal. Вариант D (разделение identity + privileged erasure, обезличивание только при evidence) сохраняет обычную immutable history/Accepted terminal; требует отдельной реализации/принятия ADR. Restore — quarantine + независимый актуальный ledger и reconciliation до доступа.
+
+Официальные правовые тексты недоступны через инструмент; **LEGAL SOURCE NOT VERIFIED**, текущие редакции/даты не подтверждены. Уровень ИСПДн, реквизиты, сроки, providers, основания/представительство и operational evidence остаются gates. Никаких фиктивных compliance PASS.
+
+План обновлён: L1 Identity & Personal Data Lifecycle → L2 Resource Protection & Data Lifecycle → L3 Secure Deployment & Recovery → L4 Compliance & Pilot Acceptance. Минимальный пакет запуска L1 теперь C01/C02 + согласованные основания/несовершеннолетние/поля/ADR и retention принципы; одних прежних двух ответов L0 недостаточно. Всё локальное до real-data gates — synthetic-only.
+
+Production code/migrations не изменялись; app tests не перезапускались, 366/260 только baseline K. Проверка документации/ссылок/diff и commit описаны в отчёте. **Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.** После commit/clean tree остановиться; L1–L4, push/merge/deployment не разрешены.

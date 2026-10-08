@@ -47,3 +47,10 @@ Cleanup — writer, всегда остановлен на barrier. Unreferenced
 | Строгий | Например RPO минуты, RTO около часа | WAL/PITR + files, подготовленная recovery среда/дежурство; существенно сложнее |
 
 Числа — иллюстрации C04, не SLA/конфигурация/обещание. Владелец задаёт допустимую потерю работ, простой и backup window; drill доказывает достижимость. C05: off-host location/юрисдикция, стоимость/ёмкость/retention, доступ и хранитель ключа. Всё это UNKNOWN. Если требования не подтверждены измерением — NOT_READY.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Restore прежних accounts/прав/ПД запрещён до quarantine reconciliation по ADR-L10 и PD-LIFECYCLE-AND-ERASURE. Независимый актуальный ledger вне старого snapshot, новые requests учитываются до cutover; missing ledger fail closed. Удаление active DB недостаточно для erasure copies; finite retention/provider proof/законные deadlines по PD-G07/09. RPO/RTO по-прежнему UNKNOWN; изменение counts после законного erasure объясняет manifest.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

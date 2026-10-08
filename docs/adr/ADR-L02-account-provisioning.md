@@ -42,3 +42,10 @@ Activation/reset records — **PROPOSAL**, добавить в identity persiste
 B02/B03: миграция/mapping/transaction/CSRF реализуются технически после разрешения L1. C07/C08 до real accounts: состав группы, минимальные имена, retention и privacy. Минимальный workaround — защищённый roster ActorId→имя у учителя плюс существующие IDs; его приемлемость решает владелец, не объявлять identity table готовым UI profile source.
 
 Risks: ошибочная привязка чужой истории, повторный import, shared email, невозможность связаться с оператором, privileged CLI compromise. Dry-run показывает account/role/course/group/assignments; explicit validation, DB transaction, audit, least privilege. Тестировать partial failure и concurrent imports, code replay, Teacher role injection, deactivation после загрузки файлов, сохранение истории. Внешняя отправка приглашений и реальные users сейчас не создаются.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+До активации нужны утверждённая цель/основание, минимальный набор полей и проверка представительства при применимости. Реквизиты/правила PD-G02/03/04 не выдумывать. Controlled provisioning/activation не заменяет отдельное согласие и доказательства. Внешний request channel доступен после deactivation.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

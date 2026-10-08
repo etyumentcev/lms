@@ -58,3 +58,10 @@ Provision user/mapping/access facts атомарно в одной БД; пер�
 Tests L1: duplicate mapping/empty actor/multiple roles запрещены; login не создаёт work/enrollment; Student не становится Teacher; чужой scope и attached file denied; logout replay/expiry/reset/deactivation отклонены; CSRF missing/wrong/cross-site для всех mutations; две вкладки не показывают чужие данные; restart с сохранёнными keys и DB корректен; legacy attempts/annotations/hash неизменны. Baseline tests JWT сохраняются в dev mode, реальные Identity tests проходят через настоящий handler.
 
 Dependencies: C01 provisioning и C02 initial/recovery policy для L1; B05 keys/proxy для L3; capacity подтверждается L4. Точные timeouts/password rules — техническая конфигурация, предложить и измерить в L1 с учётом длины занятия, не объявлять defaults принятыми в L0.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Identity mapping/session дополнены минимальным basis/case/privacy boundary по ADR-L09. C01/C02 недостаточно для новых privacy workflows: нужен минимальный пакет PD gates. Deactivation не erasure; account disable не блокирует whole-course Teacher чтение. Не собирать стандартные Identity email/phone без необходимости.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

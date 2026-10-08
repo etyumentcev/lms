@@ -1,6 +1,6 @@
 # L — Architecture baseline and proposed pilot boundary
 
-Дата: 2026-10-09. FACT baseline `c7a500f56f26d94e3249a8c8a87e76018b0f5683`, ветка результата `codex/l0-architecture`. L0 меняет только документацию. **NOT_READY** из K сохраняется. D1 VPS/сервер, D2 Compose, D3 ASP.NET Core Identity приняты владельцем; всё будущее устройство ниже PROPOSAL. [Decision register](L-DECISION-REGISTER.md) отделяет accepted/technical/owner, [план](L-IMPLEMENTATION-PLAN.md) — будущие этапы.
+Дата: 2026-10-09. FACT baseline `c7a500f56f26d94e3249a8c8a87e76018b0f5683`, ветка результата `codex/l0-architecture`. L0 меняет только документацию. **NOT_READY** из K сохраняется. D1 VPS/сервер, D2 Compose, D3 ASP.NET Core Identity приняты владельцем; D4/D5 добавлены и ACCEPTED в L0.1: ООО РФ — оператор, compliance обязателен до первого real-data пилота; всё будущее устройство ниже PROPOSAL. [Decision register](L-DECISION-REGISTER.md) отделяет accepted/technical/owner, [план](L-IMPLEMENTATION-PLAN.md) — будущие этапы.
 
 ## FACT — слои и точки интеграции
 
@@ -53,7 +53,7 @@ Maintenance barrier -> DB + originals + keys/config -> encrypted off-host set
 
 Cookie transport — B01, owner provisioning/recovery — C01/C02. Cookie principal не должен отдавать Identity UUID как historical ActorId. Server session check и account mapping не заменяют per-request enrollment/grants. In-flight request до revoke может закончиться: strict serializable admin revocation не реализована и не обещана. [ADR-L01](../docs/adr/ADR-L01-identity-integration.md) задаёт migration/compatibility и session tests.
 
-Single VPS/private DB/files — reuse, HTTPS edge/keys/secret management — L3 additions. No Kubernetes/external IdP/object-store requirement. Capacity/resources/domain/storage provider **UNKNOWN**. Неизменяемая история и originals должны переживать account deactivation, backup/restore и upgrades. Политика exceptional deletion остаётся owner/privacy gate, её нельзя заменить произвольным cleanup.
+Single VPS/private DB/files — reuse, HTTPS edge/keys/secret management — L3 additions. No Kubernetes/external IdP/object-store requirement. Capacity/resources/domain/storage provider **UNKNOWN**. Неизменяемая история и originals должны переживать account deactivation, backup/restore и upgrades. Политика exceptional deletion теперь спроектирована в ADR-L09/L10 (PROPOSAL, PD-G08/09); её нельзя заменить произвольным cleanup.
 
 ## Migration facts и будущие изменения
 
@@ -68,3 +68,16 @@ L1 PROPOSAL: стандартные Identity tables, ActorIdentities, IdentitySe
 [K performance](K-PERFORMANCE-REPORT.md) — single local caller, не capacity certificate. [K security](K-SECURITY-AUDIT.md) S02/S04/S06 и S05 определяют L1–L3; [device protocol](K-DEVICE-TEST-PROTOCOL.md) остаётся физическим acceptance gate. [K gaps](K-MVP-GAPS.md) — names/lookups/teacher materials не решаются автоматически внедрением Identity. [K readiness](K-RELEASE-READINESS.md) NOT_READY не меняется до L4.
 
 Проверка согласованности с [Domain Spec](../docs/domain/LMS-DOMAIN-SPEC.md), [Feature](../docs/features/FEATURE-SUBMISSION-REVIEW.md), [Frontend](../docs/ui/LMS-FRONTEND-CONTRACT.md), [UI Flow](../docs/ui/LMS-UI-FLOW-SPEC.md): state machine/immutable attempts/version/content refs/role scopes/read-only GET/derived progress сохраняются; login/upload/cleanup не создают attempt. Account identity отделена от learning process. Desktop-only — предложение временного pilot acceptance scope, не отмена tablet/mobile UI requirements. [README](../README.md) содержит исторические разделы; актуальный K amendment имеет приоритет над отметками о ещё не реализованных экранах.
+
+## L0.1 — Personal data compliance architecture amendment
+
+База анализа L0.1 `b1e4084`. [Inventory](../docs/compliance/PD-DATA-INVENTORY.md), [data flows](../docs/compliance/PD-DATA-FLOW-MAP.md), [basis](../docs/compliance/PD-PROCESSING-BASES.md), [threat/control matrix](../docs/compliance/PD-SECURITY-CONTROLS.md). Это документационный проект, не новые компоненты в коде. **LEGAL SOURCE NOT VERIFIED**.
+
+- Domain остаётся с теми же статусами/Accepted terminal; immutable learning commands не меняются. Отдельное исключение destruction требует принятого [ADR-L10](../docs/adr/ADR-L10-erasure-and-immutable-history.md) и реализации вне обычных use cases.
+- Application получает proposed purpose/block/request boundary по [ADR-L09](../docs/adr/ADR-L09-personal-data-lifecycle.md); проверяется при read/write/queue/attachment, а не только login. Whole-course Teacher grant не обходит privacy block.
+- Infrastructure: proposed минимальные basis/version/representative/case/retention metadata рядом с будущей Identity; отдельный security audit и privilege-controlled erasure. Нет автоматического Identity cascade/UUID anonymization. Triggers/FK/JSONB/arrays/files требуют полного manifest.
+- API/Web: минимальный onboarding, отдельное consent действие лишь для consent-based целей, verified session/CSRF, no-store и reset/Blob cleanup. Внешний request channel сохраняется после account deactivation. Parent portal, AI/OCR и analytics не добавлены.
+- Deployment: РФ placement evidence для всех stores/flows, договоры/поручения, backup encryption/keys, отдельный current erasure/revocation ledger. Restore только quarantine до reconciliation и разрешения ПД; численные RPO/RTO/сроки UNKNOWN.
+- Организационный контур: российское ООО оператор (D4), ПД/ИБ/issuer/ops/incident роли назначаются; [документы](../docs/compliance/PD-ORGANIZATIONAL-DOCUMENTS.md) — неподписанные шаблоны. Future external schools потребуют нового legal/isolation решения.
+
+Все обязательные [gates](L01-DECISION-GATES.md) и [compliance evidence](../docs/compliance/PD-COMPLIANCE-MATRIX.md) должны быть закрыты до первого пилота (D5). **NOT_READY; compliance NOT VERIFIED.**

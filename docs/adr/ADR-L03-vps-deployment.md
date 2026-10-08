@@ -46,3 +46,10 @@ Logs stdout/stderr с bounded rotation; no passwords/cookies/reset codes/bodies/
 C06: число учеников/учителей, одновременность, задания/неделю, попытки/задание, фото/попытку, реальные размеры файлов, срок хранения, размер урока. Оценка originals = students × assignments × attempts × photos × measured bytes, плюс teacher messages/pending. Disk = originals + DB/index/WAL + временные uploads/reservations + backup staging + logs/images + обоснованный free reserve. Off-host retention отдельно. RAM измерить как peak API (multipart + MemoryStream + ToArray + image validation) + PostgreSQL + proxy/OS при mix нагрузки, backup и restore. CPU/IO: p95/p99, saturation, DB pool wait, swap/OOM, disk throughput на candidate host. Увеличивать concurrency до agreed budgets, выбирать запас по measured burst. Не выдавать модель процессора K за рекомендованный VPS.
 
 Exit L3/L4: только public edge reachable; secrets redacted; restart сохраняет originals/keys; migration failure не открывает partial deployment; rollback drill и clean-host restore доказаны; capacity соответствует C06. C03 предоставляет domain/server/OS/operator access, C04–C05 backup, C09 ops. Пока UNKNOWN, нельзя утверждать защищённое pilot deployment.
+
+
+## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
+
+Контур real-data pilot выбирается с PD-G05/06: все DB/files/Identity/logs/backups/support/egress проверяются на размещение и передачи. D4 ООО РФ и D5 compliance до первого пилота приняты; local Compose не evidence локализации.
+
+Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**
