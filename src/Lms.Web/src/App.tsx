@@ -9,6 +9,8 @@ import { Tabs } from './components/Tabs';
 import { LessonPage } from './features/lesson/LessonPage';
 import { CoursePage } from './features/course/CoursePage';
 import { browserApiClient } from './api/browserClient';
+import { AttachmentUploader } from './components/attachments/AttachmentUploader';
+import { attachmentApi } from './components/attachments/api';
 import type { ApiClient } from './api/client';
 
 const demos = [
@@ -79,6 +81,8 @@ export function App({ client = browserApiClient }: { client?: ApiClient }) {
   const lessonMatch = matchPath('/courses/:courseId/lessons/:lessonId', location.pathname);
   if (lessonMatch?.params.courseId && lessonMatch.params.lessonId) return <LessonPage
     courseId={routeId(lessonMatch.params.courseId)} lessonId={routeId(lessonMatch.params.lessonId)} client={client} />;
+  if ((import.meta.env.DEV || window.lmsAttachmentHarness === true) && location.pathname === '/dev/attachments')
+    return <main id="main-content"><h1>Тест загрузки фотографий · U1</h1><AttachmentUploader api={attachmentApi(client)} /></main>;
   return courseId
     ? <CoursePage key={courseId} courseId={courseId} client={client} />
     : <DemoApp />;
@@ -124,3 +128,5 @@ function DemoApp() {
     </Routes></div>
   </AppShell>;
 }
+
+declare global { interface Window { lmsAttachmentHarness?: boolean } }

@@ -453,15 +453,16 @@ public sealed class ReadApiTests(ApiPostgresFixture postgres) : IClassFixture<Ap
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         var submission = (await response.Content.ReadFromJsonAsync<SubmissionResult>(ApiFactory.Json))!;
         var review = await Review(app, submission);
+        var messageAttachment = await app.Attachment(ApiFactory.Student);
         response = await student.PostAsJsonAsync($"/api/v1/problem-works/{submission.ProblemWorkId}/messages",
-            new { bodyMarkdown = "Student reply", replyToMessageId = review.MessageId, attachmentIds = new[] { attachment } });
+            new { bodyMarkdown = "Student reply", replyToMessageId = review.MessageId, attachmentIds = new[] { messageAttachment } });
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var reply = (await response.Content.ReadFromJsonAsync<MessageResult>(ApiFactory.Json))!;
         var dto = await Get<ProblemWorkDetailsDto>(teacher, $"/api/v1/problem-works/{submission.ProblemWorkId}");
         Assert.Equal(attachment, Assert.Single(dto.CurrentSubmission!.AttachmentIds));
         Assert.Equal(new[] { review.MessageId!.Value, reply.MessageId }, dto.Messages.Select(m => m.Id));
         Assert.Equal(review.MessageId, dto.Messages[1].ReplyToMessageId);
-        Assert.Equal(attachment, Assert.Single(dto.Messages[1].AttachmentIds));
+        Assert.Equal(messageAttachment, Assert.Single(dto.Messages[1].AttachmentIds));
         Assert.Equal(ProblemWorkStatus.NeedsRevision, dto.Status);
         Assert.Equal(1, dto.AttemptCount);
     }

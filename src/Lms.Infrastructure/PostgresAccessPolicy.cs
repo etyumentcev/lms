@@ -40,7 +40,9 @@ public sealed class PostgresAccessPolicy(LmsDbContext db, TimeProvider time) : I
             throw new UseCaseException("ValidationFailed");
         var now = time.GetUtcNow();
         if (await db.AttachmentMetadata.CountAsync(x => ids.Contains(x.Id) && x.OwnerId == actor.Id &&
-            x.IsEligible && x.ExpiresAt > now, cancellationToken) != ids.Count)
+            x.IsEligible && x.ExpiresAt > now && db.StoredAttachments.Any(s => s.Id == x.Id && s.OwnerId == actor.Id && !s.Deleted), cancellationToken) != ids.Count)
             throw new UseCaseException("AttachmentNotOwned");
+        if (await db.StoredAttachments.AnyAsync(x => ids.Contains(x.Id) && (x.SubmissionId != null || x.MessageId != null), cancellationToken))
+            throw new UseCaseException("AttachmentAlreadyAttached");
     }
 }

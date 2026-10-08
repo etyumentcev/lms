@@ -2651,3 +2651,16 @@ to work, never implicitly to a submission. G03 remains closed and G07 unchanged.
 Upload route/storage/claiming/downloads remain deferred, required before the Student
 frontend photo submit flow. AttachmentIds and prepared test ownership records are the
 current boundary. OpenAPI is not configured and remains a separate technical gap.
+
+
+## U1 storage amendment (2026-10-08)
+
+§10 upload assumption is implemented at its original `/api/v1/uploads` route. See the
+U1 frontend amendment for exact metadata/error fields. StoredAttachment is an infrastructure
+resource independent of ProblemWork. Its real ownership/eligibility is checked by the
+existing Application access port; new Submission/Message history claims it once in the
+same PostgreSQL transaction. Binary content remains in a separate filesystem adapter.
+Ordered AttachmentIds and all Submit/Review state transitions remain unchanged. An old
+illustrative reuse of the same ID in a submission and a message is replaced by separate
+uploads; immutable content is never reassigned. This changes technical resource eligibility,
+not the Domain state machine. Historical arrays are not migrated or rewritten.

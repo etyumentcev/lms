@@ -27,6 +27,8 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
     public DbSet<TeacherAccess> TeacherGrants => Set<TeacherAccess>();
     public DbSet<AttachmentAccess> AttachmentMetadata => Set<AttachmentAccess>();
 
+    public DbSet<StoredAttachment> StoredAttachments => Set<StoredAttachment>();
+
     public DbSet<PublishedContentVersion> ContentVersions => Set<PublishedContentVersion>();
 
     protected override void OnModelCreating(ModelBuilder model)
@@ -36,6 +38,17 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
         model.Entity<TeacherAccess>().ToTable("AccessTeachers").HasKey(x => x.Id);
         model.Entity<TeacherAccess>().HasIndex(x => new { x.TeacherId, x.CourseId });
         model.Entity<AttachmentAccess>().ToTable("AccessAttachments").HasKey(x => x.Id);
+        var attachment = model.Entity<StoredAttachment>();
+        attachment.ToTable("StoredAttachments", t => {
+            t.HasCheckConstraint("CK_StoredAttachment_Size", "\"Size\" > 0");
+            t.HasCheckConstraint("CK_StoredAttachment_Link", "NOT (\"SubmissionId\" IS NOT NULL AND \"MessageId\" IS NOT NULL) AND (NOT \"Deleted\" OR (\"SubmissionId\" IS NULL AND \"MessageId\" IS NULL))");
+        });
+        attachment.HasKey(x => x.Id);
+        attachment.Property(x => x.Id).ValueGeneratedNever();
+        attachment.HasIndex(x => x.StorageKey).IsUnique();
+        attachment.HasOne<AttachmentAccess>().WithOne().HasForeignKey<StoredAttachment>(x => x.Id).OnDelete(DeleteBehavior.Restrict);
+        attachment.HasOne<Submission>().WithMany().HasForeignKey(x => x.SubmissionId).OnDelete(DeleteBehavior.Restrict);
+        attachment.HasOne<Message>().WithMany().HasForeignKey(x => x.MessageId).OnDelete(DeleteBehavior.Restrict);
         var content = model.Entity<PublishedContentVersion>();
         content.ToTable("PublishedContentVersions", t => t.HasCheckConstraint("CK_Content_Version", "\"VersionNumber\" > 0"));
         content.HasKey(x => x.Id);

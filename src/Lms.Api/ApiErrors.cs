@@ -23,6 +23,10 @@ public static class ApiErrors
         "AssignmentNotFound" or "ProblemWorkNotFound" or "NotFound" => ("NotFound", 404),
         "AssignmentDoesNotBelongToStudent" or "AssignmentInactive" or "StudentNotAuthorized" or
             "TeacherNotAuthorized" or "Forbidden" => ("Forbidden", 403),
+        "AttachmentTooLarge" => (code, 413),
+        "UnsupportedAttachmentType" => (code, 415),
+        "MalformedAttachment" => ("InvalidAttachment", 400),
+        "AttachmentAlreadyAttached" => (code, 409),
         "AttachmentNotOwned" => (code, 403),
         "ConcurrencyConflict" or "WorkAlreadySubmitted" or "WorkAlreadyAccepted" or "WorkNotSubmitted" or
             "SubmissionIsNotCurrent" or "SubmissionAlreadyReviewed" => (code, 409),
@@ -52,6 +56,7 @@ public sealed class ApiExceptionMiddleware(RequestDelegate next, ILogger<ApiExce
             {
                 UseCaseException e => ApiErrors.Map(e.Code),
                 DomainException e => ApiErrors.Map(e.Code),
+                BadHttpRequestException { StatusCode: 413 } when context.Request.Path == "/api/v1/uploads" => ("AttachmentTooLarge", 413),
                 BadHttpRequestException e => ("ValidationFailed", e.StatusCode),
                 _ => ("InternalError", 500)
             };
