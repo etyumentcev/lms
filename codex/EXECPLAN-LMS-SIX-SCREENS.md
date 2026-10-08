@@ -1,6 +1,6 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: C1, C1.5, C2, C3, C4, D и E завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–18, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущее состояние: C1, C1.5, C2, C3, C4, D, E и F завершены 2026-10-07; G03 CLOSED.** Фактические результаты — §12–19, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -234,7 +234,7 @@ A и B завершены; результаты B сохранены. Крупн
 | C4 — backend contract/integration tests | Совместная проверка C1–C3 | Контракты access/content/queue/pagination/errors/concurrency подтверждены до D |
 | D — Shared UI shell, DONE | React/TypeScript/Vite; shared tokens/primitives, shell/sidebar/context, transport, placeholder routes | 49 frontend tests; browser responsive/keyboard/contrast smoke; 187 backend tests; оба build без warnings/errors; §17 |
 | E — Course, DONE | C4 CourseWorkspace query/decoder, Student/Teacher, server progress, locked rows, actual context | 83 frontend + 187 backend tests; responsive and live Course API smoke; оба build без warnings/errors; §18 |
-| F — Lesson | Assignment IDs, four task statuses, materials, progress, контекст | Nullable work; task actions; отсутствие client business availability logic |
+| F — Lesson + local Compose — DONE | Assignment-keyed Lesson, server statuses/progress, safe context; PostgreSQL → migrations → API → nginx | 120 frontend / 195 backend tests; live browser; clean bootstrap, persistence/reset; §19, F-RESULTS.md |
 | G — Student Solution | Statement над tabs; photo-first; local draft; upload→IDs→submit; comment согласно решению G07 | Text-only/photo-only; empty disabled; no draft attempt; Submitted/Accepted read-only; NeedsRevision feedback+draft; failed submit сохраняет фото |
 | H — Student History | Общий workspace, newest attempts, reviews/messages, безопасный renderer | Обе immutable попытки и правильный feedback; сообщения не меняют state; full timeline не дублируется справа |
 | I — Teacher Queue | Authorized server filters/search/pagination/summary, current attempts | Submitted only; first/revision на данных больше pageSize; correct totals/empty states |
@@ -751,3 +751,58 @@ must proxy API before SPA fallback. Live smoke proves signed test-token validati
 Course rendering, not production provider login/discovery. No blocker for Course rendering.
 
 Full 17-part report: codex/E-RESULTS.md. **E complete; stop, F and later not started.**
+
+
+## 19. F — Lesson + reproducible local Compose (2026-10-07)
+
+Authorized scope: only F, branch `codex/f-lesson` from exact `959a4ef`. Baseline verified
+before implementation: 83 frontend tests, 187 backend tests, frontend and full solution builds
+with zero warnings/errors. Read E/C3/C4 reports, current contracts/flow/README and six-screen
+PNG. The normal sandbox launcher fails with mountinfo; approved escalated execution is used.
+
+Implementation decisions: reuse D AppShell/context/primitives and E client/query/decoder pattern.
+C4 ReadModels.cs is the wire source of truth, not the earlier §7 sketch. Lesson uses nested
+lesson, contentVersions, availability, progress.totalAssignedProblems/percent, assignment rows
+with studentId/work/permissions and materials. No contract defect or backend DTO change needed.
+No protected content on restricted payload; actual student locked endpoint returns 403.
+
+Lesson has no teacherContext/enrollment/role marker. Render actual row work status/progress
+without inferring role from absence of canSubmit; neutral shell navigation avoids fake student
+identity. Multiple-student rows retain their source student IDs, since profile names are absent.
+Materials are DTO-compatible but currently empty from backend. Dates only from availability;
+no invented deadline, hints, profile, teacher solution or events. One server progress panel.
+
+Docker: PostgreSQL 17.6 named volume + health, one-shot EF MigrateAsync and atomic deterministic
+Development-only NotStarted seed, API runtime + health, nginx static web + /api reverse proxy +
+SPA fallback. Multi-stage builds. No new application architecture, Domain/Application/read or
+persistence semantic changes. API host changes limited to migrations/seed CLI, gated local JWT
+signing/token CLI and database readiness. No anonymous login: manually paste CLI-issued bearer
+in Compose-only local login host adapter. Production/Staging never enable that issuer/key/seed.
+Production web target excludes this adapter. Default credentials are explicitly local-only.
+
+Verification and final exit checklist are recorded below after completion; G onward remain deferred.
+
+
+### F — verified results and exit criteria
+
+- [x] Real LessonWorkspace via D/E API/query foundation; exact C4 decoder and response IDs.
+- [x] Course → Lesson → assignment placeholder; null work, keyboard navigation and main focus.
+- [x] Four canonical statuses, server attempts/progress, safe optional materials and empty states.
+- [x] Restricted/403 content handling; no Course-data bypass; source/teacher gaps documented.
+- [x] One ContextPanel DOM after main on mobile; no duplicated large progress or problem list.
+- [x] 120 frontend tests, strict frontend build without warnings/errors.
+- [x] Browser controlled states at 320/375/768/1024/1440; no overflow; screenshots inspected.
+- [x] Real container API/PostgreSQL browser Student/Teacher vertical slice and route refresh.
+- [x] D/E browser regression remains green; API 401/403/404 preserve Problem Details through nginx.
+- [x] Compose clean build/up: PostgreSQL healthy → three EF migrations → API healthy → web healthy.
+- [x] Runtime SDK absent; web runtime only static artifacts/config; separate production target excludes local auth.
+- [x] Explicit Development-only bearer CLI/manual login; production/staging/auth boundary tests.
+- [x] Atomic idempotent NotStarted seed, no works; down/up retains data, down -v removes volume,
+  second clean startup re-applies all migrations and restores demo successfully.
+- [x] 195 backend tests (all prior 187 + 8 local auth/security cases); full build 0 warnings/errors.
+- [x] Domain/Application/Infrastructure/DTOs/migrations unchanged. API-only infrastructure changes listed.
+- [x] Root README sufficient for Docker-only startup, auth, URLs, logs, stop/restart/reset.
+
+Evidence and all 29 report points: `codex/F-RESULTS.md`. Teacher unavailable-content/role distinction,
+material/profile sources and production IdP remain explicit enrichment/integration gaps, not fabricated
+client state. **Stop after F. No G/upload/History/Teacher Queue/Review implementation.**

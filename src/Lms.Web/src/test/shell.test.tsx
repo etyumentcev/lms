@@ -56,7 +56,6 @@ describe('Shared shell', () => {
 describe('Routes inside shell', () => {
   it.each([
     ['/courses', 'Мои курсы'],
-    ['/courses/algebra/lessons/fractions', 'Урок'],
     ['/problem-assignments/assignment-1', 'Задача · Решение'],
     ['/problem-assignments/assignment-1?tab=history', 'Задача · История'],
     ['/teacher/reviews', 'Проверка'],
@@ -69,12 +68,17 @@ describe('Routes inside shell', () => {
     expect(screen.queryByRole('button', { name: /Отправить|Принять решение/ })).not.toBeInTheDocument();
     expect(document.title).toBe(`${title} · Sapientum`);
   });
+  it('Lesson route keeps shell while loading the real query', () => {
+    renderApp('/courses/algebra/lessons/fractions');
+    expect(screen.getByRole('status', { name: 'Загрузка задач' })).toBeInTheDocument();
+    expect(screen.getByRole('complementary')).toBeInTheDocument();
+  });
   it('navigates from the demo and focuses main content', async () => {
     renderApp();
     await userEvent.click(screen.getByRole('link', { name: /Урок.*Задачи и контекст урока/ }));
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Урок');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Занятие');
     expect(screen.getByRole('main')).toHaveFocus();
-    expect(screen.getByRole('link', { name: 'Мои курсы' })).toHaveAttribute('aria-current', 'page');
+    expect(within(screen.getByRole('navigation', { name: 'Основная навигация' })).getByRole('link', { name: 'Мои курсы' })).toHaveAttribute('aria-current', 'page');
   });
   it('keeps unknown routes in the shell', () => {
     renderApp('/missing');

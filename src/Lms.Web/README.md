@@ -193,3 +193,29 @@ used the existing ApiFactory, real JWT Bearer handler and PostgreSQL/Testcontain
 temporary local HTTP bridge; no backend source changes. Both roles returned 200, anonymous
 401, foreign Student 403. This verifies Course transport/auth/access/rendering, not a
 selected provider's discovery/login flow. Screenshots/results go to LMS_SMOKE_OUTPUT.
+
+
+## Lesson workspace (F)
+
+Lesson consumes C4 `GET /api/v1/courses/{courseId}/lessons/{lessonId}/workspace` through the
+existing client/auth adapter. Problems navigate by assignment ID, including absent work.
+Progress and canonical statuses come from the server. Materials appear only when supplied.
+Teacher rows retain server work states; the contract has no role marker, so Lesson uses neutral
+shell navigation. For multiple students the row shows the actual student ID; no names are invented.
+
+For a complete local API/PostgreSQL setup, use the root README Docker Compose instructions.
+No frontend Vite server or host SDK is required for that scenario.
+
+Optional F browser smoke (same existing Playwright/Chrome setup as Course smoke):
+
+```sh
+LMS_PLAYWRIGHT_MODULE=/absolute/path/to/playwright \
+LMS_COMPOSE_LIVE=1 node src/Lms.Web/scripts/lesson-smoke.mjs
+```
+
+Run from the repository root after Compose is healthy. Default URL: http://127.0.0.1:8080;
+`LMS_SMOKE_URL` overrides it, `LMS_SMOKE_OUTPUT` selects the report/screenshot directory
+(default `/tmp/lms-f-browser`). Controlled API responses test all statuses, materials, errors,
+and layouts at 320/375/768/1024/1440px. Live mode separately uses real Compose bearer tokens,
+Course → Lesson → placeholder, Student/Teacher, direct refresh, anonymous 401 and API 404.
+Tokens are never printed by the test or stored in repository artifacts. No workflow mutations.

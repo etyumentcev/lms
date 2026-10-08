@@ -17,16 +17,7 @@ export type CourseLessonRow = {
 };
 
 // Validate wire shape at the trust boundary; no progress/availability business calculations.
-type Check = (value: unknown) => boolean;
-const string: Check = value => typeof value === 'string';
-const boolean: Check = value => typeof value === 'boolean';
-const count: Check = value => typeof value === 'number' && Number.isInteger(value) && value >= 0;
-const percent: Check = value => typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 100;
-const nullable = (check: Check): Check => value => value === null || check(value);
-const array = (check: Check): Check => value => Array.isArray(value) && value.every(check);
-const object = (shape: Record<string, Check>): Check => value => value !== null && typeof value === 'object'
-  && !Array.isArray(value) && Object.entries(shape).every(([key, check]) => check((value as Record<string, unknown>)[key]));
-const timestamp: Check = value => typeof value === 'string' && Number.isFinite(Date.parse(value));
+import { string, boolean, count, percent, nullable, array, object, timestamp } from './validation';
 const lesson = object({
   lesson: object({ id: string, courseVersionId: string, order: count, title: nullable(string), summary: nullable(string) }),
   availability: object({ isAvailable: boolean, availableFrom: nullable(timestamp), reason: string }),

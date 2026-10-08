@@ -1,0 +1,61 @@
+name: lms-local
+x-api-environment: &api-environment
+  ASPNETCORE_ENVIRONMENT: Development
+  ConnectionStrings__Lms: Host=postgres;Port=5432;Database=lms;Username=lms_local;Password=lms_local_only
+  LocalDemo__Enabled: "true"
+  # Public local-only defaults. Never use this configuration or signing key for deployment.
+  LocalDemo__SigningKey: local-compose-only-signing-key-never-use-in-production-2026
+services:
+  postgres:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_DB: lms
+      POSTGRES_USER: lms_local
+      POSTGRES_PASSWORD: lms_local_only
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U lms_local -d lms"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  migrate:
+    build:
+      context: .
+      dockerfile: src/Lms.Api/Dockerfile
+    environment: *api-environment
+    command: ["--migrate-only"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+  api:
+    build:
+      context: .
+      dockerfile: src/Lms.Api/Dockerfile
+    environment: *api-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, http://localhost:8080/api/health]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  web:
+    build:
+      context: .
+      dockerfile: src/Lms.Web/Dockerfile
+      target: local-development
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1/health]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  postgres-data:

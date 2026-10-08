@@ -8,17 +8,17 @@ const commonItems = [
   { label: 'Мои курсы', to: '/courses', icon: '▤' },
   { label: 'Расписание', to: '/schedule', icon: '▦' },
 ] as const;
-export function navigationItems(role: NavigationRole) {
+export function navigationItems(role: NavigationRole | null) {
   return [...commonItems,
-    role === 'Teacher' ? { label: 'Проверка', to: '/teacher/reviews', icon: '✓' }
-      : { label: 'Текущие задачи', to: '/tasks', icon: '☷' },
+    ...(role === null ? [] : [role === 'Teacher' ? { label: 'Проверка', to: '/teacher/reviews', icon: '✓' }
+      : { label: 'Текущие задачи', to: '/tasks', icon: '☷' }]),
     { label: 'Архив задач', to: '/archive', icon: '▣' },
     { label: 'Прогресс', to: '/progress', icon: '↗' },
     { label: 'Сообщения', to: '/messages', icon: '▱' },
   ];
 }
 
-export function SidebarNavigation({ role, preview = true }: { role: NavigationRole; preview?: boolean }) {
+export function SidebarNavigation({ role, preview = true }: { role: NavigationRole | null; preview?: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const navId = useId();
@@ -44,7 +44,7 @@ export function SidebarNavigation({ role, preview = true }: { role: NavigationRo
       </Link></li>)}</ul>
     </nav>
     <div className="sidebar-footer"><span className="avatar" aria-hidden="true">S</span>
-      <div className="nav-label"><strong>{preview ? 'Демо-пространство' : 'Учебное пространство'}</strong><span>{role === 'Teacher' ? 'Преподаватель' : 'Ученик'}</span></div>
+      <div className="nav-label"><strong>{preview ? 'Демо-пространство' : 'Учебное пространство'}</strong>{role && <span>{role === 'Teacher' ? 'Преподаватель' : 'Ученик'}</span>}</div>
     </div>
   </div>;
 }

@@ -72,6 +72,7 @@ try {
   await layout(1440);
   // Native keyboard entry, skip link, tabs and focus visibility.
   await page.goto(base);
+  await page.getByRole('heading', { level: 1 }).waitFor();
   await page.keyboard.press('Tab');
   assert(await page.getByRole('link', { name: 'К основному содержимому' }).evaluate(node => node === document.activeElement));
   await page.keyboard.press('Enter');
@@ -100,7 +101,7 @@ try {
     });
   });
   for (const pair of contrast) assert(pair.ratio >= 4.5, `Contrast: ${JSON.stringify(pair)}`);
-  const routes = ['/courses/demo/lessons/one', '/problem-assignments/one',
+  const routes = ['/courses', '/problem-assignments/one',
     '/problem-assignments/one?tab=history', '/teacher/reviews', '/teacher/reviews/one'];
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
