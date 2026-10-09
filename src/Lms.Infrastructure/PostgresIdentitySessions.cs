@@ -131,6 +131,23 @@ public sealed class PostgresIdentitySessions(LmsDbContext db, TimeProvider clock
         await tx.CommitAsync(cancellationToken);
     }
 
+    // A1 read-only issuance shares exactly the S2 account/session locks. Callback signs
+    // before locks are released; no token is returned if reading/signing fails.
+    internal async Task<AccessToken?> WithIssuingSession(Guid userId, Guid sessionId,
+        Func<SessionIdentity, Task<AccessToken?>> issue, CancellationToken ct)
+    {
+        RequireFreshContext();
+        await using var tx = await db.Database.BeginTransactionAsync(ct);
+        var account = await LockAccount(userId, ct);
+        var session = await LockSession(sessionId, ct);
+        var now = Now();
+        if (!Enabled(account, now) || session == null || session.UserId != userId || session.RevokedAt != null ||
+            now < session.CreatedAt || SessionPolicy.Expired(now, session.LastSuccessfulRefreshAt, session.AbsoluteExpiresAt)) return null;
+        var expiry = session.LastSuccessfulRefreshAt + SessionPolicy.IdleTimeout;
+        if (session.AbsoluteExpiresAt < expiry) expiry = session.AbsoluteExpiresAt;
+        return await issue(Identity(session, account!.Value.Link) with { AbsoluteExpiresAt = expiry });
+    }
+
     private void RequireFreshContext()
     {
         if (db.ChangeTracker.Entries().Any())
