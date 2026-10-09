@@ -1,8 +1,8 @@
 # L1 — Identity, JWT, Organization Scopes & Access Lifecycle
 
-2026-10-09. T01–T06 и E01–E06: **ACCEPTED** по [реестру владельца](L03-OWNER-DECISION-REGISTER.md). L1 **НЕ РАЗРЕШЁН / НЕ НАЧАТ**. Future scope: **SYNTHETIC DATA ONLY**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VERIFIED.
+2026-10-09. T01–T06 и E01–E06: **ACCEPTED** по [реестру владельца](L03-OWNER-DECISION-REGISTER.md). S1 **ACCEPTED**, S2 **AUTHORIZED** по заданию владельца 2026-10-09; S3–S8 не разрешены. Future scope: **SYNTHETIC DATA ONLY**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VERIFIED.
 
-Принятые решения задают требования. DTO/DDL/алгоритмы ниже — инженерная детализация, не самостоятельное owner approval. E01–E06 закрыты L0.4; только **O01 concurrent refresh coordination/replay policy** требует выбора до S4. G01–G04 — engineering review/validation, не blanket blockers S1–S3. [ADR-L15](../docs/adr/ADR-L15-jwt-delayed-revocation.md), [L16](../docs/adr/ADR-L16-organization-jwt-browser-session.md), [L17](../docs/adr/ADR-L17-account-security-recovery-challenges.md), [L18](../docs/adr/ADR-L18-synthetic-processing-restrictions.md) — нормативные contracts; [security specification](../docs/architecture/L1-SECURITY-SPEC.md) — trust boundaries. [Execution task](CODEX-TASK-L1-EXECUTION.md) не выполняется.
+Принятые решения задают требования. DTO/DDL/алгоритмы ниже — инженерная детализация, не самостоятельное owner approval. E01–E06 закрыты L0.4; **O01 concurrent refresh coordination/replay policy ACCEPTED**: 30 секунд, см. ADR-L16. G01–G04 — engineering review/validation, не blanket blockers S1–S3. [ADR-L15](../docs/adr/ADR-L15-jwt-delayed-revocation.md), [L16](../docs/adr/ADR-L16-organization-jwt-browser-session.md), [L17](../docs/adr/ADR-L17-account-security-recovery-challenges.md), [L18](../docs/adr/ADR-L18-synthetic-processing-restrictions.md) — нормативные contracts; [security specification](../docs/architecture/L1-SECURITY-SPEC.md) — trust boundaries. [Execution task](CODEX-TASK-L1-EXECUTION.md) применяется только в явно разрешённом объёме S2.
 
 ## 1. Контекст и неизменяемая граница
 
@@ -78,7 +78,7 @@ Jobs: перед irreversible step — свежая authority/restrictions и bo
 
 ## 5. API/UI engineering contracts
 
-Existing learning routes/DTO/state semantics и `/api/health` сохраняются. Auth contract/claims по ADR-L16; refresh/switch common atomic rotation protocol после решения O01. Access JWT только memory, opaque refresh HttpOnly Secure cookie, rotation/idle60m/absolute12h, no localStorage. Logout/recovery/block revoke refresh sessions, existing access JWT до exp. На смене account/org abort запросов, clear drafts/Blob URLs/query state, cache keys account+org; no command replay. Cross-tab logout общий, active org каждой вкладки независима.
+Existing learning routes/DTO/state semantics и `/api/health` сохраняются. Auth contract/claims по ADR-L16; refresh/switch common atomic rotation protocol согласно принятому O01. Access JWT только memory, opaque refresh HttpOnly Secure cookie, rotation/idle60m/absolute12h, no localStorage. Logout/recovery/block revoke refresh sessions, existing access JWT до exp. На смене account/org abort запросов, clear drafts/Blob URLs/query state, cache keys account+org; no command replay. Cross-tab logout общий, active org каждой вкладки независима.
 
 Org-scoped admin routes для accounts/codes/memberships/enrollments/teacher assignments/revoke требуют scoped permissions, не global role. PROPOSED expectedVersion и idempotency keys на creates; audit атомарен с изменением. Revoke response содержит scope, acceptedAt и deadline: не «все JWT немедленно отозваны». Никакой выдачи roster B администратору A. UI минимальный, шесть основных учебных экранов сохранены.
 
@@ -94,7 +94,7 @@ Cutover: остановить ingress/writers, проверить manifest/const
 
 ## 7. Implementation slices — будущие, NOT RUN
 
-Восемь slices сохранены, ответственность уточнена под E решения: S2 internal identity/session primitives, S3 resource/scopes, S4 JWT/refresh/switch и baseline guards на всех путях; S7 hardening файлов/jobs/restrictions/таймаутов, не первое введение защиты. S1 — durable foundations и migration rehearsal; execution M3 cutover только S8. S1–S3 могут быть отдельно разрешены без O01, HTTP auth/provisioning ingress до готового boundary закрыт. Ни один slice сейчас не разрешён.
+Восемь slices сохранены, ответственность уточнена под E решения: S2 internal identity/session primitives, S3 resource/scopes, S4 JWT/refresh/switch и baseline guards на всех путях; S7 hardening файлов/jobs/restrictions/таймаутов, не первое введение защиты. S1 — durable foundations и migration rehearsal; execution M3 cutover только S8. S1–S3 могут быть отдельно разрешены без O01, HTTP auth/provisioning ingress до готового boundary закрыт. S1 принят; разрешён только S2.
 
 Названия endpoints ниже — engineering contract under `/api/v1`, не уже существующие routes. DDL/index/DTO decisions в пределах accepted invariants инженер фиксирует при реализации; новые policy tradeoffs — STOP для owner. Общий результат каждого slice — code+tests+evidence в будущем, не deploy. Общие stop: real/unknown data, чужие изменения, history loss, failing critical tests, выход за принятое architecture, отсутствие отдельного разрешения.
 
@@ -132,7 +132,7 @@ Cutover: остановить ingress/writers, проверить manifest/const
 | Domain invariants | actor_id отдельно от Identity sub; no work/enrollment from login; idle60m/absolute12h fixed. |
 | Тесты | Malformed/duplicate mapping, password lengths, concurrent CAS one successor, expired idle/absolute, revoke/logout primitives, secret canaries. |
 | Acceptance | Internal session lifecycle atomic, verifiers protected, no extra descendants/timeout resurrection; Claim mapper compatibility planned. |
-| Stop conditions | Необходимость выбрать O01/browser fallback либо раскрыть public refresh → отложить до S4; inconsistent security transaction → STOP. |
+| Stop conditions | Необходимость реализовать browser fallback либо раскрыть public refresh → отложить до S4; inconsistent security transaction → STOP. |
 | Результат | Tested internal identity/session services, no public session exposure. |
 | Переход | S2 PASS и S3 authorization; завершение S2 не означает готовый browser auth. |
 
@@ -153,7 +153,7 @@ Cutover: остановить ingress/writers, проверить manifest/const
 | Acceptance | Current grant resolver и resource scope contracts proved, A revoke сохраняет B, no role-only fallback. |
 | Stop conditions | Неоднозначная resource affiliation, guessed org, cross-org DB связь, grants revival. |
 | Результат | Internal scoped authority модель для issuer/API; ingress ещё закрыт. |
-| Переход | S3 evidence PASS; S4 только после решения O01 и отдельного разрешения. |
+| Переход | S3 evidence PASS; S4 только при соблюдении принятого O01 и отдельном разрешении. |
 
 ### S4 — JWT, organization switching и refresh
 
@@ -269,4 +269,8 @@ Cutover: остановить ingress/writers, проверить manifest/const
 
 ## 9. Readiness и ограничения
 
-[Отдельная оценка](L03-L1-READINESS.md) различает design readiness и runtime dependencies. S1 может быть разрешён сейчас отдельно; S2 после S1, S3 после S2, без O01. S4 blocked O01, S5–S8 зависят от него через S4. Юридические/операционные gates блокируют реальные данные/пилот, synthetic fixtures не требуют настоящих representatives/consents. PD-G01–14, ORG-G05/08, C03–C09 остаются открытыми; real ProcessingRestrictions freshness отдельное решение. Compliance status: NOT VERIFIED; Pilot readiness: NOT_READY; LEGAL SOURCE NOT VERIFIED. L1 не разрешён этим планом.
+[Отдельная оценка](L03-L1-READINESS.md) различает design readiness и runtime dependencies. S1 может быть разрешён сейчас отдельно; S2 после S1, S3 после S2, без O01. O01 принят; S4 требует завершения predecessors и отдельного разрешения, S5–S8 зависят от S4. Юридические/операционные gates блокируют реальные данные/пилот, synthetic fixtures не требуют настоящих representatives/consents. PD-G01–14, ORG-G05/08, C03–C09 остаются открытыми; real ProcessingRestrictions freshness отдельное решение. Compliance status: NOT VERIFIED; Pilot readiness: NOT_READY; LEGAL SOURCE NOT VERIFIED. L1 не разрешён этим планом.
+
+## L1/S2 authorization checkpoint — 2026-10-09
+
+The explicit owner task supersedes earlier authorization/O01 status statements: S1 ACCEPTED, O01 ACCEPTED (30-second policy in ADR-L16), S2 AUTHORIZED. Only internal identity/session foundations are authorized. S3–S8, public refresh/cookies/coordinator/JWT grants, M2/M3, push/merge/deploy remain excluded. See `codex/L1-S2-RESULTS.md` for current evidence.

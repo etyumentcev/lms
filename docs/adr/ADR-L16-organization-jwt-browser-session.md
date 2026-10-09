@@ -1,6 +1,6 @@
 # ADR-L16 — Organization-scoped JWT и browser refresh-session
 
-2026-10-09. **ACCEPTED E01/E02** по L0.4 owner request §4. DTO/поля — engineering contract; **O01 PROPOSED** отдельно. [Реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). L1 не разрешён, SYNTHETIC DATA ONLY. Временные гарантии — ADR-L15.
+2026-10-09. **ACCEPTED E01/E02** по L0.4 owner request §4. DTO/поля — engineering contract; **O01 ACCEPTED** по заданию L1/S2. [Реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). S1 ACCEPTED; только S2 AUTHORIZED, S3–S8 не разрешены. SYNTHETIC DATA ONLY. Временные гарантии — ADR-L15.
 
 ## Claims и authority
 
@@ -28,13 +28,19 @@ Cookie SameSite — явная настройка, engineering default Lax, бе
 
 Reused predecessor фиксируется как potential compromise без secrets. Request id не credential и не разрешает повторный secret response. Lost response: если successor cookie установлен, возможен новый refresh; иначе re-login, сервер не восстанавливает plaintext successor. Не переустанавливать старую cookie delayed response поверх новой. Lost transport response отличается от обычной здоровой конкуренции вкладок.
 
-## O01 — конкретный PROPOSED вариант
+## O01 — ACCEPTED: Concurrent Refresh & Replay
 
-Browser-wide single-flight coordinator для refresh/switch: Web Locks при поддержке, capability-tested broker/fallback до release. Под lock вкладка отправляет свой org, получает свой JWT; cookie update завершается до release. Следующая вкладка отправляет successor и получает другой org JWT. BroadcastChannel только signals/metadata, никогда tokens. Crash освобождает coordinator, server authority определяет timeout. Unsupported browser без проверенного fallback — acceptance STOP, не скрытое сокращение device scope.
+Owner evidence: explicit L1/S2 task, 2026-10-09. Supersedes the proposed 5-second policy.
 
-Server CAS обязателен даже при coordinator. **PROPOSED 5-second race window**: stale consumed predecessor в течение 5s получает 409 RefreshSuperseded, no JWT/no Set-Cookie, audit potential replay, без automatic family revoke. Вкладка после lock может один раз retry с current cookie; если successor отсутствует — re-login без loop. Вне окна replay→revoke этой refresh-session/generic401/audit, не SecurityBlocked аккаунта автоматически. Старый token внутри окна не получает ничего, но задерживается реакция на кражу — owner tradeoff. Same idempotency request не раскрывает successor.
+1. Every successful refresh atomically replaces its predecessor. Concurrent operations on a session serialize transactionally, independently of browser coordination.
+2. A consumed predecessor presented within **30 seconds inclusive** of its consumption returns **409 `refresh_already_rotated`**, with no new refresh token, no access JWT and **no Set-Cookie** (including deletion). It does not automatically mean compromise or revoke the session.
+3. A verified predecessor presented after 30 seconds revokes **only that session**, atomically with a secret-free security audit. Other sessions and the account remain enabled. Unknown/forged tokens cannot trigger revocation.
+4. Tabs coordinate refresh/switch; browser-wide single-flight and a tested fallback remain S4. Server security does not depend on them. A delayed conflict response cannot overwrite the winner's cookie because it carries no Set-Cookie.
+5. Lost HTTP response after commit does **not** guarantee session recovery. If the successor cookie was not installed, no successor secret can be reconstructed or reissued. Retry inside the window returns 409; retry outside it revokes the session. New login may be necessary. Tests must preserve this limitation.
 
-Альтернатива strict broker без окна, отказ/re-login для неразрешимой гонки и отдельная replay reaction. Она тоже должна доказать отсутствие false normal concurrency termination; family revoke на каждом duplicate не удовлетворяет E02. Владелец выбирает вариант/окно/reaction либо явно делегирует policy. **O01 блокирует S4**, не S1 schema/S2 internal CAS/S3 scopes.
+E02 idle60m/absolute12h and memory-only access/HttpOnly Secure refresh remain unchanged. E03 SecurityBlocked always denies login/refresh; its authorized block workflow revokes all sessions in S6. Replay alone does not set SecurityBlocked. T04 existing JWT lifetime is unchanged: refresh-session revocation is not immediate access-JWT invalidation.
+
+S2 implements internal outcomes only. S4 must map the conflict exactly, apply cookies only after commit, validate exact Origin plus CSRF on every cookie mutation, and verify actual browser response ordering. No public endpoint/coordinator is authorized in S2.
 
 ## Verification — NOT RUN
 

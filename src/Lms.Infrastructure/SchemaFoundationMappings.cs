@@ -173,6 +173,7 @@ internal static class SchemaFoundationMappings
         model.Entity<IdentitySession>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<IdentitySession>().HasIndex("UserId","RevokedAt");
         model.Entity<RefreshVerifier>().HasOne<IdentitySession>().WithMany().HasForeignKey("SessionId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<RefreshVerifier>().HasIndex(x => x.Verifier).IsUnique();
         model.Entity<RefreshVerifier>().HasIndex("SessionId").IsUnique().HasFilter("\"ConsumedAt\" IS NULL");
         model.Entity<RecoveryRequest>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("TargetUserId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<RecoveryRequest>().HasOne<OrganizationMembership>().WithMany().HasForeignKey("InitiatingOrgId","InitiatorActorId").HasPrincipalKey("OrganizationId","ActorId").OnDelete(DeleteBehavior.Restrict);

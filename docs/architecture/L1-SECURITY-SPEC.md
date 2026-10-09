@@ -1,6 +1,6 @@
 # L1 — Security and trust boundaries
 
-2026-10-09. T01–T06/E01–E06 ACCEPTED, implementation NOT VERIFIED. SYNTHETIC DATA ONLY. Эта specification объединяет enforcement map; механизмы нормативно описаны в ADR-L15–L18 и не дублируются здесь полностью. O01 refresh coordination — OPEN, отдельное разрешение L1 отсутствует.
+2026-10-09. T01–T06/E01–E06 ACCEPTED, implementation NOT VERIFIED. SYNTHETIC DATA ONLY. Эта specification объединяет enforcement map; механизмы нормативно описаны в ADR-L15–L18 и не дублируются здесь полностью. O01 ACCEPTED; S1 ACCEPTED; only S2 AUTHORIZED by the 2026-10-09 owner task.
 
 | Boundary | Недоверенный input / доверенный источник | Обязательный enforcement | Evidence slice |
 |---|---|---|---|
@@ -25,10 +25,14 @@ Protected token/challenge verifiers отделены от audit; минимал�
 
 Ordinary JWT grants проверяются локально; mandatory Redis и per-request DB freshness для них отсутствуют. Resource lookup, ProcessingRestrictions check, refresh и mutations могут читать PostgreSQL: «нет DB freshness для JWT» не равно «API вообще без БД». Synthetic restrictions intentionally current-read, что добавляет DB load; измерить S7/S8, не оптимизировать positive allow cache ценой E06 без нового решения. Real-data freshness/propagation/in-flight SLA остаётся отдельным pre-pilot gate.
 
-O01: single browser-wide refresh coordinator serializes короткие issuance, не учебные запросы; нагрузка bounded retries, incompatible browser fallback требует evidence. Гонки, потерянный Set-Cookie и replay не различимы только по старому token; tradeoff явно proposed, не скрытый security PASS. G02: сам CancellationToken не даёт hard completion guarantee при зависшем storage/commit; acceptance stop до доказуемого timeout/cancel budget. Уже скачанные bytes и уже committed actions не отзываются.
+O01: single browser-wide refresh coordinator serializes короткие issuance, не учебные запросы; нагрузка bounded retries, incompatible browser fallback требует evidence. Гонки, потерянный Set-Cookie и replay не различимы только по старому token; tradeoff принят O01: 30 секунд, 409 refresh_already_rotated без Set-Cookie; lost response не гарантирует восстановление. G02: сам CancellationToken не даёт hard completion guarantee при зависшем storage/commit; acceptance stop до доказуемого timeout/cancel budget. Уже скачанные bytes и уже committed actions не отзываются.
 
 ## L1 boundary
 
 IdentityUser credentials → stable Actor; security/session records вне Domain. OrganizationMembership и scope sidecars не переписывают learning history. AccessChallenge и RecoveryRequest — security application lifecycle, не ProblemWork states. SyntheticOnly не legal approval/PII detector. Consent/contract/retention UI и реальные representatives/erasure вне L1. Чётко маркированные synthetic verifications позволяют S6 tests без юридического решения для реальных людей.
 
 Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VERIFIED. [Readiness](../../codex/L03-L1-READINESS.md).
+
+## L1/S2 authorization checkpoint — 2026-10-09
+
+The explicit owner task supersedes earlier authorization/O01 status statements: S1 ACCEPTED, O01 ACCEPTED (30-second policy in ADR-L16), S2 AUTHORIZED. Only internal identity/session foundations are authorized. S3–S8, public refresh/cookies/coordinator/JWT grants, M2/M3, push/merge/deploy remain excluded. See `codex/L1-S2-RESULTS.md` for current evidence.

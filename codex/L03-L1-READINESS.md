@@ -68,3 +68,7 @@ S1–S3 независимы от O01 в design, но не друг от дру�
 ## Recommendation
 
 Архитектурно можно отдельно разрешить **S1→S2→S3 на синтетических данных**. Сейчас начинать нельзя: owner authorization отсутствует. До S4 решить/делегировать O01, принять predecessors и проверить clock/expiry contract. Для следующих slices — dependencies/acceptance/stop conditions [плана](L03-L1-IMPLEMENTATION-PLAN.md), затем S8 evidence. [Execution task](CODEX-TASK-L1-EXECUTION.md) подготовлен и не выполняется. STOP после L0.4 documentation commit.
+
+## S2 execution checkpoint — 2026-10-09
+
+Owner accepted S1 and O01 (30-second replay window), authorized only S2. [S2 results](L1-S2-RESULTS.md) record implementation and current test evidence. Earlier readiness/O01 status is historical. S3–S8, public auth cutover, M2/M3 and deployment remain unauthorized.

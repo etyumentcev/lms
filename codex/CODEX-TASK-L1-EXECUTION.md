@@ -8,7 +8,7 @@ Sapientum LMS: .NET10/ASP.NET Core/EF Core10/PostgreSQL, React/TypeScript/Vite; 
 
 Canonical `/home/tea/github/lms`, sequentially, main по AGENTS.md если владелец отдельно не задал ветку; no new worktrees/parallel agents. Проверить фактические branch/HEAD/clean tree и наличие L0.4 documentation commit: подтверждённая база L0.3 `836aad59d01f1cd7c04e9e892ebd2d8621f7c59f`, L0.4 branch `codex/l04-extended-decisions-l1-readiness`; не считать автоматически merged в main. No automatic merge, не перезаписывать/коммитить чужие изменения.
 
-До кода получить explicit authorization конкретных slices/targets. T01–T06/E01–E06 ACCEPTED по [реестру](L03-OWNER-DECISION-REGISTER.md), но O01 concurrency/replay policy OPEN до S4. S1–S3 можно отдельно разрешить без O01 с predecessor acceptance. Прочитать [план](L03-L1-IMPLEMENTATION-PLAN.md), [readiness](L03-L1-READINESS.md), ADR-L01/L02/L11–L18 и [security specification](../docs/architecture/L1-SECURITY-SPEC.md), domain/feature/UI contracts. Все численные параметры ниже обязательны, proposed O01 window не выбирать молча.
+До кода получить explicit authorization конкретных slices/targets. T01–T06/E01–E06 ACCEPTED по [реестру](L03-OWNER-DECISION-REGISTER.md), O01 concurrency/replay policy ACCEPTED по заданию L1/S2. S1–S3 можно отдельно разрешить без O01 с predecessor acceptance. Прочитать [план](L03-L1-IMPLEMENTATION-PLAN.md), [readiness](L03-L1-READINESS.md), ADR-L01/L02/L11–L18 и [security specification](../docs/architecture/L1-SECURITY-SPEC.md), domain/feature/UI contracts. Все численные параметры ниже обязательны, accepted O01 window 30 секунд не изменять.
 
 ## Scope и обязательные механизмы
 
@@ -28,7 +28,7 @@ Canonical `/home/tea/github/lms`, sequentially, main по AGENTS.md если в�
 |---|---|---|
 | S1 | Additive roots/sidecars/security schema shells, M1/M2 synthetic mapping, constraints/backup-restore rehearsal | Preserved IDs/history/hashes, no cross-org FKs/unknown serving, PASS; public cutover закрыт |
 | S2 | Identity→Actor и internal session create/revoke/rotate CAS, verifiers/timeouts | Mapping/atomicity/idle60m/absolute12h tests PASS; no public refresh/coordinator |
-| S3 | Membership/enrollment/teacher grant generations/deadlines, trusted resource scope | A/B/regrant/no role-only bypass tests PASS; S4 ждёт O01 |
+| S3 | Membership/enrollment/teacher grant generations/deadlines, trusted resource scope | A/B/regrant/no role-only bypass tests PASS; S4 требует отдельного разрешения и protocol review |
 | S4 | JWT issuer/validation, refresh/switch/logout/browser coordination, baseline guards всех API/file/processing paths | O01 resolved, G02 expiry validated, real HTTP/browser races+scope/CSRF tests PASS |
 | S5 | Minimal org-admin UI/accounts/separate grants/recovery-request initiation/duplicate guard | Own-org only/idempotency/no self-grant PASS; unfinished S6 code controls disabled |
 | S6 | Activation/recovery states, independent approval/minimal security UI, block/unblock | Full code/approval/block/concurrency/NAT/no-secrets tests PASS |
@@ -58,3 +58,7 @@ Targeted tests каждого slice, full build/regression S8. Real PostgreSQL �
 Reviewable commits по accepted slices согласно новому разрешению; только свои изменения, diff --check/appropriate tests до commit. Поддерживать checkpoint/evidence и ссылки. Не push/merge/deploy и не L2–L4 без отдельного разрешения.
 
 Итоговый отчёт: A status/branch/commits/slices; B changes/components/contracts/migrations; C tests/evidence PASS/FAIL/NOT RUN; D invariants/security/time bounds; E targets/backup/restore/cutover; F open owner/engineering/legal/ops issues; G readiness/next authorized scope. Compliance status: NOT VERIFIED; Pilot readiness: NOT_READY; LEGAL SOURCE NOT VERIFIED. После L1 report STOP. Настоящий документ не исполнялся в L0.4.
+
+## L1/S2 authorization checkpoint — 2026-10-09
+
+The explicit owner task supersedes earlier authorization/O01 status statements: S1 ACCEPTED, O01 ACCEPTED (30-second policy in ADR-L16), S2 AUTHORIZED. Only internal identity/session foundations are authorized. S3–S8, public refresh/cookies/coordinator/JWT grants, M2/M3, push/merge/deploy remain excluded. See `codex/L1-S2-RESULTS.md` for current evidence.

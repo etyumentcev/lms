@@ -20,4 +20,4 @@ Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
 
 ## T04 — superseding ordinary revoke
 
-ORG-G04: ordinary revoke ≤2h, JWT≤15m, reserve10m/API60s/maxHTTP8m по ADR-L15; A не отменяет B. E01–E06 ACCEPTED L0.4. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) задаёт one-org JWT/session, [ADR-L17](ADR-L17-account-security-recovery-challenges.md) security lifecycle, [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) restrictions. O01 refresh coordination отдельно OPEN; нет mandatory grant freshness lookup на каждом HTTP.
+ORG-G04: ordinary revoke ≤2h, JWT≤15m, reserve10m/API60s/maxHTTP8m по ADR-L15; A не отменяет B. E01–E06 ACCEPTED L0.4. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) задаёт one-org JWT/session, [ADR-L17](ADR-L17-account-security-recovery-challenges.md) security lifecycle, [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) restrictions. O01 refresh coordination ACCEPTED (30 секунд по заданию L1/S2, ADR-L16); нет mandatory grant freshness lookup на каждом HTTP.

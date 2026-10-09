@@ -915,6 +915,9 @@ namespace Lms.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("\"ConsumedAt\" IS NULL");
 
+                    b.HasIndex("Verifier")
+                        .IsUnique();
+
                     b.ToTable("RefreshVerifiers", null, t =>
                         {
                             t.HasCheckConstraint("CK_Refresh_Verifier", "\"Generation\" > 0 AND octet_length(\"Verifier\") = 32 AND \"KeyVersion\" > 0 AND (\"ConsumedAt\" IS NULL OR \"ConsumedAt\" >= \"CreatedAt\")");

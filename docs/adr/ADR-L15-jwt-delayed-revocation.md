@@ -39,7 +39,7 @@ Job сохраняет actor/scope/generation/context и ограниченны�
 
 Для ordinary revoke не требуются двухфазный `Revoking → Revoked` с блокировкой всех операций, shared/exclusive PG locks на каждый учебный запрос, PG stream lease, Redis или немедленная invalidation всех JWT. Locks для целостности записи/claim и maintenance backup/erasure не отменены этим ADR.
 
-E01–E06 ACCEPTED. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) задаёт claims/session/refresh, [ADR-L17](ADR-L17-account-security-recovery-challenges.md) — E03–E05, [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) — E06. Только O01 exact concurrent refresh protocol остаётся OPEN; real-data restrictions freshness требует отдельного решения до пилота.
+E01–E06 ACCEPTED. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) задаёт claims/session/refresh, [ADR-L17](ADR-L17-account-security-recovery-challenges.md) — E03–E05, [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) — E06. O01 exact concurrent refresh protocol ACCEPTED (30 секунд, ADR-L16); real-data restrictions freshness требует отдельного решения до пилота.
 
 ## Acceptance (будущие проверки, NOT RUN)
 
