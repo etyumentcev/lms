@@ -36,3 +36,7 @@ Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VE
 ## L1/S2 authorization checkpoint — 2026-10-09
 
 The explicit owner task supersedes earlier authorization/O01 status statements: S1 ACCEPTED, O01 ACCEPTED (30-second policy in ADR-L16), S2 AUTHORIZED. Only internal identity/session foundations are authorized. S3–S8, public refresh/cookies/coordinator/JWT grants, M2/M3, push/merge/deploy remain excluded. See `codex/L1-S2-RESULTS.md` for current evidence.
+
+## L1/S3 / B01 authorization checkpoint — 2026-10-09
+
+The explicit owner continuation accepts **B01 — Generation-aware Enrollment Move**, accepts S1/S2/O01 and authorizes only S3. This supersedes earlier slice-authorization statements while retaining their historical evidence. A separate forward migration may replace enrollment-specific immutable GroupId guards with atomic same-course moves, immutable generation history, expected-version/membership checks, commit-time consistency and restricted-role enforcement. Stable student/course/org keys and historical learning affiliation must remain unchanged. Existing work must not follow a student's group move automatically. S4–S8, M2/M3, legacy backfill, production migrations, real personal data and push/merge/deploy remain forbidden. See [S3 authority design](L1-S3-SCOPED-AUTHORITY.md) and the S3 results checkpoint for implementation evidence.

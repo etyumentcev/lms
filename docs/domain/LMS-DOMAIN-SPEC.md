@@ -1414,3 +1414,7 @@ T04 уточняет ORG-G04: ordinary revoke bounded двумя часами ч
 ## L0.4 — accepted security boundaries
 
 E01–E06 ACCEPTED: IdentityUser→Actor stable, OrganizationMembership/course/group scopes отдельно; JWT одной org не источник ownership, resource root выводит сервер. SecurityBlocked/refresh-session/AccessChallenge/RecoveryRequest — security application lifecycle, не статусы ProblemWork. Unblock/recovery не оживляют revoked grants. AccessChallenge Activation/Recovery имеет Created→Consumed/Expired/Revoked/Locked, terminal irreversible. Immutable ProcessingContext/current restrictions вне aggregates по [ADR-L18](../adr/ADR-L18-synthetic-processing-restrictions.md). [Security specification](../architecture/L1-SECURITY-SPEC.md) связывает boundaries без новых learning aggregates.
+
+## B01 / S3 — immutable learning affiliation
+
+2026-10-09: owner **B01 ACCEPTED**, S1/S2/O01 ACCEPTED, S3 AUTHORIZED only. A same-course enrollment move creates a new authority generation and preserves immutable group affiliation of existing work. New scoped assignments capture server-derived organization/course/student/group and enrollment/membership generations in AssignmentScopes; work/submission/review/attached-file roots inherit that affiliation, not the student’s mutable current group. Missing legacy sidecars deny new scoped access; no backfill is authorized. S4–S8 remain excluded. See [S3 authority design](../architecture/L1-S3-SCOPED-AUTHORITY.md) for the protocol, role boundary and issuer transaction dependency.

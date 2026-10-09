@@ -21,9 +21,9 @@ public sealed class SchemaFoundationTests(PostgresFixture fixture) : IClassFixtu
     private static readonly Guid ContextB = Guid.Parse("00000000-0000-0000-0000-000000000032");
     private static readonly DateTimeOffset At = new(2026, 10, 9, 0, 0, 0, TimeSpan.Zero);
 
-    private async Task<string> Seed()
+    private async Task<string> Seed(string? migration = null)
     {
-        var cs = await fixture.CreateDatabase();
+        var cs = await fixture.CreateDatabase(migration);
         await using var db = PostgresFixture.Open(cs);
         db.AddRange(new Organization { OrganizationId = A, State = "Enabled", SyntheticOnly = true },
             new Organization { OrganizationId = B, State = "Enabled", SyntheticOnly = true },
@@ -114,6 +114,53 @@ public sealed class SchemaFoundationTests(PostgresFixture fixture) : IClassFixtu
         await Reject(cs, $"""UPDATE "CourseRegistry" SET "OrganizationId"='{A}' WHERE "CourseId"='unknown'""");
         await Reject(cs, $"""DELETE FROM "Organizations" WHERE "OrganizationId"='{A}'""", PostgresErrorCodes.ForeignKeyViolation);
         await using var db = PostgresFixture.Open(cs); Assert.Empty(await db.Set<TeacherAssignmentScope>().ToListAsync());
+    }
+
+    // S3 blocker evidence: the approved move use case cannot use the retained S1 guards.
+    [Fact]
+    public async Task Enrollment_move_is_blocked_even_after_revoke_and_new_generation()
+    {
+        var cs = await Seed("20261009101331_SessionVerifierLookupS2");
+        await LegacyEnrollment(cs, "a");
+        await Sql(cs, Enrollment(A, "a"));
+        await Sql(cs, """INSERT INTO "CourseGroups" ("CourseId","GroupId") VALUES ('a','g2')""");
+        await Sql(cs, """UPDATE "EnrollmentScopes" SET "State"='Revoked',"Version"=2,"RevocationRequestedAt"='2026-10-09T00:00Z',"AccessValidUntil"='2026-10-09T02:00Z'""");
+
+        var sidecar = await Assert.ThrowsAsync<PostgresException>(() => Sql(cs,
+            """UPDATE "EnrollmentScopes" SET "GroupId"='g2',"EnrollmentGeneration"=2,"Version"=3,"State"='Active',"RevocationRequestedAt"=NULL,"AccessValidUntil"=NULL"""));
+        Assert.Equal(PostgresErrorCodes.CheckViolation, sidecar.SqlState);
+        Assert.Equal("L1 stable association: GroupId", sidecar.MessageText);
+        var legacy = await Assert.ThrowsAsync<PostgresException>(() => Sql(cs,
+            """UPDATE "AccessEnrollments" SET "GroupId"='g2' WHERE "CourseId"='a'"""));
+        Assert.Equal(PostgresErrorCodes.CheckViolation, legacy.SqlState);
+        Assert.Equal("L1 scoped enrollment binding is stable", legacy.MessageText);
+        await Reject(cs, """DELETE FROM "EnrollmentScopes" WHERE true""");
+        await Reject(cs, Enrollment(A, "a"), PostgresErrorCodes.UniqueViolation);
+
+        await using var db = PostgresFixture.Open(cs);
+        var scope = await db.Set<EnrollmentScope>().SingleAsync();
+        Assert.Equal("g", scope.GroupId);
+        Assert.Equal("Revoked", scope.State);
+        Assert.Equal(1, scope.EnrollmentGeneration);
+        Assert.Equal(2, scope.Version);
+        Assert.Equal("g", (await db.Enrollments.SingleAsync()).GroupId);
+    }
+
+    [Fact]
+    public async Task B01_forward_upgrade_preserves_S2_rows_and_does_not_backfill_history()
+    {
+        var cs = await Seed("20261009101331_SessionVerifierLookupS2");
+        await LegacyEnrollment(cs, "a"); await Sql(cs, Enrollment(A, "a"));
+        var before = await Scalar<string>(cs, """SELECT jsonb_agg(to_jsonb(s))::text FROM "EnrollmentScopes" s""");
+        await using (var db = PostgresFixture.Open(cs)) { await db.Database.MigrateAsync(); await db.Database.MigrateAsync(); }
+        Assert.Equal(before, await Scalar<string>(cs, """SELECT jsonb_agg(to_jsonb(s))::text FROM "EnrollmentScopes" s"""));
+        Assert.Equal(0L, await Scalar<long>(cs, """SELECT count(*) FROM "AuthorityHistory" s"""));
+        Assert.Equal(0L, await Scalar<long>(cs, """SELECT count(*) FROM "AssignmentScopes" s"""));
+        await Sql(cs, """INSERT INTO "CourseGroups" ("CourseId","GroupId") VALUES ('a','g2')""");
+        await Sql(cs, $"""SELECT public.s3_change_authority('Enrollment','Move','{A}','{Student}',1,1,'a','g2',NULL,NULL,0)""");
+        Assert.Equal("g2", await Scalar<string>(cs, """SELECT "GroupId" FROM "EnrollmentScopes" WHERE "CourseId"='a'"""));
+        Assert.Equal("g2", await Scalar<string>(cs, """SELECT "GroupId" FROM "AccessEnrollments" WHERE "CourseId"='a'"""));
+        Assert.True(await Scalar<long>(cs, """SELECT count(*) FROM "AuthorityHistory" s""") > 0);
     }
 
     [Fact]

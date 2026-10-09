@@ -223,3 +223,26 @@ public sealed class SecurityAudit
     public string? EvidenceRef { get; set; }
     public DateTimeOffset OccurredAt { get; set; }
 }
+
+// Immutable server-captured affiliation for newly created scoped assignments only.
+// Absence means legacy/unknown; it is never synthesized on read or moved with enrollment.
+public sealed class AssignmentScope
+{
+    public Guid AssignmentId { get; set; }
+    public Guid OrganizationId { get; set; }
+    public Guid StudentId { get; set; }
+    public string CourseId { get; set; } = null!;
+    public string? GroupId { get; set; }
+    public long MembershipGeneration { get; set; }
+    public long EnrollmentGeneration { get; set; }
+}
+
+public sealed class AuthorityHistory
+{
+    public long Id { get; set; }
+    public string Kind { get; set; } = null!;
+    public Guid OrganizationId { get; set; }
+    public Guid ActorId { get; set; }
+    public string Snapshot { get; set; } = null!;
+    public DateTimeOffset RecordedAt { get; set; }
+}

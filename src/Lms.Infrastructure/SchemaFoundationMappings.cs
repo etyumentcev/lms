@@ -220,6 +220,23 @@ internal static class SchemaFoundationMappings
         model.Entity<AccessChallenge>().ToTable(t => t.HasCheckConstraint("CK_Challenge_Terminal", "(\"State\" = 'Created' AND \"TerminalAt\" IS NULL AND \"FailedAttempts\" < 5) OR (\"State\" <> 'Created' AND \"TerminalAt\" IS NOT NULL AND \"TerminalAt\" >= \"CreatedAt\")"));
         model.Entity<AccessChallenge>().ToTable(t => t.HasCheckConstraint("CK_Challenge_Expiry", "\"ExpiresAt\" > \"CreatedAt\" AND ((\"Purpose\" = 'Activation' AND \"ExpiresAt\" <= \"CreatedAt\" + interval '24 hours' AND \"RecoveryRequestId\" IS NULL) OR (\"Purpose\" = 'Recovery' AND \"ExpiresAt\" <= \"CreatedAt\" + interval '15 minutes'))"));
         model.Entity<SecurityAudit>().ToTable(t => t.HasCheckConstraint("CK_Audit_Context", "(\"ContextId\" IS NULL AND \"ContextVersion\" IS NULL) OR (\"ContextId\" IS NOT NULL AND \"ContextVersion\" IS NOT NULL AND \"OrganizationId\" IS NOT NULL)"));
+        model.Entity<AssignmentScope>(e =>
+        {
+            e.ToTable("AssignmentScopes"); e.HasKey(x => x.AssignmentId); e.Property(x => x.AssignmentId).ValueGeneratedNever();
+            e.HasOne<Lms.Domain.ProblemAssignment>().WithMany().HasForeignKey(x => new { x.AssignmentId, x.StudentId })
+                .HasPrincipalKey(x => new { x.Id, x.StudentId }).OnDelete(DeleteBehavior.Restrict);
+            e.HasOne<OrganizationMembership>().WithMany().HasForeignKey(x => new { x.OrganizationId, x.StudentId })
+                .HasPrincipalKey(x => new { x.OrganizationId, x.ActorId }).OnDelete(DeleteBehavior.Restrict);
+            e.HasOne<CourseGroup>().WithMany().HasForeignKey(x => new { x.CourseId, x.GroupId }).OnDelete(DeleteBehavior.Restrict);
+            e.ToTable(t => t.HasCheckConstraint("CK_AssignmentScope_Generation", "\"MembershipGeneration\" > 0 AND \"EnrollmentGeneration\" > 0"));
+        });
+        model.Entity<AuthorityHistory>(e =>
+        {
+            e.ToTable("AuthorityHistory"); e.HasKey(x => x.Id); e.Property(x => x.Snapshot).HasColumnType("jsonb");
+            e.HasOne<OrganizationMembership>().WithMany().HasForeignKey(x => new { x.OrganizationId, x.ActorId })
+                .HasPrincipalKey(x => new { x.OrganizationId, x.ActorId }).OnDelete(DeleteBehavior.Restrict);
+            e.HasIndex(x => new { x.OrganizationId, x.ActorId });
+        });
         foreach (var foreignKey in model.Model.GetEntityTypes().SelectMany(t => t.GetForeignKeys()))
             foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
     }

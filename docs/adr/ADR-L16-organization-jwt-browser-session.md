@@ -45,3 +45,7 @@ S2 implements internal outcomes only. S4 must map the conflict exactly, apply co
 ## Verification — NOT RUN
 
 15m/60m/12h boundaries, earliest grant/exclusion, A+B switch/tabs/reload, forged/duplicate claims/no role-only access; concurrent issuance/revoke, CAS/parallel refresh/replay/reordered responses/crash/lost cookie, logout/reset/block; CSRF/Origin/XSS и secret canaries. Никаких mandatory Redis/per-request ordinary JWT grant freshness.
+
+## B01 / S3 — immutable learning affiliation
+
+2026-10-09: owner **B01 ACCEPTED**, S1/S2/O01 ACCEPTED, S3 AUTHORIZED only. A same-course enrollment move creates a new authority generation and preserves immutable group affiliation of existing work. New scoped assignments capture server-derived organization/course/student/group and enrollment/membership generations in AssignmentScopes; work/submission/review/attached-file roots inherit that affiliation, not the student’s mutable current group. Missing legacy sidecars deny new scoped access; no backfill is authorized. S4–S8 remain excluded. See [S3 authority design](../architecture/L1-S3-SCOPED-AUTHORITY.md) for the protocol, role boundary and issuer transaction dependency.

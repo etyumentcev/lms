@@ -334,6 +334,44 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.AssignmentScope", b =>
+                {
+                    b.Property<Guid>("AssignmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("EnrollmentGeneration")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("text");
+
+                    b.Property<long>("MembershipGeneration")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AssignmentId");
+
+                    b.HasIndex("AssignmentId", "StudentId");
+
+                    b.HasIndex("CourseId", "GroupId");
+
+                    b.HasIndex("OrganizationId", "StudentId");
+
+                    b.ToTable("AssignmentScopes", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_AssignmentScope_Generation", "\"MembershipGeneration\" > 0 AND \"EnrollmentGeneration\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.AttachmentAccess", b =>
                 {
                     b.Property<Guid>("Id")
@@ -387,6 +425,38 @@ namespace Lms.Infrastructure.Migrations
                     b.HasIndex("ContextId", "ContextVersion", "OrganizationId");
 
                     b.ToTable("AttachmentScopes", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.AuthorityHistory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("RecordedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Snapshot")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "ActorId");
+
+                    b.ToTable("AuthorityHistory", (string)null);
                 });
 
             modelBuilder.Entity("Lms.Infrastructure.ChallengeReceipt", b =>
@@ -1484,6 +1554,27 @@ namespace Lms.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.AssignmentScope", b =>
+                {
+                    b.HasOne("Lms.Domain.ProblemAssignment", null)
+                        .WithMany()
+                        .HasForeignKey("AssignmentId", "StudentId")
+                        .HasPrincipalKey("Id", "StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseGroup", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "GroupId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId", "StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.AttachmentScope", b =>
                 {
                     b.HasOne("Lms.Infrastructure.StoredAttachment", null)
@@ -1502,6 +1593,15 @@ namespace Lms.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ContextId", "ContextVersion", "OrganizationId")
                         .HasPrincipalKey("ContextId", "Version", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.AuthorityHistory", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId", "ActorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

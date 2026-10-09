@@ -58,3 +58,7 @@ L1 доказывает Identity/membership/read/write/file scope и гонки 
 ## L0.3 — детализация реализации
 
 Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; E01–E06 ACCEPTED в L0.4; O01 refresh coordination отдельно OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+## B01 / S3 — immutable learning affiliation
+
+2026-10-09: owner **B01 ACCEPTED**, S1/S2/O01 ACCEPTED, S3 AUTHORIZED only. A same-course enrollment move creates a new authority generation and preserves immutable group affiliation of existing work. New scoped assignments capture server-derived organization/course/student/group and enrollment/membership generations in AssignmentScopes; work/submission/review/attached-file roots inherit that affiliation, not the student’s mutable current group. Missing legacy sidecars deny new scoped access; no backfill is authorized. S4–S8 remain excluded. See [S3 authority design](L1-S3-SCOPED-AUTHORITY.md) for the protocol, role boundary and issuer transaction dependency.
