@@ -1,6 +1,6 @@
 # L0.2 — Authorization isolation
 
-**ACCEPTED ORG-G04 (L0.3); T04 JWT/delayed revoke ACCEPTED, дополнительные E01/E06 OPEN.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
+**ACCEPTED ORG-G04 (L0.3); T04 JWT/delayed revoke ACCEPTED, дополнительные E01/E06 ACCEPTED: synthetic gate по ADR-L18, real freshness отдельно.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
 
 ## Policy и scope resolution
 
@@ -8,7 +8,7 @@
 
 Platform actions используют отдельный набор полномочий. Нельзя добавить `Administrator OR ...` к формуле. Student видит только собственные работы; отдельное разрешение на чужую работу потребует нового use case, в пилоте такого разрешения нет. Teacher ограничен назначенными курсами/группами внутри organization. Course-wide grant сохраняет возможность работать с историей независимо от active enrollment ученика, но не обходит membership преподавателя, organization suspension или privacy block. Export — отдельное право и manifest, не побочный эффект Teacher role.
 
-Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет JWT scope/permission и актуальные processing restrictions по согласованному E06, затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId — только кандидат для сопоставления; не authority. В пилоте collection/upload context определяется сервером по единственному разрешённому контексту; неизвестный или неоднозначный scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
+Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет JWT scope/permission и актуальные processing restrictions по согласованному E06, затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId — только кандидат для сопоставления; не authority. Collection/upload context определяется внутри одной org проверенного JWT и server resource model; E01 switch явно меняет token, unknown/ambiguous course scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
 
 [PostgresAccessPolicy](../../src/Lms.Infrastructure/PostgresAccessPolicy.cs) проверяет course/group/owner без organization. [WorkspaceQueries](../../src/Lms.Infrastructure/PostgresWorkspaceQueries.cs) имеет отдельные LINQ guards; [ReviewQueue](../../src/Lms.Infrastructure/PostgresReviewQueue.cs) использует raw SQL, который EF global filters не защищают. [WorkStore](../../src/Lms.Infrastructure/PostgresWorkStore.cs) загружает по ID; scope-aware load/save, transaction integrity и bounded operation deadline требуются отдельно. Текущий API `[Authorize]`/JWT ещё не реализует новый scope contract; будущий JWT содержит ограниченные scoped grants. Новый resolver должен покрывать все эти пути и оба GET work aliases, не только команды.
 
@@ -22,7 +22,7 @@ Pending attachment binding = uploader ActorId + OrganizationId + CourseId + poli
 
 ## Отзыв, блокирование и исключительный доступ
 
-ORG-G04 изменён окончательным T04: при обычном отзыве прекращение новых авторизованных операций гарантируется в пределах двух часов после принятия заявки. JWT ≤15 минут; атомарный AccessValidUntil ≤ RevocationRequestedAt + 2 hours; TokenExpiresAt = min(Now + 15 minutes, AccessValidUntil - 10 minutes). Недостаточный остаток — не выдавать права. Ordinary API 60 секунд, max HTTP 8 минут; exp внутри принятой операции не требует остановки, но завершение ограничено deadline. Актуальная DB authority при issue/refresh; A revoke не отменяет B. PG request/stream barrier и немедленная invalidation JWT не требуются. [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md) задаёт cancel/transactions/download/jobs; emergency и privacy restrictions отдельно E03/E06, не автоматические два часа.
+ORG-G04 изменён окончательным T04: при обычном отзыве прекращение новых авторизованных операций гарантируется в пределах двух часов после принятия заявки. JWT ≤15 минут; атомарный AccessValidUntil ≤ RevocationRequestedAt + 2 hours; TokenExpiresAt = min(Now + 15 minutes, AccessValidUntil - 10 minutes). Недостаточный остаток — не выдавать права. Ordinary API 60 секунд, max HTTP 8 минут; exp внутри принятой операции не требует остановки, но завершение ограничено deadline. Актуальная DB authority при issue/refresh; A revoke не отменяет B. PG request/stream barrier и немедленная invalidation JWT не требуются. [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md) задаёт cancel/transactions/download/jobs; E03/E06 ACCEPTED: emergency existing JWT≤15m, in-flight≤8m; synthetic current processing отдельно, real freshness pre-pilot gate.
 
 | Операция | Platform Management | Education Management |
 |---|---|---|
@@ -57,4 +57,4 @@ L1 доказывает Identity/membership/read/write/file scope и гонки 
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; E01–E06 ACCEPTED в L0.4; O01 refresh coordination отдельно OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

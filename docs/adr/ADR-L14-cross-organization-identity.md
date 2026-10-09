@@ -20,4 +20,4 @@ Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
 
 ## T04 — superseding ordinary revoke
 
-ORG-G04 изменён владельцем: JWT ≤15 минут, scoped ordinary revoke в пределах 2 часов, 10 минут reserve, ordinary API 60 секунд / max HTTP 8 минут. Нормативный [ADR-L15](ADR-L15-jwt-delayed-revocation.md) отменяет per-request grant freshness и PG revoke barrier. A revoke не лишает B доступа; E01 composition, E03 emergency и E06 privacy restrictions остаются OPEN в [реестре](../../codex/L03-OWNER-DECISION-REGISTER.md).
+ORG-G04: ordinary revoke ≤2h, JWT≤15m, reserve10m/API60s/maxHTTP8m по ADR-L15; A не отменяет B. E01–E06 ACCEPTED L0.4. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) задаёт one-org JWT/session, [ADR-L17](ADR-L17-account-security-recovery-challenges.md) security lifecycle, [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) restrictions. O01 refresh coordination отдельно OPEN; нет mandatory grant freshness lookup на каждом HTTP.

@@ -14,7 +14,7 @@ ASP.NET Core Identity хранит credentials; пароли 12–128 симво
 
 Access JWT подписан, lifetime ≤15 минут; local signature/issuer/audience/lifetime/scope validation. Current DB authority при выдаче/refresh, scoped deadline и duration bounds по ADR-L15. Нет обязательной DB проверки актуальности grants на каждом HTTP. Public MapIdentityApi/register не открывается.
 
-Browser storage/refresh/logout/reset — **OPEN E02**. PROPOSED access в памяти + refresh Secure HttpOnly host-only cookie; CSRF там, где cookies служат credential. Не сохранять секреты в URL/logs/localStorage. Не переносить прежние session idle/absolute defaults в accepted policy. Logout очищает local state; немедленный отзыв всех старых access JWT не обещан. Emergency — E03.
+E02 ACCEPTED: access JWT memory-only, opaque refresh HttpOnly Secure cookie, protected verifier, rotation/idle60m/absolute12h; CSRF+Origin/SameSite/XSS controls. Logout revokes текущую refresh-session, recovery все sessions; existing access JWT до exp. E03 SecurityBlocked запрещает login/issue/refresh и revokes sessions. [ADR-L16](ADR-L16-organization-jwt-browser-session.md) — нормативный protocol, O01 coordination/replay tradeoff PROPOSED; [ADR-L17](ADR-L17-account-security-recovery-challenges.md) — block/reset/approval/codes.
 
 Frontend на account/context loss aborts requests, очищает drafts/Blob URLs/cache и remounts; cross-tab signals без секретов. Expiry требует нового входа/refresh по согласованному contract, без автоматического replay Submit/Review/Upload. Шесть основных экранов и business DTO сохраняются; минимальные auth формы и org-admin UI T02 добавляются отдельно.
 

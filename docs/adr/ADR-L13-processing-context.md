@@ -17,3 +17,5 @@ Domain entity или VO на каждом Review дублирует данные
 Принятие зафиксировано в [gates](../../codex/L02-DECISION-GATES.md). Основные schema решения приняты; детали DDL/index/trigger проверяются в L1; правовые workflows — отдельного legal review. [L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) ограничен synthetic-only scope. Затем нужны synthetic two-organization negative tests, clean/upgrade migration, revoke races и lifecycle/restore evidence. Документ не доказывает реализацию. ADR-L09/L10 сохраняют силу с контекстным уточнением L0.2.
 
 Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
+
+L0.4 E06 ACCEPTED: [ADR-L18](ADR-L18-synthetic-processing-restrictions.md) задаёт минимальные current restriction checks для SyntheticOnly, отдельно от JWT. Real-data freshness/propagation/in-flight guarantee требует отдельного pre-pilot решения и legal evidence.

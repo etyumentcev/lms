@@ -28,7 +28,7 @@
 | T07 | Backup/key theft, ransomware, повреждение копии | Off-host encryption, separate keys, ограниченный доступ, проверка целостности | Clean-host restore, corrupt/missing-key failure; ops |
 | T08 | Logs/alerts содержат пароль, photo, SQL/URL identifiers | Минимальные events, redaction, finite retention, доступ ИБ | Canary scan и evidence доступа к sink; ИБ |
 | T09 | Cookie CSRF → чужая команда | Antiforgery на всех unsafe методах, same-origin; SameSite дополнительно | Cross-site/missing token JSON/multipart/logout/login; engineer |
-| T10 | Session hijack/stale cookie/shared browser | JWT ≤15m, secure browser storage/refresh E02 OPEN, ordinary revoke T04 и emergency E03 отдельно, frontend reset | Logout/reset/deactivate replay, cross-tab/back navigation; engineer |
+| T10 | Session hijack/stale cookie/shared browser | JWT ≤15m, secure browser storage/refresh E02 ACCEPTED, ordinary revoke T04 и emergency E03 отдельно, frontend reset | Logout/reset/deactivate replay, cross-tab/back navigation; engineer |
 | T11 | Вредоносная/огромная загрузка, image bomb → CPU/RAM/disk | Signature/format/pixel limits + квоты/concurrency, безопасный decoder policy | Malformed uploads + concurrent resource tests; engineer/ops |
 | T12 | Ошибка удаления/гонка с submit или backup → потеря/возврат ПД | Purpose block + drain + manifest, отдельный erasure workflow, idempotency | Concurrent submit/cleanup/erasure/backup и crash injection; engineer |
 | T13 | Restore возвращает consent/access/удалённое | Внешний актуальный ledger, quarantine, revoke all sessions, reconciliation barrier | Восстановить snapshot до erasure и доказать deny/absence; ops |
@@ -40,4 +40,4 @@
 
 Остаточные риски: уже скачанные работы не отзываются с чужого устройства технически; provider физическое удаление не подтверждается SQL DELETE; privileged admin технически силён; абсолютная недоступность/нулевая реидентификация не обещаются. Для каждого риска требуется конкретный остаточный риск, компенсирующая мера и владелец. Принятие риска не позволяет отказаться от обязательной нормы.
 
-L0.3: T01–T18 в threat references — идентификаторы угроз, не owner decisions T01–T06. Принятые auth решения и открытые E01–E06: [Owner Register](../../codex/L03-OWNER-DECISION-REGISTER.md), [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md). Это не evidence реализации или legal verification.
+L0.3: T01–T18 в threat references — идентификаторы угроз, не owner decisions T01–T06. Принятые auth решения и принятые E01–E06 и OPEN O01: [Owner Register](../../codex/L03-OWNER-DECISION-REGISTER.md), [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md). Это не evidence реализации или legal verification.

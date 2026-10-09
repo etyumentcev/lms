@@ -10,11 +10,11 @@ Canonical `/home/tea/github/lms`, последовательно, без нов�
 
 ## L1 — Identity, Organization Scopes & Access Lifecycle
 
-Единственный детальный план: [L03-L1-IMPLEMENTATION-PLAN](L03-L1-IMPLEMENTATION-PLAN.md). Он supersedes прежний L1 «Identity & Personal Data Lifecycle» и operator-only provisioning. Разрешённый будущий scope: synthetic Identity→Actor, Organization/memberships/enrollment/teacher assignment, server scopes/file authorization, closed org-admin provisioning, code activation/recovery и session/revocation. T01–T06 ACCEPTED; OPEN E01–E06 по [реестру](L03-OWNER-DECISION-REGISTER.md) блокируют affected slices; нужно отдельное разрешение владельца.
+Единственный детальный план: [L03-L1-IMPLEMENTATION-PLAN](L03-L1-IMPLEMENTATION-PLAN.md). Он supersedes прежний L1 «Identity & Personal Data Lifecycle» и operator-only provisioning. Разрешённый будущий scope: synthetic Identity→Actor, Organization/memberships/enrollment/teacher assignment, server scopes/file authorization, closed org-admin provisioning, code activation/recovery и session/revocation. T01–T06 ACCEPTED; E01–E06 ACCEPTED; O01 по [реестру](L03-OWNER-DECISION-REGISTER.md) блокирует S4 и dependents; нужно отдельное разрешение владельца.
 
 Юридические consent/basis/representative/DSAR/production erasure workflows не включены. Версии ProcessingContext/current restriction contracts без фиктивных legal basis нужны для технической изоляции. ORG-G05/08 и PD gates блокируют эти правовые workflows/real data, но не сами synthetic auth/scopes после технического согласования.
 
-Порядок slices: schema/migration → Identity mapping → membership/scopes → authorization (включая bounded JWT revoke и operation deadlines) → provisioning → activation/recovery → hardening → integration/security acceptance. В плане указаны use cases/API/schema/tests/recovery и условия перехода. Exit L1 — доказанный synthetic packet, NOT_READY/NOT VERIFIED сохраняются; L2–L4 отдельно.
+Порядок slices: S1 schema → S2 internal Identity/session → S3 membership/resource scopes → S4 JWT/refresh/switch/baseline guards → S5 provisioning UI → S6 activation/recovery/security operator/blocking → S7 file/job/restriction/deadline hardening → S8 integration/M3 synthetic cutover. S1–S3 независимы от O01; detailed acceptance/stop/dependencies в плане. L2–L4 отдельно.
 
 ## L2 — Resource Protection & Data Lifecycle
 

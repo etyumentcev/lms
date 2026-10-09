@@ -37,7 +37,7 @@ Organization необходима для заданной независимос
 
 ## Минимальный пилот и расширение
 
-После отдельного разрешения реализации принятой schema: один Organization, один учебный boundary, закрытый provisioning по распоряжению образовательной организации; один основной educational role/account; без selector организаций, tenant billing, self-service onboarding, parent portal и licensing UI. ООО как platform manager не получает учебный membership автоматически. Для собственных курсов позже создаётся Organization, представляющая то же ООО в Education Management, со своими membership/курсами/контекстом; platform authority остаётся отдельной.
+После отдельного разрешения реализации принятой schema: один Organization, один учебный boundary, закрытый provisioning по распоряжению образовательной организации; один основной educational role/account; минимальный active-org switch E01 входит в synthetic L1; tenant billing, self-service onboarding, parent portal и licensing UI исключены. ООО как platform manager не получает учебный membership автоматически. Для собственных курсов позже создаётся Organization, представляющая то же ООО в Education Management, со своими membership/курсами/контекстом; platform authority остаётся отдельной.
 
 Второй организатор добавляется новыми корнями, без переписывания исторических Submission/Review. Общая Identity может связать того же Actor с двумя memberships, но не объединяет историю/статистику. Необходима проверка всей цепочки доступа до подключения второго организатора, уже на synthetic fixtures в L1.
 
@@ -53,4 +53,4 @@ Organization необходима для заданной независимос
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; E01–E06 ACCEPTED в L0.4; O01 refresh coordination отдельно OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

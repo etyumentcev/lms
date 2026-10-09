@@ -18,7 +18,7 @@
 
 ## PROPOSAL — acceptance evidence
 
-Reuse `release-smoke.mjs`, `annotation-tablet-smoke.mjs`, K protocol. Добавить L Identity/JWT login/expiry/recovery/account switch (refresh cookies только по принятому E02) на каждом выбранном браузере, реальную камеру и noisy/high-resolution JPEG наряду с synthetic PNG. HTTPS target со staging Identity accounts, никакой вставки dev bearer. Записать commit, image/config revision, URL, модель/OS/browser, input/DPR/zoom, tester/date, PASS/FAIL/BLOCKED, redacted screenshot/video/network evidence; сравнить SHA-256 originals и сохранённые annotations двух attempts.
+Reuse `release-smoke.mjs`, `annotation-tablet-smoke.mjs`, K protocol. Добавить L Identity/JWT login/expiry/recovery/account switch (refresh cookie E02 ACCEPTED, O01 coordinator/fallback подлежит проверке) на каждом выбранном браузере, реальную камеру и noisy/high-resolution JPEG наряду с synthetic PNG. HTTPS target со staging Identity accounts, никакой вставки dev bearer. Записать commit, image/config revision, URL, модель/OS/browser, input/DPR/zoom, tester/date, PASS/FAIL/BLOCKED, redacted screenshot/video/network evidence; сравнить SHA-256 originals и сохранённые annotations двух attempts.
 
 Автоматизированные geometry assertions сохранить, визуальную точность и приемлемость задержки проверяет человек по agreed workload/budgets C06/C07. Поворот/zoom не теряет strokes, canceled touch не создаёт лишние, page annotations независимы; expiry не отправляет команду повторно. Physical failure воспроизводить минимальным сценарием; исправления проходят отдельный scoped review/regression до повторного acceptance. Browser capability detection/fullscreen fallback уже есть — переиспользовать, не добавлять новый canvas/editor без доказанного дефекта.
 

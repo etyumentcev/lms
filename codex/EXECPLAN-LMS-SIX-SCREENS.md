@@ -1147,3 +1147,7 @@ C01/C02 business и ORG-G01–04/06/07 ACCEPTED по явному заданию
 - [Результат](L03-RESULTS.md): evidence проверок документации и docs-only commit.
 
 Шесть основных экранов и учебные инварианты сохраняются. L1–L4 не начаты; никаких migrations, push/merge/deployment. T01–T06 согласованы; OPEN E01–E06 и отдельное разрешение L1 на synthetic data остаются. [Owner register](L03-OWNER-DECISION-REGISTER.md), [execution task](CODEX-TASK-L1-EXECUTION.md). Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+## L0.4 — E01–E06 consolidation
+
+Исторические L0–L0.3 sections выше сохранены как результаты checkpoints; их E OPEN superseded L0.4. E01–E06 ACCEPTED, T01–T06 сохранены; ADR-L16–L18/security specification и подробные восемь slices подготовлены. O01 concurrency/replay policy отдельно PROPOSED; S1–S3 могут быть отдельно разрешены sequentially. [Readiness](L03-L1-READINESS.md), [reconciliation](L04-DECISION-RECONCILIATION.md), [results](L04-RESULTS.md), [execution task](CODEX-TASK-L1-EXECUTION.md). L1 не начат/не разрешён; SYNTHETIC DATA ONLY; Compliance status: NOT VERIFIED; Pilot readiness: NOT_READY; LEGAL SOURCE NOT VERIFIED.
