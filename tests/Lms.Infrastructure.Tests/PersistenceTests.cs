@@ -39,12 +39,17 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
     [Fact]
     public async Task Legacy_review_survives_annotation_migration_with_empty_array()
     {
-        var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
+        var cs = await fixture.CreateDatabase("20261008013249_AttachmentStorage"); var a = Assignment(); await Seed(cs, a);
         var work = Submit(a); await Save(cs, work, null);
-        work.Accept(Teacher, work.Submissions[0].Id, null, At); await Save(cs, work, 1);
         await using (var db = PostgresFixture.Open(cs))
         {
-            await db.GetService<IMigrator>().MigrateAsync("20261008013249_AttachmentStorage");
+            // Insert the pre-Annotations shape directly. The current EF model cannot
+            // write a column that did not exist yet; never downgrade through M1.
+            await db.Database.ExecuteSqlInterpolatedAsync($"""
+                INSERT INTO "Reviews" ("Id", "ProblemWorkId", "SubmissionId", "TeacherId", "Decision", "CreatedAt")
+                VALUES ({Guid.NewGuid()}, {work.Id}, {work.Submissions[0].Id}, {Teacher}, 'Accepted', {At});
+                UPDATE "ProblemWorks" SET "Status"='Accepted', "Version"=2, "AcceptedAt"={At} WHERE "Id"={work.Id};
+                """);
             await db.Database.MigrateAsync();
         }
         var loaded = await Load(cs, work.Id);

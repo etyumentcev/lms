@@ -1,4 +1,6 @@
 using Lms.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,7 +18,7 @@ public sealed class StoredDomainEvent
     public DateTimeOffset OccurredAt { get; set; }
 }
 
-public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbContext(options)
+public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<ProblemAssignment> Assignments => Set<ProblemAssignment>();
     public DbSet<ProblemWork> Works => Set<ProblemWork>();
@@ -33,6 +35,8 @@ public sealed class LmsDbContext(DbContextOptions<LmsDbContext> options) : DbCon
 
     protected override void OnModelCreating(ModelBuilder model)
     {
+        base.OnModelCreating(model);
+        SchemaFoundationMappings.Configure(model);
         model.Entity<EnrollmentAccess>().ToTable("AccessEnrollments").HasKey(x => new { x.StudentId, x.CourseId });
         model.Entity<LessonAccess>().ToTable("AccessLessons").HasKey(x => new { x.CourseId, x.CourseVersionId, x.LessonId });
         model.Entity<TeacherAccess>().ToTable("AccessTeachers").HasKey(x => x.Id);
