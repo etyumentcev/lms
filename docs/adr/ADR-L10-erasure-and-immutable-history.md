@@ -1,6 +1,6 @@
 # ADR-L10 — Immutable history and lawful erasure
 
-Дата 2026-10-09. **PROPOSAL / DECISION REQUIRED PD-G08/09**, зависит PD-G02/07 и юридической проверки. [R01/R11–R13/R19](../compliance/PD-LEGAL-REQUIREMENTS.md) LEGAL SOURCE NOT VERIFIED. Это отдельное архитектурное решение об исключении, не разрешение запускать DELETE сейчас.
+Дата 2026-10-09. **ACCEPTED — архитектурные принципы ORG-G03/06**, владелец, явное задание L0.3 §§6/8. Контекстное ограничение обработки и scoped privileged erasure приняты; конкретные процедуры, сроки, основания, исключения и mixed-subject решения **REQUIRE LEGAL REVIEW**. Механизмы ниже **PROPOSED**, не разрешены к production исполнению. [Источники](../compliance/PD-LEGAL-REQUIREMENTS.md): LEGAL SOURCE NOT VERIFIED. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
 
 ## FACT: конфликт в настоящей схеме
 
@@ -15,7 +15,7 @@
 | C Привилегированное уничтожение | Удаляется утверждённый набор записей/фото/сообщений/annotations и связей; исключение из storage immutability под контролем | Отдельно минимальные правомерные evidence, backup deletion/reconciliation; учебная статистика может уменьшиться | Наиболее проверяемо, но FK/trigger/гонки/смешанные субъекты требуют дизайна |
 | D A + C, B только если доказан | Разделение account/learning при обычной работе, controlled destruction при отсутствии основания; без обещания сохранить персональную историю любой ценой | Ограниченные evidence на отдельном основании; raw фото/тексты не оставлять ради аналитики; согласованные копии | **Рекомендуется** до пилота |
 
-## Рекомендованное решение D
+## Принятые принципы варианта D; механизмы PROPOSED
 
 Обычные commands, GET, retention orphan cleanup никогда не редактируют Submission/Review/annotations; Accepted не открывается повторно. Исключительный erasure workflow находится вне учебного агрегата, уничтожает утверждённые ПД и не создаёт фиктивную попытку, review или статус. Для surviving records инварианты прежние; полностью уничтоженный work отсутствует и недоступен. Изменение storage invariant разрешается только принятием этого ADR и отдельной проверенной реализацией, не молчаливым отключением triggers.
 
@@ -29,12 +29,12 @@ Manifest строит полное замыкание зависимостей; 
 
 ## Проверка и последствия
 
-До принятия: PD-G08 manifest/роль/reviewer/смешанные данные; PD-G09 копии/сроки; юрист проверяет формы подтверждений и сроки. До пилота: schema review, app-role inability to bypass, обычные immutable regression, полный negative search по synthetic PII в text/photo/EXIF/JSONB/events, foreign-subject preservation, crash/retry, concurrent submit/backup/delete, missing ledger fail-closed restore, акт + log export и provider proof. В L0.1 ни один такой PASS не заявлен.
+До реализации юридического workflow: PD-G08 manifest/роль/reviewer/смешанные данные; PD-G09 копии/сроки; юрист проверяет формы подтверждений и сроки. До пилота: schema review, app-role inability to bypass, обычные immutable regression, полный negative search по synthetic PII в text/photo/EXIF/JSONB/events, foreign-subject preservation, crash/retry, concurrent submit/backup/delete, missing ledger fail-closed restore, акт + log export и provider proof. В L0.1 ни один такой PASS не заявлен.
 
-Цена — сложность maintenance и потеря части исторической статистики; это принимаемое следствие законного прекращения обработки, а не повод нарушать обязательный gate. Последующее согласование владельцем и юристом обязательно перед реализацией workflow; текущее разрешение заканчивается документацией.
+Цена — сложность maintenance и потеря части исторической статистики; это принимаемое следствие законного прекращения обработки, а не повод нарушать обязательный gate. Правовые процедуры согласуются с владельцем и юристом до реализации workflow; принятые архитектурные принципы повторно не согласуются; текущее разрешение заканчивается документацией.
 
 ## L0.2 amendment — несколько операторов
 
-Статус остаётся PROPOSAL / DECISION REQUIRED, не принят автоматически. Исторический D4 уточнён D4a–d. Policy/case/manifest имеют Organization/context/controller scope; decision authority A не распространяется на B или собственные цели P. Identity disable/delete не заменяет purpose-specific erasure. Ordinary immutable workflow сохраняется, privileged erasure отдельно.
+L0.3 supersedes прежний статус: архитектурные принципы ACCEPTED, юридические процедуры REQUIRE LEGAL REVIEW, технические детали PROPOSED. Исторический D4 уточнён D4a–d. Policy/case/manifest имеют Organization/context/controller scope; decision authority A не распространяется на B или собственные цели P. Identity disable/delete не заменяет purpose-specific erasure. Ordinary immutable workflow сохраняется, privileged erasure отдельно.
 
-[ADR-L13](ADR-L13-processing-context.md) определяет наследование и версии; [организационный lifecycle](../compliance/PD-ORGANIZATION-LIFECYCLE.md) — mixed-subject cases, shared copies и ledger. Scope проверяется до closure и исполнения, чужой subset требует отдельного решения. Принятие границы ORG-G03/06 до L1, реализация и доказательства L2–L4; ни один новый PASS не заявлен.
+[ADR-L13](ADR-L13-processing-context.md) определяет наследование и версии; [организационный lifecycle](../compliance/PD-ORGANIZATION-LIFECYCLE.md) — mixed-subject cases, shared copies и ledger. Scope проверяется до closure и исполнения, чужой subset требует отдельного решения. Граница ORG-G03/06 принята; в L1 только контракты и synthetic restriction checks; юридический workflow после legal review, доказательства до пилота; ни один новый PASS не заявлен.

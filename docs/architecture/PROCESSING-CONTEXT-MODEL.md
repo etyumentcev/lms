@@ -1,17 +1,17 @@
 # L0.2 — ProcessingContext
 
-**PROPOSED; REQUIRE LEGAL REVIEW; ORG-G03 / PD-G02/07/08 OPEN.** Контекст не является уже существующим классом и не создаёт законного основания фактом записи.
+**ACCEPTED ORG-G03 (architecture, L0.3); persistence PROPOSED; PD-G02/07/08 REQUIRE LEGAL REVIEW.** Контекст не является уже существующим классом и не создаёт законного основания фактом записи.
 
 | Представление | Оценка |
 |---|---|
 | Domain entity внутри ProblemWork | Отвергнуто: правовые документы меняются независимо от учебного state machine; дублирование в Submission/Review |
 | Value Object на каждом событии | Snapshot полезен, но копирование всего основания/договора создаёт рассогласование и избыточные ПД |
 | Только configuration file | Простой старт, но недостаточно аудита версий/сроков/субъектных исключений и безопасного изменения |
-| Отдельная compliance-модель с версионированными policy records | Рекомендация: durable policy + subject basis/case records вне учебных агрегатов; Application resolver/permission port |
+| Отдельная compliance-модель с версионированными policy records | Принятый принцип: durable policy вне учебных агрегатов; subject basis/case records только после legal review, вне L1; Application resolver/permission port |
 
 Минимальный policy record-кандидат: ContextId/version, boundaryRef (Organization либо отдельная platform purpose), purposeId, party determining purpose/controllerRef, processorRef/role, instructionRef/version/validity, basis rule/ref, data categories/operations, retention rule/start trigger/hold review, restrictions, correction/block/erasure decision authorities, effective interval, approval evidence/status. Юридические документы и реквизиты доступны по защищённой ссылке. Immutable version не означает бессрочное хранение содержащихся в ней ПД.
 
-Subject basis record из L0.1 получает ContextId/version, OrganizationId при учебной цели, subject/representative evidence, applicable document/version, validity/withdrawal. Не хранить паспорт/договор в work. Один policy регулирует множество работ, subject record подтверждает применимость к человеку. Роли controller/processor указываются по цели; ООО для собственного обучения не заключает поручение само с собой.
+Будущий subject basis record из L0.1 (вне L1, только после legal review) получает ContextId/version, OrganizationId при учебной цели, subject/representative evidence, applicable document/version, validity/withdrawal. Не хранить паспорт/договор в work. Один policy регулирует множество работ, subject record подтверждает применимость к человеку. Роли controller/processor указываются по цели; ООО для собственного обучения не заключает поручение само с собой.
 
 ## Наследование и разрешение
 
@@ -23,4 +23,8 @@ Subject basis record из L0.1 получает ContextId/version, OrganizationI
 
 Не допускаются default global controller, выбор policy по присланному клиентом ID, permissive fallback при недоступном реестре или бесконечный cache policy. Отзыв и privacy block применяются к следующей проверяемой операции; для завершения revoke/block применяется barrier/drain по [isolation](CROSS-ORGANIZATION-ISOLATION.md).
 
-Операционное хранение в той же БД допустимо, логическая ответственность отделена. Единый resolved immutable VO для одной операции может передаваться между Application/Infrastructure; это не новая сущность Domain. Решения schema и точного журнала периодов блокируют L1 до ORG-G03. [Матрица данных](../compliance/PD-CONTROLLER-PROCESSOR-MODEL.md), [ADR-L13](../adr/ADR-L13-processing-context.md).
+Операционное хранение в той же БД допустимо, логическая ответственность отделена. Единый resolved immutable VO для одной операции может передаваться между Application/Infrastructure; это не новая сущность Domain. ORG-G03 принят; минимальная schema и журнал периодов предложены как T05 в L0.3, до их принятия persistence остаётся PROPOSED. [Матрица данных](../compliance/PD-CONTROLLER-PROCESSOR-MODEL.md), [ADR-L13](../adr/ADR-L13-processing-context.md).
+
+## L0.3 — детализация реализации
+
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

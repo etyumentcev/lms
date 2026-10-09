@@ -1402,3 +1402,9 @@ Annotations belong to Review.SubmissionId and only its AttachmentIds, never to a
 subsequent submission. The original photo is unchanged. Validation precedes any
 feedback/message/status mutation. No new aggregate, status or review lifecycle is
 introduced. See FEATURE-SUBMISSION-REVIEW J2 amendment for geometry and limits.
+
+## L0.3 — accepted organizational and lifecycle boundaries
+
+ORG-G01–04/06/07 ACCEPTED; реализация ещё отсутствует. Course имеет ровно одну Organization; отдельной LearningSpace entity в MVP нет. IdentityUser аутентифицирует, Actor идентифицирует участника, OrganizationMembership задаёт организационные полномочия; CourseEnrollment и TeacherAssignment отдельно определяют учебный scope. Account/membership сами по себе не предоставляют курс. Одна основная Student/Teacher роль MVP не заменяет scope; admin-only permissions вне AuthorRole.
+
+ProblemWork сохраняет Submission→Review→Revise→Accept, terminal Accepted и immutable ordinary history. Все обычные изменения work проходят aggregate; законное scoped уничтожение — отдельная privileged операция вне его state machine, по approved request/manifest/evidence, после legal review. Оно не удаляет B или общий Identity. ProcessingContext версионируется вне учебных aggregates, наследуется от Course; current restrictions сильнее прошлой версии. [Детальный план L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) — PROPOSED schema/ports, не реализованные Domain types. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

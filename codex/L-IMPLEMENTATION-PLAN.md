@@ -1,37 +1,20 @@
-# L — Sequential implementation plan
+# L — Sequential implementation plan (L0.3)
 
-> Текущий следующий шаг: согласование L0.2 и [ORG gates](L02-DECISION-GATES.md) вместе с L0.1. Новое уточнение D4a–d заменяет предположение об ООО как операторе всех целей. L1 не разрешён.
+2026-10-09. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. L1–L4 не начаты и не разрешены. Приняты C01/C02 business и ORG-G01–04/06/07; роли/основания/сроки REQUIRE LEGAL REVIEW. [Реестр](L-DECISION-REGISTER.md), [readiness](L03-L1-READINESS.md).
 
-**PROPOSAL. L1–L4 не начаты и этим документом не разрешаются.** L0.1 расширяет анализ; следующее действие — согласовать [результат](L01-RESULTS.md), [PD gates](L01-DECISION-GATES.md) и [decision register](L-DECISION-REGISTER.md). Accepted D1–D5: VPS/сервер, Compose, ASP.NET Core Identity, российское ООО оператор, compliance до первого real-data пилота. Production readiness остаётся NOT_READY.
+## Общая стратегия
 
-## Общая стратегия проверки и веток
+Canonical `/home/tea/github/lms`, последовательно, без новых worktrees/агентов. Актуальные инструкции: main, если пользователь отдельно не задаст ветку; перед каждым разрешённым этапом проверить HEAD/clean tree/base. Не предполагать интеграцию предыдущих веток и не выполнять push/merge/deployment без разрешения. L0.3 создаёт только documentation commit на явно запрошенной ветке.
 
-Канонический checkout `/home/tea/github/lms`, последовательно, без новых worktrees/агентов. L0 создан от exact `c7a500f`; другие ветки не изменять. **Будущий** порядок после отдельного разрешения: review/accept L0 + L0.1 → интегрировать K+L0 в согласованную main → L1 → review/merge → L2 → review/merge → L3 → review/merge → L4. Сейчас никаких merge/push.
+Каждый этап от принятого predecessor и после отдельного разрешения. Исторические C–L0.2 reports и evidence сохраняются; K 366 frontend/260 backend — не свежий PASS. Проверки appropriate layer и реальный PostgreSQL/HTTP/browser; destructive runner никогда не real data.
 
-Каждый этап отдельная будущая ветка-кандидат `codex/l1-identity`, `codex/l2-resource-protection`, `codex/l3-deployment-backup`, `codex/l4-pilot-acceptance` от accepted integrated predecessor. Перед стартом проверить clean status/base, owner gates и actual HEAD: текущий main не предполагается равным K. Если integration ещё не разрешена, остановиться на результате этапа; не собирать параллельный стек веток. При изменениях main rebase только своей ещё не опубликованной ветки с разрешённым workflow, затем повторить affected checks; чужую историю не переписывать. Каждый этап reviewable independently **от принятого predecessor**, не независим от dependencies.
+## L1 — Identity, Organization Scopes & Access Lifecycle
 
-Каждый PR/commit этапа содержит своё решение B, контракт/migration notes, tests/evidence и report. Сохранять C–K reports. Исторический baseline K: 366 frontend/260 backend; не требовать неизменного количества tests после расширений, требовать отсутствие необъяснённых failures/skips. Реальные PostgreSQL/HTTP/browser проверки там, где fake не доказывает boundary. Команды baseline в [K matrix](K-TEST-MATRIX.md). Не запускать destructive release runner на real data.
+Единственный детальный план: [L03-L1-IMPLEMENTATION-PLAN](L03-L1-IMPLEMENTATION-PLAN.md). Он supersedes прежний L1 «Identity & Personal Data Lifecycle» и operator-only provisioning. Разрешённый будущий scope: synthetic Identity→Actor, Organization/memberships/enrollment/teacher assignment, server scopes/file authorization, closed org-admin provisioning, code activation/recovery и session/revocation. T01–T06 PROPOSED требуют рассмотрения; после этого отдельное разрешение владельца.
 
-## L1 — Identity & Personal Data Lifecycle
+Юридические consent/basis/representative/DSAR/production erasure workflows не включены. Версии ProcessingContext/current restriction contracts без фиктивных legal basis нужны для технической изоляции. ORG-G05/08 и PD gates блокируют эти правовые workflows/real data, но не сами synthetic auth/scopes после технического согласования.
 
-**Цель:** настоящий account/session lifecycle вместо pilot demo bearer, с сохранением Actor и scope boundaries. Сложность **высокая**, ориентир 5–9 инженерных дней после gates для manual-recovery варианта; не обещание сроков, SMTP/MFA/new user requirements могут расширить объём.
-
-Prerequisites: accepted K/L0/L0.1, отдельное разрешение L1; C01/C02 и минимальный пакет PD-G02/03/04/08, принципы PD-G07/роль PD-G10 по L01-DECISION-GATES согласованы. Правовые основания и ADR согласуются до новых workflows. Только synthetic accounts; VPS/domain и полное live evidence не нужны для isolated tests. B01–B03 инженер принимает после проверки.
-
-Изменения:
-
-1. Infrastructure Identity EF dependency в версии, совместимой с pinned .NET/EF; additive context/mappings/migrations по [ADR-L01](../docs/adr/ADR-L01-identity-integration.md), legacy ID inventory, no fake backfill/cascade history.
-2. Restricted provisioning CLI и challenge/reset workflow по C01/C02/[ADR-L02](../docs/adr/ADR-L02-account-provisioning.md). Atomic user→actor→access provisioning, dry-run, audit без секретов; публичной registration/Teacher role selection нет.
-3. API Identity cookie/session/stamp/active validation, CSRF, login/session/logout/password routes с C4-compatible errors. Minimal login abuse protections входят в L1, чтобы authentication slice не принимался без них; общая ресурсная система — L2. Dev bearer отдельный explicit Development profile, pilot rejects demo.
-4. Web session provider/login/password screens из existing primitives; fetch и XHR CSRF, startup/focus/cross-tab lifecycle, state/Blob cleanup/remount, no command replay. App landing/deep return отражает доступный account/roster, не demo role selector как login.
-5. Минимальный purpose/basis/version/representative evidence, case/deadline register, privacy block на read/write/files/queue, отзыв/уточнение/защищённая выдача по ADR-L09. Не строить parent portal/admin UI без необходимости; manual operator path допустим лишь с доказанной полнотой. Поля/тексты по PD-G02/03/04, без автоматического паспорта/email/DOB.
-6. Test fixtures через реальные UserManager/SignInManager/HTTP cookies в isolated DB; сохранение existing tests и separate dev-mode JWT regression. Локальный TLS fixture/DP persistence для session tests; настоящая инфраструктура L3.
-
-Tests: clean/upgrade migrations, unique actor mapping, partial/concurrent provisioning, challenge replay/expiry/password policy, login enumeration/lockout, malformed/mixed claims, authenticated Student/Teacher cross-scope negatives, file revoke, CSRF all unsafe methods, logout cookie replay/reset/deactivation, restart keys, DB failure fail-closed, account switch/expiry/no stale drafts/no retries. Real browser Submit→Revise→Accept с Identity на synthetic dataset, builds/full regressions после relevant targeted checks.
-
-Дополнительные tests: активация без основания запрещена; version/withdrawal/representative, purpose expiry, request deadlines/export без чужих ПД, blocked work недоступен whole-course Teacher; signed-out субъект может подать обращение через утверждённый канал.
-
-Exit: Identity + минимальный privacy lifecycle E2E passes; old history/IDs/annotations untouched; owner C01/C02 reflected; production demo unreachable; report explicitly NOT_READY (L2–L4 pending). Risks: identity↔actor confusion, duplicate role source, stale principal, login/logout CSRF, account-switch leak, single-use token races. Не закрывать privacy/device/hosting gates этим результатом.
+Порядок slices: schema/migration → Identity mapping → membership/scopes → authorization (включая базовый revoke barrier) → provisioning → activation/recovery → hardening → integration/security acceptance. В плане указаны use cases/API/schema/tests/recovery и условия перехода. Exit L1 — доказанный synthetic packet, NOT_READY/NOT VERIFIED сохраняются; L2–L4 отдельно.
 
 ## L2 — Resource Protection & Data Lifecycle
 
@@ -41,7 +24,7 @@ Prerequisites: accepted L1, разрешение L2; C06 объём/квоты �
 
 Изменения: API rate/concurrency/timeout/body bounds, upload early admission; durable budgets/reservations migration и disk reconciliation; quota startup validation; pending expiry/row-lock claim/tombstone coordination, idempotent cleanup lease/retry/quarantine; errors/Retry-After и frontend понятные failures без retries команды. Existing MaxBytes/annotation constraints сохраняются. Подготовить interface maintenance barrier для backup L3. Точки: AttachmentsController, AttachmentService, IAccessPolicy/transactional claim boundary, LocalFileAttachmentStorage, Program; все новые schemas только technical resources. [ADR-L06](../docs/adr/ADR-L06-resource-protection.md).
 
-Дополнительно: реализовать принятый отдельный privileged erasure workflow ADR-L10, retention по категории/цели, manifest и audit evidence; обычный orphan cleanup никогда не удаляет linked history. Работа с файлами/metadata/DomainEvents/annotations/смешанными субъектами — отдельные проверяемые шаги, app role без bypass.
+После отдельного legal review и разрешения соответствующего workflow (не автоматический scope L1/L2): реализовать privileged erasure workflow ADR-L10, retention по категории/цели, manifest и audit evidence; обычный orphan cleanup никогда не удаляет linked history. Работа с файлами/metadata/DomainEvents/annotations/смешанными субъектами — отдельные проверяемые шаги, app role без bypass.
 
 Tests: erasure manifest scope, immutable обычных commands, absence по всем stores, partial failure/retry, mixed-subject preservation, сроки/акт/log export; simultaneous users/global quota, simultaneous same actor, real PostgreSQL reservation races, multipart no-length/oversize/cancel, worst-case image validation memory, DB commit uncertainty, cleanup vs submit/message/delete, failed unlink/DB outage, orphan lease, restart reconciliation, isolated ENOSPC. Scope/immutable originals regressions; rate limiter partition cardinality, school NAT legitimate burst. Не превращать rate limit в max attempts Domain rule.
 
@@ -65,7 +48,7 @@ Exit: signed-off operator evidence, C04 targets выполнены измере�
 
 **Цель:** определить READY_FOR_PILOT либо NOT_READY по фактам выбранной среды/группы. Сложность **средняя/высокая**, ориентир 2–5 дней для выбранного доступного device scope, не включая устранение обнаруженных дефектов/ожидание hardware.
 
-Prerequisites: accepted L1–L3, разрешение L4; C01–C09 закрыты для real pilot, назначены operator/testers и workload/device budgets. PD-G01–14 закрыты проверяемыми evidence до release: официальные редакции, выбранный уровень/меры, опубликованная политика/подписанные документы, уведомления, legal review. Неприемлемый C07 workaround требует отдельного scope. Erasure теперь явная зависимость L1–L3, а не optional после пилота.
+Prerequisites: accepted L1–L3, разрешение L4; C01–C09 закрыты для real pilot, назначены operator/testers и workload/device budgets. PD-G01–14 закрыты проверяемыми evidence до release: официальные редакции, выбранный уровень/меры, опубликованная политика/подписанные документы, уведомления, legal review. Неприемлемый C07 workaround требует отдельного scope. Erasure — обязательная проверяемая зависимость до real-data пилота после правовых решений; оно не входит автоматически в synthetic L1.
 
 Изменения: reuse K Playwright sequence с настоящими Identity accounts/CSRF/cookies и отдельными Student A/B, scoped/foreign Teacher; безопасный acceptance harness без production reset/dev-token; reports/evidence/runbooks/readiness matrix. Только доказанные scoped defect fixes отдельными reviewable commits, не расширение Domain.
 
@@ -75,22 +58,8 @@ Tests: все шесть экранов, 2 ordered real camera photos, immutable
 
 Exit: D5 запрещает READY_FOR_PILOT при любом обязательном compliance gap; legal sign-off не заменяет technical proof. Каждый release gate имеет evidence, operator/date/commit/environment; no unresolved P0/P1, выбранные quotas/recovery/privacy/device budgets выполнены. Owner явно принимает scope и старт real pilot. READY_FOR_PILOT не означает READY_FOR_PRODUCTION; failure любого обязательного gate → NOT_READY с next actions. Risks: small sample ≠ soak, Chrome emulation ≠ Safari/Pencil, green health ≠ restore, синтетические PNG ≠ реальные фото.
 
-## Что не блокирует локальную подготовку и что блокирует release
+## Зависимости и release gate L0.3
 
-В L0.1 разрешены только документы/проверки/commit. После отдельного разрешения L1 минимальный пакет L01-DECISION-GATES достаточен для согласованной синтетической разработки; одних C01/C02 уже недостаточно; C03/C05 не нужны для этих tests. В L2 можно проектировать/test механизмы с fixture values до получения host; production thresholds зависят C06/C03. L3 local config/restore rehearsal возможны заранее, но без owner infrastructure inputs нельзя закрыть deployment. L4 никогда не закрывает C08/C09 или physical evidence за владельца. Сроки выше — оценка инженерной сложности, не принятое обязательство.
+L2 зависит от принятого L1; общая quota/cleanup защита не откладывает базовую auth rate-limit/file scope/commit guard из L1. Юридически значимые retention/erasure механизмы требуют PD-G02/07/08/09 и отдельного workflow scope; если решения отсутствуют, они остаются BLOCKED, не заполняются тестовыми основаниями. L3 зависит от безопасного ресурсоёмкого контура L1/L2 и C03–05/C09; production restore должен учитывать актуальные revoked/erased records до ingress. L4 требует весь legal/technical/operational/device evidence packet, ORG-G05/08 и PD-G01–14. Ни L1 completion, ни подпись архитектурного ADR не закрывает пилот.
 
-
-## Приоритет L0.1 и оценки
-
-Эта редакция включает lifecycle/erasure как обязательную часть будущего плана. Исторические оценки дней L0 выше относятся к прежнему техническому scope и **не включают надёжно оценённую стоимость compliance**; переоценить после PD-G02/03/06/08/09. Нельзя использовать их как срок закрытия юридических/провайдерских gates. Ни один L1–L4 этап не начат. [Compliance matrix](../docs/compliance/PD-COMPLIANCE-MATRIX.md) — обязательное приложение к L4, результат сейчас **NOT_READY / NOT VERIFIED**.
-
-## L0.2 — изменения последовательных L1–L4
-
-| Этап | Дополнительный scope | Проверка / exit |
-|---|---|---|
-| L1 Identity | После ORG/PD/C schema gates: Organization/course registry, account→Actor, memberships/role/grants, closed provisioning и recovery, current session/scope/privacy checks; pending file binding и atomic same-scope claim. Не откладывать базовую file isolation до L2 | Clean/upgrade synthetic migration с immutable history, unknown legacy deny; real PostgreSQL/HTTP two-org IDOR/SQL/counts/files, revoke races, issuer self-grant deny, browser context reset; отдельное разрешение владельца |
-| L2 Resource Protection & Lifecycle | Organization+actor quota/reservation boundaries (общий account не объединяет бюджеты), pending expiry, scoped retention/manifest/holds и erasure/audit | Concurrency/claim/quota races, erase A сохраняет B, mixed-subject cases, no ordinary immutable bypass; сроки PD-G07/09 |
-| L3 Secure Deployment | Operator/processor duty matrix, contracts/subcontractors, РФ stores/flows, named ops/support grants/audit; shared backups и независимый ledger | Localization evidence, break-glass expiry, restore A erased/B intact до ingress, current grants/session invalidation, incident forwarding drill |
-| L4 Pilot Acceptance | A видит только свои данные; ООО platform-only не получает учебное чтение; правильный controller для каждого case; signed договор/поручение, роли и 152-ФЗ evidence; 273-ФЗ applicability | Полная ORG/PD matrix + прежние K/device gates; будущий B доказывается synthetic, не запускается автоматически; любой обязательный gap → NOT_READY |
-
-Все L1–L4 остаются не начатыми. Новые schema предложения не считать принятыми из этой таблицы. Первый пилот не включает SaaS billing, public onboarding, multi-role UI или licensing functionality. Правовые основания конкретных workflows согласуются до реализации, live evidence до real data. Исторические результаты тестов не переносятся в PASS.
+В прежних документах оценки инженерных дней не включали полный compliance scope; новые сроки не обещаются до T01–T06 и правовых процедур. [L03 readiness](L03-L1-READINESS.md) — актуальная точка следующего разрешения. STOP после L0.3 commit.

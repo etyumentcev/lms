@@ -53,3 +53,9 @@ Identity и самостоятельные технические цели P о�
 ## Источники и ограничения
 
 Web lookup 2026-10-09: [152-ФЗ, статья 6](https://base.garant.ru/12148567/8b7b3c1c76e91f88d33c08b3736aa67a/) для анализа поручения; [273-ФЗ, статья 91](https://www.consultant.ru/document/cons_doc_LAW_140174/dda3cee5868d1739eb34ccd9e8a98085fa2c76e2/) для лицензирования. Это справочные тексты, не подтверждение официальной редакции на дату запуска и не заключение о конкретных сторонах. Официальные редакции/вступление изменений/применимость и договоры входят в PD-G14/ORG-G05/08. [Правовой реестр](PD-LEGAL-REQUIREMENTS.md) остаётся LEGAL SOURCE NOT VERIFIED. Численные сроки здесь не выдуманы.
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

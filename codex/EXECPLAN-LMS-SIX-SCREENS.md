@@ -1134,3 +1134,16 @@ Production code/migrations не изменялись; app tests не перез�
 Documentation-only: [результат](L02-RESULTS.md), [gates](L02-DECISION-GATES.md), [обновлённый план L1–L4](L-IMPLEMENTATION-PLAN.md). Принят pilot scope одной сторонней организации/5–8 классов/closed accounts и возможность собственных курсов ООО; роли ПД по цели требуют юридической проверки.
 
 PROPOSED: Organization/course boundary без отдельной LearningSpace entity, membership отдельно от Identity/Actor, durable ProcessingContext, scope guards для SQL/files/exports и scoped lifecycle. ADR-L11–L14 не ACCEPTED. Обычные immutable attempts/reviews, exact content refs, шесть экранов и API не изменены. Реализация L1 не начата, app tests не запускались; исторические PASS не подтверждают новую изоляцию. Следующий шаг — согласование ORG и прежних PD/C gates, затем отдельное разрешение L1. Compliance NOT VERIFIED; NOT_READY. Push/merge/deployment не выполнялись.
+
+## L0.3 — Owner Decisions & L1 Readiness (2026-10-09)
+
+Предыдущие L0/L0.1/L0.2 разделы выше — исторические результаты соответствующих checkpoints; их прежние PROPOSED/gate/issuer/L1-scope формулировки superseded этим разделом и текущими документами, результаты тестов не переписаны.
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED по явному заданию владельца. Organization обязательна, LearningSpace entity не вводится; Identity/Actor/membership/enrollment/assignment разделены. Accounts выдаёт уполномоченный администратор образовательной организации, admin не reader; отзыв и scoped erasure не распространяются автоматически на B/общую Identity. D1–D5 и D4a–d сохранены; legal roles/основания/сроки REQUIRE LEGAL REVIEW.
+
+- [Reconciliation](L03-DECISION-RECONCILIATION.md): таблица противоречий и superseding decisions.
+- [План L1](L03-L1-IMPLEMENTATION-PLAN.md): synthetic Identity, Organization Scopes & Access Lifecycle, восемь slices.
+- [Readiness](L03-L1-READINESS.md): BLOCKED_PENDING_OWNER_DECISIONS, технические T01–T06 PROPOSED.
+- [Результат](L03-RESULTS.md): evidence проверок документации и docs-only commit.
+
+Шесть основных экранов и учебные инварианты сохраняются. L1–L4 не начаты; никаких migrations, push/merge/deployment. После согласования технических предложений требуется отдельное разрешение L1 на synthetic data. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

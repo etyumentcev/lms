@@ -1,6 +1,6 @@
 # L0.2 — Authorization isolation
 
-**PROPOSED / ORG-G04 OPEN.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
+**ACCEPTED ORG-G04 (L0.3); технические механизмы PROPOSED.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
 
 ## Policy и scope resolution
 
@@ -8,7 +8,7 @@
 
 Platform actions используют отдельный набор полномочий. Нельзя добавить `Administrator OR ...` к формуле. Student видит только собственные работы; отдельное разрешение на чужую работу потребует нового use case, в пилоте такого разрешения нет. Teacher ограничен назначенными курсами/группами внутри organization. Course-wide grant сохраняет возможность работать с историей независимо от active enrollment ученика, но не обходит membership преподавателя, organization suspension или privacy block. Export — отдельное право и manifest, не побочный эффект Teacher role.
 
-Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет membership/permission и лишь затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId/LearningSpaceId — только кандидат для сопоставления; не authority. В пилоте collection/upload context определяется сервером по единственному разрешённому контексту; неизвестный или неоднозначный scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
+Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет membership/permission и лишь затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId — только кандидат для сопоставления; не authority. В пилоте collection/upload context определяется сервером по единственному разрешённому контексту; неизвестный или неоднозначный scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
 
 [PostgresAccessPolicy](../../src/Lms.Infrastructure/PostgresAccessPolicy.cs) проверяет course/group/owner без organization. [WorkspaceQueries](../../src/Lms.Infrastructure/PostgresWorkspaceQueries.cs) имеет отдельные LINQ guards; [ReviewQueue](../../src/Lms.Infrastructure/PostgresReviewQueue.cs) использует raw SQL, который EF global filters не защищают. [WorkStore](../../src/Lms.Infrastructure/PostgresWorkStore.cs) загружает по ID; scope-aware load/save и commit-time permission требуются отдельно. API `[Authorize]`/JWT подтверждают личность, не организацию. Новый resolver должен покрывать все эти пути и оба GET work aliases, не только команды.
 
@@ -28,7 +28,7 @@ Pending attachment binding = uploader ActorId + OrganizationId + policy version;
 |---|---|---|
 | Infrastructure/config/monitoring | Назначенный ops, минимум metadata | Нет по educational роли |
 | Создание Organization | Отдельное platform permission по approved onboarding | Не создание чужой организации |
-| Account maintenance | Issuer по проверенному запросу, без impersonation/просмотра работ | Рoster/scopes своей организации через уполномоченного manager |
+| Account maintenance | Только отдельно назначенная глобальная security maintenance роль, без impersonation/просмотра работ | Уполномоченный администратор организации выдаёт accounts и управляет roster/scopes своей организации |
 | Курсы/группы/зачисление/учителя | Нет автоматически | Organization manager в своём scope |
 | Задачи/review/progress/materials | Нет автоматически | Teacher grant; student ownership где применимо |
 | Backup/restore/incidents | Отдельные ops полномочия/договор, private encrypted sets | Не доступ к общему dump |
@@ -53,4 +53,8 @@ Break-glass: verified ticket/incident и цель, решение уполном
 | Orphan course/file/context, stale cached grants | Fail closed; нет fallback к global tenant |
 | Реальный SQL queue/count и прямые URL во всех API aliases | Scope до pagination/summary; не только mocked policy тест |
 
-L1 доказывает Identity/membership/read/write/file scope и гонки отзыва на real PostgreSQL/HTTP; L2 — квоты/erasure/claim races, L3 — maintenance/restore, L4 — сквозной packet. Тесты должны иметь две synthetic организации, совпадающие локальные имена групп, одного общего actor и отдельного outsider. Никакие результаты прежних тестов не доказывают эту матрицу.
+L1 доказывает Identity/membership/read/write/file scope и гонки отзыва на real PostgreSQL/HTTP; L2 — квоты/cleanup; erasure только после legal review, claim races уже L1, L3 — maintenance/restore, L4 — сквозной packet. Тесты должны иметь две synthetic организации, совпадающие локальные имена групп, одного общего actor и отдельного outsider. Никакие результаты прежних тестов не доказывают эту матрицу.
+
+## L0.3 — детализация реализации
+
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

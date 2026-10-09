@@ -13,7 +13,7 @@
 | C07 R08/R09/R17 | T08/14 | Security audit вне DomainEvents, route template/outcome, без bodies/tokens, bounded retention, защищённый sink/time sync | Canary scan, tamper/access/expiry tests; ИБ | K traceId FACT, полноценный audit отсутствует |
 | C08 R08/R09 | T11/16 | API/edge quotas/rate/concurrency, upload validation, alarm disk/inodes/WAL, безопасные images | K per-file baseline + concurrent/ENOSPC/load; engineer/ops | Per-file FACT; K-S02 OPEN |
 | C09 R08/R09 | T06/15 | Inventory OS/images/dependencies, vulnerability review, patch schedule с emergency path, staging/rollback, secret rotation | CVE triage по сроку риска, patch/restart/secret canary; ops | L3 PROPOSAL, сроки PD-G06/13 |
-| C10 R10–R13 | T12/18 | Case registry/deadlines, purpose block, privileged erasure manifest, physical deletion и подтверждения | DSAR/withdrawal/erasure races/crash/failure evidence; ПД/engineer | L1/L2 PROPOSAL |
+| C10 R10–R13 | T12/18 | Case registry/deadlines, purpose block, privileged erasure manifest, physical deletion и подтверждения | DSAR/withdrawal/erasure races/crash/failure evidence; ПД/engineer | L1 только restriction contracts; case/erasure после legal review, PROPOSED |
 | C11 R11–R13/R08 | T07/13 | Coordinated encrypted backup, separate current ledger, quarantine restore/reconcile без public access | Snapshot-before-erasure drill; missing ledger fails closed; ops | L3 PROPOSAL, K-S06 OPEN |
 | C12 R15/R16 | T06/07/08/16 | Incident runbook, ответственный/заместитель, таймеры, защищённая forensic копия с отдельным retention | Synthetic notification/tabletop, delivery acknowledgment; incident lead | L3/L4 NOT VERIFIED |
 | C13 R01/R18/R19 | T04/17 | Minimal field allowlist/EXIF decision, no trackers/AI, review anonymization | Schema+network+content checks, reidentification assessment; ПД | PD-G04/05 OPEN |
@@ -22,3 +22,9 @@
 App runtime не получает DDL/superuser/erasure capability. Отдельный deploy/migration principal и отдельный временный maintenance principal — проект L3. Password hash не шифруется «обратно»; TLS и disk encryption защищают разные угрозы. Secrets, Data Protection keys, backup encryption keys и HMAC ключ ledger имеют разные назначения и отдельные lifecycle/custody.
 
 Периодичность patch, access review, control assessment и ротации определить по актуальному нормативному минимуму и модели угроз, не произвольно назвать defaults достаточными. Incident response включает временное закрытие доступа, сохранение ограниченных доказательств, оценку вреда, уведомления, устранение причин и проверку восстановления. [Lifecycle](PD-LIFECYCLE-AND-ERASURE.md) отделяет блокирование обработки от account disable.
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

@@ -2,7 +2,7 @@
 
 > L0.2: актуальная квалификация сторон — [controller/processor model](PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое предположение об ООО как единственном операторе ниже уточняется по целям; см. amendment в конце.
 
-**PROPOSAL**, [ADR-L09](../adr/ADR-L09-personal-data-lifecycle.md), [ADR-L10](../adr/ADR-L10-erasure-and-immutable-history.md); PD-G02/03/07/08/09 должны быть согласованы. Источники и сроки [R10–R13](PD-LEGAL-REQUIREMENTS.md) имеют статус **LEGAL SOURCE NOT VERIFIED**. Числа ниже — кандидаты правового SLA, не утверждённый регламент. Отдельные рабочие/календарные дни не взаимозаменяемы.
+**Архитектурные принципы ACCEPTED L0.3; процедуры PROPOSED / REQUIRE LEGAL REVIEW**, [ADR-L09](../adr/ADR-L09-personal-data-lifecycle.md), [ADR-L10](../adr/ADR-L10-erasure-and-immutable-history.md); PD-G02/03/07/08/09 должны быть согласованы. Источники и сроки [R10–R13](PD-LEGAL-REQUIREMENTS.md) имеют статус **LEGAL SOURCE NOT VERIFIED**. Числа ниже — кандидаты правового SLA, не утверждённый регламент. Отдельные рабочие/календарные дни не взаимозаменяемы.
 
 ## Различия операций
 
@@ -33,7 +33,7 @@ Case register и следующие workflows отсутствуют; предл
 
 1. ПД подтверждает запрос, правовое основание/срок и объём; юрист разбирает mixed-subject work/retention, reviewer согласует manifest. Issuer не вправе удалить историю просто по просьбе Teacher.
 2. Зарегистрировать intent во внешнем актуальном журнале исполнения до разрушительных действий. Privacy block независимо от active account и enrollment: course-wide Teacher иначе продолжает читать. Приостановить affected reads/writes, drain; согласовать global barrier с backup/deploy/cleanup. При неопределённом статусе не открывать доступ.
-3. Dry-run closure: Identity/mapping/grants, назначения/work, Submissions/Reviews/Messages/ReplyTo, annotations JSONB, DomainEvents.Payload, attachment arrays, StoredAttachments/AccessAttachments/physical keys; также free text/EXIF/roster/log exports/shared content. Поиск только по StudentId недостаточен. Определить затронутых других субъектов и правомерные holds.
+3. Dry-run closure только соответствующего контекста: scoped grants; общий Identity/mapping исключён из erasure одной организации, отдельное закрытие account рассматривается по каждой независимой цели; назначения/work, Submissions/Reviews/Messages/ReplyTo, annotations JSONB, DomainEvents.Payload, attachment arrays, StoredAttachments/AccessAttachments/physical keys; также free text/EXIF/roster/log exports/shared content. Поиск только по StudentId недостаточен. Определить затронутых других субъектов и правомерные holds.
 4. Утвердить неизменяемый manifest (digest, scope, версия схемы, причина, ожидаемые counts и зависимости). Использовать отдельный временный executor, способный выполнить только утверждённый план. Никакого универсального флага bypass у app role.
 5. Выполнить транзакционную DB-часть в порядке FK с отдельным защищённым путём triggers; файл/DB не одна транзакция — durable task manifest, идемпотентные шаги и блокирование до завершения всех. Не удалять все работы учеников автоматически при увольнении преподавателя: сначала определить законно сохраняемые связи и отдельный способ минимизации. Точное изменение triggers/DDL — будущий reviewed design/test, сейчас отсутствует.
 6. Удалить originals/temp/копии/производные, обработать backups/WAL/provider snapshots. Записать успех каждого store или ошибку/next retry/deadline. FS unlink/SQL DELETE не доказывает исчезновение с underlying media; provider/носитель/шифрование и ключи входят в evidence.
@@ -62,3 +62,9 @@ Acceptance L3/L4: snapshot до удаления ученика и до отзы
 ## L0.2 — организационное уточнение
 
 Каждый case/manifest получает controller/context/organization scope и проверенное полномочие инициатора. Запрос A не удаляет B; общий Identity не каскадирует историю. Сценарии ученика/родителя/поручения/завершения обучения/договора/отзыва teacher/закрытия собственного направления: [организационный lifecycle](PD-ORGANIZATION-LIFECYCLE.md). Independent lawful holds, mixed-subject review и separate privileged erasure сохраняются. Shared backup не продлевает срок A до срока B; очищенная согласованная копия/уничтожение replicas и актуальный ledger всех contexts обязательны до cutover. Старые сроки-кандидаты выше не становятся утверждёнными.
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

@@ -769,3 +769,9 @@ Left navigation | Main workspace | Right contextual panel
 Принять / Вернуть
 контекст / предыдущие попытки
 ```
+
+## L0.3 — будущая Identity integration, PROPOSED
+
+Шесть основных учебных экранов сохраняются. Дополнительные минимальные login/activation/reset формы не являются multi-organization management UI. Accounts выдаёт уполномоченный администратор образовательной организации; public registration и обязательные email/phone отсутствуют. При 401 очищаются previous account state/drafts/Blob URLs; при 403 закрывается недоступный scope, session перечитывается без replay команды. Startup/focus/cross-tab проверяют сервер, frontend не является authorization authority.
+
+[API compatibility и contracts L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md): existing business routes/DTO сохраняются, proposed cookie+CSRF меняет auth transport; POST uploads добавляет validated courseId для scope, отсутствие допустимо только при единственном доступном course. Все files повторно авторизуются сервером. Admin interface (ограниченная форма либо CLI под personal auth) — открытый T02, а не утверждённый дополнительный продукт. В L0.3 frontend/API код не изменяется. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

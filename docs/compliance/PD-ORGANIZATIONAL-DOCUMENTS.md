@@ -1,6 +1,6 @@
 # L0.1 — Документы и процедуры ООО
 
-**DRAFT / PROPOSAL**, не подписанные и не опубликованные документы. Оператор по D4 — российское ООО владельца; реквизиты **UNKNOWN**, их нельзя заменять вымышленными. [Правовые требования](PD-LEGAL-REQUIREMENTS.md) LEGAL SOURCE NOT VERIFIED. Назначение лиц/подписи/уведомления **NOT VERIFIED**; наличие шаблона не исполняет обязанность.
+**DRAFT / PROPOSAL**, не подписанные и не опубликованные документы. Исторический D4 уточнён D4a–d: ООО — владелец платформы, роли A/P определяются по цели и REQUIRE LEGAL REVIEW; реквизиты **UNKNOWN**, их нельзя заменять вымышленными. [Правовые требования](PD-LEGAL-REQUIREMENTS.md) LEGAL SOURCE NOT VERIFIED. Назначение лиц/подписи/уведомления **NOT VERIFIED**; наличие шаблона не исполняет обязанность.
 
 ## Requirement → Responsible role → Document → Technical mechanism → Evidence
 
@@ -72,3 +72,9 @@ System/release owner [ ], активы/страны [ ], auth/access/keys [ ], p
 5. Incident lead ведёт timeline, ПД контролирует deadlines и заместителя; устранение причин/rotation/recovery по закрытому runbook, reviewer принимает evidence и residual risks. Tabletop с synthetic утечкой и недоступным основным ответственным до пилота.
 
 В рамках L0.1 ничего не публиковалось, не подписывалось и не подавалось от имени ООО.
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

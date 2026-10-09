@@ -1,6 +1,6 @@
 # L0.2 — Organization lifecycle / erasure
 
-**PROPOSED / REQUIRE LEGAL REVIEW. ORG-G06, PD-G07/08/09 OPEN.** C(E) — оператор соответствующей учебной цели, P — назначенный исполнитель ООО. Для собственных курсов решение принимает P в образовательном контексте. Все workflows ниже ещё не реализованы.
+**ACCEPTED ORG-G06 (архитектура L0.3); процедуры PROPOSED / REQUIRE LEGAL REVIEW, PD-G07/08/09 OPEN.** C(E) — оператор соответствующей учебной цели, P — назначенный исполнитель ООО. Для собственных курсов решение принимает P в образовательном контексте. Все workflows ниже ещё не реализованы.
 
 | Сценарий / кто решает | Исполнитель | Объём и блокирование | Сохранить / уничтожить | Backups / evidence |
 |---|---|---|---|---|
@@ -27,3 +27,9 @@ Mixed-subject feedback/фото/цитаты и shared content требуют о
 Физический set A+B+platform не объединяет contexts. Manifest указывает состав, policy versions и ledger cutoff. Срок A нельзя продлить до срока B. До lawful deadline удалить set либо создать проверенную очищенную согласованную копию B и уничтожить старые replicas с доказательством recoverability B. Общий ключ нельзя уничтожать без оценки потери B. Per-organization keys — возможное расширение, не доказательство crypto-erasure.
 
 Проверить WAL/snapshots/temp/exports/providers. Immutable lock без законного срока блокирует выбор. Restore в quarantine получает актуальный независимый ledger всех contexts, применяет block/revoke/erase, отзывает старые sessions и сверяет хвост под barrier до ingress. Недоступный ledger любого восстановленного context блокирует cutover. Ops audit/поручение ограничивают технический доступ к общему set. Synthetic drill: snapshot до erasure A/revoke teacher, A не воскресла, B сохранена и доступна; сейчас NOT VERIFIED.
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

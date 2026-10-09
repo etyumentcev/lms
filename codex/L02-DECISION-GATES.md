@@ -1,20 +1,21 @@
-# L0.2 — Decision gates
+# L0.2 decision gates — актуализация L0.3
 
-2026-10-09. Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**. Все ORG gates OPEN; принятие схемы не равно implementation evidence. Сохраняются обязательные [L0.1 gates](L01-DECISION-GATES.md).
+2026-10-09. Owner/evidence для принятых строк: владелец проекта, явное задание «Checkpoint L0.3: Owner Decisions & L1 Readiness», §§2–9. Это принятие границ, не evidence реализации. Исторический [L02-RESULTS](L02-RESULTS.md) не изменён.
 
-ACCEPTED владельцем: пилот одной сторонней организации, 5–8 классы, её учителя, закрытые accounts, без public registration/multi-organization UI; ООО предоставляет платформу и может в будущем само обучать; разделение Platform/Education. Controller/processor модель принята только как рабочая гипотеза, REQUIRE LEGAL REVIEW.
+Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
 
-| Gate / status | Решение / рекомендация и альтернатива | Owner / evidence | Когда блокирует |
-|---|---|---|---|
-| ORG-G01 DECISION REQUIRED | Organization root + Course ownership registry, без отдельного LearningSpace; альтернатива 1:N только по доказанному требованию | Владелец/архитектор: принять ADR-L11/L12, schema keys и migration mapping policy | **L1 schema** |
-| ORG-G02 DECISION REQUIRED | Identity→Actor + membership, одна основная role/account; issuer по roster, independent scope revoke | Владелец: ADR-L14, issuer полномочия, C01/C02 recovery/channel; затем tests | **L1 provisioning/schema** |
-| ORG-G03 DECISION REQUIRED / REQUIRE LEGAL REVIEW | Policy/version/subject basis вне Domain, course binding + current blocks; определить Identity и platform purposes | Владелец/ПД/юрист: ADR-L13, purpose matrix, minimal fields, authority/retention principles | **L1 workflows/schema**, PD-G02/03/04/07/08/10 |
-| ORG-G04 DECISION REQUIRED | Полный scope resolver, commit-time revoke/barrier, narrow break-glass; не global Admin | Владелец/ИБ/архитектор: permissions и revocation semantics, затем two-org test matrix | **L1 access contract**, L3 ops |
-| ORG-G05 REQUIRE LEGAL REVIEW | Роли A/P по каждой цели и поручение; own purposes отдельно | Юрист/стороны: legal memo, реквизиты/подписанты обеих сторон, подписанный договор и поручение | Роли/основания затрагиваемых L1 workflows до реализации; подписанный packet до real data |
-| ORG-G06 DECISION REQUIRED / REQUIRE LEGAL REVIEW | Scoped erasure/holds и multi-controller backup; ADR-L09/L10 без global Identity cascade | Владелец/ПД/ИБ/юрист: authority/manifest principles до L1; сроки/копии/drills L2–L4 | **Граница lifecycle L1**, operational acceptance L2–L4 |
-| ORG-G07 DECISION REQUIRED | Legacy inventory, unknown quarantine, synthetic-only backfill; аддитивные registry/FK | Архитектор/владелец данных: provenance manifest, clean/upgrade tests, no history reassignment | **L1 migration design**, до применения к real legacy |
-| ORG-G08 REQUIRE LEGAL REVIEW | Применимость 273-ФЗ/лицензии по реальной деятельности | Юрист/организатор: applicability memo и license evidence либо мотивированная неприменимость | A до пилота; P до собственных курсов, не дополнительная функция L1 |
+| Gate / status | Принятое решение / оставшаяся зависимость | Когда блокирует |
+|---|---|---|
+| ORG-G01 ACCEPTED | Organization обязательна, каждый Course принадлежит ровно одной; LearningSpace entity отсутствует в MVP; ADR-L11/L12 | Технические ключи и quarantine — PROPOSED T03/T06 |
+| ORG-G02 ACCEPTED | IdentityUser → Actor; OrganizationMembership отдельно от CourseEnrollment и TeacherAssignment; один login в нескольких организациях, одна основная Student/Teacher роль в MVP | Schema/constraints PROPOSED; глобальная роль не заменяет scope |
+| ORG-G03 ACCEPTED (architecture) | Версионированный ProcessingContext вне учебных агрегатов; связь с курсом; текущие ограничения сильнее исторической версии | Persistence T05 PROPOSED; основания/сроки REQUIRE LEGAL REVIEW |
+| ORG-G04 ACCEPTED | Server-side organization/course/group isolation; admin без автоматического чтения работ; актуальные file checks; commit-time check и отзыв | T04 PROPOSED; implementation/tests NOT VERIFIED |
+| ORG-G05 REQUIRE LEGAL REVIEW | Роли A/P по целям, договор LMS, поручение, собственные цели ООО, основания и обязанности сторон | Юридические workflows и любой real-data пилот; не изолированная synthetic Identity разработка |
+| ORG-G06 ACCEPTED (architecture) | Scoped privileged erasure, approved request/manifest/evidence, A не удаляет B/общую Identity; restore не возвращает уничтоженное | Сроки, исключения, mixed-subject procedure REQUIRE LEGAL REVIEW; production erasure запрещён до проверки |
+| ORG-G07 ACCEPTED | Аддитивные изменения, сохранение истории/IDs, явный synthetic mapping, подтверждённый real manifest, unknown quarantine | Конкретная миграция T06 PROPOSED; real mapping без manifest запрещён |
+| ORG-G08 REQUIRE LEGAL REVIEW | 273-ФЗ, лицензирование, требования к сторонней организации, будущие курсы ООО | До соответствующей real образовательной деятельности; synthetic L1 не подтверждает применимость |
+| C01/C02 ACCEPTED (business process) | Уполномоченный администратор образовательной организации выдаёт accounts по её списку; одноразовая активация/восстановление, проверенный индивидуальный канал, без обязательных email/телефона | T01/T02 PROPOSED: механизм, интерфейс, параметры, проверка получателя, evidence, компрометация канала |
 
-До L1 согласовать ORG-G01–04/06/07, правовые решения ORG-G05 для затрагиваемых workflows и прежний минимальный пакет PD/C gates. C01 закрыт только в части closed provisioning; issuer/канал/recovery ещё открыты. Возрастной scope 5–8 принят, полномочия родителей ещё проверяются. После согласования требуется **отдельное разрешение L1 на synthetic data**. Подписанные live документы/реальные реквизиты/инфраструктурные evidence нужны до real data, не для isolated tests.
+PD-G01–14 остаются открытыми по [L01 gates](L01-DECISION-GATES.md). D1–D5/D4a–d/D6/D7 сохранены; юридическая квалификация D4 не стала LEGAL VERIFIED. Принятие архитектуры не утверждает пять отдельных таблиц ProcessingContext/Purpose/Basis/Restriction/Retention.
 
-Любое закрытие gate записывает decision/date/owner/evidence/affected ADR/tests. Условная норма — только мотивированная неприменимость, не молчаливый skip. Не требовать второго юрлица и не возвращать уже принятый scope на согласование.
+Следующий шаг: рассмотреть [технический пакет T01–T06](L03-L1-READINESS.md), затем отдельно разрешить synthetic-only L1. [Исполнимый план](L03-L1-IMPLEMENTATION-PLAN.md). В L0.3 L1–L4 не запускаются.

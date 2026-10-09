@@ -23,7 +23,7 @@ FACT: отдельных Student/Teacher profiles и IdentityUser persistence н
 | Access | Субъект — свой вход; issuer — минимум; credential hashes не Teacher |
 | Retention | T1 + T4/T6 отдельно |
 | Correction | Login/contact только проверенным процессом; ActorId не перепривязывать |
-| Deletion | Отозвать сессии/коды, удалить credentials/mapping по ADR-L10 после обработки зависимостей |
+| Deletion | Scoped erasure учебных данных не удаляет общие credentials/mapping. Отдельный global account lifecycle отзывает сессии/коды и рассматривает законные зависимости по всем целям до удаления Identity |
 | Transfer | X1/X2/X3; без обязательного SMTP |
 | Evidence | Schema allowlist, audit provisioning, тест revoke/replay |
 
@@ -86,7 +86,7 @@ FACT: отдельных Student/Teacher profiles и IdentityUser persistence н
 | Subject | Ученик |
 | Purpose | B03/B07/B08 |
 | Legal basis | Кандидат основания по указанному B; утвердить PD-G02/03, не считать consent универсальным |
-| Collection | Назначение оператором и команды ученика/учителя |
+| Collection | Назначение уполномоченным администратором образовательной организации и команды ученика/учителя |
 | Storage | ProblemAssignments/ProblemWorks; проекции в памяти |
 | Access | Свой ученик и scoped Teacher |
 | Retention | T2 |
@@ -274,3 +274,9 @@ FACT: отдельных Student/Teacher profiles и IdentityUser persistence н
 ## L0.2 — организационное уточнение
 
 I01 Identity остаётся proposal и имеет unresolved role до purpose review. I02 profiles scoped по Organization; I03 enrollment и учебные I04–I10 наследуют course owner/context. Pending I09 требует actor+organization binding, linked file — parent scope. I11 audit, I13 backups и support нельзя автоматически отнести к собственным целям ООО. Добавляемые registry/membership/context/version/case refs тоже могут быть ПД. Категории/сроки T сохраняются как кандидаты, раздельно по controller. Полная Data→owner→controller→processor→purpose→basis→retention→access→authority матрица: [модель](PD-CONTROLLER-PROCESSOR-MODEL.md).
+
+## L0.3 — superseding decisions и границы
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
+
+[L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

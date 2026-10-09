@@ -17,7 +17,7 @@
 | Restore | Restore operator, ключевой хранитель, owner cutover approval | Чистый host drill ADR-L05; доступ к escrow возможен без потерянного VPS; измеренный RTO |
 | Monitoring | Operator | Disk/inodes/WAL/log/temp/backups, memory/OOM, CPU/pool, 5xx/429, TLS expiry; thresholds после C06 measurements |
 | Обновления | Operator | Dependency/OS patch review, staging regression, migration+backup+rollback plan, planned window; никакого unattended schema upgrade |
-| Account/access | Уполномоченный issuer | Verified roster, atomic provisioning, audit role/scopes, deactivation/revoke, периодическая сверка grants; Teacher не оператор автоматически |
+| Account/access | Уполномоченный администратор образовательной организации (C01/C02 ACCEPTED) | Verified roster, atomic provisioning, audit role/scopes, deactivation/revoke, периодическая сверка grants; Teacher не оператор автоматически |
 | Incident | Incident lead (может совпасть с оператором) | Закрыть доступ/отозвать sessions, сохранить минимальные forensic logs, оценить integrity, восстановить/rotate, задокументировать timeline; кому сообщать решает owner/legal input |
 | Retention/requests | Data owner | Разделить pending cleanup, immutable submitted work, identity/profile, logs и backup expiry; проверить законность и согласовать процедуру до действий |
 
@@ -42,6 +42,6 @@ Tests L3/L4: backup failure и low disk вызывают уведомление,
 
 ## L0.1 amendment — 2026-10-09 (приоритет для будущих этапов)
 
-Историческое UNKNOWN выбора оператора/применимости РФ выше закрыто D4/D5: российское ООО владельца — оператор, применимые нормы РФ обязательны до пилота. Реквизиты/состав субъектов/другие юрисдикции остаются UNKNOWN. Exceptional lifecycle спроектирован ADR-L09/L10 и включён в L1–L4, а не улучшение после production. Правовые сроки/уведомления/роли и шаблоны теперь в compliance пакете; официальные источники NOT VERIFIED.
+Историческое UNKNOWN выбора оператора/применимости РФ выше закрыто D4/D5: российское ООО владельца — владелец платформы; D4a–d уточняют предполагаемые роли A/P по цели, REQUIRE LEGAL REVIEW; применимые нормы РФ обязательны до пилота. Реквизиты/состав субъектов/другие юрисдикции остаются UNKNOWN. Архитектурные принципы ADR-L09/L10 ACCEPTED L0.3; L1 включает только synthetic contracts, юридический lifecycle реализуется после правовых решений и проверяется до пилота. Правовые сроки/уведомления/роли и шаблоны теперь в compliance пакете; официальные источники NOT VERIFIED.
 
 Статус изменений **PROPOSAL**, кроме принятых D4/D5. [ADR-L09](ADR-L09-personal-data-lifecycle.md), [ADR-L10](ADR-L10-erasure-and-immutable-history.md), [lifecycle](../compliance/PD-LIFECYCLE-AND-ERASURE.md), [gates](../../codex/L01-DECISION-GATES.md). **Compliance NOT VERIFIED; pilot NOT_READY.**

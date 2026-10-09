@@ -1,8 +1,8 @@
 # L — Architecture baseline and proposed pilot boundary
 
-> Актуальное уточнение L0.2: [Organization](../docs/architecture/ORGANIZATION-MODEL.md) и [controller/processor](../docs/compliance/PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое «ООО оператор» ниже читать по цели согласно D4a–d; внешняя организация входит уже в первый пилот.
+> Актуальные решения L0.3: [readiness](L03-L1-READINESS.md), [implementation plan](L03-L1-IMPLEMENTATION-PLAN.md). C01/C02 и ORG-G01–04/06/07 ACCEPTED (бизнес/архитектура), implementation NOT VERIFIED. Предыдущее уточнение L0.2: [Organization](../docs/architecture/ORGANIZATION-MODEL.md) и [controller/processor](../docs/compliance/PD-CONTROLLER-PROCESSOR-MODEL.md). Историческое «ООО оператор» ниже читать по цели согласно D4a–d; внешняя организация входит уже в первый пилот.
 
-Дата: 2026-10-09. FACT baseline `c7a500f56f26d94e3249a8c8a87e76018b0f5683`, ветка результата `codex/l0-architecture`. L0 меняет только документацию. **NOT_READY** из K сохраняется. D1 VPS/сервер, D2 Compose, D3 ASP.NET Core Identity приняты владельцем; D4/D5 добавлены и ACCEPTED в L0.1: ООО РФ — оператор, compliance обязателен до первого real-data пилота; всё будущее устройство ниже PROPOSAL. [Decision register](L-DECISION-REGISTER.md) отделяет accepted/technical/owner, [план](L-IMPLEMENTATION-PLAN.md) — будущие этапы.
+Дата: 2026-10-09. FACT baseline `c7a500f56f26d94e3249a8c8a87e76018b0f5683`, ветка результата `codex/l0-architecture`. L0 меняет только документацию. **NOT_READY** из K сохраняется. D1 VPS/сервер, D2 Compose, D3 ASP.NET Core Identity приняты владельцем; D4/D5 добавлены и ACCEPTED в L0.1: ООО РФ выбрано владельцем платформы (исторический D4 уточнён D4a–d), compliance обязателен до первого real-data пилота; принципы ORG L0.3 ACCEPTED, механизмы ниже PROPOSED. [Decision register](L-DECISION-REGISTER.md) отделяет accepted/technical/owner, [план](L-IMPLEMENTATION-PLAN.md) — будущие этапы.
 
 ## FACT — слои и точки интеграции
 
@@ -11,7 +11,7 @@
 | [Lms.Domain](../src/Lms.Domain/ProblemWork.cs), [History](../src/Lms.Domain/History.cs), [ProblemAssignment](../src/Lms.Domain/ProblemAssignment.cs) | Aggregate ProblemWork, immutable Submission/Review/Message, exact content reference; четыре статуса; annotations VO | Не добавлять IdentityUser, sessions, quota, admin role или новый status в Domain |
 | [Lms.Application Ports](../src/Lms.Application/Ports.cs), [ProblemWorkService](../src/Lms.Application/ProblemWorkService.cs) | Actor(Guid,AuthorRole), IAccessPolicy/IWorkStore; role/access→aggregate→atomic save | Identity host adapter выдаёт тот же Actor; permissions продолжают проверяться на backend |
 | [LmsDbContext](../src/Lms.Infrastructure/LmsDbContext.cs), [PostgresWorkStore](../src/Lms.Infrastructure/PostgresWorkStore.cs) | PostgreSQL/EF; compare-and-save Version, append-only history/events; split history snapshot | Additive identity/resource metadata, не переписывать историю; restore сохраняет schema/triggers |
-| [AccessFacts](../src/Lms.Infrastructure/AccessFacts.cs), [PostgresAccessPolicy](../src/Lms.Infrastructure/PostgresAccessPolicy.cs) | Trusted enrollment/lesson/teacher grants; no public CRUD | Operator provisioning; роль не равна scope, Identity не выдаёт enrollment автоматически |
+| [AccessFacts](../src/Lms.Infrastructure/AccessFacts.cs), [PostgresAccessPolicy](../src/Lms.Infrastructure/PostgresAccessPolicy.cs) | Trusted enrollment/lesson/teacher grants; no public CRUD | Provisioning администратором образовательной организации; роль не равна scope, Identity не выдаёт enrollment автоматически |
 | [PostgresWorkspaceQueries](../src/Lms.Infrastructure/PostgresWorkspaceQueries.cs), [PostgresReviewQueue](../src/Lms.Infrastructure/PostgresReviewQueue.cs), [PublishedContent](../src/Lms.Infrastructure/PublishedContent.cs) | Exact immutable snapshots; scoped server projections/queue filters/paging; read не создаёт work | Existing read DTOs и capabilities остаются; trusted profile enrichment только отдельным решением |
 | [AttachmentService](../src/Lms.Infrastructure/AttachmentService.cs), [LocalFileAttachmentStorage](../src/Lms.Infrastructure/LocalFileAttachmentStorage.cs) | Original bytes вне DB/web root, random keys; metadata/claim/tombstone; parent-work auth | Resource admission/ledger/cleanup, backup barrier; private storage сохранить |
 | [Program](../src/Lms.Api/Program.cs), [ActorMapper](../src/Lms.Api/ActorMapper.cs) | JWT signature/issuer/audience/lifetime → claims → Actor; health/migrate/dev guards | Identity cookie host integration; CSRF/session validation; no demo fallback в pilot |
@@ -49,19 +49,20 @@ Browser -> HTTPS same-origin edge -> API cookie/session validation
     -> IdentityUserId -> trusted active Actor mapping -> existing access policy
     -> ProblemWorkService -> Domain -> PostgresWorkStore
 Browser -> authorized attachment GET -> private original bytes
-Operator -> trusted provisioning -> Identity + mapping + access facts
+Organization admin -> scoped provisioning -> Identity + mapping
+Organization admin -> separate membership/enrollment/teacher assignment use cases
 Maintenance barrier -> DB + originals + keys/config -> encrypted off-host set
 ```
 
-Cookie transport — B01, owner provisioning/recovery — C01/C02. Cookie principal не должен отдавать Identity UUID как historical ActorId. Server session check и account mapping не заменяют per-request enrollment/grants. In-flight request до revoke может закончиться: strict serializable admin revocation не реализована и не обещана. [ADR-L01](../docs/adr/ADR-L01-identity-integration.md) задаёт migration/compatibility и session tests.
+Cookie transport — B01/T01 PROPOSED; C01/C02 business process ACCEPTED, T01/T02 mechanics PROPOSED. Cookie principal не должен отдавать Identity UUID как historical ActorId. Server session check и account mapping не заменяют per-request enrollment/grants. ORG-G04 требует повторной проверки до commit и barrier до подтверждения отзыва; T04 описывает PROPOSED протокол. Текущая реализация этой гарантии не имеет. [ADR-L01](../docs/adr/ADR-L01-identity-integration.md) задаёт migration/compatibility и session tests.
 
-Single VPS/private DB/files — reuse, HTTPS edge/keys/secret management — L3 additions. No Kubernetes/external IdP/object-store requirement. Capacity/resources/domain/storage provider **UNKNOWN**. Неизменяемая история и originals должны переживать account deactivation, backup/restore и upgrades. Политика exceptional deletion теперь спроектирована в ADR-L09/L10 (PROPOSAL, PD-G08/09); её нельзя заменить произвольным cleanup.
+Single VPS/private DB/files — reuse, HTTPS edge/keys/secret management — L3 additions. No Kubernetes/external IdP/object-store requirement. Capacity/resources/domain/storage provider **UNKNOWN**. Неизменяемая история и originals должны переживать account deactivation, backup/restore и upgrades. Политика exceptional deletion теперь спроектирована в ADR-L09/L10 (принципы ACCEPTED ORG-G06, процедуры REQUIRE LEGAL REVIEW PD-G08/09); её нельзя заменить произвольным cleanup.
 
 ## Migration facts и будущие изменения
 
 Пять существующих migrations: InitialPersistence (20261007035847), CommandAccessFacts (20261007090442), ImmutableContentSnapshots (20261007103352), AttachmentStorage (20261008013249), ReviewAnnotations (20261008154119). [Каталог](../src/Lms.Infrastructure/Migrations) и model snapshot — фактический источник схемы, ранние SQL sketches Feature не заменяют его. K новых migrations не добавлял.
 
-L1 PROPOSAL: стандартные Identity tables, ActorIdentities, IdentitySessions и single-use challenges после C02. L2 PROPOSAL: budgets/reservations/cleanup technical metadata; проверить triggers и atomic expiry claim. L3 — deployment/scripts/config без новой Domain модели. Новые table/class/DTO names в ADR — предложения. Migration backfill не связывает неизвестные старые UUID с новым человеком автоматически. Upgrades тестировать с immutable legacy history и пустой БД; destructive rollback не рекомендован.
+L1 PROPOSAL: стандартные Identity tables, ActorIdentities, Organization/membership/course scopes, IdentitySessions и single-use challenges по T01–T06; C02 business принят. L2 PROPOSAL: budgets/reservations/cleanup technical metadata; проверить triggers и atomic expiry claim. L3 — deployment/scripts/config без новой Domain модели. Новые table/class/DTO names в ADR — предложения. Migration backfill не связывает неизвестные старые UUID с новым человеком автоматически. Upgrades тестировать с immutable legacy history и пустой БД; destructive rollback не рекомендован.
 
 ## Доказательства и ограничения
 
@@ -80,14 +81,18 @@ L1 PROPOSAL: стандартные Identity tables, ActorIdentities, IdentitySe
 - Infrastructure: proposed минимальные basis/version/representative/case/retention metadata рядом с будущей Identity; отдельный security audit и privilege-controlled erasure. Нет автоматического Identity cascade/UUID anonymization. Triggers/FK/JSONB/arrays/files требуют полного manifest.
 - API/Web: минимальный onboarding, отдельное consent действие лишь для consent-based целей, verified session/CSRF, no-store и reset/Blob cleanup. Внешний request channel сохраняется после account deactivation. Parent portal, AI/OCR и analytics не добавлены.
 - Deployment: РФ placement evidence для всех stores/flows, договоры/поручения, backup encryption/keys, отдельный current erasure/revocation ledger. Restore только quarantine до reconciliation и разрешения ПД; численные RPO/RTO/сроки UNKNOWN.
-- Организационный контур: российское ООО оператор (D4), ПД/ИБ/issuer/ops/incident роли назначаются; [документы](../docs/compliance/PD-ORGANIZATIONAL-DOCUMENTS.md) — неподписанные шаблоны. Future external schools потребуют нового legal/isolation решения.
+- Организационный контур: стороны A/P выполняют роли по целям (D4a–d, REQUIRE LEGAL REVIEW), ПД/ИБ/issuer/ops/incident роли назначаются; [документы](../docs/compliance/PD-ORGANIZATIONAL-DOCUMENTS.md) — неподписанные шаблоны. Сторонняя организация входит в первый пилот; её договоры/поручение и legal/isolation evidence ещё обязательны.
 
 Все обязательные [gates](L01-DECISION-GATES.md) и [compliance evidence](../docs/compliance/PD-COMPLIANCE-MATRIX.md) должны быть закрыты до первого пилота (D5). **NOT_READY; compliance NOT VERIFIED.**
 
-## L0.2 — организационная граница (PROPOSED)
+## Организационная граница — ACCEPTED L0.3, детали PROPOSED
 
 Organization→Course registry→assignment→work→history/files; LearningSpace отдельной entity пока не нужен. IdentityUser→ActorId→membership→course/group grants; platform permissions отдельно. ProcessingContext/version/basis находится вне учебных агрегатов, наследуется через course root и проверяется вместе с current blocks. [Модель и фактические зависимости](../docs/architecture/ORGANIZATION-MODEL.md), [Identity](../docs/architecture/IDENTITY-ORGANIZATION-SCOPES.md), [изоляция](../docs/architecture/CROSS-ORGANIZATION-ISOLATION.md).
 
 Server boundary покрывает Application policy, LINQ, raw SQL queue/counts, pending/attached files, exports/jobs и maintenance. CourseId остаётся globally unique offering ID; новые registry/FK и проверенный legacy mapping допускают аддитивное расширение без переписывания immutable history. Unknown legacy fail closed. Контракт future revoke уточнён: повторная проверка перед commit и barrier/drain до подтверждения effective revoke; сейчас этого нет.
 
 API routes/DTO/state machine в L0.2 не меняются. В L1 существующие single-context routes могут разрешать scope сервером; неоднозначный upload/list требует отказа/будущего explicit context contract, не угадывания. Platform root технически способен обходить app — нужны ops credentials/audit и договорные ограничения. Compliance NOT VERIFIED, NOT_READY.
+
+## L0.3 — scope L1
+
+L1 — Identity, Organization Scopes & Access Lifecycle, только synthetic data. Юридические consent/basis/representative/case/production erasure workflows исключены до legal review; current restriction contracts и versions проверяются synthetic fixtures без фиктивных оснований. Подробные PK/FK, migration quarantine, API compatibility, use cases и tests — [L03 plan](L03-L1-IMPLEMENTATION-PLAN.md). Scope upload уточняется courseId, auth transport меняется на proposed cookie+CSRF; остальные business DTO/routes сохраняются. Platform/org admins не получают чтение работ автоматически. Scoped erasure не удаляет общий Identity, immutable history обычных операций не означает вечного хранения. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

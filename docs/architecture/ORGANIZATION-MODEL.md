@@ -1,6 +1,6 @@
 # L0.2 — Organization: модель и фактическая база
 
-Дата: 2026-10-09. Техническая модель **PROPOSED**, не реализована. Бизнес-решения владельца **ACCEPTED** по заданию L0.2. Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
+Дата: 2026-10-09. Границы ORG-G01/07 **ACCEPTED** в L0.3; физическая schema **PROPOSED**, не реализована. Бизнес-решения владельца **ACCEPTED** по заданию L0.2. Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
 
 ## Принятый scope
 
@@ -50,3 +50,7 @@ Organization необходима для заданной независимос
 5. Переключить все reads/writes/SQL/jobs на обязательный resolver, deny при missing mapping; затем валидировать FK/NOT NULL там, где нужны. Проверить clean install и upgrade с прежней immutable history. Это добавления таблиц/связей без массовой миграции history; ограничения и индексы всё же требуют reviewed migrations/maintenance window.
 
 Для новой истории scope фиксируется до первого использования и не меняется. Один глобально уникальный CourseId — сознательное ограничение MVP; локальные одинаковые slugs в будущем требуют отдельного routing design, а не снятия изоляции. [ADR-L11](../adr/ADR-L11-organization-boundary.md), [gates](../../codex/L02-DECISION-GATES.md).
+
+## L0.3 — детализация реализации
+
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
