@@ -1,6 +1,6 @@
 # L0.2 — Organization: модель и фактическая база
 
-Дата: 2026-10-09. Границы ORG-G01/07 **ACCEPTED** в L0.3; физическая schema **PROPOSED**, не реализована. Бизнес-решения владельца **ACCEPTED** по заданию L0.2. Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
+Дата: 2026-10-09. Границы ORG-G01/07 **ACCEPTED** в L0.3; основная физическая schema **ACCEPTED T03/T06**, не реализована. Бизнес-решения владельца **ACCEPTED** по заданию L0.2. Compliance status: **NOT VERIFIED**. Pilot readiness: **NOT_READY**.
 
 ## Принятый scope
 
@@ -37,7 +37,7 @@ Organization необходима для заданной независимос
 
 ## Минимальный пилот и расширение
 
-После согласования schema: один Organization, один учебный boundary, закрытый provisioning по распоряжению образовательной организации; один основной educational role/account; без selector организаций, tenant billing, self-service onboarding, parent portal и licensing UI. ООО как platform manager не получает учебный membership автоматически. Для собственных курсов позже создаётся Organization, представляющая то же ООО в Education Management, со своими membership/курсами/контекстом; platform authority остаётся отдельной.
+После отдельного разрешения реализации принятой schema: один Organization, один учебный boundary, закрытый provisioning по распоряжению образовательной организации; один основной educational role/account; без selector организаций, tenant billing, self-service onboarding, parent portal и licensing UI. ООО как platform manager не получает учебный membership автоматически. Для собственных курсов позже создаётся Organization, представляющая то же ООО в Education Management, со своими membership/курсами/контекстом; platform authority остаётся отдельной.
 
 Второй организатор добавляется новыми корнями, без переписывания исторических Submission/Review. Общая Identity может связать того же Actor с двумя memberships, но не объединяет историю/статистику. Необходима проверка всей цепочки доступа до подключения второго организатора, уже на synthetic fixtures в L1.
 
@@ -45,12 +45,12 @@ Organization необходима для заданной независимос
 
 1. Инвентаризировать legacy CourseId, actors, все grants, uploads и orphan references. Разделить доказанно synthetic и неизвестные данные; неизвестные закрыть от serving, не присваивать реальной организации по умолчанию.
 2. Аддитивно создать Organization, membership, Course ownership registry и context bindings; сохранить существующие PK/UUID/content references. Для access records CourseId→registry и scoped membership дают организационный scope без замены текущих PK. Новые FK вводить после проверенного mapping; запретить удаление/смену ownership при истории.
-3. Для pending attachments добавить отдельную scope binding 1:1 по AttachmentId с OrganizationId и context version. Attached scope вычислять через parent и проверять совпадение binding. Claims выполняются атомарно с повторной проверкой. Технический конкретный constraint/trigger design согласуется L1, concurrency implementation проверяется L1/L2.
+3. Для pending attachments добавить отдельную scope binding 1:1 по AttachmentId с OrganizationId, CourseId и context version. Attached scope вычислять через parent и проверять совпадение binding. Claims выполняются атомарно с повторной проверкой. Технический конкретный constraint/trigger design согласуется L1, concurrency implementation проверяется L1/L2.
 4. Проверенное сопоставление реальных legacy roots фиксируется отдельным approved manifest; отсутствие доказательств блокирует mapping. Synthetic fixtures можно пересоздать в isolated DB или явно пометить тестовой организацией, без применения этой процедуры к real data.
-5. Переключить все reads/writes/SQL/jobs на обязательный resolver, deny при missing mapping; затем валидировать FK/NOT NULL там, где нужны. Проверить clean install и upgrade с прежней immutable history. Это добавления таблиц/связей без массовой миграции history; ограничения и индексы всё же требуют reviewed migrations/maintenance window.
+5. В M3 сначала валидировать FK/NOT NULL/guards, затем контролируемо переключить все reads/writes/SQL/jobs на новую JWT/scope модель; deny при missing mapping. Проверить clean install и upgrade с прежней immutable history. Это добавления таблиц/связей без массовой миграции history; ограничения и индексы всё же требуют reviewed migrations/maintenance window.
 
 Для новой истории scope фиксируется до первого использования и не меняется. Один глобально уникальный CourseId — сознательное ограничение MVP; локальные одинаковые slugs в будущем требуют отдельного routing design, а не снятия изоляции. [ADR-L11](../adr/ADR-L11-organization-boundary.md), [gates](../../codex/L02-DECISION-GATES.md).
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

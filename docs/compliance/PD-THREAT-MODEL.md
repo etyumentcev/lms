@@ -20,7 +20,7 @@
 | ID | Угроза / путь / последствие | Мера-кандидат | Evidence / ответственный |
 |---|---|---|---|
 | T01 | Brute force/credential stuffing/recovery обман → чужой аккаунт | Identity lockout/rate limits, проверка recovery, password validators; MFA privileged по оценке | Replay/enumeration/NAT burst tests; engineer |
-| T02 | Teacher broad/null group или чужой grant → чужие работы | Явное whole-course approval, current DB scope, периодическая сверка | Teacher A/B/group/null tests и roster sign-off; issuer |
+| T02 | Teacher broad/null group или чужой grant → чужие работы | Явное whole-course approval, fresh DB scope при JWT issue/refresh, local scope validation и T04 deadline; периодическая сверка | Teacher A/B/group/null tests и roster sign-off; issuer |
 | T03 | Student подмена work/file ID → чужие решения | Ownership/enrollment/exact content; attached parent access | K AttachmentApiTests + новые privacy-block cases; engineer |
 | T04 | Фото через bucket/URL/EXIF/cache → раскрытие | Private storage, auth stream, metadata policy, no-store | Direct static URL denial, EXIF fixture audit; ИБ |
 | T05 | Ошибка выдачи ролей/перепривязка ActorId | Atomic provisioning, уникальный mapping, dry-run, без auto-backfill | Concurrent import/rollback и чужая история; issuer/engineer |
@@ -28,7 +28,7 @@
 | T07 | Backup/key theft, ransomware, повреждение копии | Off-host encryption, separate keys, ограниченный доступ, проверка целостности | Clean-host restore, corrupt/missing-key failure; ops |
 | T08 | Logs/alerts содержат пароль, photo, SQL/URL identifiers | Минимальные events, redaction, finite retention, доступ ИБ | Canary scan и evidence доступа к sink; ИБ |
 | T09 | Cookie CSRF → чужая команда | Antiforgery на всех unsafe методах, same-origin; SameSite дополнительно | Cross-site/missing token JSON/multipart/logout/login; engineer |
-| T10 | Session hijack/stale cookie/shared browser | Secure HttpOnly, idle/absolute expiry, server revoke, frontend reset | Logout/reset/deactivate replay, cross-tab/back navigation; engineer |
+| T10 | Session hijack/stale cookie/shared browser | JWT ≤15m, secure browser storage/refresh E02 OPEN, ordinary revoke T04 и emergency E03 отдельно, frontend reset | Logout/reset/deactivate replay, cross-tab/back navigation; engineer |
 | T11 | Вредоносная/огромная загрузка, image bomb → CPU/RAM/disk | Signature/format/pixel limits + квоты/concurrency, безопасный decoder policy | Malformed uploads + concurrent resource tests; engineer/ops |
 | T12 | Ошибка удаления/гонка с submit или backup → потеря/возврат ПД | Purpose block + drain + manifest, отдельный erasure workflow, idempotency | Concurrent submit/cleanup/erasure/backup и crash injection; engineer |
 | T13 | Restore возвращает consent/access/удалённое | Внешний актуальный ledger, quarantine, revoke all sessions, reconciliation barrier | Восстановить snapshot до erasure и доказать deny/absence; ops |
@@ -39,3 +39,5 @@
 | T18 | Подложный запрос представителя / избыточная выдача | Проверка полномочий, минимальная защищённая выдача, отделить данные других лиц | Synthetic DSAR/foreign-parent negative tests; ПД |
 
 Остаточные риски: уже скачанные работы не отзываются с чужого устройства технически; provider физическое удаление не подтверждается SQL DELETE; privileged admin технически силён; абсолютная недоступность/нулевая реидентификация не обещаются. Для каждого риска требуется конкретный остаточный риск, компенсирующая мера и владелец. Принятие риска не позволяет отказаться от обязательной нормы.
+
+L0.3: T01–T18 в threat references — идентификаторы угроз, не owner decisions T01–T06. Принятые auth решения и открытые E01–E06: [Owner Register](../../codex/L03-OWNER-DECISION-REGISTER.md), [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md). Это не evidence реализации или legal verification.

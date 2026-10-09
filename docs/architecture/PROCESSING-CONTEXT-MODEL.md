@@ -1,6 +1,6 @@
 # L0.2 — ProcessingContext
 
-**ACCEPTED ORG-G03 (architecture, L0.3); persistence PROPOSED; PD-G02/07/08 REQUIRE LEGAL REVIEW.** Контекст не является уже существующим классом и не создаёт законного основания фактом записи.
+**ACCEPTED ORG-G03 (architecture, L0.3); persistence ACCEPTED T05; PD-G02/07/08 REQUIRE LEGAL REVIEW.** Контекст не является уже существующим классом и не создаёт законного основания фактом записи.
 
 | Представление | Оценка |
 |---|---|
@@ -21,10 +21,10 @@
 4. Для доказательства сохраняется ссылка на применённую версию и время решения в минимальном audit. Исходная версия объясняет прежнюю обработку; текущий block/withdrawal всегда сильнее прежнего разрешения. Обновления курса оформляются новой binding version с effectiveFrom; исторические события не переписываются, журнал периодов позволяет восстановить выбор версии.
 5. Lifecycle jobs разрешают основания всех затронутых субъектов/целей, independent holds и полномочие инициатора до формирования manifest. Удержание части данных не разрешает обычное обучение/доступ к остальной части. Новая цель требует нового решения/основания, а не использования старого snapshot.
 
-Не допускаются default global controller, выбор policy по присланному клиентом ID, permissive fallback при недоступном реестре или бесконечный cache policy. Отзыв и privacy block применяются к следующей проверяемой операции; для завершения revoke/block применяется barrier/drain по [isolation](CROSS-ORGANIZATION-ISOLATION.md).
+Не допускаются default global controller, выбор policy по присланному клиентом ID, permissive fallback при недоступном реестре или бесконечный cache policy. Ordinary revoke следует T04/ADR-L15. Current privacy restrictions по T05 нельзя молча задержать на два часа: E06 OPEN в [реестре](../../codex/L03-OWNER-DECISION-REGISTER.md); historical allow не обходит block. Barrier для будущего destructive erasure остаётся отдельной maintenance процедурой.
 
-Операционное хранение в той же БД допустимо, логическая ответственность отделена. Единый resolved immutable VO для одной операции может передаваться между Application/Infrastructure; это не новая сущность Domain. ORG-G03 принят; минимальная schema и журнал периодов предложены как T05 в L0.3, до их принятия persistence остаётся PROPOSED. [Матрица данных](../compliance/PD-CONTROLLER-PROCESSOR-MODEL.md), [ADR-L13](../adr/ADR-L13-processing-context.md).
+Операционное хранение в той же БД допустимо, логическая ответственность отделена. Единый resolved immutable VO для одной операции может передаваться между Application/Infrastructure; это не новая сущность Domain. ORG-G03 принят; ProcessingContextVersions, CourseContextBindings и ProcessingRestrictions приняты T05; периоды binding и неизменяемые versions обязательны, детали DDL проходят инженерный review. [Матрица данных](../compliance/PD-CONTROLLER-PROCESSOR-MODEL.md), [ADR-L13](../adr/ADR-L13-processing-context.md).
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

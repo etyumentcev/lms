@@ -1,53 +1,53 @@
 # L0.3 — L1 Readiness Gate
 
-Дата: 2026-10-09. **Status: BLOCKED_PENDING_OWNER_DECISIONS.**
+2026-10-09. **Documentation readiness: READY** по завершённой сверке обязательного пакета, проверкам ссылок и diff в [results](L03-RESULTS.md). **Technical execution: CONDITIONAL / BLOCKED FOR AFFECTED SLICES**, OPEN E01–E06. **Owner authorization for L1: NOT GRANTED.** L1 НЕ НАЧАТ.
 
-Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VERIFIED.
+Compliance status: NOT VERIFIED.
 
-Готов план для рассмотрения, но нельзя трактовать новые технические предложения как принятые. Особенно выбор provisioning interface и recipient verification/shared-account recovery влияет на user flow и полномочия. Статус не означает повторного открытия C01/C02 business или ORG принципов. L1 не начат; checkpoint завершается документацией.
+Pilot readiness: NOT_READY.
 
-## A. Решения владельца — ACCEPTED
+LEGAL SOURCE NOT VERIFIED.
 
-Owner: владелец проекта; evidence: явное задание L0.3 §§2–9, 2026-10-09.
+## Решения владельца
 
-| Решение | Отражение / результат review |
+| Decision | Status |
 |---|---|
-| C01/C02 | Org administrator по roster; одноразовые activation/reset codes лично/через проверенный индивидуальный канал; identity/authority check; no new learning grants; no mandatory email/phone/public registration. ADR-L02 и decision register согласованы |
-| ORG-G01 | Organization обязательна, один Course owner, нет LearningSpace entity MVP; ADR-L11/L12 ACCEPTED |
-| ORG-G02 | Identity/Actor/membership/enrollment/teacher assignment, одна основная Student/Teacher role MVP и несколько organizations на login; ADR-L14 ACCEPTED |
-| ORG-G03 | Версии ProcessingContext вне aggregates, course binding, актуальные restrictions; ADR-L13 ACCEPTED как архитектура |
-| ORG-G04 | Server scope/commit guard/file recheck/revocation, admin без автоматического work access; ADR-L14 ACCEPTED |
-| ORG-G06 | Scoped privileged erasure/request/authority/manifest/evidence, no A→B/global Identity cascade, no restore resurrection; ADR-L09/L10 ACCEPTED только архитектурные принципы |
-| ORG-G07 | Additive migration, verified manifest, unknown quarantine, synthetic mapping; ADR-L11 и план |
-| D1–D5/D4a–d/D6/D7 | Сохранены VPS/Compose/Identity/ООО и compliance до real pilot; внешняя организация 5–8 классы/собственные курсы ООО/Platform–Education separation |
+| T01 Account Security | ACCEPTED |
+| T02 Provisioning & Recovery | ACCEPTED |
+| T03 Identity & Organization Schema | ACCEPTED |
+| T04 JWT & Delayed Revocation | ACCEPTED |
+| T05 ProcessingContext | ACCEPTED |
+| T06 Additive Migration | ACCEPTED |
 
-## B. Открытые технические предложения
+Утверждённые редакции и provenance — [Owner Decision Register](L03-OWNER-DECISION-REGISTER.md). Технические решения владельца согласованы. ORG-G04 обновлён окончательным T04; C01/C02 и ORG-G01–04/06/07, D1–D7/D4a–d сохранены в своих границах. Старые 26/128 code и PG ordinary revoke barrier отменены, server cookie session не конкурирует с JWT.
 
-Все строки **PROPOSED**, owner принимает процесс/границы, инженер фиксирует reviewed implementation decision. Это полный пакет для следующего рассмотрения; отдельное согласование уже принятых принципов не нужно. Разрешение L1 может явно принять пакет либо перечислить изменения/делегированные инженерные решения; молчание не считается принятием.
+## Обязательный пакет документации
 
-| ID / блокер | Конкретное предложение | Кто / необходимое решение | Где описано |
-|---|---|---|---|
-| T01 activation/recovery/security | 128-bit random code/HMAC, activation 24h/reset 15min, 5 attempts, reissue invalidates previous, rate limits; password/session/revoke/compromise policy | Владелец принимает UX/политику; инженер проверяет crypto/transaction parameters | [Plan §§5–7](L03-L1-IMPLEMENTATION-PLAN.md) |
-| T02 provisioning/recipient | Ограниченная org-admin форма (альтернатива personal-auth CLI), explicit bootstrap, проверка получателя/evidence, независимое approval shared-account recovery/linking | Владелец выбирает интерфейс и полномочия/процесс; legal review реальных представителей отдельно | Plan §§5/7/8 |
-| T03 schema | Identity+stable Actor, nullable admin-only educational role, membership/grant generations, sidecars/composite FK/guard triggers, no cascade | Инженер/владелец принимают технический пакет либо делегирование; сверка модели до migration | Plan §§2/3 |
-| T04 revocation | DB locks/epochs, commit-time recheck, Revoking→drain→Revoked, cross-process stream leases, bounded timeout | Инженер утверждает реализацию, владелец — pending/timeout semantics; tests обязательны | Plan §6 |
-| T05 ProcessingContext boundary | Три records: versions/bindings/current restrictions; purpose/basis/retention как refs/VO; no consent tables | Инженер принимает минимальный persistence scope; не утверждает правовые значения | Plan §3 |
-| T06 migration | Additive M1–M3, verified synthetic manifest, Unknown quarantine, guarded cutover, backup/forward repair/offline recovery | Инженер принимает последовательность/constraints/recovery; реальные manifests вне L1 | Plan §4 |
+Проверены [plan](L03-L1-IMPLEMENTATION-PLAN.md), [reconciliation](L03-DECISION-RECONCILIATION.md), [results](L03-RESULTS.md), [domain](../docs/domain/LMS-DOMAIN-SPEC.md), [feature](../docs/features/FEATURE-SUBMISSION-REVIEW.md), [frontend](../docs/ui/LMS-FRONTEND-CONTRACT.md), [UI flow](../docs/ui/LMS-UI-FLOW-SPEC.md), реестр T01–T06, ADR-L01–L14 и новый [ADR-L15](../docs/adr/ADR-L15-jwt-delayed-revocation.md), L0.1/L0.2 gates/reports, PD/ORG registers и [отдельное execution task](CODEX-TASK-L1-EXECUTION.md). READY относится к документированию решений/блокеров, не к выполненным runtime controls. Исторические reports не новый PASS.
 
-B01–B03 раннего реестра сохраняются как технические предложения, уточнённые T01/T03/T04. Выбор данного статуса обусловлен T01/T02 и непринятым пакетом механизмов, **не отсутствием уже полученных бизнес-решений**. После рассмотрения T01–T06 оценка может стать READY_FOR_L1_AUTHORIZATION; эта запись сама не меняется задним числом и не разрешает реализацию.
+## OPEN DECISIONS — технические блокеры
 
-## C. Юридические зависимости
+Полные формулировки и предложения в Owner Register; ни одно предложение не ACCEPTED без решения.
 
-ORG-G05: окончательная квалификация A/ООО по каждой цели, LMS договор/поручение, собственные цели, основания/права/обязанности. ORG-G08: применимость 273-ФЗ, лицензирование сторонней организации/будущих собственных курсов. PD-G01–14: реквизиты/представители/consent/минимальные поля/сроки и holds/организационные документы/РКН/ИСПДн/меры/инциденты/backup/evidence/финальный review. Все остаются OPEN / REQUIRE LEGAL REVIEW; никаких LEGAL VERIFIED.
+| ID | Необходимое решение | Блокирует |
+|---|---|---|
+| E01 | Multi-org JWT composition и scoped deadline/claim contract без A→B отказа | S2–S4 |
+| E02 | Browser token storage, refresh TTL/rotation/replay/concurrency, logout/reset semantics | S2/S6/S7 |
+| E03 | Emergency compromise authority/SLA/mechanism; 2 часа не признаны достаточными | S6/S7 и security acceptance |
+| E04 | Независимый shared-account verifier/linking/evidence без раскрытия B | S5/S6 |
+| E05 | Cooldown partition/canonical code input/reissue, MAC rotation custody и limiter topology | S6 |
+| E06 | Freshness/propagation/races текущих ProcessingRestrictions, без ослабления T05 | S4/S7 |
 
-До этих решений нельзя реализовать юридически значимые production consent/basis/representative/DSAR/retention/erasure workflows, утвердить numerical legal periods/mixed-subject destruction или начать real processing. Политики с `SyntheticOnly` marker не являются consent или legal basis. Для изолированного технического L1 эти workflows исключены, поэтому текущий L1 status не BLOCKED_PENDING_LEGAL_DECISIONS; такой статус потребуется при расширении scope на них без правовых решений.
+Закрыть вопросы либо получить явное делегирование инженерного выбора в соответствующих границах. Реализацию незатронутых foundations можно отдельно разрешить, но это не разрешение полного L1; текущего разрешения нет ни на один slice. Документационное завершение L0.3 не скрывает эти блокеры.
 
-## D. Synthetic-only execution после отдельного разрешения
+## Данные, legal и release gates
 
-Допустимый будущий объём: schema/migration на empty и synthetic old DB, Identity/session/Actor mapping, org/membership/course/group scopes, closed provisioning, activation/recovery, authorization/file/commit guards, policy version/restriction contracts, две синтетические организации, negative tests и UI auth states. Ни реальные users, ни real legacy upgrade, ни настоящие legal approvals/consents, ни production erasure, ни L2–L4 в это разрешение не входят.
+Разрешённый будущий scope L1: **SYNTHETIC DATA ONLY**. Empty/synthetic migration rehearsal, Identity/JWT/Actor/org/course/group/file scopes, минимальный org-admin UI, коды и synthetic ProcessingContext/restrictions по плану. Записи SyntheticOnly не согласия и не юридические основания. Реальные ПД, real migration/backfill, production erasure, полноценный legal/consent UI и L2–L4 исключены.
 
-## E. Release gates
+[PD-G01–PD-G14](L01-DECISION-GATES.md) OPEN: реквизиты/полномочия, цели/основания, несовершеннолетние/представители, минимальные поля/EXIF, инфраструктура/потоки, угрозы/уровень/меры, сроки/holds, erasure/mixed-subject, backups, ответственные, уведомления, документы/договоры, инциденты, финальный юридический evidence review. [ORG-G05/ORG-G08](L02-DECISION-GATES.md) REQUIRE LEGAL REVIEW: purpose-specific роли/договор/поручение и образование/лицензирование. Тексты законов не верифицировались в этом checkpoint; новые юридические выводы не делались.
 
-L1 completion ≠ READY_FOR_PILOT. До real pilot нужны legal/PD/ORG evidence, L2 resource protection, L3 hosting/HTTPS/keys/backup/restore/operator drills и L4 acceptance/performance/physical devices; C03–C09 остаются в своих границах. Исторические K tests и новые doc-checks не подтверждают эти controls.
+C03–C09 ещё требуют host/domain, RPO/RTO/window, off-host/key custody, workload/quotas, device/tester/materials, privacy/retention, operators/alerts. L2 protection, L3 hosting/HTTPS/keys/restore/drills и L4 physical devices/performance/compliance evidence остаются release gates. L1 tests/архитектурное ACCEPTED не READY_FOR_PILOT.
 
-Следующее действие владельца после L0.3: рассмотреть конкретный T01–T06 пакет и отдельно разрешить L1 исключительно с synthetic data. До этого STOP. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+## Next action
+
+Владельцу рассмотреть только OPEN E01–E06 и отдельно разрешить определённый scope L1 на synthetic data. T01–T06 повторного утверждения не требуют. До разрешения — STOP после документационного commit; execution task не выполнять.

@@ -1,6 +1,6 @@
 # L0.2 — Identity, Actor и membership
 
-**ACCEPTED ORG-G02 (L0.3), schema PROPOSED.** ASP.NET Core Identity выбран ранее (D3), но ещё не реализован. [ADR-L14](../adr/ADR-L14-cross-organization-identity.md).
+**ACCEPTED ORG-G02 (L0.3), основная schema ACCEPTED T03.** ASP.NET Core Identity выбран ранее (D3), но ещё не реализован. [ADR-L14](../adr/ADR-L14-cross-organization-identity.md).
 
 | Уровень | Назначение | Не даёт автоматически |
 |---|---|---|
@@ -15,9 +15,9 @@
 
 Будущее: тот же Actor может быть Student в A/B и Teacher в C. Добавляются memberships и разрешённый контекст/роль действия, а не сливаются истории. Роль в history описывает действие на момент записи; при смене membership не обновляется. Multi-role UI и переключатель организаций не входят в L0.2/первый пилот; ограничения provisioning явно отклоняют неподдержанную комбинацию. Снятие ограничения — отдельный этап, schema уже не полагается на единственную глобальную роль.
 
-Закрытое provisioning: образовательная организация утверждает roster и scopes; уполномоченный issuer ООО технически исполняет ограниченное поручение. Создание login не даёт issuer права выбирать себе Teacher или зачислять произвольных учеников. Атомарность account/mapping/membership/grants, dry-run, approved request reference, rollback и audit обязательны в L1. Канал activation/recovery, проверка личности и назначение issuer ещё C01/C02; закрытая выдача уже ACCEPTED, публичной регистрации нет.
+Закрытое provisioning T02 ACCEPTED: уполномоченный org admin создаёт account по roster через минимальный UI; platform operator создаёт первого org admin контролируемо. Account/mapping/audit атомарны, membership/enrollment/teacher grants — отдельные use cases. Нет public signup/mandatory email/phone; личная либо заранее подтверждённая индивидуальная передача кода. Shared-account recovery требует независимого account-security подтверждения; E04 OPEN, юридическое представительство PD-G03 OPEN.
 
-Каждый request проверяет session/account, active membership, scope и privacy. Membership revoke не удаляет account, общие sessions могут оставаться для B, но A становится недоступна; global account compromise отзывает все sessions. Кэш и токен не источник актуальных grants. Для operation, пересекающей revoke, нужна повторная проверка/serialization; правило завершения и stream drain — [isolation](CROSS-ORGANIZATION-ISOLATION.md). Frontend сбрасывает queries/drafts/Blob URLs при logout/context loss, cache keys включают account и scope; уже скачанную копию невозможно отозвать технически.
+Каждый request локально проверяет JWT signature/lifetime/issuer/audience и scope, сопоставляет ресурс с organization/course/group/ownership. Fresh membership/grants/generation проверяются при issue/refresh; ordinary revoke bounded двумя часами по [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md), A не отменяет B. Global compromise — OPEN E03, privacy freshness — E06; их нельзя считать решёнными двухчасовым правилом. Frontend очищает queries/drafts/Blob URLs при account/context loss, cache keys включают actor/scope; скачанные bytes не отзываются.
 
 ## Один ученик в A и на курсах ООО B
 
@@ -27,4 +27,4 @@
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

@@ -2706,3 +2706,7 @@ Attached originals now authorize through their parent Submission/Message work fo
 caller, including the uploader. Revoked access returns the same 404 as a missing file.
 Pending uploads remain owner-only. An authorized student can read a teacher's photo
 message on their own work; ownership is not a substitute for parent-work permission.
+
+## L0.3 — accepted T03/T04/T05, будущий L1
+
+K amendment выше описывает текущий код, не гарантирует immediate revoke в будущем JWT flow. Новая авторизация проверяет подписанный JWT ≤15 минут и trusted organization/course/group/resource scope. Ordinary revoke ≤2 часа с 10-минутным запасом; API 60 секунд / max HTTP 8 минут, по [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md). Каждое фото загружается отдельным запросом во временное private storage; Submit требует действующий JWT и атомарный owner/course/org/context/eligibility claim. Pending A нельзя связать с B; cleanup по конечному сроку не удаляет linked history. Download ограничен временем передачи; jobs повторно авторизуются перед irreversible step и выдачей результата. Current restrictions сильнее historical context; E06 OPEN. Domain transitions/immutable originals/annotations неизменны. L1 не разрешён, SYNTHETIC DATA ONLY.

@@ -14,8 +14,8 @@
 
 В будущем B оправдан при подтверждённом требовании нескольких независимо администрируемых пространств одной организации. Тогда добавить LearningSpace registry и 1:1 default space для каждого проверенного Organization, привязать существующие course roots к нему, разделить membership/grants по необходимости. Дочерние work/history продолжают разрешать scope через корень, их UUID и content refs не меняются. Перевод курса между spaces с историей требует отдельного reviewed процесса; между операторами — ещё и правового основания. Это не обещание миграции без проверок и не часть L1.
 
-Серверный resolver возвращает канонический scope из курса/assignment/parent file и текущего membership. Он не принимает клиентский OrganizationId/LearningSpaceId за полномочие. В single-scope пилоте контекст выбирается сервером; при неоднозначности отказ, а не первый доступный scope. [Isolation](CROSS-ORGANIZATION-ISOLATION.md), [ADR-L12](../adr/ADR-L12-learning-space-boundary.md).
+Серверный resolver возвращает канонический scope из курса/assignment/parent file и проверенного JWT scope; current membership/grants при issue/refresh. Он не принимает клиентский OrganizationId/LearningSpaceId за полномочие. В single-scope пилоте контекст выбирается сервером; при неоднозначности отказ, а не первый доступный scope. [Isolation](CROSS-ORGANIZATION-ISOLATION.md), [ADR-L12](../adr/ADR-L12-learning-space-boundary.md).
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

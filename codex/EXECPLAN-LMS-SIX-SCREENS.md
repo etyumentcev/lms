@@ -1143,7 +1143,7 @@ C01/C02 business и ORG-G01–04/06/07 ACCEPTED по явному заданию
 
 - [Reconciliation](L03-DECISION-RECONCILIATION.md): таблица противоречий и superseding decisions.
 - [План L1](L03-L1-IMPLEMENTATION-PLAN.md): synthetic Identity, Organization Scopes & Access Lifecycle, восемь slices.
-- [Readiness](L03-L1-READINESS.md): BLOCKED_PENDING_OWNER_DECISIONS, технические T01–T06 PROPOSED.
+- [Readiness](L03-L1-READINESS.md): T01–T06 ACCEPTED; документационная готовность и OPEN E01–E06, отдельное разрешение L1 отсутствует.
 - [Результат](L03-RESULTS.md): evidence проверок документации и docs-only commit.
 
-Шесть основных экранов и учебные инварианты сохраняются. L1–L4 не начаты; никаких migrations, push/merge/deployment. После согласования технических предложений требуется отдельное разрешение L1 на synthetic data. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Шесть основных экранов и учебные инварианты сохраняются. L1–L4 не начаты; никаких migrations, push/merge/deployment. T01–T06 согласованы; OPEN E01–E06 и отдельное разрешение L1 на synthetic data остаются. [Owner register](L03-OWNER-DECISION-REGISTER.md), [execution task](CODEX-TASK-L1-EXECUTION.md). Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.

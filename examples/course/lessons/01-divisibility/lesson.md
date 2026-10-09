@@ -23,7 +23,7 @@ https://rutube.ru/video/example/
 
 ## Материалы
 
-[Листок занятия](./assets/files/worksheet.pdf)
+Листок занятия: файл `assets/files/worksheet.pdf` пока не добавлен в пример.
 
 ## Задачи
 

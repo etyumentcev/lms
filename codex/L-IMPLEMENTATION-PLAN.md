@@ -10,11 +10,11 @@ Canonical `/home/tea/github/lms`, последовательно, без нов�
 
 ## L1 — Identity, Organization Scopes & Access Lifecycle
 
-Единственный детальный план: [L03-L1-IMPLEMENTATION-PLAN](L03-L1-IMPLEMENTATION-PLAN.md). Он supersedes прежний L1 «Identity & Personal Data Lifecycle» и operator-only provisioning. Разрешённый будущий scope: synthetic Identity→Actor, Organization/memberships/enrollment/teacher assignment, server scopes/file authorization, closed org-admin provisioning, code activation/recovery и session/revocation. T01–T06 PROPOSED требуют рассмотрения; после этого отдельное разрешение владельца.
+Единственный детальный план: [L03-L1-IMPLEMENTATION-PLAN](L03-L1-IMPLEMENTATION-PLAN.md). Он supersedes прежний L1 «Identity & Personal Data Lifecycle» и operator-only provisioning. Разрешённый будущий scope: synthetic Identity→Actor, Organization/memberships/enrollment/teacher assignment, server scopes/file authorization, closed org-admin provisioning, code activation/recovery и session/revocation. T01–T06 ACCEPTED; OPEN E01–E06 по [реестру](L03-OWNER-DECISION-REGISTER.md) блокируют affected slices; нужно отдельное разрешение владельца.
 
 Юридические consent/basis/representative/DSAR/production erasure workflows не включены. Версии ProcessingContext/current restriction contracts без фиктивных legal basis нужны для технической изоляции. ORG-G05/08 и PD gates блокируют эти правовые workflows/real data, но не сами synthetic auth/scopes после технического согласования.
 
-Порядок slices: schema/migration → Identity mapping → membership/scopes → authorization (включая базовый revoke barrier) → provisioning → activation/recovery → hardening → integration/security acceptance. В плане указаны use cases/API/schema/tests/recovery и условия перехода. Exit L1 — доказанный synthetic packet, NOT_READY/NOT VERIFIED сохраняются; L2–L4 отдельно.
+Порядок slices: schema/migration → Identity mapping → membership/scopes → authorization (включая bounded JWT revoke и operation deadlines) → provisioning → activation/recovery → hardening → integration/security acceptance. В плане указаны use cases/API/schema/tests/recovery и условия перехода. Exit L1 — доказанный synthetic packet, NOT_READY/NOT VERIFIED сохраняются; L2–L4 отдельно.
 
 ## L2 — Resource Protection & Data Lifecycle
 
@@ -50,7 +50,7 @@ Exit: signed-off operator evidence, C04 targets выполнены измере�
 
 Prerequisites: accepted L1–L3, разрешение L4; C01–C09 закрыты для real pilot, назначены operator/testers и workload/device budgets. PD-G01–14 закрыты проверяемыми evidence до release: официальные редакции, выбранный уровень/меры, опубликованная политика/подписанные документы, уведомления, legal review. Неприемлемый C07 workaround требует отдельного scope. Erasure — обязательная проверяемая зависимость до real-data пилота после правовых решений; оно не входит автоматически в synthetic L1.
 
-Изменения: reuse K Playwright sequence с настоящими Identity accounts/CSRF/cookies и отдельными Student A/B, scoped/foreign Teacher; безопасный acceptance harness без production reset/dev-token; reports/evidence/runbooks/readiness matrix. Только доказанные scoped defect fixes отдельными reviewable commits, не расширение Domain.
+Изменения: reuse K Playwright sequence с настоящими synthetic Identity accounts/JWT/CSRF при cookies и отдельными Student A/B, scoped/foreign Teacher; безопасный acceptance harness без production reset/dev-token; reports/evidence/runbooks/readiness matrix. Только доказанные scoped defect fixes отдельными reviewable commits, не расширение Domain.
 
 Дополнительные tests/evidence: сквозные basis/consent/representative/withdrawal/block/access/correction/erasure/copies/restore, legal SLA и доказательства; R01–R20 applicability, privacy notice и назначения/допуски/обучение, квитанции РКН, поставщики/локализация/технические меры по принятой модели угроз; juridical sign-off с датой редакции.
 

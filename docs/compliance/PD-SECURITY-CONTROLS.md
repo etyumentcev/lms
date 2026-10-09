@@ -4,9 +4,9 @@
 
 | Control / нормативное требование | Угроза | Мера / компонент | Тест или evidence / owner | Статус |
 |---|---|---|---|---|
-| C01 R01/R08/R09 | T01/05/10 | ASP.NET Core Identity, уникальный Identity→Actor, closed provisioning, validators/lockout, single-use activation, серверные сессии | Login/recovery/replay/unique mapping; engineer | L1 PROPOSAL, D3 ACCEPTED |
+| C01 R01/R08/R09 | T01/05/10 | ASP.NET Core Identity, уникальный Identity→Actor, closed provisioning, validators/lockout, single-use activation, JWT ≤15 минут; refresh/session structures по E02 | Login/recovery/replay/unique mapping; engineer | T01/T03/T04 ACCEPTED architecture; implementation NOT VERIFIED |
 | C02 R02/R08/R09 | T02/03/05 | IAccessPolicy/query/file current scope + независимый purpose/privacy gate перед всеми read/write; права issuer отдельно | Cross-role/group/attachment + запрет blocked при whole-course grant; engineer/issuer | Existing scope FACT, privacy block отсутствует |
-| C03 R08/R09 | T09/10 | Session idle/absolute limits, revoke/stamp каждый request, CSRF fetch/XHR, account state reset; timeouts по занятиям/риску | All unsafe methods, revoke/restart/cross-tab; engineer | L1 PROPOSAL |
+| C03 R08/R09 | T09/10 | JWT local validation; fresh grants при issue/refresh; ordinary revoke ≤2 часа, reserve 10 минут, API 60s / max HTTP 8m; CSRF при cookies; frontend reset; E02/E03/E06 OPEN | All unsafe methods, revoke/restart/cross-tab; engineer | L1 PROPOSAL |
 | C04 R08/R09 | T01/06/14 | Privileged MFA рекомендована; user MFA по угрозам/usability; ограниченный SSH, не shared admin, password policy/восстановление | Access review, MFA recovery/rotation/drill; ИБ/ops | PD-G06, не blanket legal MFA |
 | C05 R05/R08/R09 | T04/06 | HTTPS same-origin, trusted proxy, private DB/files/network, egress allowlist | Ports/TLS/header spoof/static file denial, договор ЦОД; ops | L3 PROPOSAL |
 | C06 R08/R09/R20 | T06/07 | Backup encryption; disk/DB encryption at rest по угрозам и средствам защиты; ключи отдельно, least privilege, rotate/recovery | Key inventory, separate escrow, rotation и missing-key test; ИБ/ops | PROPOSAL; crypto compliance отдельно |
@@ -28,3 +28,5 @@ App runtime не получает DDL/superuser/erasure capability. Отдель
 C01/C02 business и ORG-G01–04/06/07 ACCEPTED владельцем 2026-10-09. Scoped erasure не каскадирует общий Identity или данные B; approved request/полномочие/manifest/evidence и защита restore от возврата уничтоженного — принятые архитектурные требования. Неизменяемость обычной учебной истории не означает бессрочное хранение. Конкретные сроки, исключения/holds, mixed-subject процедура, представители, согласия, основания, правовые роли/договоры/поручение и образовательное лицензирование **REQUIRE LEGAL REVIEW**.
 
 [L1 plan](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) допускает после отдельного разрешения только synthetic Identity/scopes/access lifecycle и технические restriction contracts, без фиктивных согласий или legal basis. Юридические workflows не входят автоматически в L1. PD-G01–14 и ORG-G05/08 не закрыты; официальная актуальность источников здесь не подтверждается: **LEGAL SOURCE NOT VERIFIED**. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+L0.3: T01–T18 в threat references — идентификаторы угроз, не owner decisions T01–T06. Принятые auth решения и открытые E01–E06: [Owner Register](../../codex/L03-OWNER-DECISION-REGISTER.md), [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md). Это не evidence реализации или legal verification.

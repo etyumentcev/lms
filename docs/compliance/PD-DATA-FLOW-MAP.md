@@ -48,7 +48,7 @@ Identity физически предлагается в той же БД, отд
 
 | Flow | Данные / граница / получатель | Минимизация и контроль | Evidence / owner / статус |
 |---|---|---|---|
-| F01/F02 | Пароли/session, решения/фото, учебные metadata, преподавательский feedback; Интернет → edge → API → разрешённый браузер | Same-origin TLS, cookie+CSRF, current scope, no public photos, no-store; запрет body/token в edge logs | HTTPS/IDOR/CSRF/browser trace с synthetic; engineer/ИБ; PROPOSAL |
+| F01/F02 | Пароли/session, решения/фото, учебные metadata, преподавательский feedback; Интернет → edge → API → разрешённый браузер | Same-origin TLS, JWT scope по T04/ADR-L15, CSRF при cookies, no public photos, no-store; запрет body/token в edge logs | HTTPS/IDOR/CSRF/browser trace с synthetic; engineer/ИБ; PROPOSAL |
 | F03 | API/Identity → DB: I01–I08/I10/I15 | Private network; минимальные DB роли; база/replicas/WAL в утверждённых местах | DB endpoints/ports, contract ЦОД, config inventory; ops; UNKNOWN |
 | F04 | Фото/EXIF в private FS; stream через API | Не CDN/public bucket, random storage keys не заменяют authorization; EXIF policy PD-G04 | Storage paths/access tests, inventory snapshots; ops; часть FACT local, pilot NOT VERIFIED |
 | F05 | Полный набор и manifest → off-host; provider support/snapshots | Шифрование + отдельный key custody, сроки и erasure copies, реестр всех backup locations | Договор/поручение, регион всех copies, clean-host drill; ops/ПД; UNKNOWN |

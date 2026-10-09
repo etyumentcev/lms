@@ -10,7 +10,7 @@
 | Прекращение договора A↔P → A по учебным целям, P по своим | P/подрядчики | Stop A, revoke grants, protected return/export | Отдельный lawful evidence subset P; остальное уничтожить в срок | Export receipt, deletion всех копий/ledger |
 | Прекращение обучения → C(E) | P | Enrollment E revoke, case по E | Не автоматическое стирание: проверить конечный lawful archive, block обычного доступа где требуется | Retention trigger, scoped manifest; другая организация неизменна |
 | Закрытие собственного направления B → P как C(B) | Назначенный P executor | Membership/курсы B; platform продолжает работать | Обоснованные obligations/claims subset; остальное destroy | Решение B, copies, проверка сохранности A |
-| Отзыв teacher → manager E | Issuer/access service | Membership или course/group revoke, barrier | Не удалять автоматически feedback/работы учеников; teacher DSAR отдельно | Audit, old URL deny, restore не возвращает grant |
+| Отзыв teacher → manager E | Issuer/access service | Membership или course/group ordinary revoke по T04/ADR-L15 (≤2 часа) | Не удалять автоматически feedback/работы учеников; teacher DSAR отдельно | Audit, old URL deny, restore не возвращает grant |
 | Организация перестала пользоваться LMS без формального расторжения → C(E)/legal P | P | Suspend scope, выяснить instructions/return terms | Пересмотр целей/holds; отсутствие расторжения не вечное основание | Case/escalation/deadline, copies и return/destroy |
 | Глобальное закрытие account → субъект, решение по каждой цели | Identity executor и отдельные C(E) | Credentials/sessions revoke, context routing | Не каскадить IdentityUser→вся history; retained authors отдельно | Ответы A/B/platform и evidence каждого store |
 

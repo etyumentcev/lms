@@ -1,16 +1,16 @@
 # L0.2 — Authorization isolation
 
-**ACCEPTED ORG-G04 (L0.3); технические механизмы PROPOSED.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
+**ACCEPTED ORG-G04 (L0.3); T04 JWT/delayed revoke ACCEPTED, дополнительные E01/E06 OPEN.** Требования ниже — будущие acceptance criteria, не PASS. [Фактические зависимости](ORGANIZATION-MODEL.md).
 
 ## Policy и scope resolution
 
-`Allow = authenticated active session AND active membership AND resource boundary matches AND educational operation grant AND object ownership/course/group permission AND processing permission AND workflow invariant`.
+`Allow = locally validated JWT with scoped authority issued from current membership AND resource boundary matches AND educational operation grant AND object ownership/course/group permission AND processing permission AND workflow invariant`.
 
 Platform actions используют отдельный набор полномочий. Нельзя добавить `Administrator OR ...` к формуле. Student видит только собственные работы; отдельное разрешение на чужую работу потребует нового use case, в пилоте такого разрешения нет. Teacher ограничен назначенными курсами/группами внутри organization. Course-wide grant сохраняет возможность работать с историей независимо от active enrollment ученика, но не обходит membership преподавателя, organization suspension или privacy block. Export — отдельное право и manifest, не побочный эффект Teacher role.
 
-Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет membership/permission и лишь затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId — только кандидат для сопоставления; не authority. В пилоте collection/upload context определяется сервером по единственному разрешённому контексту; неизвестный или неоднозначный scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
+Для direct ID сервер сначала загружает минимальные trusted scope metadata, проверяет JWT scope/permission и актуальные processing restrictions по согласованному E06, затем контент/history. Для list/queue/count/progress фильтрует разрешённый scope **до** поиска, pagination, totals и aggregates. Route/header/body OrganizationId — только кандидат для сопоставления; не authority. В пилоте collection/upload context определяется сервером по единственному разрешённому контексту; неизвестный или неоднозначный scope отклоняется. Jobs/provisioning/export также проходят scope boundary.
 
-[PostgresAccessPolicy](../../src/Lms.Infrastructure/PostgresAccessPolicy.cs) проверяет course/group/owner без organization. [WorkspaceQueries](../../src/Lms.Infrastructure/PostgresWorkspaceQueries.cs) имеет отдельные LINQ guards; [ReviewQueue](../../src/Lms.Infrastructure/PostgresReviewQueue.cs) использует raw SQL, который EF global filters не защищают. [WorkStore](../../src/Lms.Infrastructure/PostgresWorkStore.cs) загружает по ID; scope-aware load/save и commit-time permission требуются отдельно. API `[Authorize]`/JWT подтверждают личность, не организацию. Новый resolver должен покрывать все эти пути и оба GET work aliases, не только команды.
+[PostgresAccessPolicy](../../src/Lms.Infrastructure/PostgresAccessPolicy.cs) проверяет course/group/owner без organization. [WorkspaceQueries](../../src/Lms.Infrastructure/PostgresWorkspaceQueries.cs) имеет отдельные LINQ guards; [ReviewQueue](../../src/Lms.Infrastructure/PostgresReviewQueue.cs) использует raw SQL, который EF global filters не защищают. [WorkStore](../../src/Lms.Infrastructure/PostgresWorkStore.cs) загружает по ID; scope-aware load/save, transaction integrity и bounded operation deadline требуются отдельно. Текущий API `[Authorize]`/JWT ещё не реализует новый scope contract; будущий JWT содержит ограниченные scoped grants. Новый resolver должен покрывать все эти пути и оба GET work aliases, не только команды.
 
 ## Persistence и файлы
 
@@ -18,11 +18,11 @@ Course registry с глобально уникальным CourseId и неиз�
 
 Work/Submission/Review/Message/Events наследуют scope через существующие FK; Review→Submission и ReplyTo уже связаны work composite FK. UUID arrays attachments и annotations JSONB не защищены обычным organization FK: проверять parent+scope при claim/review внутри транзакции и добавить защищённые constraints/trigger для обхода application. Не дублировать legal fields на каждой строке. Query filters — дополнительный механизм, не единственная защита. RLS возможен позже, не объявляется реализованным или обязательным для MVP.
 
-Pending attachment binding = uploader ActorId + OrganizationId + policy version; проверяются membership, purpose и quota уже при upload. Нельзя upload в A, затем claim в B тем же actor. При claim scope файла должен совпасть с assignment; повторный claim запрещён, проверка и запись атомарны. Attached GET проходит parent work policy для всех, даже uploader. Pending GET/DELETE проверяют owner **и** active scope; cleanup после revoke действует отдельным service permission, не отозванным пользовательским правом. Storage keys закрыты, прямых публичных URL/долгоживущих bearer links нет; каждый старый preview URL повторно авторизуется. Для response/cache — no-store, frontend Blob cleanup; уже полученные bytes не отзываются.
+Pending attachment binding = uploader ActorId + OrganizationId + CourseId + policy version; проверяются membership, purpose и quota уже при upload. Нельзя upload в A, затем claim в B тем же actor. При claim scope файла должен совпасть с assignment; повторный claim запрещён, проверка и запись атомарны. Attached GET проходит parent work policy для всех, даже uploader. Pending GET/DELETE проверяют owner **и** active scope; cleanup после revoke действует отдельным service permission, не отозванным пользовательским правом. Storage keys закрыты, прямых публичных URL/долгоживущих bearer links нет; каждый старый preview URL повторно авторизуется. Для response/cache — no-store, frontend Blob cleanup; уже полученные bytes не отзываются.
 
 ## Отзыв, блокирование и исключительный доступ
 
-После фиксации revoke следующая проверка обязана видеть новую версию; TTL-кэш разрешений без invalidation не подходит. Перед commit command проверяет scope под общим с revoke lock/version protocol. Завершение административной операции revoke подтверждается только после barrier/drain ранее допущенных requests/streams; до этого статус «отзыв выполняется». При гонке либо действие завершилось до effective revoke, либо отклонено, но не записано после подтверждённого revoke. Уже доставленные данные не исчезают с устройства. Этот более строгий будущий контракт уточняет прежнее предупреждение L0 о in-flight requests, а не утверждает, что текущий код умеет отмену.
+ORG-G04 изменён окончательным T04: при обычном отзыве прекращение новых авторизованных операций гарантируется в пределах двух часов после принятия заявки. JWT ≤15 минут; атомарный AccessValidUntil ≤ RevocationRequestedAt + 2 hours; TokenExpiresAt = min(Now + 15 minutes, AccessValidUntil - 10 minutes). Недостаточный остаток — не выдавать права. Ordinary API 60 секунд, max HTTP 8 минут; exp внутри принятой операции не требует остановки, но завершение ограничено deadline. Актуальная DB authority при issue/refresh; A revoke не отменяет B. PG request/stream barrier и немедленная invalidation JWT не требуются. [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md) задаёт cancel/transactions/download/jobs; emergency и privacy restrictions отдельно E03/E06, не автоматические два часа.
 
 | Операция | Platform Management | Education Management |
 |---|---|---|
@@ -45,7 +45,7 @@ Break-glass: verified ticket/incident и цель, решение уполном
 | Подмена course/group/student/organization IDs в query/body/header | Отказ либо пересечение с allowed set; totals/search не раскрывают B |
 | Один Actor в A+B, pending A claim в B | Атомарный отказ, file остаётся в A; parent не меняется |
 | Foreign annotations attachment / reply / submission | Отказ и unchanged aggregate; DB bypass insert тоже отклонён |
-| Revoke membership/grant при открытом экране/скачивании/command | Новые запросы/старый URL запрещены; barrier/version race test; B остаётся доступна |
+| Revoke membership/grant при открытом экране/скачивании/command | JWT/refresh/deadline race tests: новые операции прекращаются в пределах 2 часов, max HTTP 8 минут; старый URL не bypass; B остаётся доступна |
 | Privacy block при whole-course grant | Work, queue, progress, files и export не обходят block |
 | Platform-only account, self-grant, истёкший break-glass | Учебный доступ запрещён; попытки audit; issuer не повышает себя |
 | Export A / erase A / прекращение договора A | Нет rows/files/manifest B; unchanged B sentinel/hash и доступ B |
@@ -57,4 +57,4 @@ L1 доказывает Identity/membership/read/write/file scope и гонки 
 
 ## L0.3 — детализация реализации
 
-Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) задаёт PROPOSED schema, use cases, concurrency и тесты; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+Принятые инварианты не означают реализованные controls. [План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) описывает принятые T01–T06 и будущие use cases/concurrency/tests; дополнительные E01–E06 остаются OPEN; [readiness](../../codex/L03-L1-READINESS.md) отделяет технические решения от правовых gates. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
