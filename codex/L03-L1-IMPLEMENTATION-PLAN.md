@@ -278,3 +278,10 @@ The explicit owner task supersedes earlier authorization/O01 status statements: 
 ## L1/S3 / B01 authorization checkpoint — 2026-10-09
 
 The explicit owner continuation accepts **B01 — Generation-aware Enrollment Move**, accepts S1/S2/O01 and authorizes only S3. This supersedes earlier slice-authorization statements while retaining their historical evidence. A separate forward migration may replace enrollment-specific immutable GroupId guards with atomic same-course moves, immutable generation history, expected-version/membership checks, commit-time consistency and restricted-role enforcement. Stable student/course/org keys and historical learning affiliation must remain unchanged. Existing work must not follow a student's group move automatically. S4–S8, M2/M3, legacy backfill, production migrations, real personal data and push/merge/deploy remain forbidden. See [S3 authority design](../docs/architecture/L1-S3-SCOPED-AUTHORITY.md) and the S3 results checkpoint for implementation evidence.
+
+
+## L1/S4 authorization and G02 stop checkpoint — 2026-10-09
+
+The explicit owner S4 task accepts S1/S2/S3/B01/O01 and authorizes S4 only, superseding earlier slice authorization statements. Baseline `4acd70d`, requested branch `codex/l1-s4-jwt-api-authorization`, canonical directory, no new worktree. S5–S8, M2/M3, production migration, real personal data and push/merge/deploy remain prohibited.
+
+**S4 BLOCKED** at the G02 full file-completion boundary: a synthetic Linux FIFO test demonstrates that an entered local storage open remains pending after cancellation. This is a fault surrogate, not a production exploit or an eight-minute HTTP test. No runtime cutover or policy weakening was implemented. See [S4 results](L1-S4-RESULTS.md) for evidence, limits and the owner decision requested before continuation.
