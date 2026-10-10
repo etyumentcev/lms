@@ -124,3 +124,28 @@ Deliverables: [candidates and source register](L1-G02-A04-CANDIDATES.md), [contr
 T04 60s / 480s / 600s / 900s / 7200s unchanged. The 120s reserve is not execution time. Option A is unavailable for C04-1; B/C require separate owner decisions, and D has not been selected by the agent. A04 search stops here: no new candidate cycle or implementation auto-authorized.
 
 Documentation-only validation: local links/source references and timing/status consistency checked; existing files preserved, with this checkpoint append only. Backend regression not rerun; historical tests are not AWS/V1 evidence. No runtime, test-source, schema/config changes, gateway implementation, full S7 lifecycle, S5–S8, M2/M3, production migrations, personal data, push, merge or deploy. No independent security review.
+
+
+## Owner Decision — L1/S4-A1 — 2026-10-10
+
+**S4-A1 COMPONENT SCOPE ACCEPTED.**
+
+Владелец принимает реализацию внутренних JWT issuer/validator, scope authorization и current ProcessingRestrictions gate в пределах разрешённого S4-A1.
+
+Основание: [отчёт S4-A1](L1-S4-A1-RESULTS.md), локальный commit `6f9bf19c0f1f8968b09ea288b0a06cd625cacb17`, зафиксированный в отчёте результат **391 passed, 0 failed, 0 skipped**. При записи решения тесты повторно не запускались.
+
+Приёмка не распространяется на публичную HTTP-авторизацию, квалификацию production clock/key infrastructure, публикацию domain effects, файловые операции или соответствие T04 в целом.
+
+Оставшиеся вопросы открыты:
+
+- точная семантика ProcessingRestrictions selectors;
+- запрет выдачи JWT при rollback/unknown commit;
+- квалификация clock и signing-key lifecycle;
+- независимая security review;
+- G02 PostgreSQL/egress/storage proof obligations.
+
+Это решение заменяет прежний статус ожидания приёмки только для S4-A1 component scope. Исторические отчёты и evidence сохраняются; общая приёмка S4 и принятие нормативных предложений A06 не заявляются.
+
+Следующий этап **S4-A2 требует отдельного разрешения владельца**. Работа над ним этим решением не разрешена и не начата.
+
+**T04 UNCHANGED · E03 UNCHANGED · G02 BLOCKED · S4 HTTP NOT AUTHORIZED.**

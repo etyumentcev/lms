@@ -89,3 +89,28 @@ Next minimal stage: owner acceptance of this component slice, followed by separa
 A separate local commit contains only the eight files listed above; its SHA is reported in the task completion message. Existing dirty/untracked owner artifacts remain outside that commit.
 
 **S4-A1 READY FOR OWNER ACCEPTANCE · T04 UNCHANGED · G02 BLOCKED · S4 HTTP NOT AUTHORIZED.**
+
+
+## Owner Decision — L1/S4-A1 — 2026-10-10
+
+**S4-A1 COMPONENT SCOPE ACCEPTED.**
+
+Владелец принимает реализацию внутренних JWT issuer/validator, scope authorization и current ProcessingRestrictions gate в пределах разрешённого S4-A1.
+
+Основание: [отчёт S4-A1](L1-S4-A1-RESULTS.md), локальный commit `6f9bf19c0f1f8968b09ea288b0a06cd625cacb17`, зафиксированный в отчёте результат **391 passed, 0 failed, 0 skipped**. При записи решения тесты повторно не запускались.
+
+Приёмка не распространяется на публичную HTTP-авторизацию, квалификацию production clock/key infrastructure, публикацию domain effects, файловые операции или соответствие T04 в целом.
+
+Оставшиеся вопросы открыты:
+
+- точная семантика ProcessingRestrictions selectors;
+- запрет выдачи JWT при rollback/unknown commit;
+- квалификация clock и signing-key lifecycle;
+- независимая security review;
+- G02 PostgreSQL/egress/storage proof obligations.
+
+Это решение заменяет прежний статус ожидания приёмки только для S4-A1 component scope. Исторические отчёты и evidence сохраняются; общая приёмка S4 и принятие нормативных предложений A06 не заявляются.
+
+Следующий этап **S4-A2 требует отдельного разрешения владельца**. Работа над ним этим решением не разрешена и не начата.
+
+**T04 UNCHANGED · E03 UNCHANGED · G02 BLOCKED · S4 HTTP NOT AUTHORIZED.**
