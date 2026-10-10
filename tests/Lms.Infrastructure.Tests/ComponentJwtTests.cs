@@ -22,8 +22,9 @@ public sealed class ComponentJwtTests
         scope = Authority, nbf = clock.Time!.Earliest.ToUnixTimeSeconds(), exp = clock.Time.Latest.AddMinutes(15).ToUnixTimeSeconds()
     })!.AsObject();
     private static string B64(byte[] bytes) => Convert.ToBase64String(bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_');
-    private static AccessToken Signed(RSA key, string payload, string header = "{\"alg\":\"RS256\",\"typ\":\"JWT\"}")
+    private static AccessToken Signed(RSA key, string payload, string? header = null)
     {
+        header ??= JsonSerializer.Serialize(new { alg = "RS256", typ = "JWT", kid = ComponentSigningKeys.KeyId(key) });
         var data = B64(Encoding.UTF8.GetBytes(header)) + "." + B64(Encoding.UTF8.GetBytes(payload));
         return new(data + "." + B64(key.SignData(Encoding.ASCII.GetBytes(data), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1)));
     }
@@ -78,11 +79,28 @@ public sealed class ComponentJwtTests
         using var key = RSA.Create(2048); using var wrong = RSA.Create(2048); var clock = new ComponentClock();
         var jwt = new ComponentJwt(key, "synthetic-issuer", "synthetic-audience", clock); var p = Payload(clock).ToJsonString();
         Assert.NotNull(jwt.Validate(Signed(key, p)));
-        Assert.Null(jwt.Validate(Signed(wrong, p)));
+        Assert.Null(jwt.Validate(Signed(wrong, p, JsonSerializer.Serialize(new { alg = "RS256", typ = "JWT", kid = ComponentSigningKeys.KeyId(key) }))));
         Assert.Null(jwt.Validate(Signed(key, p, "{\"alg\":\"none\",\"typ\":\"JWT\"}")));
         Assert.Null(jwt.Validate(Signed(key, p.Replace("{", "{\"exp\":1,", StringComparison.Ordinal))));
         foreach (var bad in new[] { "", "a.b.c", "é.b.c", new string('a', 65537), Signed(key, p).Reveal() + "=" })
             Assert.Null(jwt.Validate(new(bad)));
+    }
+    [Fact]
+    public void Public_only_validator_trust_cannot_be_rebound_or_reintroduced_after_removal()
+    {
+        using var signer = RSA.Create(2048); using var publicKey = RSA.Create(); using var other = RSA.Create(2048);
+        publicKey.ImportSubjectPublicKeyInfo(signer.ExportSubjectPublicKeyInfo(), out _);
+        var keys = new ComponentSigningKeys(); var id = keys.TrustVerificationKey(publicKey); var clock = new ComponentClock();
+        var jwt = new ComponentJwt(keys, "synthetic-issuer", "synthetic-audience", clock);
+        var token = Signed(signer, Payload(clock).ToJsonString());
+        Assert.NotNull(jwt.Validate(token));
+        // Host-handle mutation cannot change the meaning of an already registered kid.
+        publicKey.ImportSubjectPublicKeyInfo(other.ExportSubjectPublicKeyInfo(), out _);
+        Assert.Null(jwt.Validate(token));
+        publicKey.ImportSubjectPublicKeyInfo(signer.ExportSubjectPublicKeyInfo(), out _);
+        Assert.NotNull(jwt.Validate(token));
+        keys.RemoveTrust(id); Assert.Null(jwt.Validate(token));
+        Assert.Throws<InvalidOperationException>(() => keys.TrustVerificationKey(publicKey));
     }
     [Fact]
     public void No_positive_leeway_and_unknown_clock_denies()

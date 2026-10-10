@@ -5,19 +5,23 @@ using Lms.Application;
 
 namespace Lms.Infrastructure;
 
-// Fixed RS256 profile, pinned key supplied by a trusted host; deliberately no HTTP registration.
+// Fixed RS256 profile, explicit key trust supplied by a trusted host; no HTTP registration.
 // Signing is internal so production callers cannot sign detached S3 reads.
 public sealed class ComponentJwt
 {
-    private readonly RSA key;
+    private readonly ComponentSigningKeys keys;
     private readonly string issuer, audience;
     private readonly IAuthorityClock clock;
     public ComponentJwt(RSA key, string issuer, string audience, IAuthorityClock clock)
+        : this(SingleKey(key), issuer, audience, clock) { }
+    public ComponentJwt(ComponentSigningKeys keys, string issuer, string audience, IAuthorityClock clock)
     {
-        if (key.KeySize < 2048 || string.IsNullOrWhiteSpace(issuer) || string.IsNullOrWhiteSpace(audience))
+        if (string.IsNullOrWhiteSpace(issuer) || string.IsNullOrWhiteSpace(audience))
             throw new ArgumentException("Invalid JWT profile");
-        this.key = key; this.issuer = issuer; this.audience = audience; this.clock = clock;
+        this.keys = keys; this.issuer = issuer; this.audience = audience; this.clock = clock;
     }
+    private static ComponentSigningKeys SingleKey(RSA key)
+    { var keys = new ComponentSigningKeys(); keys.Rotate(key); return keys; }
     internal AccessToken? Issue(SessionIdentity identity, CurrentAuthority authority, IEnumerable<DateTimeOffset?> deadlines)
     {
         var time = clock.Read();
@@ -27,11 +31,15 @@ public sealed class ComponentJwt
         var payload = new Payload(issuer, audience, identity.UserId, identity.ActorId, identity.SessionId,
             authority, nbf.ToUnixTimeSeconds(), exp.Value.ToUnixTimeSeconds());
         if (!Valid(payload)) return null;
-        var data = Encode(JsonSerializer.SerializeToUtf8Bytes(new { alg = "RS256", typ = "JWT" })) + "." +
+        var kid = keys.ActiveId;
+        if (kid == null) return null;
+        var data = Encode(JsonSerializer.SerializeToUtf8Bytes(new { alg = "RS256", typ = "JWT", kid })) + "." +
             Encode(JsonSerializer.SerializeToUtf8Bytes(payload));
-        if (data.Length + 1 + (key.KeySize / 8 + 2) / 3 * 4 > 65536) return null;
-        var signature = key.SignData(Encoding.ASCII.GetBytes(data), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        return new(data + "." + Encode(signature));
+        if (data.Length > 65536) return null;
+        var signature = keys.Sign(kid, Encoding.ASCII.GetBytes(data));
+        if (signature == null) return null;
+        var value = data + "." + Encode(signature);
+        return value.Length <= 65536 ? new(value) : null;
     }
     public TokenAuthority? Validate(AccessToken token)
     {
@@ -43,10 +51,11 @@ public sealed class ComponentJwt
             if (parts.Length != 3) return null;
             using var header = JsonDocument.Parse(Decode(parts[0]));
             var h = header.RootElement;
-            if (!Unique(h) || h.EnumerateObject().Count() != 2 || h.GetProperty("alg").GetString() != "RS256" ||
+            if (!Unique(h) || !Fields(h, "alg", "typ", "kid") || h.GetProperty("alg").GetString() != "RS256" ||
                 h.GetProperty("typ").GetString() != "JWT") return null;
-            if (!key.VerifyData(Encoding.ASCII.GetBytes(parts[0] + "." + parts[1]), Decode(parts[2]),
-                    HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1)) return null;
+            var kid = h.GetProperty("kid").GetString();
+            if (kid == null || kid.Length != 64 || !keys.Verify(kid,
+                    Encoding.ASCII.GetBytes(parts[0] + "." + parts[1]), Decode(parts[2]))) return null;
             using var document = JsonDocument.Parse(Decode(parts[1]));
             var root = document.RootElement;
             if (!Unique(root) || !Fields(root, "iss", "aud", "sub", "actor", "sid", "scope", "nbf", "exp")) return null;

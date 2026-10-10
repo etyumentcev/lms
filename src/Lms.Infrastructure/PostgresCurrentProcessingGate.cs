@@ -28,8 +28,12 @@ public sealed class PostgresCurrentProcessingGate(LmsDbContext db, IAuthorityClo
         // Existing schema has opaque ResourceRef/operation bits without a runtime resolver.
         // Conservatively deny any active applicable-context/subject restriction; never invent
         // an interpretation that could accidentally turn a prohibition into an allow.
-        return !await db.Set<ProcessingRestriction>().AsNoTracking().AnyAsync(r => r.OrganizationId == resource.OrganizationId &&
+        var restricted = await db.Set<ProcessingRestriction>().AsNoTracking().AnyAsync(r => r.OrganizationId == resource.OrganizationId &&
             r.ContextId == binding.ContextId && r.State == "Active" &&
             (r.SubjectActorId == null || r.SubjectActorId == actorId || r.SubjectActorId == resource.StudentId), cancellationToken);
+        if (restricted || clock.Read() is not { Valid: true } after) return false;
+        // Database waits may cross a binding boundary or lose clock qualification.
+        return after.Earliest >= time.Earliest && binding.EffectiveFrom <= after.Earliest &&
+            binding.ContextFrom <= after.Earliest && (binding.EffectiveTo == null || binding.EffectiveTo > after.Latest);
     }
 }

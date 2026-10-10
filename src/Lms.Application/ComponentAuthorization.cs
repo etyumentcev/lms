@@ -22,6 +22,7 @@ public static class ComponentExpiry
         IEnumerable<DateTimeOffset?> authorityDeadlines)
     {
         if (time is not { Valid: true }) return null;
+        if (time.Earliest > DateTimeOffset.MaxValue - SessionPolicy.MaximumAccessLifetime) return null;
         var cutoff = time.Earliest.Add(SessionPolicy.MaximumAccessLifetime);
         if (sessionExpiry < cutoff) cutoff = sessionExpiry;
         foreach (var deadline in authorityDeadlines)

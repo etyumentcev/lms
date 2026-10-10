@@ -11,7 +11,7 @@ public sealed class PostgresComponentTokenIssuer(LmsDbContext db, IAuthorityCloc
     {
         if (clock.Read() is not { Valid: true }) return null;
         var provider = new ConservativeTimeProvider(clock);
-        return await new PostgresIdentitySessions(db, provider).WithIssuingSession(userId, sessionId, async identity =>
+        var issued = await new PostgresIdentitySessions(db, provider).WithIssuingSession(userId, sessionId, async identity =>
         {
             var org = await db.Set<Organization>().FromSqlInterpolated(
                 $"""SELECT * FROM "Organizations" WHERE "OrganizationId"={organizationId} FOR UPDATE""").SingleOrDefaultAsync(ct);
@@ -24,6 +24,9 @@ public sealed class PostgresComponentTokenIssuer(LmsDbContext db, IAuthorityCloc
             ct.ThrowIfCancellationRequested();
             return token;
         }, ct);
+        ct.ThrowIfCancellationRequested();
+        // Commit/disposal may wait. Recheck lifetime, clock qualification and key trust.
+        return issued != null && jwt.Validate(issued) != null ? issued : null;
     }
     private sealed class ConservativeTimeProvider(IAuthorityClock clock) : TimeProvider
     {

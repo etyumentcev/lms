@@ -132,7 +132,8 @@ public sealed class PostgresIdentitySessions(LmsDbContext db, TimeProvider clock
     }
 
     // A1 read-only issuance shares exactly the S2 account/session locks. Callback signs
-    // before locks are released; no token is returned if reading/signing fails.
+    // before locks are released. Success escapes only after acknowledged commit and disposal.
+    // A commit exception is an unknown outcome, never evidence of rollback.
     internal async Task<AccessToken?> WithIssuingSession(Guid userId, Guid sessionId,
         Func<SessionIdentity, Task<AccessToken?>> issue, CancellationToken ct)
     {
@@ -145,7 +146,12 @@ public sealed class PostgresIdentitySessions(LmsDbContext db, TimeProvider clock
             now < session.CreatedAt || SessionPolicy.Expired(now, session.LastSuccessfulRefreshAt, session.AbsoluteExpiresAt)) return null;
         var expiry = session.LastSuccessfulRefreshAt + SessionPolicy.IdleTimeout;
         if (session.AbsoluteExpiresAt < expiry) expiry = session.AbsoluteExpiresAt;
-        return await issue(Identity(session, account!.Value.Link) with { AbsoluteExpiresAt = expiry });
+        var pending = await issue(Identity(session, account!.Value.Link) with { AbsoluteExpiresAt = expiry });
+        if (pending == null) return null;
+        ct.ThrowIfCancellationRequested();
+        await tx.CommitAsync(ct);
+        ct.ThrowIfCancellationRequested();
+        return pending; // await-using disposal also completes before the caller receives this value
     }
 
     private void RequireFreshContext()
