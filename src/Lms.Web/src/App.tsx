@@ -12,6 +12,7 @@ import { LessonPage, LessonContentPage } from './features/lesson/LessonPage';
 import { normalizeQueueQuery } from './features/review-queue/query';
 import { TeacherReviewPage } from './features/teacher-review/TeacherReviewPage';
 import { ReviewQueuePage } from './features/review-queue/ReviewQueuePage';
+import { ProgressPage, ReviewHistoryPage } from './features/progress/ProgressPage';
 import { CoursesPage } from './features/course/CoursesPage';
 import { LearningCatalog } from './features/course/LearningCatalog';
 import { useSession } from './auth/session';
@@ -116,6 +117,9 @@ export function App({ client = browserApiClient, contentReads = false }: { clien
   const problemMatch = matchPath('/problem-assignments/:assignmentId', location.pathname);
   if (problemMatch?.params.assignmentId) return <ProblemPage key={problemMatch.params.assignmentId}
     assignmentId={routeId(problemMatch.params.assignmentId)} client={client} />;
+  if (location.pathname === '/progress' && sessionState.phase === 'authenticated' && sessionState.session.role)
+    return <ProgressPage client={client} role={sessionState.session.role} />;
+  if (location.pathname === '/teacher/review-history') return <ReviewHistoryPage client={client} />;
   if (location.pathname === '/teacher/reviews') return <ReviewQueuePage client={client} />;
   const reviewMatch = matchPath('/teacher/reviews/:problemWorkId', location.pathname);
   if (reviewMatch?.params.problemWorkId) return <TeacherReviewPage key={reviewMatch.params.problemWorkId}

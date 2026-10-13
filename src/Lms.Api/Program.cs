@@ -106,8 +106,12 @@ app.MapGet("/api/health", async (LmsDbContext db, CancellationToken ct) =>
     catch { return Results.StatusCode(503); }
 });
 app.MapControllers();
-if (teacherRevocation.Enabled) app.MapTeacherRevocation(teacherRevocation.AllowedOrigin,
-    teacherRevocation.RestrictedDatabaseCapabilities);
+if (teacherRevocation.Enabled)
+{
+    app.MapTeacherRevocation(teacherRevocation.AllowedOrigin,
+        teacherRevocation.RestrictedDatabaseCapabilities);
+    app.MapProgressHistory();
+}
 if (teacherRevocation.OrganizationBootstrapEnabled)
 {
     app.MapOrganizationBootstrap(teacherRevocation.AllowedOrigin);

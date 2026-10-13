@@ -173,3 +173,20 @@ Owner: владелец проекта. Основание: явный отве�
 Решение не разрешает production/public cutover, реальные ПД, universal CMS/blob storage, новый compiler/importer, WYSIWYG, M1-07, PRS1 exact, ослабление G02 или обход существующих S2/S3/processing contracts. Restricted production database capability и deployment qualification остаются отдельной границей. Commit/push/deploy не разрешены.
 
 **M1-06 SYNTHETIC-ONLY IMPLEMENTATION AUTHORIZED · OD-C2-01/02 ACCEPTED FOR THIS SLICE · H04 IMPORTATTEMPT AUTHORIZED · WHOLE-COURSE S3 PUBLISHER ACCEPTED · TEST HTTPS ONLY · G02/PRODUCTION BLOCKED · NO M1-07 · NO COMMIT/DEPLOY.**
+
+
+## 2026-10-13 — M1-10 HTTP read authorization, SyntheticOnly
+
+Owner: владелец проекта. Основание: явное сообщение «OWNER DECISION — M1-10 HTTP READ AUTHORIZATION».
+
+Только для M1-10 и controlled `SyntheticOnly` разрешены реализация и регистрация трёх защищённых read-only HTTP projections:
+
+- `GET /api/v1/teacher/group-progress` — прогресс учеников/групп и серверные счётчики назначений/status;
+- `GET /api/v1/student/progress-history` — собственная история назначений и попыток ученика;
+- `GET /api/v1/teacher/review-history` — история разрешённых проверок преподавателя, включая `Accepted`.
+
+Маршруты используют существующие S2/S3/S4 authentication, текущие полномочия и `ProcessingRestrictions`; организация, курс, группа, ученик и teacher assignment проверяются сервером до возврата строк, счётчиков и агрегатов. Разрешено authoritative read-back текущего состояния после timeout/потери ответа; неизвестный результат не разрешает автоматический повтор write-операции. Teacher Revocation и действующие ограничения не ослабляются.
+
+Исключение из `S4 HTTP NOT AUTHORIZED` действует только для перечисленных GET routes. Новые роли, permissions, grants, schema и write endpoints не разрешены. Production/public cutover, реальные ПД, push и deploy запрещены; G02 остаётся BLOCKED. M1-11 не разрешён этим решением.
+
+**M1-10 SYNTHETIC-ONLY GET PROJECTIONS AUTHORIZED · EXACT THREE ROUTES · S2/S3/S4 + PROCESSING PRESERVED · NO SCHEMA/WRITES/NEW GRANTS · G02/PRODUCTION BLOCKED · NO M1-11/PUSH/DEPLOY.**

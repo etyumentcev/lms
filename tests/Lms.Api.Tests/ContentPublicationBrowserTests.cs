@@ -73,6 +73,32 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         await using (var grants = database.Open())
             await new PostgresScopedAuthorityAdministration(grants).Change(new(AuthorityKind.Enrollment,
                 AuthorityOperation.Grant, database.OrganizationId, ApiFactory.Student, 0, 1, courseId, groupId));
+        var additionalStudents = Enumerable.Range(2, 11).Select(_ => Guid.NewGuid()).ToArray();
+        await using (var students = database.Open())
+        {
+            students.AddRange(additionalStudents.Select(id => new ActorRecord { ActorId = id, PrimaryEducationalRole = "Student" }));
+            students.AddRange(additionalStudents.Select((id, index) => new OrganizationParticipantProfile
+            {
+                OrganizationId = database.OrganizationId, ActorId = id,
+                ExternalRosterKey = $"m1-10-student-{index + 2:00}",
+                DisplayName = $"Ученик {index + 2:00}", CreatedAt = now
+            }));
+            students.Add(new OrganizationParticipantProfile
+            {
+                OrganizationId = database.OrganizationId, ActorId = ApiFactory.Student,
+                ExternalRosterKey = "m1-10-student-01", DisplayName = "Ученик 01", CreatedAt = now
+            });
+            await students.SaveChangesAsync();
+        }
+        foreach (var student in additionalStudents)
+        {
+            await using var grants = database.Open();
+            var administration = new PostgresScopedAuthorityAdministration(grants);
+            await administration.Change(new(AuthorityKind.Membership, AuthorityOperation.Grant,
+                database.OrganizationId, student, 0, Role: ScopeRole.Student));
+            await administration.Change(new(AuthorityKind.Enrollment, AuthorityOperation.Grant,
+                database.OrganizationId, student, 0, 1, courseId, groupId));
+        }
 
         using var tls = RSA.Create(2048);
         var certificateRequest = new CertificateRequest("CN=localhost", tls, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
@@ -108,6 +134,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         builder.Services.AddScoped<IAccessPolicy, PostgresAccessPolicy>();
         builder.Services.AddScoped<IImmutableContentResolver, PostgresContentResolver>();
         builder.Services.AddScoped<IWorkspaceQueries, PostgresWorkspaceQueries>();
+        builder.Services.AddScoped<IProgressHistoryQueries, PostgresProgressHistoryQueries>();
         builder.Services.AddScoped<ProblemWorkService>();
         builder.Services.AddSingleton<IActorMapper, ClaimsActorMapper>();
         builder.Services.AddSingleton(new AttachmentOptions { MaxBytes = 20_000_000 });
@@ -130,6 +157,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         app.UseMiddleware<ApiExceptionMiddleware>(); app.UseMiddleware<CourseRequestIngress>();
         app.UseAuthentication(); app.UseAuthorization();
         app.MapTeacherRevocation(origin); app.MapCourseRoster(origin); app.MapContentPublication(origin, 20_000_000);
+        app.MapProgressHistory();
         app.MapControllers();
         app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(web) });
         app.MapFallback(async context =>
@@ -153,12 +181,14 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
             Assert.True(script.IsSuccessStatusCode, $"HTTPS asset probe failed: {(int)script.StatusCode} {asset}");
         }
 
-        var evidence = Path.Combine(root.FullName, "codex/evidence/M1-06-CONTENT-PUBLICATION");
-        var materialsEvidence = Path.Combine(root.FullName, "codex/evidence/M1-07-MATERIALS-REFERENCE");
-        var photoEvidence = Path.Combine(root.FullName, "codex/evidence/M1-08-PROTECTED-MULTI-PHOTO");
-        var m1Evidence = Path.Combine(root.FullName, "codex/evidence/M1-09-TEACHER-REVIEW");
+        var priorEvidence = Path.Combine(Path.GetTempPath(), "sapientum-m1-10-prior-" + Guid.NewGuid().ToString("N"));
+        var evidence = Path.Combine(priorEvidence, "M1-06-CONTENT-PUBLICATION");
+        var materialsEvidence = Path.Combine(priorEvidence, "M1-07-MATERIALS-REFERENCE");
+        var photoEvidence = Path.Combine(priorEvidence, "M1-08-PROTECTED-MULTI-PHOTO");
+        var m1Evidence = Path.Combine(priorEvidence, "M1-09-TEACHER-REVIEW");
+        var progressEvidence = Path.Combine(root.FullName, "codex/evidence/M1-10-PROGRESS-HISTORY");
         Directory.CreateDirectory(evidence); Directory.CreateDirectory(materialsEvidence); Directory.CreateDirectory(photoEvidence);
-        Directory.CreateDirectory(m1Evidence);
+        Directory.CreateDirectory(m1Evidence); Directory.CreateDirectory(progressEvidence);
         var photoOne = Path.Combine(root.FullName, "tests/fixtures/photos/a4-1.png");
         var photoTwo = Path.Combine(root.FullName, "tests/fixtures/photos/a4-2.png");
         var photoOneHash = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(photoOne))).ToLowerInvariant();
@@ -176,7 +206,8 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         {
             origin, organizationId = database.OrganizationId, teacherUser = database.TeacherUserName,
             studentUser = database.StudentUserName, password = ApiFactory.SecurePassword, courseTitle, evidence, materialsEvidence,
-            photoEvidence, m1Evidence, photoOne, photoTwo, photoOneHash, photoTwoHash,
+            photoEvidence, m1Evidence, progressEvidence, courseId, groupId,
+            photoOne, photoTwo, photoOneHash, photoTwoHash,
             invalidZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-invalid.zip"),
             validZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad.zip"),
             versionTwoZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad-v2.zip")
@@ -190,7 +221,9 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         var versions = await verify.ContentVersions.Where(x => x.CourseId == courseId).OrderBy(x => x.VersionNumber).ToListAsync();
         Assert.Equal([1, 2], versions.Select(x => x.VersionNumber).ToArray());
         var historical = await verify.Assignments.Where(x => x.CourseId == courseId).ToListAsync();
-        Assert.Equal(5, historical.Count); Assert.All(historical, x => Assert.Equal(versions[0].Id, x.Content.CourseVersionId));
+        Assert.Equal(60, historical.Count); Assert.All(historical, x => Assert.Equal(versions[0].Id, x.Content.CourseVersionId));
+        Assert.Equal(12, historical.Select(x => x.StudentId).Distinct().Count());
+        Assert.Equal(60, await verify.Set<AssignmentScope>().CountAsync(x => x.CourseId == courseId && x.GroupId == groupId));
         var v1Artifact = await verify.ContentArtifacts.SingleAsync(x => x.ContentVersionId == versions[0].Id);
         Assert.Contains("M1_TEACHER_ONLY_SOLUTION_v1", v1Artifact.TeacherArtifactJson);
         Assert.DoesNotContain("M1_TEACHER_ONLY", v1Artifact.StudentArtifactJson);
@@ -234,6 +267,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         Assert.Equal(7, Directory.GetFiles(materialsEvidence, "*.png").Length);
         Assert.Equal(6, Directory.GetFiles(photoEvidence, "*.png").Length);
         Assert.Equal(9, Directory.GetFiles(m1Evidence, "*.png").Length);
+        Assert.Equal(9, Directory.GetFiles(progressEvidence, "*.png").Length);
         await File.WriteAllTextAsync(Path.Combine(evidence, "test-summary.json"), JsonSerializer.Serialize(new
         {
             passed = true, transport = "HTTPS", browser = "Chromium", imports = 3, versions = 2,
@@ -264,6 +298,16 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
             fullscreenA4 = true, protectedThumbnails = true, unknownResultAutoReplay = false,
             needsRevisionRequests = 1, submissions = 2, reviews = 2, finalStatus = "Accepted",
             immutableReview = true, originalBytesMatch = true, studentTeacherDataLeak = false, screenshots = 9
+        }, new JsonSerializerOptions { WriteIndented = true }));
+        await File.WriteAllTextAsync(Path.Combine(progressEvidence, "test-summary.json"), JsonSerializer.Serialize(new
+        {
+            passed = true, transport = "HTTPS", browser = "Chromium", productionReact = true,
+            normalLogin = true, students = 12, assignments = 60,
+            statusJourney = new[] { "NotStarted", "Submitted", "NeedsRevision", "Accepted" },
+            teacherHistory = true, acceptedHistory = true, studentAttemptHistory = true,
+            apiPostgresUiConsistent = true, exactVersion = 1,
+            lostSubmissionResponseReadBack = true, lostReviewResponseReadBack = true,
+            automaticReplay = false, screenshots = 9
         }, new JsonSerializerOptions { WriteIndented = true }));
     }
 }

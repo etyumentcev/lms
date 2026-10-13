@@ -1,0 +1,8 @@
+.progress-workspace{display:grid;gap:1rem}.progress-tabs{display:flex;gap:.65rem;border-bottom:1px solid var(--border,#d7dce2)}
+.progress-tabs a{padding:.6rem .8rem;text-decoration:none}.progress-tabs a[aria-current=page]{border-bottom:3px solid currentColor;font-weight:700}
+.progress-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem;align-items:end}
+.progress-filters label{display:grid;gap:.3rem}.progress-filters input,.progress-filters select{min-width:0}
+.progress-list,.progress-student>ol{display:grid;gap:.8rem;padding:0;list-style:none}.progress-student,.progress-task{border:1px solid var(--border,#d7dce2);border-radius:.7rem;padding:1rem;background:var(--surface,#fff)}
+.progress-student>header{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}.progress-task{display:flex;justify-content:space-between;gap:1rem;align-items:center}
+.progress-task h2,.progress-task h3,.progress-student h2{margin:0 0 .35rem}.progress-counts{list-style:none;padding:0;display:grid;gap:.35rem}.progress-counts li{display:flex;justify-content:space-between}
+@media(max-width:700px){.progress-task,.progress-student>header{align-items:flex-start;flex-direction:column}}

@@ -21,6 +21,9 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
   const location = useLocation();
   const queueSearch = typeof location.state?.queueSearch === 'string' ? normalizeQueueQuery(new URLSearchParams(location.state.queueSearch)).toString() : '';
   const queueUrl = `/teacher/reviews${queueSearch ? `?${queueSearch}` : ''}`;
+  const returnTo = typeof location.state?.returnTo === 'string' && location.state.returnTo.startsWith('/') &&
+    !location.state.returnTo.startsWith('//') ? location.state.returnTo : queueUrl;
+  const returnLabel = typeof location.state?.returnLabel === 'string' ? location.state.returnLabel : 'К очереди проверок';
   const { state, refresh } = useProblemWork(client, problemWorkId);
   const [pages, setPages] = useState<Record<string, PageState>>({});
   const [busy, setBusy] = useState(false);
@@ -63,7 +66,7 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
     ] : []), { label: title }]} />
     <div className="workspace-content teacher-review" aria-busy={state.phase === 'loading'}>
       <PageHeader title={title} meta={data ? <StatusBadge status={data.status} /> : undefined} />
-      <Link className="text-link review-queue-link" to={queueUrl}>К очереди проверок</Link>
+      <Link className="text-link review-queue-link" to={returnTo}>{returnLabel}</Link>
       {data && <Link className="text-link" to={`/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}`}>Назад к занятию</Link>}
       {dirty && <p role="status">Есть несохранённые графические пометки. Они сохранятся вместе с решением проверки.</p>}
       {saved && <p role="status">{state.phase === 'success' ? 'Проверка сохранена. Состояние работы обновлено.' : 'Проверка сохранена. Ожидается обновление состояния работы.'}</p>}

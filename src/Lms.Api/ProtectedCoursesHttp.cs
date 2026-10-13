@@ -81,7 +81,8 @@ public static class ProtectedCoursesHttp
 
     // Shared transport lifecycle; resource-specific reading and final gates stay in each adapter.
     internal static async Task ExecuteBuffered(HttpContext context, ComponentJwt validator,
-        Func<TokenAuthority, ApplicationDeadline, Task<object>> read, Func<TokenAuthority, Task<bool>> canReturn)
+        Func<TokenAuthority, ApplicationDeadline, Task<object>> read, Func<TokenAuthority, Task<bool>> canReturn,
+        JsonSerializerOptions? serializerOptions = null)
     {
         context.Response.Headers.CacheControl = "no-store";
         var deadline = context.Features.Get<ApplicationDeadline>();
@@ -92,7 +93,8 @@ public static class ProtectedCoursesHttp
         try
         {
             var result = await read(accepted.Authority, deadline);
-            var bytes = JsonSerializer.SerializeToUtf8Bytes(result, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var bytes = JsonSerializer.SerializeToUtf8Bytes(result,
+                serializerOptions ?? new JsonSerializerOptions(JsonSerializerDefaults.Web));
             if (!await canReturn(accepted.Authority)) { context.Response.StatusCode = 403; return; }
             if (validator.Validate(accepted.Bearer) == null)
             { context.Response.StatusCode = 401; return; }

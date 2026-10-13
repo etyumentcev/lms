@@ -28,6 +28,7 @@ internal static class TeacherRevocationComposition
             throw new InvalidOperationException("TeacherRevocation:AllowedOrigin must be one exact HTTPS origin.");
 
         builder.Services.AddScoped<IDbContextFactory<LmsDbContext>, RequestDbContextFactory>();
+        builder.Services.AddScoped<IProgressHistoryQueries, PostgresProgressHistoryQueries>();
         builder.Services.AddScoped<PostgresTeacherCommands>();
         builder.Services.AddDataProtection();
         builder.Services.AddTeacherRevocationBrowserProtection();

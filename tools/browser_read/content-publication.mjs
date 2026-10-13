@@ -117,7 +117,7 @@ try {
   await page.getByTestId('publish-content').click();
   await page.getByText('Опубликована неизменяемая версия v1.', { exact: true }).waitFor();
   await page.getByRole('button', { name: 'Открыть и назначить группе' }).click();
-  await page.getByText(/Занятие №1 открыто группе G1; назначено 5 заданий/).waitFor();
+  await page.getByText(/Занятие №1 открыто группе G1; назначено 60 заданий/).waitFor();
   await page.screenshot({ path: `${data.evidence}/05-published-v1-assigned-g1.png`, fullPage: true });
 
   await upload(data.versionTwoZip);
@@ -215,6 +215,14 @@ try {
   }
 
   await logout(); await login(data.teacherUser);
+  await page.getByRole('link', { name: 'Прогресс' }).click();
+  await page.getByRole('heading', { name: 'Прогресс группы' }).waitFor();
+  const submittedProgress = await protectedJson(`/teacher/group-progress?courseId=${data.courseId}&groupId=${data.groupId}`);
+  if (submittedProgress.summary.studentCount !== 12 || submittedProgress.summary.assignedCount !== 60 ||
+      submittedProgress.summary.notStarted !== 59 || submittedProgress.summary.submitted !== 1)
+    throw new Error(`submitted progress mismatch: ${JSON.stringify(submittedProgress.summary)}`);
+  await page.getByText('Ученик 01', { exact: true }).waitFor();
+  await page.screenshot({ path: `${data.progressEvidence}/01-teacher-submitted-1440.png`, fullPage: true });
   await page.getByRole('link', { name: 'Проверка' }).click();
   await page.getByRole('heading', { name: 'Проверка работ' }).waitFor();
   await page.setViewportSize({ width: 1440, height: 1050 });
@@ -286,6 +294,17 @@ try {
   await page.getByRole('region', { name: 'Результат проверки' }).waitFor();
   await page.getByText(/Графические пометки: 1 штр/).waitFor();
   await page.getByRole('button', { name: 'Показать страницу 2' }).click(); await page.getByText(/Графические пометки: 1 штр/).waitFor();
+  await page.getByRole('link', { name: 'Прогресс' }).click();
+  await page.getByRole('heading', { name: 'Прогресс группы' }).waitFor();
+  const revisionProgress = await protectedJson(`/teacher/group-progress?courseId=${data.courseId}&groupId=${data.groupId}`);
+  if (revisionProgress.summary.studentCount !== 12 || revisionProgress.summary.assignedCount !== 60 ||
+      revisionProgress.summary.notStarted !== 59 || revisionProgress.summary.needsRevision !== 1)
+    throw new Error(`revision progress mismatch: ${JSON.stringify(revisionProgress.summary)}`);
+  await page.screenshot({ path: `${data.progressEvidence}/02-teacher-needs-revision-1440.png`, fullPage: true });
+  await page.getByRole('link', { name: 'Мои проверки' }).click();
+  await page.getByRole('heading', { name: 'Мои проверки', level: 1 }).waitFor();
+  await page.getByLabel('Статус: Нужна доработка').waitFor();
+  await page.screenshot({ path: `${data.progressEvidence}/03-review-history-needs-revision-1440.png`, fullPage: true });
 
   await logout(); await login(data.studentUser);
   await page.goto(`${data.origin}${assignmentPath}?tab=history`, { waitUntil: 'networkidle' });
@@ -332,13 +351,44 @@ try {
   await page.getByText('Проверка сохранена. Состояние работы обновлено.', { exact: true }).waitFor();
   await page.getByRole('region', { name: 'Результат проверки' }).getByLabel('Статус: Принята').waitFor();
   await page.screenshot({ path: `${data.m1Evidence}/08-teacher-accepted-1440.png`, fullPage: true });
-  await page.getByRole('link', { name: 'К очереди проверок' }).click(); await page.getByText('Все работы проверены', { exact: true }).waitFor();
+  await page.getByRole('link', { name: 'Прогресс' }).click();
+  await page.getByRole('heading', { name: 'Прогресс группы' }).waitFor();
+  const acceptedProgress = await protectedJson(`/teacher/group-progress?courseId=${data.courseId}&groupId=${data.groupId}`);
+  if (acceptedProgress.summary.studentCount !== 12 || acceptedProgress.summary.assignedCount !== 60 ||
+      acceptedProgress.summary.notStarted !== 59 || acceptedProgress.summary.accepted !== 1)
+    throw new Error(`accepted progress mismatch: ${JSON.stringify(acceptedProgress.summary)}`);
+  await page.screenshot({ path: `${data.progressEvidence}/04-teacher-accepted-1440.png`, fullPage: true });
+  await page.locator('select[name="status"]').selectOption('Accepted');
+  await page.getByRole('button', { name: 'Применить' }).click();
+  await page.getByLabel('Статус: Принята').waitFor();
+  await page.screenshot({ path: `${data.progressEvidence}/05-teacher-accepted-filter-1440.png`, fullPage: true });
+  await page.getByRole('link', { name: 'Мои проверки' }).click();
+  await page.getByRole('heading', { name: 'Мои проверки', level: 1 }).waitFor();
+  const acceptedHistory = await protectedJson(`/teacher/review-history?courseId=${data.courseId}&groupId=${data.groupId}`);
+  if (acceptedHistory.summary.total !== 2 || acceptedHistory.summary.needsRevision !== 1 || acceptedHistory.summary.accepted !== 1)
+    throw new Error(`review history mismatch: ${JSON.stringify(acceptedHistory.summary)}`);
+  await page.screenshot({ path: `${data.progressEvidence}/06-review-history-accepted-1440.png`, fullPage: true });
+  await page.getByRole('link', { name: 'Открыть прошлую проверку' }).first().click();
+  await page.getByRole('region', { name: 'Результат проверки' }).getByLabel('Статус: Принята').waitFor();
+  await page.screenshot({ path: `${data.progressEvidence}/07-open-accepted-review-1440.png`, fullPage: true });
+  await page.getByRole('link', { name: 'К истории проверок' }).click();
+  await page.getByRole('heading', { name: 'Мои проверки', level: 1 }).waitFor();
+  await page.getByRole('link', { name: 'Проверка' }).click(); await page.getByText('Все работы проверены', { exact: true }).waitFor();
 
-  await logout(); await login(data.studentUser); await page.goto(`${data.origin}${assignmentPath}?tab=history`, { waitUntil: 'networkidle' });
+  await logout(); await login(data.studentUser);
+  await page.getByRole('link', { name: 'Прогресс' }).click();
+  await page.getByRole('heading', { name: 'Мой прогресс' }).waitFor();
+  const studentProgress = await protectedJson(`/student/progress-history?courseId=${data.courseId}`);
+  if (studentProgress.summary.assignedCount !== 5 || studentProgress.summary.notStarted !== 4 ||
+      studentProgress.summary.accepted !== 1 || studentProgress.items.length !== 5)
+    throw new Error(`student progress mismatch: ${JSON.stringify(studentProgress.summary)}`);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: `${data.progressEvidence}/08-student-progress-390.png`, fullPage: true }); await page.goto(`${data.origin}${assignmentPath}?tab=history`, { waitUntil: 'networkidle' });
   await page.getByRole('article', { name: 'Попытка №2' }).getByLabel('Статус: Принята').waitFor();
   await page.getByRole('article', { name: 'Попытка №2' }).waitFor();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: `${data.m1Evidence}/09-student-accepted-390.png`, fullPage: true });
+  await page.screenshot({ path: `${data.progressEvidence}/09-student-attempt-history-390.png`, fullPage: true });
   const acceptedState = await protectedJson(`${assignmentPath}/workspace`);
   if (acceptedState.work.status !== 'Accepted' || acceptedState.history.submissions.length !== 2 || acceptedState.history.reviews.length !== 2)
     throw new Error('final immutable attempt chain is incomplete');
