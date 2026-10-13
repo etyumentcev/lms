@@ -15,7 +15,7 @@ function setup(overrides: Partial<AttachmentApi> = {}) {
   const api: AttachmentApi = { upload: vi.fn(async (f: File) => attachment(f.name)), content: vi.fn(async () => new Blob(['photo'], { type: 'image/png' })), remove: vi.fn(async () => undefined), ...overrides };
   const onChange = vi.fn();
   const view = render(<AttachmentUploader api={api} onChange={onChange} />);
-  return { api, onChange, ...view, input: screen.getByLabelText('Добавить фото решения') };
+  return { api, onChange, ...view, input: screen.getByLabelText('Сфотографировать / Выбрать фото') };
 }
 async function select(input: HTMLElement, ...files: File[]) { fireEvent.change(input, { target: { files } }); await screen.findByText('Фото загружено'); }
 beforeEach(() => { URL.createObjectURL = vi.fn(() => 'blob:photo'); URL.revokeObjectURL = vi.fn(); });
@@ -87,6 +87,16 @@ describe('photo uploader foundation', () => {
     fireEvent.change(input, { target: { files: [file()] } });
     expect(await screen.findByRole('progressbar')).toHaveAttribute('value', '100'); expect(screen.queryByText('Фото загружено')).not.toBeInTheDocument();
     expect(onChange).toHaveBeenLastCalledWith([], false); expect(screen.getByRole('button', { name: 'Удалить страницу 1' })).toBeDisabled();
+  });
+  it('cancels one active upload without removing or submitting the draft page', async () => {
+    const upload = vi.fn((_f: File, signal: AbortSignal) => new Promise<UploadedAttachment>((_resolve, reject) =>
+      signal.addEventListener('abort', () => reject(new DOMException('cancelled', 'AbortError')))));
+    const { input, onChange } = setup({ upload }); fireEvent.change(input, { target: { files: [file()] } });
+    await userEvent.click(await screen.findByRole('button', { name: 'Отменить загрузку страницы 1' }));
+    expect((upload.mock.calls as unknown as [File, AbortSignal][])[0]![1].aborted).toBe(true);
+    expect(await screen.findByRole('alert')).toHaveTextContent('Загрузка отменена');
+    expect(onChange).toHaveBeenLastCalledWith([], false);
+    expect(screen.getByRole('button', { name: 'Повторить загрузку страницы 1' })).toBeVisible();
   });
   it('supports keyboard page reordering', async () => {
     const { input, onChange } = setup(); fireEvent.change(input, { target: { files: [file('a.png'), file('b.png')] } });

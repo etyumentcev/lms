@@ -37,7 +37,7 @@ function mount(data = fixture(), handler?: Handler, search = '') {
 const loaded = () => screen.findByRole('heading', { level: 1, name: 'Задача 1' });
 const submit = () => screen.getByRole('button', { name: 'Отправить решение' });
 const editor = () => screen.getByRole('textbox', { name: 'Пояснение к решению — необязательно' });
-const upload = async (names = ['Лист 1.png']) => userEvent.upload(screen.getByLabelText('Добавить фото решения'), names.map(name => new File(['png'], name, { type: 'image/png' })));
+const upload = async (names = ['Лист 1.png']) => userEvent.upload(screen.getByLabelText('Сфотографировать / Выбрать фото'), names.map(name => new File(['png'], name, { type: 'image/png' })));
 const posts = (request: ReturnType<typeof mount>['request']) => request.mock.calls.filter(([url]) => url.endsWith('/submissions'));
 beforeEach(() => { vi.stubGlobal('URL', URL); URL.createObjectURL = vi.fn(() => 'blob:photo'); URL.revokeObjectURL = vi.fn(); });
 
@@ -106,7 +106,7 @@ describe('G read workspace', () => {
 
 describe('G submit and U1 integration', () => {
   it('photo-first native multiple input, optional body and accessible order controls', async () => {
-    mount(); await loaded(); const input = screen.getByLabelText('Добавить фото решения'); expect(input).toHaveAttribute('multiple'); expect(input).toHaveAttribute('accept','image/jpeg,image/png');
+    mount(); await loaded(); const input = screen.getByLabelText('Сфотографировать / Выбрать фото'); expect(input).toHaveAttribute('multiple'); expect(input).toHaveAttribute('accept','image/jpeg,image/png');
     expect(input).not.toHaveAttribute('capture'); await upload(); await screen.findByAltText('Страница 1 — фото решения'); expect(submit()).toBeEnabled(); expect(editor()).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Удалить страницу 1' })).toBeEnabled(); expect(screen.getByRole('link', { name: /Открыть страницу 1/ })).toHaveAttribute('href','blob:photo');
   });

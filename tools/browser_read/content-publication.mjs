@@ -56,6 +56,17 @@ async function upload(path) {
   await page.getByRole('button', { name: 'Импортировать ZIP' }).click();
   await page.getByTestId('import-diagnostics').waitFor();
 }
+async function protectedSha256(url) {
+  return page.evaluate(async resource => {
+    const token = await window.lmsAuth?.getAccessToken();
+    if (!token) throw new Error('missing browser access token');
+    const response = await fetch(resource, { credentials: 'same-origin', cache: 'no-store',
+      headers: { Authorization: `Bearer ${token}` } });
+    if (!response.ok) throw new Error(`protected original returned ${response.status}`);
+    const digest = await crypto.subtle.digest('SHA-256', await response.arrayBuffer());
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  }, url);
+}
 
 try {
   await page.goto(data.origin, { waitUntil: 'networkidle' });
@@ -123,12 +134,51 @@ try {
   await page.getByRole('tab', { name: 'Решение' }).click();
   await page.setViewportSize({ width: 1440, height: 1050 });
 
-  await page.locator('.attachment-file-input').setInputFiles({ name: 'solution.png', mimeType: 'image/png',
-    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64') });
-  await page.getByText('Фото загружено', { exact: true }).waitFor();
-  await page.getByRole('button', { name: 'Отправить решение' }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  const picker = page.getByLabel('Сфотографировать / Выбрать фото');
+  await picker.setInputFiles([data.photoOne, data.photoTwo]);
+  await page.waitForFunction(() => document.querySelectorAll('.attachment-pages [role="status"]').length === 2 &&
+    [...document.querySelectorAll('.attachment-pages [role="status"]')].every(node => node.textContent === 'Фото загружено'));
+  await page.locator('.attachment-pages img').nth(1).waitFor();
+  await page.screenshot({ path: `${data.photoEvidence}/01-upload-preview-390.png`, fullPage: true });
+
+  await page.getByRole('button', { name: 'Страница 2: переместить выше' }).click();
+  const draftNames = await page.locator('.attachment-pages .attachment-filename').allTextContents();
+  if (draftNames.join('|') !== 'a4-2.png|a4-1.png') throw new Error(`unexpected reordered draft: ${draftNames.join('|')}`);
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.screenshot({ path: `${data.photoEvidence}/02-reordered-preview-768.png`, fullPage: true });
+
+  await page.getByRole('button', { name: 'Удалить страницу 2' }).click();
+  await page.waitForFunction(() => document.querySelectorAll('.attachment-pages > li').length === 1);
+  await picker.setInputFiles(data.photoOne);
+  await page.waitForFunction(() => document.querySelectorAll('.attachment-pages [role="status"]').length === 2 &&
+    [...document.querySelectorAll('.attachment-pages [role="status"]')].every(node => node.textContent === 'Фото загружено'));
+  await page.setViewportSize({ width: 1440, height: 1050 });
+  await page.screenshot({ path: `${data.photoEvidence}/03-delete-readd-preview-1440.png`, fullPage: true });
+
+  let submissionRequests = 0;
+  expectedNetworkAbort = true;
+  await page.route('**/api/v1/problem-assignments/*/submissions', async route => {
+    submissionRequests++;
+    const response = await route.fetch();
+    if (!response.ok()) throw new Error(`submission returned ${response.status()}`);
+    await route.abort('connectionfailed');
+  });
+  const submitButton = page.getByRole('button', { name: 'Отправить решение' });
+  await submitButton.evaluate(button => { button.click(); button.click(); });
+  await page.getByRole('alert').getByText(/Решение могло сохраниться/).waitFor();
+  await page.waitForTimeout(500);
+  await page.unroute('**/api/v1/problem-assignments/*/submissions');
+  expectedNetworkAbort = false;
+  if (submissionRequests !== 1) throw new Error(`double submit created ${submissionRequests} requests`);
+  await page.getByRole('button', { name: 'Обновить состояние' }).click();
   await page.getByText('Решение отправлено и ожидает проверки преподавателем.', { exact: true }).waitFor();
-  await page.waitForTimeout(150);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.getByRole('heading', { name: 'Задача 1' }).waitFor();
+  await page.getByText('Решение отправлено и ожидает проверки преподавателем.', { exact: true }).waitFor();
+  await page.getByRole('img', { name: 'Страница 1 — фото решения' }).waitFor();
+  await page.getByRole('img', { name: 'Страница 2 — фото решения' }).waitFor();
+  await page.screenshot({ path: `${data.photoEvidence}/04-submitted-reload-390.png`, fullPage: true });
   captureStudentPayloads = false;
   if (!studentPayloads.length) throw new Error('student responses were not captured');
   for (const payload of studentPayloads) {
@@ -140,7 +190,9 @@ try {
   await logout(); await login(data.teacherUser);
   await page.getByRole('link', { name: 'Проверка' }).click();
   await page.getByRole('heading', { name: 'Проверка работ' }).waitFor();
+  const firstPhoto = page.waitForResponse(response => /\/api\/v1\/attachments\/[0-9a-f-]+\/content$/i.test(new URL(response.url()).pathname) && response.ok());
   await page.getByRole('link', { name: /Проверить:/ }).first().click();
+  const firstPhotoResponse = await firstPhoto;
   await page.getByRole('heading', { name: 'Задача 1' }).waitFor();
   const reference = page.getByTestId('teacher-reference');
   await reference.getByText('Неизменяемая версия v1', { exact: true }).waitFor();
@@ -151,7 +203,18 @@ try {
   await reference.getByText(/M1_TEACHER_ONLY_NOTES/).waitFor();
   if (await reference.getByText(/M1_TEACHER_ONLY_SOLUTION_v2/).count()) throw new Error('historical review resolved the latest v2 reference');
   await page.getByRole('img', { name: 'Страница 1 — фото решения' }).waitFor();
+  const firstPhotoHash = await protectedSha256(firstPhotoResponse.url());
+  if (firstPhotoHash !== data.photoTwoHash) throw new Error(`teacher page 1 hash mismatch: ${firstPhotoHash}`);
   await page.screenshot({ path: `${data.materialsEvidence}/07-teacher-reference-1440.png`, fullPage: true });
+  await page.screenshot({ path: `${data.photoEvidence}/05-teacher-page-1-1440.png`, fullPage: true });
+  const secondPhoto = page.waitForResponse(response => /\/api\/v1\/attachments\/[0-9a-f-]+\/content$/i.test(new URL(response.url()).pathname) &&
+    response.ok() && new URL(response.url()).pathname !== new URL(firstPhotoResponse.url()).pathname);
+  await page.getByRole('button', { name: 'Следующая' }).click();
+  const secondPhotoResponse = await secondPhoto;
+  await page.getByRole('img', { name: 'Страница 2 — фото решения' }).waitFor();
+  const secondPhotoHash = await protectedSha256(secondPhotoResponse.url());
+  if (secondPhotoHash !== data.photoOneHash) throw new Error(`teacher page 2 hash mismatch: ${secondPhotoHash}`);
+  await page.screenshot({ path: `${data.photoEvidence}/06-teacher-page-2-1440.png`, fullPage: true });
 
   await page.getByRole('link', { name: 'Мои курсы' }).first().click(); await openMaterials();
   let intercepted = 0;

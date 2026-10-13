@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "productionReact": true,
+  "normalLogin": true,
+  "viewports": [
+    390,
+    768,
+    1440
+  ],
+  "uploads": 3,
+  "deletedPending": 1,
+  "submissions": 1,
+  "submittedPages": 2,
+  "orderedFiles": [
+    "a4-2.png",
+    "a4-1.png"
+  ],
+  "sha256": [
+    "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745",
+    "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+  ],
+  "originalBytesMatch": true,
+  "teacherProtectedRead": true,
+  "reloadRestored": true,
+  "lostAcknowledgementCheckedByGet": true,
+  "automaticReplay": false,
+  "doubleClickRequests": 1,
+  "screenshots": 6
+}

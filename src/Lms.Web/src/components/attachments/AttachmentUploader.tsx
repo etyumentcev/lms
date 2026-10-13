@@ -34,6 +34,7 @@ export function AttachmentUploader({ api, onChange, subject = 'решения', 
   const [pages, setPages] = useState<Page[]>([]);
   const active = useRef(true);
   const controllers = useRef(new Set<AbortController>());
+  const pageControllers = useRef(new Map<string, AbortController>());
   const urls = useRef(new Set<string>());
   useEffect(() => {
     active.current = true;
@@ -53,6 +54,7 @@ export function AttachmentUploader({ api, onChange, subject = 'решения', 
   }
   async function upload(page: Page) {
     const controller = new AbortController(); controllers.current.add(controller);
+    pageControllers.current.set(page.key, controller);
     update(page.key, { state: 'uploading', progress: 0, error: undefined });
     try {
       const attachment = await api.upload(page.file, controller.signal,
@@ -62,7 +64,14 @@ export function AttachmentUploader({ api, onChange, subject = 'решения', 
     } catch (error) { if (!controller.signal.aborted) update(page.key,
       { state: 'failed', error: errorText(error, blockUnknownOutcome),
         retryable: !blockUnknownOutcome || !unknownOutcome(error) }); }
-    finally { controllers.current.delete(controller); }
+    finally {
+      controllers.current.delete(controller);
+      if (pageControllers.current.get(page.key) === controller) pageControllers.current.delete(page.key);
+    }
+  }
+  function cancel(page: Page) {
+    pageControllers.current.get(page.key)?.abort();
+    update(page.key, { state: 'failed', progress: 0, error: 'Загрузка отменена.', retryable: true });
   }
   function add(files: FileList | null) {
     const added = Array.from(files ?? []).map(file => ({ key: crypto.randomUUID(), file,
@@ -93,7 +102,7 @@ export function AttachmentUploader({ api, onChange, subject = 'решения', 
   return <section className="attachment-uploader"
     aria-label={subject === 'замечания' ? 'Новые фотографии замечания' : 'Фотографии решения'}>
     <p id={`${inputId}-help`}>Выберите фотографии из галереи или сделайте снимок. JPEG или PNG, одна фотография на страницу.</p>
-    <div className="attachment-picker"><label className="button button--secondary" htmlFor={inputId}>Добавить фото {subject}</label>
+    <div className="attachment-picker"><label className="button button--secondary" htmlFor={inputId}>{subject === 'решения' ? 'Сфотографировать / Выбрать фото' : 'Добавить фото замечания'}</label>
     <input className="attachment-file-input" id={inputId} type="file" accept="image/jpeg,image/png" multiple aria-describedby={`${inputId}-help`}
       onChange={event => { add(event.target.files); event.target.value = ''; }} /></div>
     {pages.length === 0 && <p>Фотографии пока не добавлены.</p>}
@@ -104,6 +113,7 @@ export function AttachmentUploader({ api, onChange, subject = 'решения', 
       {page.state === 'uploading' && <progress value={page.progress} max={100} aria-label={`Загрузка страницы ${index + 1}`} />}
       {page.error && <p id={`${inputId}-${page.key}-error`} role="alert">{page.error}</p>}
       <div className="attachment-actions">
+        {page.state === 'uploading' && <Button variant="secondary" onClick={() => cancel(page)}>Отменить загрузку страницы {index + 1}</Button>}
         {page.state === 'failed' && page.retryable !== false && <Button variant="secondary" onClick={() => void upload(page)}>Повторить загрузку страницы {index + 1}</Button>}
         {page.attachment && !page.preview && page.error && <Button variant="secondary" onClick={() => void retryPreview(page)}>Повторить предпросмотр страницы {index + 1}</Button>}
         <Button variant="secondary" disabled={page.state === 'uploading' || page.busy} onClick={() => void remove(page)}>Удалить страницу {index + 1}</Button>

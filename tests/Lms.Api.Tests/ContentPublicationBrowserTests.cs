@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Lms.Application;
+using Lms.Domain;
 using Lms.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
 
     [BrowserReadTheory]
     [InlineData(true)]
-    public async Task Real_chromium_https_imports_previews_publishes_assigns_and_preserves_v1(bool browser)
+    public async Task Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(bool browser)
     {
         Assert.True(browser);
         await using var database = await fixture.CreateApp(organizationBootstrap: true);
@@ -154,7 +155,12 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
 
         var evidence = Path.Combine(root.FullName, "codex/evidence/M1-06-CONTENT-PUBLICATION");
         var materialsEvidence = Path.Combine(root.FullName, "codex/evidence/M1-07-MATERIALS-REFERENCE");
-        Directory.CreateDirectory(evidence); Directory.CreateDirectory(materialsEvidence);
+        var photoEvidence = Path.Combine(root.FullName, "codex/evidence/M1-08-PROTECTED-MULTI-PHOTO");
+        Directory.CreateDirectory(evidence); Directory.CreateDirectory(materialsEvidence); Directory.CreateDirectory(photoEvidence);
+        var photoOne = Path.Combine(root.FullName, "tests/fixtures/photos/a4-1.png");
+        var photoTwo = Path.Combine(root.FullName, "tests/fixtures/photos/a4-2.png");
+        var photoOneHash = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(photoOne))).ToLowerInvariant();
+        var photoTwoHash = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(photoTwo))).ToLowerInvariant();
         var node = Environment.GetEnvironmentVariable("LMS_BROWSER_NODE") ?? "node";
         var start = new ProcessStartInfo(node) { WorkingDirectory = root.FullName, RedirectStandardInput = true,
             RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false };
@@ -168,6 +174,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         {
             origin, organizationId = database.OrganizationId, teacherUser = database.TeacherUserName,
             studentUser = database.StudentUserName, password = ApiFactory.SecurePassword, courseTitle, evidence, materialsEvidence,
+            photoEvidence, photoOne, photoTwo, photoOneHash, photoTwoHash,
             invalidZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-invalid.zip"),
             validZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad.zip"),
             versionTwoZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad-v2.zip")
@@ -186,8 +193,31 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         Assert.Contains("M1_TEACHER_ONLY_SOLUTION_v1", v1Artifact.TeacherArtifactJson);
         Assert.DoesNotContain("M1_TEACHER_ONLY", v1Artifact.StudentArtifactJson);
         Assert.Equal("Published", (await verify.Set<CourseCatalogRecord>().SingleAsync(x => x.CourseId == courseId)).State);
+        var submittedWork = await verify.Works.Include(x => x.Submissions).SingleAsync();
+        var submission = Assert.Single(submittedWork.Submissions);
+        Assert.Equal(ProblemWorkStatus.Submitted, submittedWork.Status);
+        Assert.Equal(2, submission.AttachmentIds.Count);
+        var submittedAttachments = await verify.StoredAttachments
+            .Where(x => submission.AttachmentIds.Contains(x.Id)).ToDictionaryAsync(x => x.Id);
+        Assert.Equal(2, submittedAttachments.Count);
+        var expectedPhotos = new[] { photoTwo, photoOne };
+        var privateRoot = Path.Combine(database.StorageRoot, "m1-07-attachments");
+        for (var index = 0; index < expectedPhotos.Length; index++)
+        {
+            var stored = submittedAttachments[submission.AttachmentIds[index]];
+            var expectedBytes = await File.ReadAllBytesAsync(expectedPhotos[index]);
+            var storedBytes = await File.ReadAllBytesAsync(Path.Combine(privateRoot, stored.StorageKey));
+            Assert.Equal(expectedBytes, storedBytes);
+            Assert.Equal(SHA256.HashData(expectedBytes), SHA256.HashData(storedBytes));
+            Assert.Equal(Path.GetFileName(expectedPhotos[index]), stored.FileName);
+            Assert.Equal(submission.Id, stored.SubmissionId);
+        }
+        var allUploads = await verify.StoredAttachments.ToListAsync();
+        Assert.Equal(3, allUploads.Count); Assert.Single(allUploads, x => x.Deleted);
+        Assert.Equal(2, allUploads.Count(x => x.SubmissionId == submission.Id));
         Assert.Equal(7, Directory.GetFiles(evidence, "*.png").Length);
         Assert.Equal(7, Directory.GetFiles(materialsEvidence, "*.png").Length);
+        Assert.Equal(6, Directory.GetFiles(photoEvidence, "*.png").Length);
         await File.WriteAllTextAsync(Path.Combine(evidence, "test-summary.json"), JsonSerializer.Serialize(new
         {
             passed = true, transport = "HTTPS", browser = "Chromium", imports = 3, versions = 2,
@@ -200,6 +230,15 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
             studentCourse = true, lessonMarkdown = true, latex = true, protectedImage = true, hints = true,
             history = true, photoSubmission = true, teacherReference = true, historicalReferenceVersion = 1,
             studentTeacherDataLeak = false, screenshots = 7
+        }, new JsonSerializerOptions { WriteIndented = true }));
+        await File.WriteAllTextAsync(Path.Combine(photoEvidence, "test-summary.json"), JsonSerializer.Serialize(new
+        {
+            passed = true, transport = "HTTPS", browser = "Chromium", productionReact = true,
+            normalLogin = true, viewports = new[] { 390, 768, 1440 }, uploads = 3, deletedPending = 1,
+            submissions = 1, submittedPages = 2, orderedFiles = new[] { "a4-2.png", "a4-1.png" },
+            sha256 = new[] { photoTwoHash, photoOneHash }, originalBytesMatch = true, teacherProtectedRead = true,
+            reloadRestored = true, lostAcknowledgementCheckedByGet = true, automaticReplay = false,
+            doubleClickRequests = 1, screenshots = 6
         }, new JsonSerializerOptions { WriteIndented = true }));
     }
 }
