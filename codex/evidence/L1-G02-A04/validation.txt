@@ -1,0 +1,1 @@
+PASS: four documents, 22 source IDs, local references, append-only staged checkpoint, all 332 existing files unchanged. Initial validator expected 24 source IDs in error; corrected to the explicit 22-ID set. Canonical installation pending branch permission.

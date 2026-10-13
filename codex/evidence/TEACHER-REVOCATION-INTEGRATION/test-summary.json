@@ -1,0 +1,565 @@
+{
+  "date": "2026-10-12",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "index_sha256": "2a0e936a9f7a3395633ba3ee7084970af663a4412cec6f92f72b765a264f56a4",
+  "latest_full_project_results": {
+    "Domain": {
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0
+    },
+    "Application": {
+      "passed": 360,
+      "failed": 0,
+      "skipped": 0
+    },
+    "Infrastructure": {
+      "passed": 327,
+      "failed": 0,
+      "skipped": 0
+    },
+    "API": {
+      "passed": 375,
+      "failed": 0,
+      "skipped": 0,
+      "included_browser_cases": 6
+    }
+  },
+  "latest_affected_api_after_narrow_fixes": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "other_suites": {
+    "frontend": {
+      "files": 16,
+      "passed": 408
+    },
+    "content_compiler_configured": {
+      "passed": 74
+    },
+    "content_import": {
+      "passed": 49
+    }
+  },
+  "history_notes": [
+    "Initial baseline API has 365 passes and 3 skipped browser theories; skips are not PASS.",
+    "Enlarged solution run failed Infrastructure: 308 passed / 11 failed with PostgreSQL 53300 too many clients. API phase passed 375 including six actual Chromium cases.",
+    "Disposable-DB test fixture pooling disabled; full Infrastructure reruns passed, final 327/0/0.",
+    "Final full API phase preceded narrow error-code/enum/preflight/provenance corrections; final 16 affected API tests and full 327 Infrastructure tests passed afterwards.",
+    "Initial compiler run: 74 tests, 131 failure/subtest reports caused by missing KaTeX NODE_PATH; configured run passed 74.",
+    "Initial compile errors and all run logs are retained separately; repeated targeted passes are not added to full suite counts."
+  ],
+  "commands": [
+    "/tmp/b07c2g/sdk/dotnet test Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --results-directory /tmp/lms-revocation-integration-20261012/baseline",
+    "LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome LMS_BROWSER_EVIDENCE_ROOT=/home/tea/github/lms/codex/evidence/TEACHER-REVOCATION-INTEGRATION/browser /tmp/b07c2g/sdk/dotnet test Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --logger \"console;verbosity=normal\" --results-directory /tmp/lms-revocation-integration-20261012/final-regression",
+    "/tmp/b07c2g/sdk/dotnet test tests/Lms.Infrastructure.Tests/Lms.Infrastructure.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --results-directory /tmp/lms-revocation-integration-20261012/final-infrastructure-complete",
+    "/tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter \"FullyQualifiedName~TeacherRevocationHttpTests|FullyQualifiedName~BearerAuthenticationTests\" --logger trx --results-directory /tmp/lms-revocation-integration-20261012/final-api-contract",
+    "PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH pnpm --dir src/Lms.Web build",
+    "PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH pnpm --dir src/Lms.Web exec vite build --config vite.browser-read.config.ts",
+    "PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH pnpm --dir src/Lms.Web test",
+    "SAPIENTUM_CONTENT_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node NODE_PATH=/home/tea/github/lms/src/Lms.Web/node_modules python3 -m unittest discover -s tests/content_compiler -v",
+    "B07_EVIDENCE_PATH=/tmp/lms-revocation-integration-20261012/content-import-evidence.json python3 -m unittest discover -s tests/content_import -v"
+  ],
+  "qualification": {
+    "local_NTP": true,
+    "local_NTPSynchronized": true,
+    "production_clock": "NOT QUALIFIED; supplied verifier is UnprovenLocalClockVerifier",
+    "physical_termination": "NOT PROVEN",
+    "bounded_global_capacity_and_cleanup": "NOT QUALIFIED",
+    "new_session_browser_coordination": "NOT IMPLEMENTED/NOT TESTED IN BROWSER",
+    "public_cutover": "NOT PERFORMED",
+    "AUTH_01_to_04": "NOT ACCEPTED"
+  },
+  "runs": [
+    {
+      "stage": "baseline",
+      "assembly": "lms.domain.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 43,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/baseline/_tea-Swift-SFG16-74_2026-10-12_07_26_30_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "baseline",
+      "assembly": "lms.application.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 360,
+        "executed": 360,
+        "passed": 360,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/baseline/_tea-Swift-SFG16-74_2026-10-12_07_26_32_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "baseline",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 303,
+        "executed": 303,
+        "passed": 303,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/baseline/_tea-Swift-SFG16-74_2026-10-12_07_26_33_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "baseline",
+      "assembly": "lms.api.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 368,
+        "executed": 365,
+        "passed": 365,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/baseline/_tea-Swift-SFG16-74_2026-10-12_07_27_59_net10.0.trx.gz",
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials",
+          "outcome": "NotExecuted"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials",
+          "outcome": "NotExecuted"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials",
+          "outcome": "NotExecuted"
+        }
+      ]
+    },
+    {
+      "stage": "composition",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 7,
+        "executed": 7,
+        "passed": 7,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/composition/_tea-Swift-SFG16-74_2026-10-12_07_33_30_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "composition-files-fixed",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 10,
+        "executed": 10,
+        "passed": 10,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/composition-files-fixed/_tea-Swift-SFG16-74_2026-10-12_07_41_29_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-api-affected",
+      "assembly": "lms.api.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 16,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-api-affected/_tea-Swift-SFG16-74_2026-10-12_11_20_26_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-api-contract",
+      "assembly": "lms.api.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 16,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-api-contract/_tea-Swift-SFG16-74_2026-10-12_11_24_36_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-infrastructure",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 322,
+        "executed": 322,
+        "passed": 322,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-infrastructure/_tea-Swift-SFG16-74_2026-10-12_07_53_00_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-infrastructure-complete",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 327,
+        "executed": 327,
+        "passed": 327,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-infrastructure-complete/_tea-Swift-SFG16-74_2026-10-12_11_21_22_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-infrastructure-reviewed",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 324,
+        "executed": 324,
+        "passed": 324,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-infrastructure-reviewed/_tea-Swift-SFG16-74_2026-10-12_11_16_50_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.domain.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 43,
+        "executed": 43,
+        "passed": 43,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_07_48_23_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.application.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 360,
+        "executed": 360,
+        "passed": 360,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_07_48_26_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Failed",
+      "counters": {
+        "total": 319,
+        "executed": 319,
+        "passed": 308,
+        "failed": 11,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_07_48_34_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.api.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 375,
+        "executed": 375,
+        "passed": 375,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_07_50_10_net10.0.trx.gz",
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "stage": "preflight-reviewed",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 16,
+        "executed": 16,
+        "passed": 16,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/preflight-reviewed/_tea-Swift-SFG16-74_2026-10-12_11_19_09_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "teacher-http-fixed",
+      "assembly": "lms.api.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 4,
+        "executed": 4,
+        "passed": 4,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/teacher-http-fixed/_tea-Swift-SFG16-74_2026-10-12_07_42_15_net10.0.trx.gz",
+      "browser_results": []
+    },
+    {
+      "stage": "unversioned-final",
+      "assembly": "lms.infrastructure.tests.dll",
+      "outcome": "Completed",
+      "counters": {
+        "total": 5,
+        "executed": 5,
+        "passed": 5,
+        "failed": 0,
+        "error": 0,
+        "timeout": 0,
+        "aborted": 0,
+        "inconclusive": 0,
+        "passedButRunAborted": 0,
+        "notRunnable": 0,
+        "notExecuted": 0,
+        "disconnected": 0,
+        "warning": 0,
+        "completed": 0,
+        "inProgress": 0,
+        "pending": 0
+      },
+      "artifact": "runs/unversioned-final/_tea-Swift-SFG16-74_2026-10-12_07_31_57_net10.0.trx.gz",
+      "browser_results": []
+    }
+  ]
+}

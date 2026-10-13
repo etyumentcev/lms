@@ -1,0 +1,32 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Domain.Tests -> /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/storage-profile-01/regression/_tea-Swift-SFG16-74_2026-10-12_05_45_02_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    43, Skipped:     0, Total:    43, Duration: 43 ms - Lms.Domain.Tests.dll (net10.0)
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Application.Tests -> /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/storage-profile-01/regression/_tea-Swift-SFG16-74_2026-10-12_05_45_03_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   340, Skipped:     0, Total:   340, Duration: 75 ms - Lms.Application.Tests.dll (net10.0)
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/storage-profile-01/regression/_tea-Swift-SFG16-74_2026-10-12_05_45_04_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   283, Skipped:     0, Total:   283, Duration: 33 s - Lms.Infrastructure.Tests.dll (net10.0)
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:04:26.13]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials [1 ms]
+[xUnit.net 00:05:31.18]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials [1 ms]
+Results File: /tmp/storage-profile-01/regression/_tea-Swift-SFG16-74_2026-10-12_05_45_39_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   346, Skipped:     2, Total:   348, Duration: 5 m 36 s - Lms.Api.Tests.dll (net10.0)

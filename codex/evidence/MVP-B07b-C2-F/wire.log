@@ -1,0 +1,3 @@
+WIRE_ACK_LOSS PASS: NpgsqlException; no success returned; authoritative state Ready version=3; one journal; no replay/delete
+
+

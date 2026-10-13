@@ -1,0 +1,589 @@
+{
+  "regression": {
+    "Domain": {
+      "total": 43,
+      "executed": 43,
+      "passed": 43,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    },
+    "Application": {
+      "total": 340,
+      "executed": 340,
+      "passed": 340,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    },
+    "Infrastructure": {
+      "total": 257,
+      "executed": 257,
+      "passed": 257,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    },
+    "Api": {
+      "total": 219,
+      "executed": 219,
+      "passed": 219,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    }
+  },
+  "total": 859,
+  "new_deadline_tests": [
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: Admission, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: DomainDecision, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Concurrent_reads_of_same_handle_are_monotone_and_terminal",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Queue_can_exhaust_entire_budget_before_admission",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: DomainDecision, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Unknown_or_source_failure_latches_closed(throws: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Conservative_upper_endpoint_denies_before_nominal_deadline",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: StartStage, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Lost_ack_is_unknown_not_rollback_and_never_replays",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: StartStage, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Late_ack_without_intermediate_poll_still_denies_success_and_credentials",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: DomainDecision, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Explicit_or_existing_cancellation_invalidates_after_allowed_stage(cancellation: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Pause_after_advisory_check_cannot_reuse_permission_at_dispatch(invalidate: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: StartStage, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: CommitDispatch, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: Admission, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: Admission, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: CommitDispatch, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: CommitDispatch, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: ResponseEnqueue, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: CommitDispatch, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: DomainDecision, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Wait_after_allowed_check_requires_fresh_gate(action: ResponseEnqueue)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Concurrent_dispatch_has_one_winner_and_invalidation_does_not_wait_for_io",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: CommitDispatch, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Original_ingress_budget_covers_queue_body_retry_and_stages(kind: DesignatedDownload, seconds: 480)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: DomainDecision, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: ResponseEnqueue, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: DomainDecision, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: Admission, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: Admission, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Pause_after_advisory_check_cannot_reuse_permission_at_dispatch(invalidate: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: Admission, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: StartStage, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: ResponseEnqueue, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: ResponseEnqueue, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: CommitDispatch, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: StartStage, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: ResponseEnqueue, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Pause_inside_dispatch_can_finish_late_but_ack_cannot_reopen_response",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: ResponseEnqueue, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Unknown_at_ingress_cannot_be_repaired_by_later_source_recovery",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: StartStage, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: ResponseEnqueue, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Unknown_commit_and_clock_failure_remain_independent_after_ack",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Timely_ack_allows_response_but_never_another_mutation_or_dispatch",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: Admission, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: ResponseEnqueue, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: DomainDecision, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: DomainDecision, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: CommitDispatch, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Original_ingress_budget_covers_queue_body_retry_and_stages(kind: Ordinary, seconds: 60)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: ResponseEnqueue, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: StartStage, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: Admission, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Wait_after_allowed_check_requires_fresh_gate(action: DomainDecision)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: Admission, offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedDownload, action: CommitDispatch, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: StartStage, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: CommitDispatch, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: DesignatedUpload, action: DomainDecision, offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Explicit_or_existing_cancellation_invalidates_after_allowed_stage(cancellation: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Invalid_contract_values_and_ack_before_dispatch_are_rejected",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.All_action_boundaries_are_strict(kind: Ordinary, action: StartStage, offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Original_ingress_budget_covers_queue_body_retry_and_stages(kind: DesignatedUpload, seconds: 480)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Epoch_change_closes_old_operation_even_when_new_clock_is_qualified",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Application.Tests.ApplicationDeadlineTests.Unknown_or_source_failure_latches_closed(throws: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Unproven_deployment_verifier_cannot_admit_application_actions",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Clock01_qualified_source_composes_with_same_application_deadline(kind: Ordinary, budget: 60)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Requalification_does_not_revive_old_handle_even_without_intermediate_read(sampleInvalidation: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Clock01_qualified_source_composes_with_same_application_deadline(kind: DesignatedUpload, budget: 480)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Clock01_qualified_source_composes_with_same_application_deadline(kind: DesignatedDownload, budget: 480)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ApplicationDeadlineCompositionTests.Requalification_does_not_revive_old_handle_even_without_intermediate_read(sampleInvalidation: False)",
+      "outcome": "Passed"
+    }
+  ],
+  "existing_clock01_tests": [
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Upper_interval_endpoint_not_midpoint_controls_admission(offset: 0, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Lifetime_900_and_reserve_600_are_never_rounded_up(offset: -1, seconds: 899)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Sampling_brackets_conservatively_consume_budget",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Confirmation_wait_is_not_a_new_anchor_and_cannot_extend_age",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"negative-boot\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Budget_cannot_increase_with_uncertainty_and_requalification_cannot_reset_t0(budget: 60)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Requalification_changes_epoch_even_when_reader_missed_invalidation",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.D_and_original_t0_budget_are_strict_decision_inputs(offset: 0, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Exact_qualification_limits_fail_closed(limit: \"elapsed-width\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Lifetime_900_and_reserve_600_are_never_rounded_up(offset: 0, seconds: 900)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Budget_cannot_increase_with_uncertainty_and_requalification_cannot_reset_t0(budget: 480)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"source\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"lost-trust\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Overflow_is_unavailable_not_an_exception_or_allow",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"age-zero\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Clock01_real_Postgres_issuer_composes_with_source_and_denies_invalidation_after_commit(invalidate: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.D_and_original_t0_budget_are_strict_decision_inputs(offset: 1, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Lifetime_900_and_reserve_600_are_never_rounded_up(offset: 1, seconds: 900)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"backward\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Exact_qualification_limits_fail_closed(limit: \"utc-width\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"inverted-mono\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"rate-one\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"inverted\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Jwt_admission_requires_upper_strictly_before_exp(offset: -1, allowed: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Clock01_real_Postgres_issuer_composes_with_source_and_denies_invalidation_after_commit(invalidate: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Reserve_exactly_600_leaves_no_issuable_whole_second(offset: -1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"expired\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Upper_interval_endpoint_not_midpoint_controls_admission(offset: 1, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"exception\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"inverted-wall\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Upper_interval_endpoint_not_midpoint_controls_admission(offset: -1, allowed: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Exact_qualification_limits_fail_closed(limit: \"until\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Jwt_admission_requires_upper_strictly_before_exp(offset: 1, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"unknown\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Linux_probe_smoke_is_only_observation_and_never_deployment_qualification",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Exact_qualification_limits_fail_closed(limit: \"age\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"rate-negative\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"ambiguous\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"nonce\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"reboot\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Interval_age_uncertainty_and_outward_rounding_are_explicit",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Unconfirmed_or_invalid_envelopes_are_rejected(fault: \"width-negative\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"forward\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.D_and_original_t0_budget_are_strict_decision_inputs(offset: -1, allowed: True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"verifier-exception\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"regression\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Untrusted_and_deployment_verifier_never_infer_qualification",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Jwt_admission_requires_upper_strictly_before_exp(offset: 0, allowed: False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Concurrent_readers_observe_atomic_state_and_terminal_old_deadlines",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Reserve_exactly_600_leaves_no_issuable_whole_second(offset: 1)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.QualifiedClockCompositionTests.Reserve_exactly_600_leaves_no_issuable_whole_second(offset: 0)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"missing\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Infrastructure.Tests.LocalQualifiedClockSourceTests.Faults_invalidate_active_deadline_and_do_not_auto_recover(fault: \"suspend\")",
+      "outcome": "Passed"
+    }
+  ]
+}

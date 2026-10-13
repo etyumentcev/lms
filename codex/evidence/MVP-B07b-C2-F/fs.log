@@ -1,0 +1,16 @@
+filesystem profile: ext2/ext3; private directory mode 0700; Linux renameat2
+process crash mid-write: actual fork/_exit; DB Receiving; no partial Ready
+process crash before-seal: actual fork/_exit; DB Receiving; no partial Ready
+process crash after-seal: actual fork/_exit; DB Receiving; no partial Ready
+failure before-rename: injected EIO; seal unacknowledged; DB Receiving
+failure after-rename: injected EIO; seal unacknowledged; DB Receiving
+sealed generation -> atomic Ready: all four synthetic artifacts, manifest, actual lengths/digests, file + directory fsync, metadata commit
+crash between result seal and metadata commit: actual child exit 93; source already sealed, DB Validating; result orphan has no Ready reference
+atomic rename no-replace: EEXIST=17; target and source unchanged
+no-follow open: ELOOP=40
+known DB abort orphan quarantine: Ready rollback; no committed generation; quiescent writer; rename+parent fsync; bytes retained
+cleanup at unknown outcome: Quarantined-logically; preserve path and bytes; no replay, rename or unlink
+unknown commit reconciliation: application ACK suppression; committed journal found; bytes retained; not a network-loss simulation
+corrupt required artifact: storage digest mismatch detected; no delivery implemented; DB predicate alone does not check FS
+fsync calls executed: 36 successful calls in parent; children also fsynced before designated crash
+power-loss durability: NOT PROVEN: process exits and successful fsync syscalls do not prove device/WAL/failover durability

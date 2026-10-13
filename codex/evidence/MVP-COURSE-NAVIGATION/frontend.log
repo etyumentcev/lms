@@ -1,0 +1,614 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/annotations.test.tsx (28 tests) 523ms
+ ✓ src/test/course.test.tsx (34 tests) 1880ms
+     ✓ keeps shell/main/context visible while loading header and rows  407ms
+ ❯ src/test/shell.test.tsx (14 tests | 1 failed) 653ms
+     ✓ composes navigation, main and one required contextual region 142ms
+     ✓ uses role-specific sidebar items for Student 18ms
+     ✓ uses role-specific sidebar items for Teacher 18ms
+     ✓ changes demo menu role without claiming authentication 117ms
+     ✓ keeps the same context DOM and input state when toggled 59ms
+     ✓ closes compact navigation with Escape and restores toggle focus 68ms
+     × /courses is only a placeholder 17ms
+     ✓ Problem route keeps shell while loading  21ms
+     ✓ Problem route keeps shell while loading ?tab=history 12ms
+     ✓ Teacher Review route keeps shell while loading the real query 16ms
+     ✓ Queue route keeps shell while loading the real query 17ms
+     ✓ Lesson route keeps shell while loading the real query 10ms
+     ✓ navigates from the demo and focuses main content 99ms
+     ✓ keeps unknown routes in the shell 34ms
+ ✓ src/test/lesson.test.tsx (40 tests) 2287ms
+     ✓ keeps shell with header, row and context skeletons  339ms
+ ✓ src/test/history.test.tsx (37 tests) 2377ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 2627ms
+ ✓ src/test/api.test.ts (20 tests) 15ms
+ ✓ src/test/primitives.test.tsx (15 tests) 298ms
+ ✓ src/test/attachments.test.tsx (19 tests) 497ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 9ms
+ ✓ src/test/problem.test.tsx (53 tests) 3601ms
+     ✓ keeps shell, statement/tabs/solution/context skeletons while loading  313ms
+Not implemented: Window's confirm() method
+Not implemented: Window's confirm() method
+Not implemented: Window's confirm() method
+ ❯ src/test/teacherReview.test.tsx (64 tests | 1 failed) 4691ms
+     ✓ keeps shell and separate main/context loading representations 150ms
+     ✓ reads exact ProblemWorkId, decodes real DTO and keeps immutable statement visible 130ms
+     ✓ shows server current submission, attempt number, timestamp and multiline body 46ms
+     ✓ does not reconstruct currentSubmission from submissions array 21ms
+     ✓ shows a single attachment and disables paging at both boundaries 80ms
+     ✓ loads only current page in original attachment order 63ms
+     ✓ uses protected blob original links without public filesystem URLs 71ms
+     ✓ enlarges, reduces and resets photo without altering original  381ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  322ms
+     ✓ previous attempt opens its own photos and focuses viewer; return retains draft 295ms
+     ✓ last actionable feedback is joined by messageId and displayed exactly once 28ms
+     ✓ chooses latest revision by attempt even if review array order differs 26ms
+     ✓ omits unsourced reference solution, criteria and materials 35ms
+     ✓ cannot display undeclared teacher-only fields injected outside C4 contract 29ms
+     ✓ uses supplied student name and real course/lesson data in ContextPanel 27ms
+     ✓ preserves mobile DOM order, semantic landmarks and labelled actions 31ms
+     ✓ Accepted is read-only even with inconsistent enabled capabilities 29ms
+     ✓ NeedsRevision is read-only even with inconsistent enabled capabilities 41ms
+     ✓ uses distinct server capabilities independently 32ms
+     ✓ work with no review capabilities has no editor 31ms
+     ✓ keeps unsafe Markdown inert 35ms
+     ✓ rejects blank revision feedback "" and focuses labelled editor 61ms
+     ✓ rejects blank revision feedback "   \n\t" and focuses labelled editor 57ms
+     ✓ sends exact accept payload, waits for authoritative GET and removes review actions 68ms
+     ✓ sends exact needs-revision payload, waits for authoritative GET and removes review actions 80ms
+     ✓ preserves nonblank optional acceptance feedback 146ms
+     ✓ normalizes whitespace acceptance feedback to null 63ms
+     ✓ blocks double click and both decisions during pending without optimistic success 51ms
+     ✓ pending lock survives opening and closing historical attempt 130ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  372ms
+     ✓ allows corrected input after 422 FeedbackRequired 134ms
+     ✓ allows corrected input after 400 ValidationFailed 114ms
+     ✓ handles command 0 with explicit refresh, preserved draft and no retry 127ms
+     ✓ handles command 500 with explicit refresh, preserved draft and no retry 120ms
+     ✓ handles command 401 with explicit refresh, preserved draft and no retry 102ms
+     ✓ handles command 403 with explicit refresh, preserved draft and no retry 104ms
+     ✓ handles command 404 with explicit refresh, preserved draft and no retry 98ms
+     ✓ handles command 409 with explicit refresh, preserved draft and no retry 97ms
+     ✓ failed authoritative refresh retries only GET after acknowledged command 48ms
+     ✓ does not invent Accepted when authoritative state is a newer Submitted attempt 45ms
+     ✓ handles GET 401 without exposing old content 8ms
+     ✓ handles GET 403 without exposing old content 8ms
+     ✓ handles GET 404 without exposing old content 8ms
+     ✓ retries GET 0 explicitly 23ms
+     ✓ retries GET 500 explicitly 23ms
+     ✓ retries GET 503 explicitly 22ms
+     ✓ rejects mismatched work identity 6ms
+     ✓ cancels pending GET on unmount 2ms
+     ✓ ignores stale response after route identity changes 25ms
+     ✓ does not carry draft or late command result into another work 109ms
+     ✓ returns to queue with normalized original URL filters 26ms
+     ✓ direct work link returns to base queue 28ms
+     ✓ safe integer version and required capabilities are enforced 1ms
+     ✓ real client transports bearer on protected photo GET 1ms
+     ✓ revokes photo URLs when changing page and unmounting 31ms
+     ✓ sends accept with normalized current attachment strokes atomically 98ms
+     ✓ sends needs-revision with normalized current attachment strokes atomically 87ms
+     ✓ preserves strokes after failed command 409 and never retries 39ms
+     ✓ preserves strokes after failed command 500 and never retries 40ms
+     ✓ warns on SPA navigation and browser reload while retaining rejected navigation draft 27ms
+     × historical view does not move draft strokes to the old attempt 38ms
+     ✓ completed review renders only strokes matching its attachment 17ms
+     ✓ shows historical feedback with its photo and restores only the current outcome 60ms
+     ✓ keeps historical feedback visible when its protected photo is denied 43ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/shell.test.tsx > Routes inside shell > /courses is only a placeholder
+TestingLibraryElementError: Unable to find an element with the text: Раздел готовится. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main-content"[39m
+    [36m>[39m
+      [0mК основному содержимому[0m
+    [36m</a>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app-shell"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar"[39m
+        [33mdata-expanded[39m=[32m"false"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"brand-row"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33maria-label[39m=[32m"Sapientum — главная"[39m
+            [33mclass[39m=[32m"brand"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mviewBox[39m=[32m"0 0 28 28"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M4 23v-7m6 7V12m6 11V8m6 15V3M3 11l7-5 6 1 7-6"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0mSapientum[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"_r_v_"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33mclass[39m=[32m"button button--secondary nav-toggle"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mМеню[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Основная навигация"[39m
+          [33mclass[39m=[32m"sidebar-nav"[39m
+          [33mid[39m=[32m"_r_v_"[39m
+        [36m>[39m
+          [36m<ul>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Главная"[39m
+                [33mhref[39m=[32m"/"[39m
+                [33mtitle[39m=[32m"Главная"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m⌂[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mГлавная[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-current[39m=[32m"page"[39m
+                [33maria-label[39m=[32m"Мои курсы"[39m
+                [33mhref[39m=[32m"/courses"[39m
+                [33mtitle[39m=[32m"Мои курсы"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▤[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mМои курсы[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Расписание"[39m
+                [33mhref[39m=[32m"/schedule"[39m
+                [33mtitle[39m=[32m"Расписание"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▦[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mРасписание[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Архив задач"[39m
+                [33mhref[39m=[32m"/archive"[39m
+                [33mtitle[39m=[32m"Архив задач"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▣[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mАрхив задач[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Прогресс"[39m
+                [33mhref[39m=[32m"/progress"[39m
+                [33mtitle[39m=[32m"Прогресс"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m↗[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mПрогресс[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Сообщения"[39m
+                [33mhref[39m=[32m"/messages"[39m
+                [33mtitle[39m=[32m"Сообщения"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▱[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mСообщения[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+          [36m</ul>[39m
+        [36m</nav>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"sidebar-footer"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"avatar"[39m
+          [36m>[39m
+            [0mS[0m
+          [36m</span>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"nav-label"[39m
+          [36m>[39m
+            [36m<strong>[39m
+              [0mУчебное пространство[0m
+            [36m</strong>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"main-content"[39m
+        [33mid[39m=[32m"main-content"[39m
+        [33mtabindex[39m=[32m"-1"[39m
+      [36m>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Хлебные крошки"[39m
+          [33mclass[39m=[32m"breadcrumbs"[39m
+        [36m>[39m
+          [36m<ol>[39m
+            [36m<li>[39m
+              [36m<span[39m
+                [33maria-current[39m=[32m"page"[39m
+              [36m>[39m
+                [0mМои курсы[0m
+              [36m</span>[39m
+            [36m</li>[39m
+          [36m</ol>[39m
+        [36m</nav>[39m
+        [36m<div[39m
+          [33maria-busy[39m=[32m"true"[39m
+          [33mclass[39m=[32m"workspace-content"[39m
+        [36m>[39m
+          [36m<header[39m
+            [33mclass[39m=[32m"page-header"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<h1>[39m
+                [0mМои курсы[0m
+              [36m</h1>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"muted"[39m
+              [36m>[39m
+                [0mДоступные вам курсы и занятия.[0m
+              [36m</p>[39m
+            [36m</div>[39m
+          [36m</header>[39m
+          [36m<div[39m
+            [33maria-label[39m=[32m"Загрузка курсов"[39m
+            [33mclass[39m=[32m"loading-skeleton"[39m
+            [33mrole[39m=[32m"status"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"sr-only"[39m
+            [36m>[39m
+              [0mЗагрузка курсов[0m
+            [36m</span>[39m
+            [36m<div[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"skeleton-line"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"skeleton-line"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"skeleton-line"[39m
+            [36m/>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+      [36m<aside[39m
+        [33maria-labelledby[39m=[32m"_r_10_"[39m
+        [33mclass[39m=[32m"context-panel"[39m
+        [33mdata-expanded[39m=[32m"true"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"context-heading"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"_r_10_"[39m
+          [36m>[39m
+            [0mКонтекст[0m
+          [36m</h2>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"_r_11_"[39m
+            [33maria-expanded[39m=[32m"true"[39m
+            [33mclass[39m=[32m"button button--secondary context-toggle"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mСвернуть контекст[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"context-body"[39m
+          [33mid[39m=[32m"_r_11_"[39m
+        [36m/>[39m
+      [36m</aside>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/shell.test.tsx:62:19
+     60|     renderApp(path);
+     61|     expect(within(screen.getByRole('main')).getByRole('heading', { lev…
+     62|     expect(screen.getByText('Раздел готовится')).toBeInTheDocument();
+       |                   ^
+     63|     expect(screen.getByRole('complementary')).toBeInTheDocument();
+     64|     expect(screen.queryByRole('button', { name: /Отправить|Принять реш…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/test/teacherReview.test.tsx > J2 annotation integration > historical view does not move draft strokes to the old attempt
+TestingLibraryElementError: Unable to find an element with the text: /Графические пометки: 0/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<button>[39m
+      [0mДругая работа[0m
+    [36m</button>[39m
+    [36m<output[39m
+      [33maria-label[39m=[32m"URL"[39m
+    [36m>[39m
+      [0m/teacher/reviews/70000000-0000-0000-0000-000000000200[0m
+    [36m</output>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main-content"[39m
+    [36m>[39m
+      [0mК основному содержимому[0m
+    [36m</a>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"app-shell"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar"[39m
+        [33mdata-expanded[39m=[32m"false"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"brand-row"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33maria-label[39m=[32m"Sapientum — главная"[39m
+            [33mclass[39m=[32m"brand"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mviewBox[39m=[32m"0 0 28 28"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M4 23v-7m6 7V12m6 11V8m6 15V3M3 11l7-5 6 1 7-6"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0mSapientum[0m
+            [36m</span>[39m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"_r_df_"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33mclass[39m=[32m"button button--secondary nav-toggle"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mМеню[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<nav[39m
+          [33maria-label[39m=[32m"Основная навигация"[39m
+          [33mclass[39m=[32m"sidebar-nav"[39m
+          [33mid[39m=[32m"_r_df_"[39m
+        [36m>[39m
+          [36m<ul>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Главная"[39m
+                [33mhref[39m=[32m"/"[39m
+                [33mtitle[39m=[32m"Главная"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m⌂[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mГлавная[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Мои курсы"[39m
+                [33mhref[39m=[32m"/courses"[39m
+                [33mtitle[39m=[32m"Мои курсы"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▤[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mМои курсы[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Расписание"[39m
+                [33mhref[39m=[32m"/schedule"[39m
+                [33mtitle[39m=[32m"Расписание"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▦[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mРасписание[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-current[39m=[32m"page"[39m
+                [33maria-label[39m=[32m"Проверка"[39m
+                [33mhref[39m=[32m"/teacher/reviews"[39m
+                [33mtitle[39m=[32m"Проверка"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m✓[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mПроверка[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Архив задач"[39m
+                [33mhref[39m=[32m"/archive"[39m
+                [33mtitle[39m=[32m"Архив задач"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▣[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mАрхив задач[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Прогресс"[39m
+                [33mhref[39m=[32m"/progress"[39m
+                [33mtitle[39m=[32m"Прогресс"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m↗[0m
+                [36m</span>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"nav-label"[39m
+                [36m>[39m
+                  [0mПрогресс[0m
+                [36m</span>[39m
+              [36m</a>[39m
+            [36m</li>[39m
+            [36m<li>[39m
+              [36m<a[39m
+                [33maria-label[39m=[32m"Сообщения"[39m
+                [33mhref[39m=[32m"/messages"[39m
+                [33mtitle[39m=[32m"Сообщения"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"nav-icon"[39m
+                [36m>[39m
+                  [0m▱[0m
+               ...
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/teacherReview.test.tsx:129:69
+    127|   });
+    128|   it('historical view does not move draft strokes to the old attempt',…
+    129|     mount(); await drawAnnotation(); await archive(); expect(screen.ge…
+       |                                                                     ^
+    130|     await userEvent.click(screen.getByText('К текущей попытке')); expe…
+    131|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 10 passed (12)
+      Tests  2 failed | 369 passed (371)
+   Start at  04:06:24
+   Duration  5.84s (transform 1.18s, setup 1.23s, import 3.12s, tests 19.46s, environment 5.57s)
+
+[ELIFECYCLE] Test failed. See above for more details.

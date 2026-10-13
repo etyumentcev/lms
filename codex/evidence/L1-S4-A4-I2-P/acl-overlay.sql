@@ -1,0 +1,1 @@
+GRANT USAGE ON SCHEMA public TO prs1_app,prs1_reader,prs1_writer; GRANT SELECT ON ALL TABLES IN SCHEMA public TO prs1_reader;

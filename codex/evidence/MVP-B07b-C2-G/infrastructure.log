@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  Restored /tmp/b07c2g/repo/src/Lms.Domain/Lms.Domain.csproj (in 105 ms).
+  Restored /tmp/b07c2g/repo/src/Lms.Application/Lms.Application.csproj (in 119 ms).
+  Restored /tmp/b07c2g/repo/tests/Lms.Infrastructure.Tests/Lms.Infrastructure.Tests.csproj (in 1.5 sec).
+  Restored /tmp/b07c2g/repo/src/Lms.Infrastructure/Lms.Infrastructure.csproj (in 1.52 sec).
+  Lms.Domain -> /tmp/b07c2g/repo/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /tmp/b07c2g/repo/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /tmp/b07c2g/repo/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /tmp/b07c2g/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /tmp/b07c2g/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/b07c2g/results/infrastructure.trx
+
+Passed!  - Failed:     0, Passed:   198, Skipped:     0, Total:   198, Duration: 1 m 2 s - Lms.Infrastructure.Tests.dll (net10.0)

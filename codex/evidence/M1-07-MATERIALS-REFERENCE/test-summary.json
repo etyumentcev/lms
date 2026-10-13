@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "studentCourse": true,
+  "lessonMarkdown": true,
+  "latex": true,
+  "protectedImage": true,
+  "hints": true,
+  "history": true,
+  "photoSubmission": true,
+  "teacherReference": true,
+  "historicalReferenceVersion": 1,
+  "studentTeacherDataLeak": false,
+  "screenshots": 7
+}

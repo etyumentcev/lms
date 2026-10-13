@@ -16,10 +16,14 @@ public sealed class BearerAuthenticationTests(ApiPostgresFixture postgres) : ICl
     [Theory]
     [InlineData("valid", 201)]
     [InlineData("signature", 401)]
+    [InlineData("unsigned", 401)]
     [InlineData("issuer", 401)]
     [InlineData("audience", 401)]
     [InlineData("expired", 401)]
     [InlineData("future", 401)]
+    [InlineData("overlong", 401)]
+    [InlineData("just-expired", 401)]
+    [InlineData("no-start", 401)]
     [InlineData("subject", 403)]
     [InlineData("role", 403)]
     public async Task Real_bearer_handler_validates_token_before_actor_mapping(string scenario, int status)
@@ -34,7 +38,7 @@ public sealed class BearerAuthenticationTests(ApiPostgresFixture postgres) : ICl
                 options.TokenValidationParameters.ValidIssuer = "https://issuer.test";
                 options.TokenValidationParameters.ValidAudience = "lms-api";
                 options.TokenValidationParameters.IssuerSigningKey = key;
-                options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
+                // Exercise the host's zero-skew policy, not a test-only override.
             })));
         using var client = authenticatedApp.CreateClient();
         var now = DateTime.UtcNow;
@@ -43,9 +47,11 @@ public sealed class BearerAuthenticationTests(ApiPostgresFixture postgres) : ICl
             audience: scenario == "audience" ? "other-api" : "lms-api",
             claims: [new Claim("sub", scenario == "subject" ? "unmapped-subject" : ApiFactory.Student.ToString()),
                 new Claim("role", scenario == "role" ? "Admin" : "Student")],
-            notBefore: scenario == "future" ? now.AddHours(1) : now.AddHours(-2),
-            expires: scenario == "expired" ? now.AddHours(-1) : now.AddHours(2),
-            signingCredentials: new SigningCredentials(scenario == "signature"
+            notBefore: scenario == "no-start" ? null : scenario == "future" ? now.AddMinutes(1) :
+                scenario == "expired" ? now.AddMinutes(-20) : scenario == "just-expired" ? now.AddMinutes(-10) : now.AddSeconds(-1),
+            expires: scenario == "expired" ? now.AddMinutes(-10) : scenario == "just-expired" ? now.AddSeconds(-1) :
+                scenario == "overlong" ? now.AddMinutes(16) : now.AddMinutes(10),
+            signingCredentials: scenario == "unsigned" ? null : new SigningCredentials(scenario == "signature"
                 ? new SymmetricSecurityKey(RandomNumberGenerator.GetBytes(32)) : key, SecurityAlgorithms.HmacSha256));
         client.DefaultRequestHeaders.Authorization = new("Bearer", new JwtSecurityTokenHandler().WriteToken(token));
         var response = await client.PostAsJsonAsync($"/api/v1/problem-assignments/{assignment.Id}/submissions",

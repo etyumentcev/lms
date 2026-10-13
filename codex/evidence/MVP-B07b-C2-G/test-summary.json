@@ -1,0 +1,33 @@
+{
+  "sdk": "10.0.401",
+  "postgresImage": "postgres:17.6-alpine",
+  "total": 198,
+  "passed": 198,
+  "failed": 0,
+  "skipped": 0,
+  "c2gCases": 22,
+  "c2gResults": [
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Fixed_search_path_preserves_legacy_binding_check_despite_caller_temp_shadow",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Writer_first_invalidates_old_snapshot_and_fresh_Ready_rechecks_actual_state(kind: \"binding-replace\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Writer_first_invalidates_old_snapshot_and_fresh_Ready_rechecks_actual_state(kind: \"organization\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Ready_probe_journal_failure_rolls_back_actual_boundary_and_mutation",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Writer_first_invalidates_old_snapshot_and_fresh_Ready_rechecks_actual_state(kind: \"binding-close\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Adapters_reject_ambient_and_dirty_contexts_and_missing_binding",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Operational_adapters_have_positive_controls_and_deny_direct_DML_DDL_and_capability_escalation",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Existing_generic_EF_paths_are_denied_under_operational_role(kind: \"context\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Journal_fingerprint_CAS_and_failure_roll_back_guard_mutation_and_audit",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Writer_first_invalidates_old_snapshot_and_fresh_Ready_rechecks_actual_state(kind: \"restriction\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Migration_failure_after_DDL_rolls_back_functions_trigger_guard_and_history_marker",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Real_adapter_and_reversed_privileged_lock_order_produce_detected_deadlock_abort",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Real_wire_lost_ack_uses_read_only_reconciliation_without_replay",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Cross_org_context_subject_binding_invalid_real_mode_and_missing_evidence_deny",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Existing_generic_EF_paths_are_denied_under_operational_role(kind: \"organization\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Existing_generic_EF_paths_are_denied_under_operational_role(kind: \"restriction\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Writer_first_invalidates_old_snapshot_and_fresh_Ready_rechecks_actual_state(kind: \"context-version\")",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Phantom_insert_cannot_bypass_guard_with_operational_privileges",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Migration_upgrade_empty_rollback_repeat_and_retained_history_refusal",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Ready_first_then_real_restriction_adapter_commits_and_current_reader_denies",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Operational_profile_preflight_rejects_owner_inherited_and_column_DML",
+    "Lms.Infrastructure.Tests.ProcessingWriterCompatibilityTests.Existing_generic_EF_paths_are_denied_under_operational_role(kind: \"binding\")"
+  ]
+}

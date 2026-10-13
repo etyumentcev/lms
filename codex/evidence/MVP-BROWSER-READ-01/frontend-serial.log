@@ -1,0 +1,23 @@
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/attachments.test.tsx (19 tests) 296ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 3693ms
+ ✓ src/test/problem.test.tsx (53 tests) 2079ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 1439ms
+ ✓ src/test/history.test.tsx (37 tests) 1409ms
+ ✓ src/test/lesson.test.tsx (40 tests) 971ms
+ ✓ src/test/course.test.tsx (34 tests) 780ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 675ms
+ ✓ src/test/shell.test.tsx (14 tests) 356ms
+ ✓ src/test/annotations.test.tsx (28 tests) 332ms
+ ✓ src/test/primitives.test.tsx (15 tests) 196ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 334ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 9ms
+ ✓ src/test/api.test.ts (20 tests) 10ms
+
+ Test Files  14 passed (14)
+      Tests  398 passed (398)
+   Start at  04:52:00
+   Duration  20.01s (transform 440ms, setup 849ms, import 1.57s, tests 12.58s, environment 4.01s)
+

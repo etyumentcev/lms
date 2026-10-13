@@ -16,3 +16,16 @@
 .problem-workspace .attachment-pages { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .problem-workspace .attachment-pages img { height: 22rem; max-height: none; }
 .problem-workspace .attachment-pages li { border-radius: var(--radius-small); }
+
+.history { min-width: 0; }
+.history-timeline { list-style: none; padding: 0; margin: 1.5rem 0; }
+.history-timeline > li { min-width: 0; padding: 1.5rem 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+.history-timeline h2 { margin-top: 0; }
+.history-submitted { color: var(--text-muted); }
+.history-review { margin-top: 1.5rem; padding: .25rem 1rem; border-left: 3px solid var(--status-success-text); }
+.history-review-NeedsRevision { border-color: var(--status-warning-text); }
+.history-review h3 { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.history-message > article { padding-left: 1rem; border-left: 3px solid var(--border); }
+.history-text .markdown-content { white-space: pre-wrap; }
+.history-content { overflow-wrap: anywhere; }
+.history-content summary { cursor: pointer; padding: .5rem 0; }

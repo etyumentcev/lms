@@ -61,8 +61,11 @@ public sealed class Review
     public Guid? MessageId { get; }
     public DateTimeOffset CreatedAt { get; }
 
-    internal Review(Guid workId, Guid submissionId, Guid teacher, ReviewDecision decision, Guid? messageId, DateTimeOffset at)
+    public IReadOnlyList<AnnotatedAttachment> Annotations { get; } = Array.AsReadOnly(Array.Empty<AnnotatedAttachment>());
+
+    internal Review(Guid workId, Guid submissionId, Guid teacher, ReviewDecision decision, Guid? messageId, DateTimeOffset at, IReadOnlyList<AnnotatedAttachment> annotations)
     {
+        Annotations = annotations;
         ProblemWorkId = workId;
         SubmissionId = submissionId;
         TeacherId = teacher;

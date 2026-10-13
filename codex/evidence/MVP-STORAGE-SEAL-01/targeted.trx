@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="cf094904-2f8f-4a8c-8ecc-f683b3db903e" name="@tea-Swift-SFG16-74 2026-10-12 05:32:03" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-12T05:32:03.2997825+06:00" queuing="2026-10-12T05:32:03.2997826+06:00" start="2026-10-12T05:31:58.5160048+06:00" finish="2026-10-12T05:32:11.0751108+06:00" />
+  <TestSettings name="default" id="a6b8f4a0-037e-4f7a-b64a-417a79b3ed8f">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-12_05_32_03" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a3548de9-704f-462f-be1b-6c4603768c27" testId="c65a58e3-7180-e255-0a9f-a6aedc0b14f5" testName="Lms.Infrastructure.Tests.StorageSealTests.Killed_private_worker_leaves_pending_bytes_accounted_after_restart" computerName="tea-Swift-SFG16-74" duration="00:00:00.3293722" startTime="2026-10-12T05:32:09.2711203+06:00" endTime="2026-10-12T05:32:09.6007089+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3548de9-704f-462f-be1b-6c4603768c27" />
+    <UnitTestResult executionId="3bd8d180-8f7e-4093-bf67-f255631a7ccb" testId="111d1120-8218-9105-49c5-07cffdabc15f" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;missing&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3327273" startTime="2026-10-12T05:32:04.8033251+06:00" endTime="2026-10-12T05:32:05.1364062+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3bd8d180-8f7e-4093-bf67-f255631a7ccb" />
+    <UnitTestResult executionId="a61f8813-c941-44da-9ac7-dc6dd38c5a97" testId="8358e541-73aa-2e10-fbe0-cac7bb86c9ab" testName="Lms.Infrastructure.Tests.StorageSealTests.Concurrent_confirm_and_claim_probe_only_observe_atomic_confirmed_receipt" computerName="tea-Swift-SFG16-74" duration="00:00:00.4218015" startTime="2026-10-12T05:32:02.9602004+06:00" endTime="2026-10-12T05:32:03.3776880+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a61f8813-c941-44da-9ac7-dc6dd38c5a97" />
+    <UnitTestResult executionId="00c77d69-d860-4f9c-a312-26502bb0dee8" testId="11cfc435-59b9-1ffc-cc3a-c6242d1dd469" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;durability&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3518279" startTime="2026-10-12T05:32:06.5810930+06:00" endTime="2026-10-12T05:32:06.9332082+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00c77d69-d860-4f9c-a312-26502bb0dee8" />
+    <UnitTestResult executionId="bfbd4833-2ac6-48c0-991d-36b61762196c" testId="1e642b31-557b-6a90-24e1-6dd0f7cf94b2" testName="Lms.Infrastructure.Tests.StorageSealTests.Reservations_are_global_per_org_durable_and_concurrent_admission_is_bounded" computerName="tea-Swift-SFG16-74" duration="00:00:00.3618526" startTime="2026-10-12T05:32:07.5258795+06:00" endTime="2026-10-12T05:32:07.8880626+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfbd4833-2ac6-48c0-991d-36b61762196c" />
+    <UnitTestResult executionId="95ff2009-0fc0-4506-b574-5eed687c605c" testId="dec37329-21a3-9071-d123-030cf0bfc6a8" testName="Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 10485761)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3521607" startTime="2026-10-12T05:32:05.8455137+06:00" endTime="2026-10-12T05:32:06.1979325+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95ff2009-0fc0-4506-b574-5eed687c605c" />
+    <UnitTestResult executionId="d8df6bd7-0973-4504-8432-315d65f8ee32" testId="f089b2d3-1fa2-b45c-a30b-b4ea4e502e08" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;version&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3701796" startTime="2026-10-12T05:32:04.0825207+06:00" endTime="2026-10-12T05:32:04.4528799+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d8df6bd7-0973-4504-8432-315d65f8ee32" />
+    <UnitTestResult executionId="e6a68afb-b4bd-4c82-a624-2a53d9be3b7d" testId="9f6932a1-2552-e3a8-0e19-74ca6216c4eb" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: &quot;reservation&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2342718" startTime="2026-10-12T05:32:08.7900262+06:00" endTime="2026-10-12T05:32:09.0245611+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6a68afb-b4bd-4c82-a624-2a53d9be3b7d" />
+    <UnitTestResult executionId="48d086a8-80f9-45d2-9e8a-83871aa493f3" testId="5be647ec-4101-6ec1-e226-37c1a33a8d05" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;hash&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.4255088" startTime="2026-10-12T05:32:03.3786107+06:00" endTime="2026-10-12T05:32:03.8035766+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="48d086a8-80f9-45d2-9e8a-83871aa493f3" />
+    <UnitTestResult executionId="0903463f-8cb4-4258-bf27-a05441b3a586" testId="eaf8380e-6e1d-1e50-7920-66023864fcab" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: &quot;confirmation&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2460979" startTime="2026-10-12T05:32:09.0246958+06:00" endTime="2026-10-12T05:32:09.2709835+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0903463f-8cb4-4258-bf27-a05441b3a586" />
+    <UnitTestResult executionId="1fdc1da7-45ef-4ea3-80ab-fa730583b17c" testId="54e68ed3-7fce-a911-5c31-022ae42b8749" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;quarantine&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2784638" startTime="2026-10-12T05:32:03.8038854+06:00" endTime="2026-10-12T05:32:04.0823601+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fdc1da7-45ef-4ea3-80ab-fa730583b17c" />
+    <UnitTestResult executionId="d0bab0a6-ed92-4cce-99f1-8e900b1f26d9" testId="9850651e-8065-b232-8e15-fe8d92cc21ba" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;length&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3499020" startTime="2026-10-12T05:32:04.4530183+06:00" endTime="2026-10-12T05:32:04.8031986+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d0bab0a6-ed92-4cce-99f1-8e900b1f26d9" />
+    <UnitTestResult executionId="0dc4f612-bfea-48d7-b9c7-963ed3869834" testId="e1412b9c-7eec-2686-f494-0b0074022ddb" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;retained-writer&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2958726" startTime="2026-10-12T05:32:07.2295861+06:00" endTime="2026-10-12T05:32:07.5257138+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0dc4f612-bfea-48d7-b9c7-963ed3869834" />
+    <UnitTestResult executionId="e201d872-dc7c-4c59-9c70-9eafe92b027a" testId="51e02fc0-3234-2576-c6e2-cd98d479ae5e" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_competing_seals_have_one_winner_and_claim_probe_serializes_quarantine" computerName="tea-Swift-SFG16-74" duration="00:00:00.3375480" startTime="2026-10-12T05:32:08.4519485+06:00" endTime="2026-10-12T05:32:08.7898568+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e201d872-dc7c-4c59-9c70-9eafe92b027a" />
+    <UnitTestResult executionId="56d11307-7b9f-4e2d-86d3-2b4ae459043f" testId="530c98f3-fc6d-8990-36e5-de28fd010094" testName="Lms.Infrastructure.Tests.StorageSealTests.Restart_fences_old_worker_and_unknown_cannot_be_promoted_even_with_plausible_proof" computerName="tea-Swift-SFG16-74" duration="00:00:01.1827011" startTime="2026-10-12T05:32:01.7751255+06:00" endTime="2026-10-12T05:32:02.9543617+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="56d11307-7b9f-4e2d-86d3-2b4ae459043f" />
+    <UnitTestResult executionId="2b78a19a-0d85-4d0d-a96f-36138498ad66" testId="a22e6bd9-c440-609c-f672-c981c1c25437" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_retained_writer_is_closed_before_kernel_enable_and_postseal_write_is_not_issued" computerName="tea-Swift-SFG16-74" duration="00:00:00.2556335" startTime="2026-10-12T05:32:10.1421236+06:00" endTime="2026-10-12T05:32:10.3982589+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b78a19a-0d85-4d0d-a96f-36138498ad66" />
+    <UnitTestResult executionId="e257735e-8e57-48eb-868a-71ce62e6232a" testId="2315bcb6-a62d-afa5-17cf-7d0babfb4baa" testName="Lms.Infrastructure.Tests.StorageSealTests.Legacy_and_unavailable_confirmation_never_become_readable" computerName="tea-Swift-SFG16-74" duration="00:00:00.2598672" startTime="2026-10-12T05:32:10.3984067+06:00" endTime="2026-10-12T05:32:10.6585036+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e257735e-8e57-48eb-868a-71ce62e6232a" />
+    <UnitTestResult executionId="303b0d92-2cde-44d7-a70b-8b298268b4d9" testId="d721101f-9d66-7636-de8b-746385b7d722" testName="Lms.Infrastructure.Tests.StorageSealTests.Untrusted_database_role_cannot_forge_or_read_confirmation" computerName="tea-Swift-SFG16-74" duration="00:00:00.2816524" startTime="2026-10-12T05:32:09.6008269+06:00" endTime="2026-10-12T05:32:09.8829415+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="303b0d92-2cde-44d7-a70b-8b298268b4d9" />
+    <UnitTestResult executionId="56e37fca-edd6-4998-9891-80df7faa34ba" testId="9582cf86-7aaa-2464-6042-a53f9ff707b9" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;before-confirmation&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2959546" startTime="2026-10-12T05:32:06.9333267+06:00" endTime="2026-10-12T05:32:07.2294556+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="56e37fca-edd6-4998-9891-80df7faa34ba" />
+    <UnitTestResult executionId="946004cd-5a3c-447d-8f7c-55a6ef475f0c" testId="a4289992-ec84-3595-f69b-0c1a3590aa3a" testName="Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: &quot;/tmp&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3339632" startTime="2026-10-12T05:32:05.1365692+06:00" endTime="2026-10-12T05:32:05.4707883+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="946004cd-5a3c-447d-8f7c-55a6ef475f0c">
+      <Output>
+        <StdOut>PHYSICAL PROFILE BLOCKED: FS_IOC_ENABLE_VERITY failed: errno=25; positive physical seal and retained-handle proof NOT RUN.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6b0c8c14-fbf1-44cc-b4e1-351ec82abfa9" testId="63593a63-a1a8-f6c6-53bf-2df4f3685029" testName="Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: &quot;/var/tmp&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3741171" startTime="2026-10-12T05:32:05.4710620+06:00" endTime="2026-10-12T05:32:05.8453434+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b0c8c14-fbf1-44cc-b4e1-351ec82abfa9">
+      <Output>
+        <StdOut>PHYSICAL PROFILE BLOCKED: FS_IOC_ENABLE_VERITY failed: errno=95; positive physical seal and retained-handle proof NOT RUN.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fc7006b8-1d50-4b2d-a711-ae87624cdacc" testId="345c0dba-9b46-f611-336b-fdbe47644b78" testName="Lms.Infrastructure.Tests.StorageSealTests.In_flight_org_capacity_has_no_waiting_queue_and_cancellation_cannot_seal" computerName="tea-Swift-SFG16-74" duration="00:00:00.2883040" startTime="2026-10-12T05:32:07.8881878+06:00" endTime="2026-10-12T05:32:08.1768344+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc7006b8-1d50-4b2d-a711-ae87624cdacc" />
+    <UnitTestResult executionId="0aaecf68-e3d9-40d8-83dd-1f0a7b2e2847" testId="b3126350-c628-5567-98d9-a372bd2b3a81" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_restart_after_confirmed_commit_preserves_fact_and_immutable_receipt" computerName="tea-Swift-SFG16-74" duration="00:00:00.2586368" startTime="2026-10-12T05:32:09.8830639+06:00" endTime="2026-10-12T05:32:10.1419869+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0aaecf68-e3d9-40d8-83dd-1f0a7b2e2847" />
+    <UnitTestResult executionId="24427726-480c-49ad-9cd8-1a6c08d46af5" testId="da1586ae-1148-4070-927e-7240ca6fe97d" testName="Lms.Infrastructure.Tests.StorageSealTests.Model_three_pages_have_unique_generations_and_exact_hash_length" computerName="tea-Swift-SFG16-74" duration="00:00:00.2745417" startTime="2026-10-12T05:32:08.1769721+06:00" endTime="2026-10-12T05:32:08.4517936+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24427726-480c-49ad-9cd8-1a6c08d46af5" />
+    <UnitTestResult executionId="a1ac5f32-5f55-4003-a7bd-c67a9e7c2a30" testId="126d5983-cd35-00dd-69c9-df336f7c6ed7" testName="Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 0)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3826876" startTime="2026-10-12T05:32:06.1980705+06:00" endTime="2026-10-12T05:32:06.5809623+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1ac5f32-5f55-4003-a7bd-c67a9e7c2a30" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;hash&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="5be647ec-4101-6ec1-e226-37c1a33a8d05">
+      <Execution id="48d086a8-80f9-45d2-9e8a-83871aa493f3" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_confirmed_original_fails_closed_when_evidence_changes" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;length&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="9850651e-8065-b232-8e15-fe8d92cc21ba">
+      <Execution id="d0bab0a6-ed92-4cce-99f1-8e900b1f26d9" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_confirmed_original_fails_closed_when_evidence_changes" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.In_flight_org_capacity_has_no_waiting_queue_and_cancellation_cannot_seal" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="345c0dba-9b46-f611-336b-fdbe47644b78">
+      <Execution id="fc7006b8-1d50-4b2d-a711-ae87624cdacc" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="In_flight_org_capacity_has_no_waiting_queue_and_cancellation_cannot_seal" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_restart_after_confirmed_commit_preserves_fact_and_immutable_receipt" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="b3126350-c628-5567-98d9-a372bd2b3a81">
+      <Execution id="0aaecf68-e3d9-40d8-83dd-1f0a7b2e2847" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_restart_after_confirmed_commit_preserves_fact_and_immutable_receipt" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_competing_seals_have_one_winner_and_claim_probe_serializes_quarantine" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="51e02fc0-3234-2576-c6e2-cd98d479ae5e">
+      <Execution id="e201d872-dc7c-4c59-9c70-9eafe92b027a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_competing_seals_have_one_winner_and_claim_probe_serializes_quarantine" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;durability&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="11cfc435-59b9-1ffc-cc3a-c6242d1dd469">
+      <Execution id="00c77d69-d860-4f9c-a312-26502bb0dee8" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_fault_never_confirms_and_never_releases_reservation" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;version&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="f089b2d3-1fa2-b45c-a30b-b4ea4e502e08">
+      <Execution id="d8df6bd7-0973-4504-8432-315d65f8ee32" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_confirmed_original_fails_closed_when_evidence_changes" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_retained_writer_is_closed_before_kernel_enable_and_postseal_write_is_not_issued" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="a22e6bd9-c440-609c-f672-c981c1c25437">
+      <Execution id="2b78a19a-0d85-4d0d-a96f-36138498ad66" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_retained_writer_is_closed_before_kernel_enable_and_postseal_write_is_not_issued" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Untrusted_database_role_cannot_forge_or_read_confirmation" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="d721101f-9d66-7636-de8b-746385b7d722">
+      <Execution id="303b0d92-2cde-44d7-a70b-8b298268b4d9" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Untrusted_database_role_cannot_forge_or_read_confirmation" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;before-confirmation&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="9582cf86-7aaa-2464-6042-a53f9ff707b9">
+      <Execution id="56e37fca-edd6-4998-9891-80df7faa34ba" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_fault_never_confirms_and_never_releases_reservation" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: &quot;/var/tmp&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="63593a63-a1a8-f6c6-53bf-2df4f3685029">
+      <Execution id="6b0c8c14-fbf1-44cc-b4e1-351ec82abfa9" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 0)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="126d5983-cd35-00dd-69c9-df336f7c6ed7">
+      <Execution id="a1ac5f32-5f55-4003-a7bd-c67a9e7c2a30" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Empty_or_oversized_original_is_never_confirmed" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Killed_private_worker_leaves_pending_bytes_accounted_after_restart" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="c65a58e3-7180-e255-0a9f-a6aedc0b14f5">
+      <Execution id="a3548de9-704f-462f-be1b-6c4603768c27" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Killed_private_worker_leaves_pending_bytes_accounted_after_restart" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_three_pages_have_unique_generations_and_exact_hash_length" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="da1586ae-1148-4070-927e-7240ca6fe97d">
+      <Execution id="24427726-480c-49ad-9cd8-1a6c08d46af5" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_three_pages_have_unique_generations_and_exact_hash_length" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Restart_fences_old_worker_and_unknown_cannot_be_promoted_even_with_plausible_proof" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="530c98f3-fc6d-8990-36e5-de28fd010094">
+      <Execution id="56d11307-7b9f-4e2d-86d3-2b4ae459043f" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Restart_fences_old_worker_and_unknown_cannot_be_promoted_even_with_plausible_proof" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: &quot;/tmp&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="a4289992-ec84-3595-f69b-0c1a3590aa3a">
+      <Execution id="946004cd-5a3c-447d-8f7c-55a6ef475f0c" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Reservations_are_global_per_org_durable_and_concurrent_admission_is_bounded" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="1e642b31-557b-6a90-24e1-6dd0f7cf94b2">
+      <Execution id="bfbd4833-2ac6-48c0-991d-36b61762196c" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Reservations_are_global_per_org_durable_and_concurrent_admission_is_bounded" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: &quot;reservation&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="9f6932a1-2552-e3a8-0e19-74ca6216c4eb">
+      <Execution id="e6a68afb-b4bd-4c82-a624-2a53d9be3b7d" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: &quot;retained-writer&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="e1412b9c-7eec-2686-f494-0b0074022ddb">
+      <Execution id="0dc4f612-bfea-48d7-b9c7-963ed3869834" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_fault_never_confirms_and_never_releases_reservation" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 10485761)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="dec37329-21a3-9071-d123-030cf0bfc6a8">
+      <Execution id="95ff2009-0fc0-4506-b574-5eed687c605c" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Empty_or_oversized_original_is_never_confirmed" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;missing&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="111d1120-8218-9105-49c5-07cffdabc15f">
+      <Execution id="3bd8d180-8f7e-4093-bf67-f255631a7ccb" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_confirmed_original_fails_closed_when_evidence_changes" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: &quot;confirmation&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="eaf8380e-6e1d-1e50-7920-66023864fcab">
+      <Execution id="0903463f-8cb4-4258-bf27-a05441b3a586" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: &quot;quarantine&quot;)" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="54e68ed3-7fce-a911-5c31-022ae42b8749">
+      <Execution id="1fdc1da7-45ef-4ea3-80ab-fa730583b17c" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Model_confirmed_original_fails_closed_when_evidence_changes" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Concurrent_confirm_and_claim_probe_only_observe_atomic_confirmed_receipt" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="8358e541-73aa-2e10-fbe0-cac7bb86c9ab">
+      <Execution id="a61f8813-c941-44da-9ac7-dc6dd38c5a97" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Concurrent_confirm_and_claim_probe_only_observe_atomic_confirmed_receipt" />
+    </UnitTest>
+    <UnitTest name="Lms.Infrastructure.Tests.StorageSealTests.Legacy_and_unavailable_confirmation_never_become_readable" storage="/home/tea/github/lms/tests/lms.infrastructure.tests/bin/debug/net10.0/lms.infrastructure.tests.dll" id="2315bcb6-a62d-afa5-17cf-7d0babfb4baa">
+      <Execution id="e257735e-8e57-48eb-868a-71ce62e6232a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Infrastructure.Tests.StorageSealTests" name="Legacy_and_unavailable_confirmation_never_become_readable" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="c65a58e3-7180-e255-0a9f-a6aedc0b14f5" executionId="a3548de9-704f-462f-be1b-6c4603768c27" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="111d1120-8218-9105-49c5-07cffdabc15f" executionId="3bd8d180-8f7e-4093-bf67-f255631a7ccb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8358e541-73aa-2e10-fbe0-cac7bb86c9ab" executionId="a61f8813-c941-44da-9ac7-dc6dd38c5a97" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11cfc435-59b9-1ffc-cc3a-c6242d1dd469" executionId="00c77d69-d860-4f9c-a312-26502bb0dee8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1e642b31-557b-6a90-24e1-6dd0f7cf94b2" executionId="bfbd4833-2ac6-48c0-991d-36b61762196c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dec37329-21a3-9071-d123-030cf0bfc6a8" executionId="95ff2009-0fc0-4506-b574-5eed687c605c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f089b2d3-1fa2-b45c-a30b-b4ea4e502e08" executionId="d8df6bd7-0973-4504-8432-315d65f8ee32" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9f6932a1-2552-e3a8-0e19-74ca6216c4eb" executionId="e6a68afb-b4bd-4c82-a624-2a53d9be3b7d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5be647ec-4101-6ec1-e226-37c1a33a8d05" executionId="48d086a8-80f9-45d2-9e8a-83871aa493f3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eaf8380e-6e1d-1e50-7920-66023864fcab" executionId="0903463f-8cb4-4258-bf27-a05441b3a586" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54e68ed3-7fce-a911-5c31-022ae42b8749" executionId="1fdc1da7-45ef-4ea3-80ab-fa730583b17c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9850651e-8065-b232-8e15-fe8d92cc21ba" executionId="d0bab0a6-ed92-4cce-99f1-8e900b1f26d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1412b9c-7eec-2686-f494-0b0074022ddb" executionId="0dc4f612-bfea-48d7-b9c7-963ed3869834" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="51e02fc0-3234-2576-c6e2-cd98d479ae5e" executionId="e201d872-dc7c-4c59-9c70-9eafe92b027a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="530c98f3-fc6d-8990-36e5-de28fd010094" executionId="56d11307-7b9f-4e2d-86d3-2b4ae459043f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a22e6bd9-c440-609c-f672-c981c1c25437" executionId="2b78a19a-0d85-4d0d-a96f-36138498ad66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2315bcb6-a62d-afa5-17cf-7d0babfb4baa" executionId="e257735e-8e57-48eb-868a-71ce62e6232a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d721101f-9d66-7636-de8b-746385b7d722" executionId="303b0d92-2cde-44d7-a70b-8b298268b4d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9582cf86-7aaa-2464-6042-a53f9ff707b9" executionId="56e37fca-edd6-4998-9891-80df7faa34ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a4289992-ec84-3595-f69b-0c1a3590aa3a" executionId="946004cd-5a3c-447d-8f7c-55a6ef475f0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="63593a63-a1a8-f6c6-53bf-2df4f3685029" executionId="6b0c8c14-fbf1-44cc-b4e1-351ec82abfa9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="345c0dba-9b46-f611-336b-fdbe47644b78" executionId="fc7006b8-1d50-4b2d-a711-ae87624cdacc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3126350-c628-5567-98d9-a372bd2b3a81" executionId="0aaecf68-e3d9-40d8-83dd-1f0a7b2e2847" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da1586ae-1148-4070-927e-7240ca6fe97d" executionId="24427726-480c-49ad-9cd8-1a6c08d46af5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="126d5983-cd35-00dd-69c9-df336f7c6ed7" executionId="a1ac5f32-5f55-4003-a7bd-c67a9e7c2a30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="25" executed="25" passed="25" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Infrastructure.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Infrastructure.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Infrastructure.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.16] Docker container 8f4fca10cf74 created
+[testcontainers.org 00:00:00.19] Start Docker container 8f4fca10cf74
+[testcontainers.org 00:00:00.31] Wait for Docker container 8f4fca10cf74 to complete readiness checks
+[testcontainers.org 00:00:01.34] Docker container 8f4fca10cf74 ready
+[testcontainers.org 00:00:01.44] Docker container 9e10dcb001ea created
+[testcontainers.org 00:00:01.44] Start Docker container 9e10dcb001ea
+[testcontainers.org 00:00:01.55] Wait for Docker container 9e10dcb001ea to complete readiness checks
+[testcontainers.org 00:00:01.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9e10dcb001ea
+[testcontainers.org 00:00:02.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9e10dcb001ea
+[testcontainers.org 00:00:02.66] Docker container 9e10dcb001ea ready
+[testcontainers.org 00:00:11.57] Delete Docker container 9e10dcb001ea
+[xUnit.net 00:00:12.23]   Finished:    Lms.Infrastructure.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

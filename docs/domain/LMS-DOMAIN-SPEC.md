@@ -1393,3 +1393,28 @@ SubmissionAccepted
 И главный архитектурный принцип:
 
 > **Content описывает условие обучения. Learning Process описывает историю действий вокруг этого условия.**
+
+
+## J2 amendment — immutable Review annotations
+
+Review additionally owns AnnotatedAttachment/PenStroke/StrokePoint value objects.
+Annotations belong to Review.SubmissionId and only its AttachmentIds, never to a
+subsequent submission. The original photo is unchanged. Validation precedes any
+feedback/message/status mutation. No new aggregate, status or review lifecycle is
+introduced. See FEATURE-SUBMISSION-REVIEW J2 amendment for geometry and limits.
+
+## L0.3 — accepted organizational and lifecycle boundaries
+
+ORG-G01–04/06/07 ACCEPTED; реализация ещё отсутствует. Course имеет ровно одну Organization; отдельной LearningSpace entity в MVP нет. IdentityUser аутентифицирует, Actor идентифицирует участника, OrganizationMembership задаёт организационные полномочия; CourseEnrollment и TeacherAssignment отдельно определяют учебный scope. Account/membership сами по себе не предоставляют курс. Одна основная Student/Teacher роль MVP не заменяет scope; admin-only permissions вне AuthorRole.
+
+ProblemWork сохраняет Submission→Review→Revise→Accept, terminal Accepted и immutable ordinary history. Все обычные изменения work проходят aggregate; законное scoped уничтожение — отдельная privileged операция вне его state machine, по approved request/manifest/evidence, после legal review. Оно не удаляет B или общий Identity. ProcessingContext версионируется вне учебных aggregates, наследуется от Course; current restrictions сильнее прошлой версии. [Детальный план L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) — T03/T05 ACCEPTED schema, инженерные ports, не реализованные Domain types. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+T04 уточняет ORG-G04: ordinary revoke bounded двумя часами через JWT ≤15 минут, reserve 10 минут и операции 60 секунд / max HTTP 8 минут. Это access lifecycle вне ProblemWork; regrant нового Generation не оживляет старые grants. Нормативный [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md); текущие restrictions T05 не ослаблены (E06 ACCEPTED, real-data freshness отдельно).
+
+## L0.4 — accepted security boundaries
+
+E01–E06 ACCEPTED: IdentityUser→Actor stable, OrganizationMembership/course/group scopes отдельно; JWT одной org не источник ownership, resource root выводит сервер. SecurityBlocked/refresh-session/AccessChallenge/RecoveryRequest — security application lifecycle, не статусы ProblemWork. Unblock/recovery не оживляют revoked grants. AccessChallenge Activation/Recovery имеет Created→Consumed/Expired/Revoked/Locked, terminal irreversible. Immutable ProcessingContext/current restrictions вне aggregates по [ADR-L18](../adr/ADR-L18-synthetic-processing-restrictions.md). [Security specification](../architecture/L1-SECURITY-SPEC.md) связывает boundaries без новых learning aggregates.
+
+## B01 / S3 — immutable learning affiliation
+
+2026-10-09: owner **B01 ACCEPTED**, S1/S2/O01 ACCEPTED, S3 AUTHORIZED only. A same-course enrollment move creates a new authority generation and preserves immutable group affiliation of existing work. New scoped assignments capture server-derived organization/course/student/group and enrollment/membership generations in AssignmentScopes; work/submission/review/attached-file roots inherit that affiliation, not the student’s mutable current group. Missing legacy sidecars deny new scoped access; no backfill is authorized. S4–S8 remain excluded. See [S3 authority design](../architecture/L1-S3-SCOPED-AUTHORITY.md) for the protocol, role boundary and issuer transaction dependency.

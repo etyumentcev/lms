@@ -1,0 +1,600 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.13]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.28]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.31]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.13] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.41] Docker container 4db52f244357 created
+[testcontainers.org 00:00:00.47] Start Docker container 4db52f244357
+[testcontainers.org 00:00:00.67] Wait for Docker container 4db52f244357 to complete readiness checks
+[testcontainers.org 00:00:01.70] Docker container 4db52f244357 ready
+[testcontainers.org 00:00:01.83] Docker container 3b67f8ea6af2 created
+[testcontainers.org 00:00:01.83] Docker container dad99d5913e9 created
+[testcontainers.org 00:00:01.83] Start Docker container 3b67f8ea6af2
+[testcontainers.org 00:00:01.83] Start Docker container dad99d5913e9
+[testcontainers.org 00:00:02.01] Wait for Docker container 3b67f8ea6af2 to complete readiness checks
+[testcontainers.org 00:00:02.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3b67f8ea6af2
+[testcontainers.org 00:00:02.06] Wait for Docker container dad99d5913e9 to complete readiness checks
+[testcontainers.org 00:00:02.07] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container dad99d5913e9
+[testcontainers.org 00:00:03.13] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container dad99d5913e9
+[testcontainers.org 00:00:03.13] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3b67f8ea6af2
+[testcontainers.org 00:00:03.23] Docker container 3b67f8ea6af2 ready
+[testcontainers.org 00:00:04.19] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container dad99d5913e9
+[testcontainers.org 00:00:04.27] Docker container dad99d5913e9 ready
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[62]
+      User profile is available. Using '/home/tea/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/tea/github/lms/src/Lms.Api
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost/api/v1/uploads - multipart/form-data;+boundary="ff975a76-da75-4ec4-bcd5-292009de4004" 287
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'Lms.Api.AttachmentsController.Upload (Lms.Api)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "Upload", controller = "Attachments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Lms.Application.AttachmentResult]] Upload(System.Threading.CancellationToken) on controller Lms.Api.AttachmentsController (Lms.Api).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = Boolean), @p3='?' (DbType = Guid), @p4='?' (DbType = Guid), @p5='?' (DbType = DateTime), @p6='?' (DbType = Boolean), @p7='?', @p8='?', @p9='?' (DbType = Guid), @p10='?' (DbType = Guid), @p11='?' (DbType = Int64), @p12='?', @p13='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AccessAttachments" ("Id", "ExpiresAt", "IsEligible", "OwnerId")
+      VALUES (@p0, @p1, @p2, @p3);
+      INSERT INTO "StoredAttachments" ("Id", "CreatedAt", "Deleted", "FileName", "MediaType", "MessageId", "OwnerId", "Size", "StorageKey", "SubmissionId")
+      VALUES (@p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13);
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing CreatedResult, writing value of type 'Lms.Application.AttachmentResult'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action Lms.Api.AttachmentsController.Upload (Lms.Api) in 399.9858ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'Lms.Api.AttachmentsController.Upload (Lms.Api)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost/api/v1/uploads - 201 - application/json;+charset=utf-8 455.8884ms
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Attached_metadata_is_immutable_even_through_direct_sql [2 s]
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Failed_physical_delete_is_ineligible_and_retryable [800 ms]
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[62]
+      User profile is available. Using '/home/tea/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/tea/github/lms/src/Lms.Api
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST http://localhost/api/v1/uploads - multipart/form-data;+boundary="74ab7e51-eba5-4bf8-a46b-38bd6545e4d6" 287
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'Lms.Api.AttachmentsController.Upload (Lms.Api)'
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[102]
+      Route matched with {action = "Upload", controller = "Attachments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Lms.Application.AttachmentResult]] Upload(System.Threading.CancellationToken) on controller Lms.Api.AttachmentsController (Lms.Api).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = Boolean), @p3='?' (DbType = Guid), @p4='?' (DbType = Guid), @p5='?' (DbType = DateTime), @p6='?' (DbType = Boolean), @p7='?', @p8='?', @p9='?' (DbType = Guid), @p10='?' (DbType = Guid), @p11='?' (DbType = Int64), @p12='?', @p13='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AccessAttachments" ("Id", "ExpiresAt", "IsEligible", "OwnerId")
+      VALUES (@p0, @p1, @p2, @p3);
+      INSERT INTO "StoredAttachments" ("Id", "CreatedAt", "Deleted", "FileName", "MediaType", "MessageId", "OwnerId", "Size", "StorageKey", "SubmissionId")
+      VALUES (@p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13);
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
+      Executing CreatedResult, writing value of type 'Lms.Application.AttachmentResult'.
+info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[105]
+      Executed action Lms.Api.AttachmentsController.Upload (Lms.Api) in 156.2312ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'Lms.Api.AttachmentsController.Upload (Lms.Api)'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST http://localhost/api/v1/uploads - 201 - application/json;+charset=utf-8 194.0251ms
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Failure_after_submission_writes_rolls_back_claim_history_work_and_events [1 s]
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Storage_keys_reject_traversal_and_never_overwrite_an_original [700 ms]
+[testcontainers.org 00:00:10.55] Delete Docker container 3b67f8ea6af2
+[testcontainers.org 00:00:10.89] Docker container 4979e48d0912 created
+[testcontainers.org 00:00:10.90] Start Docker container 4979e48d0912
+[testcontainers.org 00:00:11.08] Wait for Docker container 4979e48d0912 to complete readiness checks
+[testcontainers.org 00:00:11.08] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4979e48d0912
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Database_failure_retains_original_without_assuming_rollback_or_replaying(afterCommit: False) [882 ms]
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_originals_and_independent_parent_denials(role: Teacher) [4 s]
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.Database_failure_retains_original_without_assuming_rollback_or_replaying(afterCommit: True) [696 ms]
+[testcontainers.org 00:00:12.08] Delete Docker container dad99d5913e9
+[testcontainers.org 00:00:12.12] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4979e48d0912
+[testcontainers.org 00:00:12.19] Docker container 4979e48d0912 ready
+  Passed Lms.Api.Tests.AttachmentConsistencyTests.File_failure_does_not_publish_metadata [697 ms]
+[testcontainers.org 00:00:16.27] Delete Docker container 4979e48d0912
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_originals_and_independent_parent_denials(role: Student) [3 s]
+[testcontainers.org 00:00:16.59] Docker container 60424dce5344 created
+[testcontainers.org 00:00:16.59] Start Docker container 60424dce5344
+[testcontainers.org 00:00:16.77] Wait for Docker container 60424dce5344 to complete readiness checks
+[testcontainers.org 00:00:16.77] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 60424dce5344
+[testcontainers.org 00:00:17.82] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 60424dce5344
+[testcontainers.org 00:00:17.86] Docker container 60424dce5344 ready
+[testcontainers.org 00:00:19.59] Delete Docker container 60424dce5344
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "context") [855 ms]
+[testcontainers.org 00:00:19.91] Docker container a6327dfc1234 created
+[testcontainers.org 00:00:19.92] Start Docker container a6327dfc1234
+[testcontainers.org 00:00:20.04] Wait for Docker container a6327dfc1234 to complete readiness checks
+[testcontainers.org 00:00:20.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a6327dfc1234
+[testcontainers.org 00:00:21.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a6327dfc1234
+[testcontainers.org 00:00:21.14] Docker container a6327dfc1234 ready
+[testcontainers.org 00:00:22.85] Delete Docker container a6327dfc1234
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "expiry") [1 s]
+[testcontainers.org 00:00:23.17] Docker container 377ca33edda3 created
+[testcontainers.org 00:00:23.17] Start Docker container 377ca33edda3
+[testcontainers.org 00:00:23.31] Wait for Docker container 377ca33edda3 to complete readiness checks
+[testcontainers.org 00:00:23.31] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 377ca33edda3
+[testcontainers.org 00:00:24.37] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 377ca33edda3
+[testcontainers.org 00:00:24.41] Docker container 377ca33edda3 ready
+[testcontainers.org 00:00:26.18] Delete Docker container 377ca33edda3
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "deadline") [1 s]
+[testcontainers.org 00:00:26.41] Docker container ef07dc7cc0ea created
+[testcontainers.org 00:00:26.42] Start Docker container ef07dc7cc0ea
+[testcontainers.org 00:00:26.52] Wait for Docker container ef07dc7cc0ea to complete readiness checks
+[testcontainers.org 00:00:26.52] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ef07dc7cc0ea
+[testcontainers.org 00:00:27.58] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ef07dc7cc0ea
+[testcontainers.org 00:00:27.65] Docker container ef07dc7cc0ea ready
+[testcontainers.org 00:00:29.48] Delete Docker container ef07dc7cc0ea
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "student") [932 ms]
+[testcontainers.org 00:00:29.69] Docker container e2383bd26ed8 created
+[testcontainers.org 00:00:29.70] Start Docker container e2383bd26ed8
+[testcontainers.org 00:00:29.85] Wait for Docker container e2383bd26ed8 to complete readiness checks
+[testcontainers.org 00:00:29.85] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e2383bd26ed8
+[testcontainers.org 00:00:30.91] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e2383bd26ed8
+[testcontainers.org 00:00:31.97] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e2383bd26ed8
+[testcontainers.org 00:00:32.04] Docker container e2383bd26ed8 ready
+[testcontainers.org 00:00:33.67] Delete Docker container e2383bd26ed8
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "context") [697 ms]
+[testcontainers.org 00:00:33.96] Docker container 0836fc5dda7e created
+[testcontainers.org 00:00:33.97] Start Docker container 0836fc5dda7e
+[testcontainers.org 00:00:34.14] Wait for Docker container 0836fc5dda7e to complete readiness checks
+[testcontainers.org 00:00:34.14] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0836fc5dda7e
+[testcontainers.org 00:00:35.20] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0836fc5dda7e
+[testcontainers.org 00:00:36.26] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0836fc5dda7e
+[testcontainers.org 00:00:36.33] Docker container 0836fc5dda7e ready
+[testcontainers.org 00:00:38.32] Delete Docker container 0836fc5dda7e
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "deadline") [1 s]
+[testcontainers.org 00:00:38.59] Docker container f79ca431c728 created
+[testcontainers.org 00:00:38.59] Start Docker container f79ca431c728
+[testcontainers.org 00:00:38.76] Wait for Docker container f79ca431c728 to complete readiness checks
+[testcontainers.org 00:00:38.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f79ca431c728
+[testcontainers.org 00:00:39.82] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f79ca431c728
+[testcontainers.org 00:00:40.88] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f79ca431c728
+[testcontainers.org 00:00:40.95] Docker container f79ca431c728 ready
+[testcontainers.org 00:00:42.81] Delete Docker container f79ca431c728
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "unknown") [976 ms]
+[testcontainers.org 00:00:43.14] Docker container 660bbf9ff0a5 created
+[testcontainers.org 00:00:43.14] Start Docker container 660bbf9ff0a5
+[testcontainers.org 00:00:43.30] Wait for Docker container 660bbf9ff0a5 to complete readiness checks
+[testcontainers.org 00:00:43.30] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 660bbf9ff0a5
+[testcontainers.org 00:00:44.36] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 660bbf9ff0a5
+[testcontainers.org 00:00:45.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 660bbf9ff0a5
+[testcontainers.org 00:00:45.50] Docker container 660bbf9ff0a5 ready
+[testcontainers.org 00:00:46.92] Delete Docker container 660bbf9ff0a5
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "unknown") [636 ms]
+[testcontainers.org 00:00:47.21] Docker container f693f4d321dd created
+[testcontainers.org 00:00:47.21] Start Docker container f693f4d321dd
+[testcontainers.org 00:00:47.32] Wait for Docker container f693f4d321dd to complete readiness checks
+[testcontainers.org 00:00:47.32] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f693f4d321dd
+[testcontainers.org 00:00:48.37] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f693f4d321dd
+[testcontainers.org 00:00:48.46] Docker container f693f4d321dd ready
+[testcontainers.org 00:00:50.05] Delete Docker container f693f4d321dd
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "unknown") [833 ms]
+[testcontainers.org 00:00:50.36] Docker container 5c87eda0c797 created
+[testcontainers.org 00:00:50.37] Start Docker container 5c87eda0c797
+[testcontainers.org 00:00:50.55] Wait for Docker container 5c87eda0c797 to complete readiness checks
+[testcontainers.org 00:00:50.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5c87eda0c797
+[testcontainers.org 00:00:51.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5c87eda0c797
+[testcontainers.org 00:00:52.67] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5c87eda0c797
+[testcontainers.org 00:00:52.77] Docker container 5c87eda0c797 ready
+[testcontainers.org 00:00:54.69] Delete Docker container 5c87eda0c797
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "context") [1 s]
+[testcontainers.org 00:00:55.06] Docker container beae318f3679 created
+[testcontainers.org 00:00:55.06] Start Docker container beae318f3679
+[testcontainers.org 00:00:55.26] Wait for Docker container beae318f3679 to complete readiness checks
+[testcontainers.org 00:00:55.26] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container beae318f3679
+[testcontainers.org 00:00:56.31] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container beae318f3679
+[testcontainers.org 00:00:57.37] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container beae318f3679
+[testcontainers.org 00:00:57.44] Docker container beae318f3679 ready
+[testcontainers.org 00:00:58.86] Delete Docker container beae318f3679
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "deadline") [706 ms]
+[testcontainers.org 00:00:59.14] Docker container 1ab3baeab509 created
+[testcontainers.org 00:00:59.14] Start Docker container 1ab3baeab509
+[testcontainers.org 00:00:59.26] Wait for Docker container 1ab3baeab509 to complete readiness checks
+[testcontainers.org 00:00:59.27] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1ab3baeab509
+[testcontainers.org 00:01:00.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1ab3baeab509
+[testcontainers.org 00:01:00.39] Docker container 1ab3baeab509 ready
+[testcontainers.org 00:01:01.97] Delete Docker container 1ab3baeab509
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "expiry") [925 ms]
+[testcontainers.org 00:01:02.24] Docker container 53a0210b02ea created
+[testcontainers.org 00:01:02.24] Start Docker container 53a0210b02ea
+[testcontainers.org 00:01:02.38] Wait for Docker container 53a0210b02ea to complete readiness checks
+[testcontainers.org 00:01:02.38] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 53a0210b02ea
+[testcontainers.org 00:01:03.44] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 53a0210b02ea
+[testcontainers.org 00:01:03.48] Docker container 53a0210b02ea ready
+[testcontainers.org 00:01:04.75] Delete Docker container 53a0210b02ea
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "expiry") [701 ms]
+[testcontainers.org 00:01:05.07] Docker container 611c9731de1d created
+[testcontainers.org 00:01:05.07] Start Docker container 611c9731de1d
+[testcontainers.org 00:01:05.22] Wait for Docker container 611c9731de1d to complete readiness checks
+[testcontainers.org 00:01:05.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 611c9731de1d
+[testcontainers.org 00:01:06.26] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 611c9731de1d
+[testcontainers.org 00:01:06.32] Docker container 611c9731de1d ready
+[testcontainers.org 00:01:07.73] Delete Docker container 611c9731de1d
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "deadline") [669 ms]
+[testcontainers.org 00:01:07.98] Docker container 721cf647def1 created
+[testcontainers.org 00:01:07.98] Start Docker container 721cf647def1
+[testcontainers.org 00:01:08.11] Wait for Docker container 721cf647def1 to complete readiness checks
+[testcontainers.org 00:01:08.11] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 721cf647def1
+[testcontainers.org 00:01:09.15] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 721cf647def1
+[testcontainers.org 00:01:09.22] Docker container 721cf647def1 ready
+[testcontainers.org 00:01:10.84] Delete Docker container 721cf647def1
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "student") [934 ms]
+[testcontainers.org 00:01:11.14] Docker container 21d692504cc2 created
+[testcontainers.org 00:01:11.14] Start Docker container 21d692504cc2
+[testcontainers.org 00:01:11.30] Wait for Docker container 21d692504cc2 to complete readiness checks
+[testcontainers.org 00:01:11.30] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 21d692504cc2
+[testcontainers.org 00:01:12.36] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 21d692504cc2
+[testcontainers.org 00:01:12.40] Docker container 21d692504cc2 ready
+[testcontainers.org 00:01:14.00] Delete Docker container 21d692504cc2
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "reader") [852 ms]
+[testcontainers.org 00:01:14.28] Docker container 9f4b9c5b2062 created
+[testcontainers.org 00:01:14.28] Start Docker container 9f4b9c5b2062
+[testcontainers.org 00:01:14.45] Wait for Docker container 9f4b9c5b2062 to complete readiness checks
+[testcontainers.org 00:01:14.45] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9f4b9c5b2062
+[testcontainers.org 00:01:15.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9f4b9c5b2062
+[testcontainers.org 00:01:15.62] Docker container 9f4b9c5b2062 ready
+[testcontainers.org 00:01:17.09] Delete Docker container 9f4b9c5b2062
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "student") [815 ms]
+[testcontainers.org 00:01:17.39] Docker container 3c19b02ddbaa created
+[testcontainers.org 00:01:17.39] Start Docker container 3c19b02ddbaa
+[testcontainers.org 00:01:17.57] Wait for Docker container 3c19b02ddbaa to complete readiness checks
+[testcontainers.org 00:01:17.57] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3c19b02ddbaa
+[testcontainers.org 00:01:18.62] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3c19b02ddbaa
+[testcontainers.org 00:01:18.69] Docker container 3c19b02ddbaa ready
+[testcontainers.org 00:01:20.16] Delete Docker container 3c19b02ddbaa
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "context") [799 ms]
+[testcontainers.org 00:01:20.43] Docker container 2f63c71da1d8 created
+[testcontainers.org 00:01:20.43] Start Docker container 2f63c71da1d8
+[testcontainers.org 00:01:20.55] Wait for Docker container 2f63c71da1d8 to complete readiness checks
+[testcontainers.org 00:01:20.56] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2f63c71da1d8
+[testcontainers.org 00:01:21.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2f63c71da1d8
+[testcontainers.org 00:01:21.68] Docker container 2f63c71da1d8 ready
+[testcontainers.org 00:01:23.35] Delete Docker container 2f63c71da1d8
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "unknown") [982 ms]
+[testcontainers.org 00:01:23.62] Docker container 779994a6d5bb created
+[testcontainers.org 00:01:23.62] Start Docker container 779994a6d5bb
+[testcontainers.org 00:01:23.79] Wait for Docker container 779994a6d5bb to complete readiness checks
+[testcontainers.org 00:01:23.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 779994a6d5bb
+[testcontainers.org 00:01:24.88] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 779994a6d5bb
+[testcontainers.org 00:01:24.96] Docker container 779994a6d5bb ready
+[testcontainers.org 00:01:26.74] Delete Docker container 779994a6d5bb
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: "reader") [928 ms]
+[testcontainers.org 00:01:27.09] Docker container 14583ebdca8e created
+[testcontainers.org 00:01:27.09] Start Docker container 14583ebdca8e
+[testcontainers.org 00:01:27.27] Wait for Docker container 14583ebdca8e to complete readiness checks
+[testcontainers.org 00:01:27.28] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 14583ebdca8e
+[testcontainers.org 00:01:28.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 14583ebdca8e
+[testcontainers.org 00:01:29.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 14583ebdca8e
+[testcontainers.org 00:01:29.49] Docker container 14583ebdca8e ready
+[testcontainers.org 00:01:31.26] Delete Docker container 14583ebdca8e
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: "expiry") [788 ms]
+[testcontainers.org 00:01:31.59] Docker container fd1ea4651d86 created
+[testcontainers.org 00:01:31.60] Start Docker container fd1ea4651d86
+[testcontainers.org 00:01:31.79] Wait for Docker container fd1ea4651d86 to complete readiness checks
+[testcontainers.org 00:01:31.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container fd1ea4651d86
+[testcontainers.org 00:01:32.84] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container fd1ea4651d86
+[testcontainers.org 00:01:33.92] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container fd1ea4651d86
+[testcontainers.org 00:01:34.00] Docker container fd1ea4651d86 ready
+[testcontainers.org 00:01:36.11] Delete Docker container fd1ea4651d86
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: "reader") [1 s]
+[testcontainers.org 00:01:36.45] Docker container ff9c36fd9dac created
+[testcontainers.org 00:01:36.45] Start Docker container ff9c36fd9dac
+[testcontainers.org 00:01:36.61] Wait for Docker container ff9c36fd9dac to complete readiness checks
+[testcontainers.org 00:01:36.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ff9c36fd9dac
+[testcontainers.org 00:01:37.68] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ff9c36fd9dac
+[testcontainers.org 00:01:37.75] Docker container ff9c36fd9dac ready
+[testcontainers.org 00:01:39.72] Delete Docker container ff9c36fd9dac
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "student") [1 s]
+[testcontainers.org 00:01:40.05] Docker container ee3a3db9f1a7 created
+[testcontainers.org 00:01:40.05] Start Docker container ee3a3db9f1a7
+[testcontainers.org 00:01:40.22] Wait for Docker container ee3a3db9f1a7 to complete readiness checks
+[testcontainers.org 00:01:40.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ee3a3db9f1a7
+[testcontainers.org 00:01:41.28] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ee3a3db9f1a7
+[testcontainers.org 00:01:41.35] Docker container ee3a3db9f1a7 ready
+[testcontainers.org 00:01:43.27] Delete Docker container ee3a3db9f1a7
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: "reader") [1 s]
+[testcontainers.org 00:01:43.58] Docker container 920f5aa99817 created
+[testcontainers.org 00:01:43.59] Start Docker container 920f5aa99817
+[testcontainers.org 00:01:43.76] Wait for Docker container 920f5aa99817 to complete readiness checks
+[testcontainers.org 00:01:43.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 920f5aa99817
+[testcontainers.org 00:01:44.84] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 920f5aa99817
+[testcontainers.org 00:01:44.92] Docker container 920f5aa99817 ready
+[testcontainers.org 00:01:46.95] Delete Docker container 920f5aa99817
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "missing", late: False) [1 s]
+[testcontainers.org 00:01:47.31] Docker container 123ca1c7bf56 created
+[testcontainers.org 00:01:47.31] Start Docker container 123ca1c7bf56
+[testcontainers.org 00:01:47.48] Wait for Docker container 123ca1c7bf56 to complete readiness checks
+[testcontainers.org 00:01:47.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 123ca1c7bf56
+[testcontainers.org 00:01:48.54] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 123ca1c7bf56
+[testcontainers.org 00:01:49.60] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 123ca1c7bf56
+[testcontainers.org 00:01:49.68] Docker container 123ca1c7bf56 ready
+[testcontainers.org 00:01:51.45] Delete Docker container 123ca1c7bf56
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "scope", late: False) [892 ms]
+[testcontainers.org 00:01:51.80] Docker container 57e2509461fb created
+[testcontainers.org 00:01:51.80] Start Docker container 57e2509461fb
+[testcontainers.org 00:01:51.93] Wait for Docker container 57e2509461fb to complete readiness checks
+[testcontainers.org 00:01:51.93] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 57e2509461fb
+[testcontainers.org 00:01:53.00] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 57e2509461fb
+[testcontainers.org 00:01:53.08] Docker container 57e2509461fb ready
+[testcontainers.org 00:01:55.04] Delete Docker container 57e2509461fb
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "clock", late: True) [1 s]
+[testcontainers.org 00:01:55.38] Docker container ee98c6663a35 created
+[testcontainers.org 00:01:55.38] Start Docker container ee98c6663a35
+[testcontainers.org 00:01:55.55] Wait for Docker container ee98c6663a35 to complete readiness checks
+[testcontainers.org 00:01:55.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ee98c6663a35
+[testcontainers.org 00:01:56.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ee98c6663a35
+[testcontainers.org 00:01:57.67] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ee98c6663a35
+[testcontainers.org 00:01:57.74] Docker container ee98c6663a35 ready
+[testcontainers.org 00:01:59.55] Delete Docker container ee98c6663a35
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "expiry", late: True) [940 ms]
+[testcontainers.org 00:01:59.91] Docker container 4a707a17e651 created
+[testcontainers.org 00:01:59.91] Start Docker container 4a707a17e651
+[testcontainers.org 00:02:00.10] Wait for Docker container 4a707a17e651 to complete readiness checks
+[testcontainers.org 00:02:00.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4a707a17e651
+[testcontainers.org 00:02:01.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4a707a17e651
+[testcontainers.org 00:02:01.26] Docker container 4a707a17e651 ready
+[testcontainers.org 00:02:03.18] Delete Docker container 4a707a17e651
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "deadline", late: True) [947 ms]
+[testcontainers.org 00:02:03.54] Docker container 4eda566a6420 created
+[testcontainers.org 00:02:03.54] Start Docker container 4eda566a6420
+[testcontainers.org 00:02:03.74] Wait for Docker container 4eda566a6420 to complete readiness checks
+[testcontainers.org 00:02:03.74] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4eda566a6420
+[testcontainers.org 00:02:04.80] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4eda566a6420
+[testcontainers.org 00:02:05.87] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4eda566a6420
+[testcontainers.org 00:02:05.95] Docker container 4eda566a6420 ready
+[testcontainers.org 00:02:07.59] Delete Docker container 4eda566a6420
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "restriction", late: False) [689 ms]
+[testcontainers.org 00:02:07.93] Docker container 745f470c46e9 created
+[testcontainers.org 00:02:07.93] Start Docker container 745f470c46e9
+[testcontainers.org 00:02:08.10] Wait for Docker container 745f470c46e9 to complete readiness checks
+[testcontainers.org 00:02:08.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 745f470c46e9
+[testcontainers.org 00:02:09.18] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 745f470c46e9
+[testcontainers.org 00:02:10.25] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 745f470c46e9
+[testcontainers.org 00:02:10.33] Docker container 745f470c46e9 ready
+[testcontainers.org 00:02:11.99] Delete Docker container 745f470c46e9
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "processing-db", late: False) [727 ms]
+[testcontainers.org 00:02:12.32] Docker container 4e9b1f6b2658 created
+[testcontainers.org 00:02:12.33] Start Docker container 4e9b1f6b2658
+[testcontainers.org 00:02:12.50] Wait for Docker container 4e9b1f6b2658 to complete readiness checks
+[testcontainers.org 00:02:12.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4e9b1f6b2658
+[testcontainers.org 00:02:13.58] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4e9b1f6b2658
+[testcontainers.org 00:02:14.64] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4e9b1f6b2658
+[testcontainers.org 00:02:14.71] Docker container 4e9b1f6b2658 ready
+[testcontainers.org 00:02:16.65] Delete Docker container 4e9b1f6b2658
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "restriction", late: True) [1 s]
+[testcontainers.org 00:02:16.99] Docker container ea0ad5c3b778 created
+[testcontainers.org 00:02:17.00] Start Docker container ea0ad5c3b778
+[testcontainers.org 00:02:17.17] Wait for Docker container ea0ad5c3b778 to complete readiness checks
+[testcontainers.org 00:02:17.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ea0ad5c3b778
+[testcontainers.org 00:02:18.23] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ea0ad5c3b778
+[testcontainers.org 00:02:18.32] Docker container ea0ad5c3b778 ready
+[testcontainers.org 00:02:20.18] Delete Docker container ea0ad5c3b778
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "corrupt", late: False) [929 ms]
+[testcontainers.org 00:02:20.53] Docker container e8b64abeec8d created
+[testcontainers.org 00:02:20.54] Start Docker container e8b64abeec8d
+[testcontainers.org 00:02:20.73] Wait for Docker container e8b64abeec8d to complete readiness checks
+[testcontainers.org 00:02:20.73] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e8b64abeec8d
+[testcontainers.org 00:02:21.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e8b64abeec8d
+[testcontainers.org 00:02:21.87] Docker container e8b64abeec8d ready
+[testcontainers.org 00:02:23.62] Delete Docker container e8b64abeec8d
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "same-length-corrupt", late: False) [836 ms]
+[testcontainers.org 00:02:23.86] Docker container 86f14925bfda created
+[testcontainers.org 00:02:23.86] Start Docker container 86f14925bfda
+[testcontainers.org 00:02:23.98] Wait for Docker container 86f14925bfda to complete readiness checks
+[testcontainers.org 00:02:23.98] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 86f14925bfda
+[testcontainers.org 00:02:25.01] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 86f14925bfda
+[testcontainers.org 00:02:25.10] Docker container 86f14925bfda ready
+[testcontainers.org 00:02:26.96] Delete Docker container 86f14925bfda
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: "quarantine", late: False) [989 ms]
+[testcontainers.org 00:02:27.31] Docker container 1700d6a4ba78 created
+[testcontainers.org 00:02:27.31] Start Docker container 1700d6a4ba78
+[testcontainers.org 00:02:27.49] Wait for Docker container 1700d6a4ba78 to complete readiness checks
+[testcontainers.org 00:02:27.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1700d6a4ba78
+[testcontainers.org 00:02:28.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1700d6a4ba78
+[testcontainers.org 00:02:29.64] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1700d6a4ba78
+[testcontainers.org 00:02:29.71] Docker container 1700d6a4ba78 ready
+[testcontainers.org 00:02:31.68] Delete Docker container 1700d6a4ba78
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: "version") [1 s]
+[testcontainers.org 00:02:31.95] Docker container 4244a3ee81e2 created
+[testcontainers.org 00:02:31.95] Start Docker container 4244a3ee81e2
+[testcontainers.org 00:02:32.06] Wait for Docker container 4244a3ee81e2 to complete readiness checks
+[testcontainers.org 00:02:32.06] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4244a3ee81e2
+[testcontainers.org 00:02:33.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4244a3ee81e2
+[testcontainers.org 00:02:34.16] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 4244a3ee81e2
+[testcontainers.org 00:02:34.25] Docker container 4244a3ee81e2 ready
+[testcontainers.org 00:02:36.38] Delete Docker container 4244a3ee81e2
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: "processing-db") [1 s]
+[testcontainers.org 00:02:36.72] Docker container c00bfec21ab4 created
+[testcontainers.org 00:02:36.72] Start Docker container c00bfec21ab4
+[testcontainers.org 00:02:36.90] Wait for Docker container c00bfec21ab4 to complete readiness checks
+[testcontainers.org 00:02:36.90] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c00bfec21ab4
+[testcontainers.org 00:02:37.96] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c00bfec21ab4
+[testcontainers.org 00:02:39.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c00bfec21ab4
+[testcontainers.org 00:02:39.12] Docker container c00bfec21ab4 ready
+[testcontainers.org 00:02:41.25] Delete Docker container c00bfec21ab4
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: "missing-author") [1 s]
+[testcontainers.org 00:02:41.59] Docker container e0c9278028c2 created
+[testcontainers.org 00:02:41.59] Start Docker container e0c9278028c2
+[testcontainers.org 00:02:41.76] Wait for Docker container e0c9278028c2 to complete readiness checks
+[testcontainers.org 00:02:41.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e0c9278028c2
+[testcontainers.org 00:02:42.83] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e0c9278028c2
+[testcontainers.org 00:02:43.89] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e0c9278028c2
+[testcontainers.org 00:02:43.96] Docker container e0c9278028c2 ready
+[testcontainers.org 00:02:46.07] Delete Docker container e0c9278028c2
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_embedded_teacher_subject_is_checked_even_for_student(late: False) [1 s]
+[testcontainers.org 00:02:46.38] Docker container 8d5d4d7229a0 created
+[testcontainers.org 00:02:46.39] Start Docker container 8d5d4d7229a0
+[testcontainers.org 00:02:46.55] Wait for Docker container 8d5d4d7229a0 to complete readiness checks
+[testcontainers.org 00:02:46.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8d5d4d7229a0
+[testcontainers.org 00:02:47.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8d5d4d7229a0
+[testcontainers.org 00:02:47.70] Docker container 8d5d4d7229a0 ready
+[testcontainers.org 00:02:49.83] Delete Docker container 8d5d4d7229a0
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_embedded_teacher_subject_is_checked_even_for_student(late: True) [1 s]
+[testcontainers.org 00:02:50.16] Docker container 68449033b0ae created
+[testcontainers.org 00:02:50.17] Start Docker container 68449033b0ae
+[testcontainers.org 00:02:50.36] Wait for Docker container 68449033b0ae to complete readiness checks
+[testcontainers.org 00:02:50.36] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 68449033b0ae
+[testcontainers.org 00:02:51.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 68449033b0ae
+[testcontainers.org 00:02:52.47] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 68449033b0ae
+[testcontainers.org 00:02:52.56] Docker container 68449033b0ae ready
+[testcontainers.org 00:02:54.73] Delete Docker container 68449033b0ae
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Student, course: "http-other") [1 s]
+[testcontainers.org 00:02:55.06] Docker container f2a929f5743c created
+[testcontainers.org 00:02:55.06] Start Docker container f2a929f5743c
+[testcontainers.org 00:02:55.24] Wait for Docker container f2a929f5743c to complete readiness checks
+[testcontainers.org 00:02:55.25] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f2a929f5743c
+[testcontainers.org 00:02:56.30] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f2a929f5743c
+[testcontainers.org 00:02:57.36] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f2a929f5743c
+[testcontainers.org 00:02:57.44] Docker container f2a929f5743c ready
+[testcontainers.org 00:02:59.70] Delete Docker container f2a929f5743c
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Teacher, course: "http-foreign") [1 s]
+[testcontainers.org 00:03:00.05] Docker container 087ab64e3e1e created
+[testcontainers.org 00:03:00.05] Start Docker container 087ab64e3e1e
+[testcontainers.org 00:03:00.23] Wait for Docker container 087ab64e3e1e to complete readiness checks
+[testcontainers.org 00:03:00.23] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 087ab64e3e1e
+[testcontainers.org 00:03:01.29] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 087ab64e3e1e
+[testcontainers.org 00:03:02.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 087ab64e3e1e
+[testcontainers.org 00:03:02.43] Docker container 087ab64e3e1e ready
+[testcontainers.org 00:03:04.55] Delete Docker container 087ab64e3e1e
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Teacher, course: "http-other") [1 s]
+[testcontainers.org 00:03:04.88] Docker container 275dfcc81b1b created
+[testcontainers.org 00:03:04.89] Start Docker container 275dfcc81b1b
+[testcontainers.org 00:03:05.06] Wait for Docker container 275dfcc81b1b to complete readiness checks
+[testcontainers.org 00:03:05.06] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 275dfcc81b1b
+[testcontainers.org 00:03:06.12] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 275dfcc81b1b
+[testcontainers.org 00:03:07.18] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 275dfcc81b1b
+[testcontainers.org 00:03:07.25] Docker container 275dfcc81b1b ready
+[testcontainers.org 00:03:09.15] Delete Docker container 275dfcc81b1b
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Student, course: "http-foreign") [953 ms]
+[testcontainers.org 00:03:09.47] Docker container d97cbad8781a created
+[testcontainers.org 00:03:09.47] Start Docker container d97cbad8781a
+[testcontainers.org 00:03:09.61] Wait for Docker container d97cbad8781a to complete readiness checks
+[testcontainers.org 00:03:09.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d97cbad8781a
+[testcontainers.org 00:03:10.66] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d97cbad8781a
+[testcontainers.org 00:03:11.72] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d97cbad8781a
+[testcontainers.org 00:03:11.80] Docker container d97cbad8781a ready
+[testcontainers.org 00:03:14.14] Delete Docker container d97cbad8781a
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_capacity_rejects_without_unbounded_wait_and_releases_after_completion [1 s]
+[testcontainers.org 00:03:14.47] Docker container 58d5f1674439 created
+[testcontainers.org 00:03:14.48] Start Docker container 58d5f1674439
+[testcontainers.org 00:03:14.64] Wait for Docker container 58d5f1674439 to complete readiness checks
+[testcontainers.org 00:03:14.65] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 58d5f1674439
+[testcontainers.org 00:03:15.71] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 58d5f1674439
+[testcontainers.org 00:03:16.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 58d5f1674439
+[testcontainers.org 00:03:16.87] Docker container 58d5f1674439 ready
+[testcontainers.org 00:03:18.77] Delete Docker container 58d5f1674439
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_unqualified_history_and_pending_ids_do_not_become_readable [1 s]
+[testcontainers.org 00:03:19.05] Docker container 0106a44d4479 created
+[testcontainers.org 00:03:19.06] Start Docker container 0106a44d4479
+[testcontainers.org 00:03:19.22] Wait for Docker container 0106a44d4479 to complete readiness checks
+[testcontainers.org 00:03:19.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0106a44d4479
+[testcontainers.org 00:03:20.28] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0106a44d4479
+[testcontainers.org 00:03:21.34] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0106a44d4479
+[testcontainers.org 00:03:21.42] Docker container 0106a44d4479 ready
+[testcontainers.org 00:03:23.51] Delete Docker container 0106a44d4479
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_student_cannot_read_peer_in_same_group [1 s]
+[testcontainers.org 00:03:23.85] Docker container ad0216757d34 created
+[testcontainers.org 00:03:23.85] Start Docker container ad0216757d34
+[testcontainers.org 00:03:24.01] Wait for Docker container ad0216757d34 to complete readiness checks
+[testcontainers.org 00:03:24.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ad0216757d34
+[testcontainers.org 00:03:25.07] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ad0216757d34
+[testcontainers.org 00:03:26.15] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ad0216757d34
+[testcontainers.org 00:03:26.22] Docker container ad0216757d34 ready
+[testcontainers.org 00:03:28.54] Delete Docker container ad0216757d34
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Teacher) [1 s]
+[testcontainers.org 00:03:28.90] Docker container 6f78830acd0e created
+[testcontainers.org 00:03:28.90] Start Docker container 6f78830acd0e
+[testcontainers.org 00:03:29.07] Wait for Docker container 6f78830acd0e to complete readiness checks
+[testcontainers.org 00:03:29.07] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6f78830acd0e
+[testcontainers.org 00:03:30.13] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6f78830acd0e
+[testcontainers.org 00:03:31.19] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6f78830acd0e
+[testcontainers.org 00:03:31.27] Docker container 6f78830acd0e ready
+[testcontainers.org 00:03:33.51] Delete Docker container 6f78830acd0e
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Student) [1 s]
+[testcontainers.org 00:03:33.86] Docker container d1faf078be2e created
+[testcontainers.org 00:03:33.86] Start Docker container d1faf078be2e
+[testcontainers.org 00:03:34.03] Wait for Docker container d1faf078be2e to complete readiness checks
+[testcontainers.org 00:03:34.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d1faf078be2e
+[testcontainers.org 00:03:35.09] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d1faf078be2e
+[testcontainers.org 00:03:36.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d1faf078be2e
+[testcontainers.org 00:03:36.24] Docker container d1faf078be2e ready
+[testcontainers.org 00:03:38.51] Delete Docker container d1faf078be2e
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_same_group_peer_denied_and_owner_move_keeps_historical_photos [1 s]
+[testcontainers.org 00:03:38.86] Docker container edd6424ed7ff created
+[testcontainers.org 00:03:38.87] Start Docker container edd6424ed7ff
+[testcontainers.org 00:03:39.02] Wait for Docker container edd6424ed7ff to complete readiness checks
+[testcontainers.org 00:03:39.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container edd6424ed7ff
+[testcontainers.org 00:03:40.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container edd6424ed7ff
+[testcontainers.org 00:03:41.15] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container edd6424ed7ff
+[testcontainers.org 00:03:41.20] Docker container edd6424ed7ff ready
+[testcontainers.org 00:03:43.66] Delete Docker container edd6424ed7ff
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_reads_own_history_exact_dto_and_no_unverified_files(role: Teacher) [1 s]
+[testcontainers.org 00:03:44.00] Docker container f4a45983e3df created
+[testcontainers.org 00:03:44.00] Start Docker container f4a45983e3df
+[testcontainers.org 00:03:44.16] Wait for Docker container f4a45983e3df to complete readiness checks
+[testcontainers.org 00:03:44.16] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f4a45983e3df
+[testcontainers.org 00:03:45.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f4a45983e3df
+[testcontainers.org 00:03:46.28] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f4a45983e3df
+[testcontainers.org 00:03:46.38] Docker container f4a45983e3df ready
+[testcontainers.org 00:03:48.92] Delete Docker container f4a45983e3df
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_reads_own_history_exact_dto_and_no_unverified_files(role: Student) [1 s]
+[testcontainers.org 00:03:49.28] Docker container 9e3b8857865d created
+[testcontainers.org 00:03:49.28] Start Docker container 9e3b8857865d
+[testcontainers.org 00:03:49.44] Wait for Docker container 9e3b8857865d to complete readiness checks
+[testcontainers.org 00:03:49.45] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9e3b8857865d
+[testcontainers.org 00:03:50.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9e3b8857865d
+[testcontainers.org 00:03:51.57] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9e3b8857865d
+[testcontainers.org 00:03:51.64] Docker container 9e3b8857865d ready
+[testcontainers.org 00:03:53.61] Delete Docker container 9e3b8857865d
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 59.999000000000002, status: 200) [1 s]
+[testcontainers.org 00:03:53.97] Docker container 67f64c62edbe created
+[testcontainers.org 00:03:53.97] Start Docker container 67f64c62edbe
+[testcontainers.org 00:03:54.10] Wait for Docker container 67f64c62edbe to complete readiness checks
+[testcontainers.org 00:03:54.10] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 67f64c62edbe
+[testcontainers.org 00:03:55.16] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 67f64c62edbe
+[testcontainers.org 00:03:55.23] Docker container 67f64c62edbe ready
+[testcontainers.org 00:03:57.08] Delete Docker container 67f64c62edbe
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 60, status: 503) [897 ms]
+[testcontainers.org 00:03:57.41] Docker container 29cfc4442dd3 created
+[testcontainers.org 00:03:57.41] Start Docker container 29cfc4442dd3
+[testcontainers.org 00:03:57.60] Wait for Docker container 29cfc4442dd3 to complete readiness checks
+[testcontainers.org 00:03:57.60] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 29cfc4442dd3
+[testcontainers.org 00:03:58.66] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 29cfc4442dd3
+[testcontainers.org 00:03:59.72] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 29cfc4442dd3
+[testcontainers.org 00:03:59.78] Docker container 29cfc4442dd3 ready
+[testcontainers.org 00:04:01.51] Delete Docker container 29cfc4442dd3
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 60.000999999999998, status: 503) [796 ms]
+[testcontainers.org 00:04:01.82] Docker container e9b8e423a6d1 created
+[testcontainers.org 00:04:01.83] Start Docker container e9b8e423a6d1
+[testcontainers.org 00:04:02.01] Wait for Docker container e9b8e423a6d1 to complete readiness checks
+[testcontainers.org 00:04:02.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e9b8e423a6d1
+[testcontainers.org 00:04:03.09] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e9b8e423a6d1
+[testcontainers.org 00:04:04.15] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e9b8e423a6d1
+[testcontainers.org 00:04:04.22] Docker container e9b8e423a6d1 ready
+[testcontainers.org 00:04:06.35] Delete Docker container e9b8e423a6d1
+[xUnit.net 00:04:07.07]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_student_move_preserves_historical_ownership_and_never_reads_storage [1 s]
+
+Test Run Successful.
+Total tests: 65
+     Passed: 65
+ Total time: 4.1284 Minutes
+Results File: /tmp/mvp-photo/final-targeted/_tea-Swift-SFG16-74_2026-10-12_06_24_24_net10.0.trx

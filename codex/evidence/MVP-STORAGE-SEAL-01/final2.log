@@ -1,0 +1,9 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/storage-seal-tests/final2/_tea-Swift-SFG16-74_2026-10-12_05_32_03_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    25, Skipped:     0, Total:    25, Duration: 8 s - Lms.Infrastructure.Tests.dll (net10.0)

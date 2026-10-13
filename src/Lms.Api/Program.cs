@@ -44,6 +44,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.TokenValidationParameters.ValidateIssuer = true;
     options.TokenValidationParameters.ValidateAudience = true;
     options.TokenValidationParameters.ValidateLifetime = true;
+    options.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = context =>
+        {
+            var token = context.SecurityToken;
+            if (token.ValidFrom == DateTime.MinValue || token.ValidTo <= token.ValidFrom ||
+                token.ValidTo - token.ValidFrom > SessionPolicy.MaximumAccessLifetime)
+                context.Fail("Invalid access token lifetime.");
+            return Task.CompletedTask;
+        }
+    };
     options.TokenValidationParameters.RequireSignedTokens = true;
     options.TokenValidationParameters.ValidateIssuerSigningKey = true;
     if (LocalDevelopment.Enabled(builder))
@@ -67,6 +79,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         ApiErrors.Create(context.HttpContext, "ValidationFailed", 400))
     { ContentTypes = { "application/problem+json" } };
 });
+var teacherRevocation = builder.AddTeacherRevocationHost();
 var app = builder.Build();
 if (args.Contains("--migrate-only"))
 {
@@ -83,14 +96,26 @@ app.UseStatusCodePages(async context =>
     var code = status switch { 401 => "Unauthenticated", 403 => "Forbidden", 404 => "NotFound", 405 => "MethodNotAllowed", _ => "ValidationFailed" };
     await ApiErrors.Write(context.HttpContext, code, status);
 });
+if (teacherRevocation.Enabled) app.UseMiddleware<CourseRequestIngress>();
 app.UseAuthentication();
 app.UseAuthorization();
+if (teacherRevocation.OrganizationBootstrapEnabled) app.UseRateLimiter();
 app.MapGet("/api/health", async (LmsDbContext db, CancellationToken ct) =>
 {
     try { return await db.Database.CanConnectAsync(ct) ? Results.Ok() : Results.StatusCode(503); }
     catch { return Results.StatusCode(503); }
 });
 app.MapControllers();
+if (teacherRevocation.Enabled) app.MapTeacherRevocation(teacherRevocation.AllowedOrigin,
+    teacherRevocation.RestrictedDatabaseCapabilities);
+if (teacherRevocation.OrganizationBootstrapEnabled)
+{
+    app.MapOrganizationBootstrap(teacherRevocation.AllowedOrigin);
+    app.MapAccountAdministration(teacherRevocation.AllowedOrigin);
+    app.MapCourseRoster(teacherRevocation.AllowedOrigin);
+    app.MapContentPublication(teacherRevocation.AllowedOrigin,
+        app.Configuration.GetValue<long?>("ContentImport:MaxZipBytes") ?? 20_000_000);
+}
 app.Run();
 
 public partial class Program { }

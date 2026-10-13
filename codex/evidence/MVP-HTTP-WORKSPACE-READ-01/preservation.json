@@ -1,0 +1,12 @@
+{
+  "baseline_count": 634,
+  "changed_baseline_files": [
+    "src/Lms.Api/ProtectedCoursesHttp.cs",
+    "tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs"
+  ],
+  "index_unchanged": true,
+  "head_unchanged": true,
+  "branch_unchanged": true,
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39"
+}

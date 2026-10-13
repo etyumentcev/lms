@@ -1,0 +1,133 @@
+$ vitest run --no-file-parallelism
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/teacherReview.test.tsx (66 tests) 6653ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  339ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  463ms
+     ✓ handles command 0 with explicit refresh, preserved draft and no retry  355ms
+ ✓ src/test/problem.test.tsx (53 tests) 3225ms
+ ✓ src/test/history.test.tsx (37 tests) 2159ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 2542ms
+ ✓ src/test/lesson.test.tsx (40 tests) 1373ms
+ ✓ src/test/course.test.tsx (34 tests) 1172ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 978ms
+ ✓ src/test/shell.test.tsx (14 tests) 532ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 583ms
+   ✓ follows exact API links through existing page modes without legacy permissions or write UI  375ms
+ ✓ src/test/annotations.test.tsx (28 tests) 496ms
+ ✓ src/test/attachments.test.tsx (19 tests) 588ms
+ ✓ src/test/primitives.test.tsx (15 tests) 394ms
+stderr | src/test/protectedWork.test.tsx > isolated protected work > selects old attempt and its feedback without issuing writes or loading blocked files
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/protectedWork.test.tsx (5 tests) 387ms
+ ✓ src/test/api.test.ts (20 tests) 15ms
+ ❯ src/test/protectedPhotos.test.tsx (5 tests | 1 failed) 1190ms
+     × fetches pages with bearer and no-store, revokes old bytes when changing page and on unmount 1045ms
+     ✓ does not render or automatically retry denied/unavailable bytes: 401 111ms
+     ✓ does not render or automatically retry denied/unavailable bytes: 403 11ms
+     ✓ does not render or automatically retry denied/unavailable bytes: 503 9ms
+     ✓ rejects foreign photo links before sending a token or rendering an image 10ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/protectedPhotos.test.tsx > protected originals > fetches pages with bearer and no-store, revokes old bytes when changing page and on unmount
+TestingLibraryElementError: Unable to find role="img" and name "Страница 1 решения"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-label[39m=[32m"Страницы решения"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mrole[39m=[32m"alert"[39m
+      [36m>[39m
+        [0mФотография недоступна или повреждена.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"photo-controls"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mСтраница [0m
+          [0m1[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mСтраница [0m
+          [0m2[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mОбновить фотографии[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-label[39m=[32m"Страницы решения"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mrole[39m=[32m"alert"[39m
+      [36m>[39m
+        [0mФотография недоступна или повреждена.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"photo-controls"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mСтраница [0m
+          [0m1[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mСтраница [0m
+          [0m2[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mОбновить фотографии[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/test/protectedPhotos.test.tsx:18:18
+     16|     const client = createApiClient({ getAccessToken: () => 'synthetic-…
+     17|     const view = render(<ProtectedPhotos path={path} client={client} /…
+     18|     await screen.findByRole('img', { name: 'Страница 1 решения' });
+       |                  ^
+     19|     await userEvent.selectOptions(screen.getByLabelText('Масштаб'), '2…
+     20|     expect(screen.getByRole('img')).toHaveStyle({ width: '200%' });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 15 passed (16)
+      Tests  1 failed | 407 passed (408)
+   Start at  06:12:38
+   Duration  36.61s (transform 936ms, setup 1.49s, import 3.27s, tests 22.30s, environment 7.24s)
+
+[ELIFECYCLE] Test failed. See above for more details.

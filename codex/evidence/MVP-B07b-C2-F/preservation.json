@@ -1,0 +1,33 @@
+{
+  "original_files_checked": 482,
+  "changed_original_files": [],
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "index_sha256": "5c27349c41d3d0a3031e38310f7aa5ba3590cd09ec03ec8e064eef5a2ee31d93",
+  "branch_head_index_preserved": true,
+  "new_files": [
+    "codex/MVP-B07b-C2-F-RESULTS.md",
+    "codex/evidence/MVP-B07b-C2-F/SHA256.json",
+    "codex/evidence/MVP-B07b-C2-F/authority-extra.log",
+    "codex/evidence/MVP-B07b-C2-F/fs-results.json",
+    "codex/evidence/MVP-B07b-C2-F/fs.log",
+    "codex/evidence/MVP-B07b-C2-F/fs_probe.py",
+    "codex/evidence/MVP-B07b-C2-F/matrix-results.json",
+    "codex/evidence/MVP-B07b-C2-F/matrix.log",
+    "codex/evidence/MVP-B07b-C2-F/matrix_probe.py",
+    "codex/evidence/MVP-B07b-C2-F/probe.log",
+    "codex/evidence/MVP-B07b-C2-F/probe/Program.cs",
+    "codex/evidence/MVP-B07b-C2-F/probe/candidate.sql",
+    "codex/evidence/MVP-B07b-C2-F/probe/probe.csproj",
+    "codex/evidence/MVP-B07b-C2-F/probe/results.json",
+    "codex/evidence/MVP-B07b-C2-F/reference-migrations.log",
+    "codex/evidence/MVP-B07b-C2-F/regression.log",
+    "codex/evidence/MVP-B07b-C2-F/regression/regression.trx",
+    "codex/evidence/MVP-B07b-C2-F/schema-comparison.json",
+    "codex/evidence/MVP-B07b-C2-F/wire-results.json",
+    "codex/evidence/MVP-B07b-C2-F/wire.log",
+    "codex/evidence/MVP-B07b-C2-F/wire_probe.py"
+  ],
+  "local_links_valid": true,
+  "whitespace_valid": true
+}

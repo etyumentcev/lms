@@ -820,3 +820,9 @@ MVP считается функционально завершённым, есл
 15. Условие задачи остаётся тем, которое было назначено ученику на момент работы.
 
 Если этот цикл работает надёжно, первый вертикальный срез LMS реализован.
+
+## L0.3 — organization administration and access lifecycle
+
+C01/C02 ACCEPTED: уполномоченный администратор образовательной организации создаёт accounts по её списку; активация/восстановление через одноразовый код с проверкой получателя, без обязательных email/телефона и public signup. Provision account, membership, enrollment и teacher assignment — отдельные use cases. Администратор организации/платформы не получает чтения работ автоматически. Один account может иметь несколько независимых memberships; отзыв A не отзывает B, recovery не выдаёт новые учебные права.
+
+[План L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md) содержит actor/preconditions/authorization/state/concurrency/errors/audit/tests каждого use case. Technical interface/TTL/verification PROPOSED; synthetic-only execution после отдельного разрешения. Правовое представительство/основания REQUIRE LEGAL REVIEW; NOT VERIFIED / NOT_READY.

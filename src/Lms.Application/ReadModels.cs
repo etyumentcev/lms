@@ -8,10 +8,10 @@ public sealed record CourseDto(string Id, string? Title, Guid? PublishedVersionI
 public sealed record LessonDto(string Id, Guid CourseVersionId, int Order, string? Title, string? Summary = null);
 public sealed record ProblemDto(string Id, Guid CourseVersionId, int Order, string? Title, string StatementMarkdown);
 public sealed record AvailabilityDto(bool IsAvailable, DateTimeOffset? AvailableFrom, string Reason);
-public sealed record PermissionsDto(bool CanSubmit, bool CanPostMessage, bool CanAccept, bool CanRequestRevision);
+public sealed record PermissionsDto(bool CanSubmit, bool CanPostMessage, bool CanAccept, bool CanRequestRevision, bool CanViewAsTeacher = false);
 public sealed record SubmissionDto(Guid Id, int AttemptNumber, string? BodyMarkdown, DateTimeOffset SubmittedAt,
     IReadOnlyList<Guid> AttachmentIds);
-public sealed record ReviewDto(Guid Id, Guid SubmissionId, Guid TeacherId, ReviewDecision Decision, Guid? MessageId, DateTimeOffset CreatedAt);
+public sealed record ReviewDto(Guid Id, Guid SubmissionId, Guid TeacherId, ReviewDecision Decision, Guid? MessageId, DateTimeOffset CreatedAt, IReadOnlyList<AnnotatedAttachment>? Annotations = null);
 public sealed record MessageDto(Guid Id, UserSummaryDto Author, AuthorRole AuthorRole, string BodyMarkdown,
     Guid? ReplyToMessageId, DateTimeOffset CreatedAt, IReadOnlyList<Guid> AttachmentIds);
 public sealed record HistoryDto(IReadOnlyList<SubmissionDto> Submissions, IReadOnlyList<ReviewDto> Reviews, IReadOnlyList<MessageDto> Messages);

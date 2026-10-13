@@ -244,14 +244,14 @@ no work creation and 320/375/768/1024/1440 layouts. It requires the clean local 
 `features/problem-workspace` owns the assignment query, page, current submission and
 Submit form. It reuses the shared ApiClient, D shell/tabs, F nested DTO validators and
 U1 attachment API/uploader. `?tab=solution|hints|history` preserves form state and supports
-Back/Forward. Statement is always visible; History is only an H placeholder.
+Back/Forward. Statement is always visible; H implements read-only History on the same route.
 
 A shared react-markdown / remark-math / rehype-katex renderer displays text and formulas,
 without raw HTML or trusted TeX commands. Content images require a future immutable asset
 resolver and currently render alt text. Protected solution photos use U1 Blob content
 with revocable object URLs and native full-size browser viewing.
 
-`pnpm test`: 196 cases (143 baseline + 53 G). Both build and tests are required.
+`pnpm test`: 233 cases (196 baseline including G + 37 H). Both build and tests are required.
 The G browser script requires a clean local demo and an existing Playwright/Chrome:
 
 ```sh
@@ -268,3 +268,72 @@ name and an unused loopback port (verified at 8081). Keep its database/uploads s
 Default browser evidence directory is `/tmp/lms-g-browser`; no tokens are written there.
 
 See [G report](../../codex/G-RESULTS.md) for coverage and accepted scope limits.
+
+
+## H: Student History
+
+History reads the complete C4 workspace snapshot. Opening the tab refetches workspace
+without hiding the statement. Attempts retain server newest-first order; reviews and
+feedback join by IDs, and independent messages remain timeline siblings. Protected
+original attachments preserve each attempt's ordered IDs. No history mutation controls.
+Exact assignment content is used; latest content is never requested.
+
+Run `scripts/history-smoke.mjs` against a **clean dedicated** Compose project named
+`lms-h-smoke` with its own volumes and web port 8082. Set `COMPOSE_FILE` to that config,
+`LMS_PLAYWRIGHT_MODULE` to Playwright, and optionally `LMS_SMOKE_URL`/`LMS_SMOKE_OUTPUT`.
+The script prepares reviews/messages through authorized APIs, checks both attempts and
+original hashes, responsive geometry, keyboard navigation and API restart persistence.
+It refuses another Compose project name. It does not reset volumes itself.
+See `../../codex/H-RESULTS.md` for evidence, ordering decisions and contract limitations.
+
+
+## I — Teacher Review Queue
+
+`/teacher/reviews` uses the existing bearer ApiClient and exact C4 queue DTO. The backend
+owns eligibility, oldest-first order, filters, search, paging and all-pages summary.
+Native form controls keep an unapplied filter draft; **Применить** updates the one applied
+URL state. No request per keystroke. Course/group IDs and student UUID are supported;
+there is no trusted filter catalog or profile-name source. Attempt kind is all/first/revision.
+`pageSize` is 1–200; changing it resets the page. All requests are cancellable and stale
+responses cannot replace a newer query. The host's existing session-remount rule applies.
+
+AppShell/ContextPanel display server summary and available course breakdown. Rows preserve
+student/problem identity, semantic timestamp, server waiting duration and a Submitted badge
+(the endpoint's invariant; QueueItem has no status field). CTA uses ProblemWorkId, opens the
+unchanged J placeholder and carries the queue URL in Router state for the return link.
+Each queue mount fetches current data. No polling, global cache, J actions or backend changes.
+
+Tests: `src/test/reviewQueue.test.tsx` (43 cases); total 276. Real workflow smoke:
+`COMPOSE_FILE=/path/to/dedicated-compose.yml LMS_PLAYWRIGHT_MODULE=/path/to/playwright
+LMS_SMOKE_URL=http://127.0.0.1:8083 node scripts/review-queue-smoke.mjs` (single shell line).
+Use a clean dedicated **lms-i-smoke** project with its own database/uploads volumes; script
+asserts the project name and clean first assignment. It makes valid submit/review commands,
+checks Student/anonymous denial, filters/search/pagination, responsive and API restart.
+Output defaults to `/tmp/lms-i-browser`. Controlled long-name HTTP fixture is labelled
+separately from persisted real data. Never reset a user's database to run this smoke.
+See `../../codex/I-RESULTS.md` for contract gaps, full evidence and scope.
+
+## J1 Teacher Review
+
+Real `/teacher/reviews/:problemWorkId` workspace uses C4 GET/review commands and U1
+protected originals. Paging, 100–300% zoom, prior attempts, mandatory revision feedback,
+optional accept feedback and explicit conflict refresh are implemented. Draft survives
+page/attempt switches and refresh in memory, but not navigation or reload.
+
+`teacher-review-smoke.mjs` uses an existing Playwright installation (`LMS_PLAYWRIGHT_MODULE`)
+and requires a **clean disposable** Compose project named `lms-j1-smoke` at port 8084
+(or `LMS_SMOKE_URL`). Set `COMPOSE_FILE` to its configuration. It creates real submissions,
+reviews and photos, checks responsive/persistence, and deliberately performs `down -v`
+**only on that project** at the end. Never point this workflow at user data.
+Output defaults to `/tmp/lms-j1-browser`; override `LMS_SMOKE_OUTPUT` if needed.
+
+## K — release verification
+
+Run `bash src/Lms.Web/scripts/release-check.sh` **from the repository with Node 24,
+Docker, Playwright and Chrome available**. Set `LMS_PLAYWRIGHT_MODULE` if Playwright is
+outside local node_modules. Optional `LMS_K_OUTPUT` selects an absolute evidence folder.
+Runner reserves `lms-k-smoke` / loopback8086, refuses an existing project, creates clean
+test data, executes real workflow + emulated tablet + P1–P5 measurements, then removes
+only its own test volumes. P6/query counts run in `ReleasePerformanceTests`.
+No physical-device or production readiness is implied. Reports: `codex/K-RESULTS.md`.
+Teacher screen GET now uses `/teacher/problem-works/{id}`; review commands are unchanged.

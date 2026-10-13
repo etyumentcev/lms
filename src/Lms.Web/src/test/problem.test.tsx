@@ -60,11 +60,11 @@ describe('G read workspace', () => {
   it('has Router course/lesson breadcrumbs and nonlinked current problem', async () => {
     mount(); await loaded(); const nav = within(screen.getByRole('navigation', { name: 'Хлебные крошки' }));
     expect(nav.getByRole('link', { name: 'Мои курсы' })).toHaveAttribute('href', '/courses');
-    expect(nav.getByRole('link', { name: lesson.course.title })).toHaveAttribute('href', '/courses/olympiad-7');
-    expect(nav.getByRole('link', { name: lesson.lesson.title })).toHaveAttribute('href', '/courses/olympiad-7/lessons/lesson-2');
+    expect(nav.getByRole('link', { name: lesson.course.title })).toHaveAttribute('href', '/study/courses/olympiad-7');
+    expect(nav.getByRole('link', { name: lesson.lesson.title })).toHaveAttribute('href', '/study/courses/olympiad-7/versions/b5eec63a-f2d8-4b31-bca4-e21cfd1d9baa/lessons/lesson-2');
     expect(nav.queryByRole('link', { name: 'Задача 1' })).not.toBeInTheDocument();
   });
-  it.each([['hints','Подсказки','Подсказок пока нет'], ['history','История','История будет доступна здесь']])('supports deep link %s and keeps statement', async (tab, label, text) => {
+  it.each([['hints','Подсказки','Подсказок пока нет'], ['history','История','Вы ещё не отправляли решение']])('supports deep link %s and keeps statement', async (tab, label, text) => {
     mount(fixture(), undefined, `?tab=${tab}`); await loaded(); expect(screen.getByRole('tab', { name: label })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText(text)).toBeVisible(); expect(screen.getByRole('region', { name: 'Условие задачи' })).toBeVisible();
   });
@@ -223,7 +223,7 @@ describe('G statuses and context', () => {
   it('context remains one landmark after main with status and history navigation', async () => {
     mount(fixture('Submitted')); await loaded(); const context = screen.getByRole('complementary'); expect(context).toHaveTextContent('На проверке'); expect(context).toHaveTextContent('Последняя попытка №1');
     expect(screen.getAllByRole('complementary')).toHaveLength(1); expect(screen.getByRole('main').compareDocumentPosition(context) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    await userEvent.click(screen.getByRole('link', { name: 'Перейти к истории →' })); expect(screen.getByText('История будет доступна здесь')).toBeVisible(); expect(screen.getByRole('region', { name: 'Условие задачи' })).toBeVisible();
+    await userEvent.click(screen.getByRole('link', { name: 'Перейти к истории →' })); expect(await screen.findByText('История пока пуста')).toBeVisible(); expect(screen.getByRole('region', { name: 'Условие задачи' })).toBeVisible();
   });
   it('omits absent materials and renders only safe contract-supported links', async () => {
     const data = fixture(); data.usefulMaterials = [{ id: 'm', title: 'Конспект', kind: 'Document', description: null, url: '/notes' },{ id: 'bad', title: 'Опасная ссылка', kind: 'Link', description: null, url: 'javascript:alert(1)' }];

@@ -1,0 +1,8 @@
+.student-study { min-width: 0; }
+.study-theory { margin-block: var(--space-5); padding: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.study-card-list { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.study-card-list > li > a { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: var(--space-4); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); color: inherit; text-decoration: none; background: var(--surface); }
+.study-card-list > li > a:hover { border-color: var(--accent); }
+.study-card-list .row-text { display: grid; gap: var(--space-2); min-width: 0; }
+.study-card-list small { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); color: var(--text-muted); }
+@media (max-width: 767px) { .study-theory { padding: var(--space-4); margin-inline: calc(-1 * var(--space-2)); } .study-card-list > li > a { gap: var(--space-2); padding: var(--space-3); } }

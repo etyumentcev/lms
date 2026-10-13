@@ -1,0 +1,28 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/shell.test.tsx (14 tests) 906ms
+     ✓ composes navigation, main and one required contextual region  302ms
+ ✓ src/test/course.test.tsx (34 tests) 1701ms
+ ✓ src/test/lesson.test.tsx (40 tests) 1870ms
+ ✓ src/test/annotations.test.tsx (28 tests) 918ms
+   ✓ draws mouse and supports undo/redo/eraser  463ms
+ ✓ src/test/primitives.test.tsx (15 tests) 383ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 3104ms
+ ✓ src/test/attachments.test.tsx (19 tests) 550ms
+ ✓ src/test/api.test.ts (20 tests) 12ms
+ ✓ src/test/history.test.tsx (37 tests) 3519ms
+     ✓ NotStarted reads workspace only, never null work or mutation  345ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 9ms
+ ✓ src/test/problem.test.tsx (53 tests) 4036ms
+     ✓ keeps shell, statement/tabs/solution/context skeletons while loading  327ms
+ ✓ src/test/teacherReview.test.tsx (64 tests) 5196ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  354ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  343ms
+
+ Test Files  12 passed (12)
+      Tests  371 passed (371)
+   Start at  03:57:36
+   Duration  6.51s (transform 1.35s, setup 1.53s, import 3.58s, tests 22.20s, environment 6.53s)
+

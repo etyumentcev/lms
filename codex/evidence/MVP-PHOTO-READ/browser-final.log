@@ -1,0 +1,5 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/mvp-photo/browser-final/_tea-Swift-SFG16-74_2026-10-12_06_25_32_net10.0.trx
+
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 24 s - Lms.Api.Tests.dll (net10.0)

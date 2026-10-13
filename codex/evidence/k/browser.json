@@ -1,0 +1,13 @@
+{
+  "results": [
+    "Student login → Course → Lesson → two A4 uploads → Submit #1 → Teacher login → filtered Queue → ProblemWork route; immutable statement, ordered protected originals, zoom and keyboard navigation",
+    "Five widths without horizontal overflow/crop; sticky desktop statement; blank feedback validation/focus; double-click sends one RequestRevision; confirmed result and fresh filtered queue excludes work",
+    "Student reads feedback → Submit #2 with distinct photo → Teacher sees previous feedback and prior photos; real message concurrency conflict, no retry, draft survives refresh; empty-feedback Accept succeeds",
+    "Reorder and double-submit; annotations on both pages before second submit; Back/Forward, deep refresh and terminal commands verified. Student History preserves both immutable attempts/reviews; Student queue/review POST forbidden, anonymous GET 401, teacher UI/alias denied 403; general own-work GET remains readable by C4 policy",
+    "Empty solution rejected 422, malformed real upload failure blocks submit, removal recovers; text-only submit succeeds",
+    "Held real request is cancelled on rapid route switch; newer problem remains visible, no mocked responses",
+    "API restart and compose down/up preserve history and original hashes",
+    "Dedicated lms-k-smoke down -v/up --build resets database and attachments, migrations/auth/API/Web healthy"
+  ],
+  "errors": []
+}

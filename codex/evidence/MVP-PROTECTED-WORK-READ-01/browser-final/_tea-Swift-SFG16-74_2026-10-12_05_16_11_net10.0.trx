@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="8717cb1d-4e78-4870-8067-6310a1a3036a" name="@tea-Swift-SFG16-74 2026-10-12 05:16:11" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-12T05:16:11.8736799+06:00" queuing="2026-10-12T05:16:11.8736800+06:00" start="2026-10-12T05:16:03.6228890+06:00" finish="2026-10-12T05:16:16.1591799+06:00" />
+  <TestSettings name="default" id="e25b9180-7438-4ef1-83a7-7b9989ab5791">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-12_05_16_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e781537d-1fe8-43f0-b880-d3ad4de6e56f" testId="1296e4d0-50db-5d98-30c3-47b6799d53c6" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:03.7741826" startTime="2026-10-12T05:16:04.0449121+06:00" endTime="2026-10-12T05:16:11.8483833+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e781537d-1fe8-43f0-b880-d3ad4de6e56f" />
+    <UnitTestResult executionId="49898ecf-82de-44ef-9ebc-d56f20366e04" testId="9b69df2c-2325-4236-28d6-50435bbe34b0" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:02.4700151" startTime="2026-10-12T05:16:11.8583783+06:00" endTime="2026-10-12T05:16:16.1031937+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="49898ecf-82de-44ef-9ebc-d56f20366e04" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9b69df2c-2325-4236-28d6-50435bbe34b0">
+      <Execution id="49898ecf-82de-44ef-9ebc-d56f20366e04" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_work_real_student_teacher_history_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="1296e4d0-50db-5d98-30c3-47b6799d53c6">
+      <Execution id="e781537d-1fe8-43f0-b880-d3ad4de6e56f" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_work_real_student_teacher_history_and_denials" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="1296e4d0-50db-5d98-30c3-47b6799d53c6" executionId="e781537d-1fe8-43f0-b880-d3ad4de6e56f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b69df2c-2325-4236-28d6-50435bbe34b0" executionId="49898ecf-82de-44ef-9ebc-d56f20366e04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.16]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.09] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.20] Docker container 000c1dd876b2 created
+[testcontainers.org 00:00:00.23] Start Docker container 000c1dd876b2
+[testcontainers.org 00:00:00.33] Wait for Docker container 000c1dd876b2 to complete readiness checks
+[testcontainers.org 00:00:01.34] Docker container 000c1dd876b2 ready
+[testcontainers.org 00:00:01.42] Docker container db0789725140 created
+[testcontainers.org 00:00:01.42] Start Docker container db0789725140
+[testcontainers.org 00:00:01.50] Wait for Docker container db0789725140 to complete readiness checks
+[testcontainers.org 00:00:01.51] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container db0789725140
+[testcontainers.org 00:00:02.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container db0789725140
+[testcontainers.org 00:00:02.59] Docker container db0789725140 ready
+[testcontainers.org 00:00:07.59] Delete Docker container db0789725140
+[testcontainers.org 00:00:07.77] Docker container bb6cfcaa1c07 created
+[testcontainers.org 00:00:07.78] Start Docker container bb6cfcaa1c07
+[testcontainers.org 00:00:07.87] Wait for Docker container bb6cfcaa1c07 to complete readiness checks
+[testcontainers.org 00:00:07.87] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container bb6cfcaa1c07
+[testcontainers.org 00:00:08.90] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container bb6cfcaa1c07
+[testcontainers.org 00:00:08.93] Docker container bb6cfcaa1c07 ready
+[testcontainers.org 00:00:11.86] Delete Docker container bb6cfcaa1c07
+[xUnit.net 00:00:12.25]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,21 @@
+{
+  "baselineFiles": 595,
+  "changed": [
+    "src/Lms.Application/ReadModels.cs",
+    "src/Lms.Infrastructure/PostgresWorkspaceQueries.cs",
+    "src/Lms.Web/src/App.tsx",
+    "src/Lms.Web/src/api/contracts/lessonWorkspace.ts",
+    "src/Lms.Web/src/features/lesson/LessonPage.tsx",
+    "src/Lms.Web/src/features/problem-workspace/ProblemPage.tsx",
+    "src/Lms.Web/src/features/teacher-review/TeacherReviewPage.tsx",
+    "src/Lms.Web/src/features/teacher-review/useUnsavedAnnotations.ts",
+    "src/Lms.Web/src/test/shell.test.tsx",
+    "src/Lms.Web/src/test/teacherReview.test.tsx",
+    "tests/Lms.Api.Tests/ContractApiTests.cs"
+  ],
+  "missing": [],
+  "preservedFiles": 584,
+  "indexUnchanged": true,
+  "branchUnchanged": true,
+  "headUnchanged": true
+}

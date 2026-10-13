@@ -1,0 +1,40 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:17.09]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: False) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: False) [204 ms]
+  Error Message:
+   Npgsql.PostgresException : 23514: L1 course ownership is stable
+  Stack Trace:
+     at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.<>c__DisplayClass66_1.<<Http_courses_current_processing_and_ownership_before_read_and_response>g__Mutate|0>d.MoveNext() in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 172
+--- End of stack trace from previous location ---
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 184
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:19.00]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: True) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: True) [244 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   ServiceUnavailable
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 113
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 186
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 188
+--- End of stack trace from previous location ---
+Results File: /tmp/http-courses/target-final/_tea-Swift-SFG16-74_2026-10-12_04_20_44_net10.0.trx
+
+Failed!  - Failed:     2, Passed:    27, Skipped:     0, Total:    29, Duration: 1 m 3 s - Lms.Api.Tests.dll (net10.0)

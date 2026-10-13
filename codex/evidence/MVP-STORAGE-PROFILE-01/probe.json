@@ -1,0 +1,36 @@
+{
+  "uid": 1000,
+  "kernel": "7.0.0-38-generic",
+  "probes": [
+    {
+      "base": "/var/tmp",
+      "mode": "0o600",
+      "block_size": 4096,
+      "inode_flags": "0x80000",
+      "extents": true,
+      "measure": {
+        "errno": 95,
+        "name": "ENOTSUP"
+      },
+      "enable": {
+        "errno": 95,
+        "name": "ENOTSUP"
+      }
+    },
+    {
+      "base": "/tmp",
+      "mode": "0o600",
+      "block_size": 4096,
+      "inode_flags": "0x0",
+      "extents": false,
+      "measure": {
+        "errno": 25,
+        "name": "ENOTTY"
+      },
+      "enable": {
+        "errno": 25,
+        "name": "ENOTTY"
+      }
+    }
+  ]
+}

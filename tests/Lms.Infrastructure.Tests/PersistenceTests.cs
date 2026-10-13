@@ -1,6 +1,8 @@
 using Lms.Application;
 using Lms.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql;
 
 namespace Lms.Infrastructure.Tests;
@@ -26,12 +28,32 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
     private static async Task Save(string cs, ProblemWork work, long? version)
     {
         await using var db = PostgresFixture.Open(cs);
-        await new PostgresWorkStore(db).Save(work, version, Ct);
+        await TeacherPersistenceFixture.Save(db, work, version, Ct);
     }
     private static async Task<ProblemWork> Load(string cs, Guid id)
     {
         await using var db = PostgresFixture.Open(cs);
         return (await new PostgresWorkStore(db).FindWork(id, Ct))!;
+    }
+
+    [Fact]
+    public async Task Legacy_review_survives_annotation_migration_with_empty_array()
+    {
+        var cs = await fixture.CreateDatabase("20261008013249_AttachmentStorage"); var a = Assignment(); await Seed(cs, a);
+        var work = Submit(a); await Save(cs, work, null);
+        await using (var db = PostgresFixture.Open(cs))
+        {
+            // Insert the pre-Annotations shape directly. The current EF model cannot
+            // write a column that did not exist yet; never downgrade through M1.
+            await db.Database.ExecuteSqlInterpolatedAsync($"""
+                INSERT INTO "Reviews" ("Id", "ProblemWorkId", "SubmissionId", "TeacherId", "Decision", "CreatedAt")
+                VALUES ({Guid.NewGuid()}, {work.Id}, {work.Submissions[0].Id}, {Teacher}, 'Accepted', {At});
+                UPDATE "ProblemWorks" SET "Status"='Accepted', "Version"=2, "AcceptedAt"={At} WHERE "Id"={work.Id};
+                """);
+            await db.Database.MigrateAsync();
+        }
+        var loaded = await Load(cs, work.Id);
+        Assert.Equal(ProblemWorkStatus.Accepted, loaded.Status); Assert.Empty(loaded.Reviews[0].Annotations);
     }
 
     [Fact]
@@ -42,7 +64,7 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         Assert.Null(await store.FindByAssignment(a.Id, Ct));
         var restored = await store.FindAssignment(a.Id, Ct);
         Assert.Equal(a.Content, restored!.Content); Assert.Equal(a.StudentId, restored.StudentId);
-        var attachment = Guid.NewGuid(); var work = Submit(a, attachment); await store.Save(work, null, Ct);
+        var attachment = Guid.NewGuid(); var work = Submit(a, attachment); await TeacherPersistenceFixture.Save(db, work, null, Ct);
         var first = (await store.FindByAssignment(a.Id, Ct))!;
         var second = (await store.FindWork(work.Id, Ct))!;
         Assert.NotSame(first, second); Assert.Empty(first.Events);
@@ -81,7 +103,8 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         await using (var db = PostgresFixture.Open(cs))
         {
             var service = new ProblemWorkService(new PostgresWorkStore(db), new AllowedAccess(), TimeProvider.System);
-            await service.RequestRevision(new(Teacher, AuthorRole.Teacher), work.Id, initial.Id, "explain", 1);
+            work.RequestRevision(Teacher, initial.Id, "explain", At);
+            await TeacherPersistenceFixture.Save(db, work, 1, Ct);
             await service.SubmitSolution(new(a.StudentId, AuthorRole.Student), a.Id, "second", [], 2);
         }
         work = await Load(cs, work.Id);
@@ -111,15 +134,16 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
     public async Task Concurrent_reviews_and_stale_review_cannot_overwrite_next_attempt()
     {
         var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
-        var work = Submit(a); await Save(cs, work, null);
+        var attachment = Guid.NewGuid(); var work = Submit(a, attachment); await Save(cs, work, null);
         var one = await Load(cs, work.Id); var two = await Load(cs, work.Id); var stale = await Load(cs, work.Id);
-        one.RequestRevision(Teacher, one.Submissions[0].Id, "left", At);
-        two.RequestRevision(Teacher, two.Submissions[0].Id, "right", At);
-        stale.Accept(Teacher, stale.Submissions[0].Id, "stale", At);
+        AnnotatedAttachment[] Annotations() => [new(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])])];
+        one.RequestRevision(Teacher, one.Submissions[0].Id, "left", At, Annotations());
+        two.RequestRevision(Teacher, two.Submissions[0].Id, "right", At, Annotations());
+        stale.Accept(Teacher, stale.Submissions[0].Id, "stale", At, Annotations());
         var barrier = new TransactionBarrier();
         await using var left = PostgresFixture.Open(cs, barrier); await using var right = PostgresFixture.Open(cs, barrier);
-        var results = await Task.WhenAll(Record.ExceptionAsync(() => new PostgresWorkStore(left).Save(one, 1, Ct)),
-            Record.ExceptionAsync(() => new PostgresWorkStore(right).Save(two, 1, Ct)));
+        var results = await Task.WhenAll(Record.ExceptionAsync(() => TeacherPersistenceFixture.Save(left, one, 1, Ct)),
+            Record.ExceptionAsync(() => TeacherPersistenceFixture.Save(right, two, 1, Ct)));
         Assert.Single(results, x => x is null);
         Assert.Equal("ConcurrencyConflict", Assert.IsType<UseCaseException>(Assert.Single(results, x => x is not null)).Code);
         work = await Load(cs, work.Id); work.SubmitSolution(a, a.StudentId, "second", [], At); await Save(cs, work, 2);
@@ -127,6 +151,8 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         work = await Load(cs, work.Id);
         Assert.Equal(3, work.Version); Assert.Equal(ProblemWorkStatus.Submitted, work.Status);
         Assert.Equal(2, work.AttemptCount); Assert.Single(work.Reviews); Assert.Single(work.Messages);
+        var winner = work.Messages[0].BodyMarkdown == "left" ? one : two;
+        Assert.Equal(winner.Reviews[0].Annotations[0].Strokes[0].Id, work.Reviews[0].Annotations[0].Strokes[0].Id);
         await using var verify = PostgresFixture.Open(cs); Assert.Equal(4, await verify.Events.CountAsync());
     }
 
@@ -136,14 +162,15 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
     public async Task Failure_after_all_writes_rolls_back_state_history_and_events(bool firstSubmit)
     {
         var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
-        var work = Submit(a);
+        var attachment = Guid.NewGuid();
+        var work = Submit(a, attachment);
         if (!firstSubmit)
         {
             await Save(cs, work, null); work = await Load(cs, work.Id);
-            work.RequestRevision(Teacher, work.Submissions[0].Id, "feedback", At);
+            work.RequestRevision(Teacher, work.Submissions[0].Id, "feedback", At, [new(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])])]);
         }
         await using (var failed = PostgresFixture.Open(cs, new FailAfterWrites()))
-            await Assert.ThrowsAsync<InvalidOperationException>(() => new PostgresWorkStore(failed).Save(work, firstSubmit ? null : 1, Ct));
+            await Assert.ThrowsAsync<InvalidOperationException>(() => TeacherPersistenceFixture.Save(failed, work, firstSubmit ? null : 1, Ct));
         await using var verify = PostgresFixture.Open(cs);
         Assert.Equal(firstSubmit ? 0 : 1, await verify.Works.CountAsync());
         Assert.Equal(firstSubmit ? 0 : 1, await verify.Set<Submission>().CountAsync());
@@ -153,6 +180,55 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
         // Failed saves do not acknowledge the pending events.
         await Save(cs, work, firstSubmit ? null : 1);
         Assert.Equal(firstSubmit ? 1 : 3, await verify.Events.CountAsync());
+        if (!firstSubmit) Assert.Single((await Load(cs, work.Id)).Reviews[0].Annotations);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task Commit_failure_rolls_back_and_retry_keeps_attempt_and_annotations(bool firstSubmit)
+    {
+        var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
+        var attachment = Guid.NewGuid(); var work = Submit(a, attachment);
+        if (!firstSubmit)
+        {
+            await Save(cs, work, null); work = await Load(cs, work.Id);
+            work.RequestRevision(Teacher, work.Submissions[0].Id, "feedback", At,
+                [new(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])])]);
+        }
+        await using (var db = PostgresFixture.Open(cs, new FailAtCommit()))
+            await Assert.ThrowsAsync<InvalidOperationException>(() => TeacherPersistenceFixture.Save(db, work, firstSubmit ? null : 1, Ct));
+        await using (var verify = PostgresFixture.Open(cs))
+        {
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Works.CountAsync());
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Set<Submission>().CountAsync());
+            Assert.Empty(await verify.Set<Review>().ToArrayAsync()); Assert.Empty(await verify.Set<Message>().ToArrayAsync());
+            Assert.Equal(firstSubmit ? 0 : 1, await verify.Events.CountAsync());
+        }
+        await Save(cs, work, firstSubmit ? null : 1);
+        var restored = await Load(cs, work.Id); Assert.Equal(1, restored.AttemptCount);
+        Assert.Equal(firstSubmit ? 1 : 2, restored.Version);
+        if (!firstSubmit) Assert.Single(Assert.Single(restored.Reviews).Annotations);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Split_history_load_keeps_one_snapshot_when_review_commits_between_queries(bool existingTransaction)
+    {
+        var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
+        var original = Submit(a); await Save(cs, original, null);
+        var changed = await Load(cs, original.Id); changed.RequestRevision(Teacher, changed.Submissions[0].Id, "concurrent", At);
+        var duringRead = new BetweenHistoryQueries(() => Save(cs, changed, 1));
+        await using (var db = PostgresFixture.Open(cs, duringRead))
+        {
+            await using var tx = existingTransaction ? await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead) : null;
+            var read = (await new PostgresWorkStore(db).FindByAssignment(a.Id, Ct))!;
+            Assert.True(duringRead.Triggered); Assert.Equal(1, read.Version); Assert.Equal(ProblemWorkStatus.Submitted, read.Status);
+            Assert.Single(read.Submissions); Assert.Empty(read.Reviews); Assert.Empty(read.Messages);
+        }
+        var fresh = await Load(cs, original.Id); Assert.Equal(2, fresh.Version);
+        Assert.Single(fresh.Reviews); Assert.Single(fresh.Messages);
     }
 
     [Fact]
@@ -160,16 +236,16 @@ public sealed class PersistenceTests(PostgresFixture fixture) : IClassFixture<Po
     {
         var cs = await fixture.CreateDatabase(); var a = Assignment(); await Seed(cs, a);
         await using var db = PostgresFixture.Open(cs); var store = new PostgresWorkStore(db); var work = Submit(a);
-        await store.Save(work, null, Ct); await store.Save(work, 1, Ct);
+        await TeacherPersistenceFixture.Save(db, work, null, Ct); await TeacherPersistenceFixture.Save(db, work, 1, Ct);
         work.RequestRevision(Teacher, work.Submissions[0].Id, "Explain step 2", At);
-        await store.Save(work, 1, Ct); await store.Save(work, 2, Ct);
+        await TeacherPersistenceFixture.Save(db, work, 1, Ct); await TeacherPersistenceFixture.Save(db, work, 2, Ct);
         await Save(cs, work, 2); // A fresh unit of work must not re-enqueue the old event list.
         var loaded = (await store.FindWork(work.Id, Ct))!;
         Assert.Empty(loaded.Events);
         var feedback = Assert.Single(loaded.Messages);
         Assert.Equal("Explain step 2", feedback.BodyMarkdown);
         Assert.Equal(feedback.Id, loaded.Reviews[0].MessageId);
-        await store.Save(loaded, 2, Ct);
+        await TeacherPersistenceFixture.Save(db, loaded, 2, Ct);
         Assert.Equal(3, await db.Events.CountAsync());
         var payload = (await db.Events.SingleAsync(x => x.Type == nameof(SolutionSubmitted))).Payload;
         Assert.Contains(work.Submissions[0].Id.ToString(), payload);

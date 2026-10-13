@@ -5,6 +5,19 @@ namespace Lms.Application.Tests;
 public sealed class ProblemWorkServiceTests
 {
     [Fact]
+    public async Task Annotation_validation_precedes_save_and_review_uses_one_save()
+    {
+        var f = new Fixture(); var attachment = Guid.NewGuid();
+        var first = await f.Service.SubmitSolution(f.Student, f.Assignment.Id, null, [attachment], null);
+        var pages = new[] { new AnnotatedAttachment(Guid.NewGuid(), [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])]) };
+        await Assert.ThrowsAsync<DomainException>(() => f.Service.AcceptSubmission(f.Teacher, first.ProblemWorkId, first.SubmissionId, null, first.Version, annotations: pages));
+        Assert.Equal(1, f.Store.SaveCalls); Assert.Empty(f.Store.Work!.Reviews);
+        pages[0] = pages[0] with { AttachmentId = attachment };
+        await f.Service.AcceptSubmission(f.Teacher, first.ProblemWorkId, first.SubmissionId, null, first.Version, annotations: pages);
+        Assert.Equal(2, f.Store.SaveCalls); Assert.Single(f.Store.Work.Reviews[0].Annotations);
+    }
+
+    [Fact]
     public async Task Full_slice_uses_same_work_and_expected_versions()
     {
         var f = new Fixture();
@@ -143,7 +156,7 @@ public sealed class ProblemWorkServiceTests
     {
         var f = new Fixture();
         await Error("AssignmentNotFound", () => f.Service.SubmitSolution(f.Student, Guid.NewGuid(), "body", [], null));
-        await Error("ProblemWorkNotFound", () => f.Service.AcceptSubmission(f.Teacher, Guid.NewGuid(), Guid.NewGuid(), null, 0));
+        await Error("Forbidden", () => f.Service.AcceptSubmission(f.Teacher, Guid.NewGuid(), Guid.NewGuid(), null, 0));
     }
 
     [Fact]
@@ -165,12 +178,14 @@ public sealed class ProblemWorkServiceTests
         public ProblemAssignment Assignment { get; }
         public StoreSpy Store { get; }
         public AccessStub Policy { get; } = new();
-        public ProblemWorkService Service { get; }
+        // Unit-level capability only; real admission/reservation is asserted in Infrastructure tests.
+        public ProblemWorkService Service => new(Store, Policy, new FixedTime(),
+            new TeacherOperationContext(Teacher.Id, Store.Work?.Id ?? Guid.Empty, "Review", new Ingress().Arrive()));
         public Fixture()
         {
             Assignment = new(Guid.NewGuid(), Student.Id, "course", new(Guid.NewGuid(), "lesson", "problem"));
             Store = new(Assignment);
-            Service = new(Store, Policy, new FixedTime());
+
         }
         public Task<SubmissionResult> Submit() => Service.SubmitSolution(Student, Assignment.Id, "body", [], null);
     }
@@ -195,6 +210,13 @@ public sealed class ProblemWorkServiceTests
         }
     }
 
+    private sealed class Source : IQualifiedClockSource
+    {
+        public QualifiedClockReading Read() => new("unit", true,
+            new(DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch), TimeSpan.Zero, TimeSpan.Zero);
+    }
+    private sealed class Ingress() : TrustedApplicationIngressAdapter(new(new Source(), TimeSpan.Zero, TimeSpan.Zero))
+    { public ApplicationDeadline Arrive() => Capture(ApplicationRequestKind.TeacherOperation); }
     private sealed class FixedTime : TimeProvider
     {
         public override DateTimeOffset GetUtcNow() => new(2026, 10, 7, 0, 0, 0, TimeSpan.Zero);

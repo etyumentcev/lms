@@ -1,0 +1,90 @@
+{
+  "command": "/tmp/b07c2g/sdk/dotnet test Lms.sln -m:1 -p:UseSharedCompilation=false --logger trx --results-directory /tmp/b07c2h/final-results",
+  "cwd": "/tmp/b07c2h/repo",
+  "suites": [
+    {
+      "suite": "lms.domain.tests",
+      "counters": {
+        "total": "43",
+        "executed": "43",
+        "passed": "43",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "suite": "lms.application.tests",
+      "counters": {
+        "total": "272",
+        "executed": "272",
+        "passed": "272",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "suite": "lms.infrastructure.tests",
+      "counters": {
+        "total": "198",
+        "executed": "198",
+        "passed": "198",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "suite": "lms.api.tests",
+      "counters": {
+        "total": "191",
+        "executed": "191",
+        "passed": "191",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    }
+  ]
+}

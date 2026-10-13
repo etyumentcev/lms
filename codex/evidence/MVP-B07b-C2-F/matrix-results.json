@@ -1,0 +1,247 @@
+[
+  {
+    "source": "Receiving",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Receiving",
+    "target": "Validating",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Receiving",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Receiving",
+    "target": "Invalid",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Receiving",
+    "target": "Failed",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Receiving",
+    "target": "Cancelled",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Receiving",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Validating",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Validating",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Validating",
+    "target": "Ready",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Validating",
+    "target": "Invalid",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Validating",
+    "target": "Failed",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Validating",
+    "target": "Cancelled",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Validating",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Ready",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Ready",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Ready",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Ready",
+    "target": "Invalid",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Ready",
+    "target": "Failed",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Ready",
+    "target": "Cancelled",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Ready",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Invalid",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Invalid",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Failed",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Cancelled",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Invalid",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Failed",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Invalid",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Failed",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Cancelled",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Failed",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Invalid",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Failed",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Cancelled",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Cancelled",
+    "target": "Expired",
+    "sqlstate": "00000"
+  },
+  {
+    "source": "Expired",
+    "target": "Receiving",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Validating",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Ready",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Invalid",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Failed",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Cancelled",
+    "sqlstate": "23514"
+  },
+  {
+    "source": "Expired",
+    "target": "Expired",
+    "sqlstate": "23514"
+  }
+]

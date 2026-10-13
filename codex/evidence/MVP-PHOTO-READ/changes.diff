@@ -1,0 +1,1048 @@
+--- baseline/codex/L03-OWNER-DECISION-REGISTER.md
++++ current/codex/L03-OWNER-DECISION-REGISTER.md
+@@ -137,3 +137,8 @@
+ Авторизована только документационная синхронизация и [короткий implementation roadmap](MVP-B01-G02-NR1-IMPLEMENTATION-ROADMAP.md); [результат и точный diff](MVP-B01-G02-NR1-SYNC-RESULTS.md) остановить на owner acceptance. Следующий инженерный slice должен давать проверяемый код qualified clock source и evidence после отдельного задания, без нового бесконечного qualification цикла. Runtime/schema/production DI/HTTP/Docker/edge/processing guards не менять. Branch/HEAD/index и посторонние изменения сохранить; commit/merge/rebase/push/deploy запрещены.
+ 
+ **NR1 NORMATIVELY ACCEPTED · G02 IMPLEMENTATION BLOCKED · CLOCK NOT PROVEN · H04/READY BLOCKED · B08 NOT AUTHORIZED · PRS1 EXACT OFF · S4 HTTP CUTOVER NOT AUTHORIZED.**
++
++
++## 2026-10-12 — Sapientum MVP photo storage risk acceptance
++
++Explicit owner decision: **PHYSICAL TAMPERING RISK ACCEPTED · FS-VERITY NOT REQUIRED FOR MVP · STORAGE-PROFILE-02 CANCELLED · PHOTO READ DEVELOPMENT AUTHORIZED IN SYNTHETIC SCOPE · S2/S3/PROCESSING GUARANTEES PRESERVED · G02 PRODUCTION BLOCKED.** The [exact scoped NR1/ADR override](MVP-STORAGE-RISK-ACCEPTANCE.md) is effective now for solution photographs only. Historical NO-GO/test results retained. No other NR1 guarantees or production gates waived. No commit/push/merge/rebase/deploy/cutover authorized.
+--- baseline/codex/MVP-B01-G02-NORMATIVE-REVIEW.md
++++ current/codex/MVP-B01-G02-NORMATIVE-REVIEW.md
+@@ -1,4 +1,7 @@
+ # MVP-B01/G02 — normative review для synthetic MVP Sapientum
++
++> **MVP photo storage override — 2026-10-12.** [Owner-authorized exact diff](MVP-STORAGE-RISK-ACCEPTANCE.md): physical original tampering risk accepted; fs-verity/kernel seal, retained FD/mmap exclusion proofs and developer filesystem qualification removed only for Sapientum solution photos. Completed private upload, parent/S2/S3/current processing/deadline and all other NR1 guarantees remain required. STORAGE-PROFILE-02 CANCELLED; G02 production BLOCKED. Historical clauses/results below are preserved.
++
+ 
+ > **NR1 effective notice — 2026-10-11.** N1–N7 и ограниченный supersession D1–D8 приняты. Формулировки PROPOSED / NOT ACCEPTED, §§3/9 и итоговый статус ниже сохранены как история review до решения; они больше не описывают нормативный статус NR1. Сам текст N1–N7/D1–D8 не изменён. Техническая реализация NOT IMPLEMENTED / NOT ACCEPTED.
+ > Нормативный источник: [N1–N7 / точный D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](L03-OWNER-DECISION-REGISTER.md), [sync results](MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+--- baseline/codex/MVP-PHOTO-READ-RESULTS.md
++++ current/codex/MVP-PHOTO-READ-RESULTS.md
+@@ -0,0 +1,114 @@
++# MVP photo read — isolated synthetic implementation
++
++2026-10-12. **PHOTO READ IMPLEMENTED IN SYNTHETIC SCOPE · OWNER ACCEPTANCE PENDING · G02 PRODUCTION BLOCKED.** Authorization: explicit owner decision accepting physical-original tampering risk, removing fs-verity from MVP and cancelling STORAGE-PROFILE-02. [Exact normative diff and scope](MVP-STORAGE-RISK-ACCEPTANCE.md). This is a private photo-read slice, not production cutover or complete upload/review/acceptance HTTP integration.
++
++## Contract and implementation
++
++Student → own work/attempt/pages; assigned Teacher → assigned work/attempt/pages. Invariants: S2 JWT, S3 org/course/group/student/teacher and immutable parent chain, current conservative ADR-L18 restrictions, original application deadline, independent authorization for every manifest/original request. Entities: existing StoredAttachment, AttachmentScope, Submission, ProblemWork and assignment scope. No domain transitions on reads. UI states: loading → page/zoom; new page/attempt → new authorized fetch; denial/unavailable → no image. Historical attempt IDs and attachment order remain unchanged.
++
++| Data/path | Server authority and behavior |
++|---|---|
++| Work + Submission | Existing ProtectedWorkRead checks exact course/version/lesson/work, independent S3 Work/Submission checks, historical authors and current processing before materialization; captured WorkVersion is rechecked before return. Course access alone is insufficient. |
++| Attachment manifest | Existing S3 ResolveResource + ScopePolicy, non-pending parent, exact requested submission/work, student/uploader identity, same-org synthetic context, current processing; no unqualified legacy IDs or file paths. Original ordered AttachmentIds, maximum 10. |
++| Each original | All parent and attachment checks again before opening storage; Size 1–10 MiB, PNG/JPEG validation, full bounded bytes in private memory. Fresh parent/processing/eligibility + JWT trust/lifetime + ResponseEnqueue deadline before response. |
++| Storage | Existing LocalFileAttachmentStorage: unique GUID keys, private staging, completed write/flush/close then rename without overwrite. Unix new directories 0700, files 0600. Synthetic root is a fresh random directory under /tmp, outside static web root; fixture owns/disposes it. No kernel seal or FS qualification. |
++| Failure | Incomplete Store never publishes metadata; failed stage is cleaned, existing originals never overwritten. AttachmentService now retains original after any metadata-save failure: SELECT-not-found is not proof against a late commit. No automatic replay or deletion based on that assumption. Explicit reconciliation remains required. Missing/truncated/structurally corrupt original → empty 503; denied scope → empty 403; absent/invalid JWT → 401. |
++| Resources | Maximum 10 photos per manifest, 10 MiB per original, four concurrent photo requests, reject excess with 503 and no queue. Only one current browser image, old blob URL revoked on page/attempt change, refresh and unmount. No DB transaction/lock or filesystem handle is retained during response delivery. These are read bounds, not a completed durable upload capacity/recovery manager. |
++
++The new opt-in routes are:
++
++```text
++GET /api/v1/courses/{course}/versions/{version}/lessons/{lesson}/works/{work}/submissions/{submission}/photos
++GET /api/v1/courses/{course}/versions/{version}/lessons/{lesson}/works/{work}/submissions/{submission}/photos/{attachment}
++```
++
++Production Program.cs and legacy controller registration are unchanged. Test HttpHost explicitly registers photo storage and routes. ComponentAuthorization's global A1 attachment exclusion remains unchanged; the new adapter composes accepted parent authorization and existing S3 attachment policy. The legacy direct `/api/v1/attachments/{id}/content` route remains 404 in this isolated host. Range is ignored and returns the same full bounded 200 response after all gates; partial ranges/derived thumbnails are not implemented. No public/static/presigned URLs. Browser fetch carries Authorization; `<img>` receives only a transient in-memory blob URL, never a token or public file URL. Responses are no-store/nosniff; no token persistence, automatic retry or refresh flow was introduced.
++
++The work DTO reports `photoAvailability: protected` only in the explicit photo composition. The previous history-only composition still reports unavailable and its existing tests remain valid. Message attachments, annotation persistence and new review/submit HTTP commands are outside this slice.
++
++## Write boundaries
++
++Synthetic seed runs sequentially against a disposable PostgreSQL database and real private files: AttachmentService.Upload (format/size validated; Store before metadata SaveChanges), trusted AttachmentScope creation, then existing PostgresWorkStore.Save claims attachments with immutable submission history in its transaction. PostgresWorkStore owns the READ COMMITTED transaction: new work INSERT or version-CAS row UPDATE, immutable history and stable-ID domain-event journal, attachment row locks in sorted UUID order via the existing claim trigger, then SaveChanges/Commit. Storage I/O finishes before that transaction. Fixture failures propagate without retry. No changes to that claim/CAS/locks/audit protocol. Two pages belong to attempt 1, a distinct page belongs to attempt 2. No rewriting of historical arrays or test bypass of DB triggers.
++
++No new user-facing domain write is registered. NR1 N2/N3 durable command registration before side effects, finite pending accounting, serialization/reconciliation and authoritative unknown-outcome handling have **not** been waived or proven for legacy upload/Submit. Their full protected HTTP integration remains an implementation dependency. The small original-retention correction prevents unsafe cleanup, but is not a claim that the full recovery protocol now exists. Backup/recovery remains the separate ADR-L05 operational requirement; no restore drill or production RPO/RTO acceptance is claimed.
++
++## Verification
++
++Exact commands below run in `/home/tea/github/lms`; logs and TRX summaries are retained under [evidence](evidence/MVP-PHOTO-READ).
++
++```sh
++/tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter 'FullyQualifiedName~Http_photo_'
++export PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH
++pnpm --dir src/Lms.Web exec vite build --config vite.browser-read.config.ts
++LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome /tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-build --no-restore --filter 'FullyQualifiedName~Browser_photo_' --logger trx --results-directory /tmp/mvp-photo/browser-final
++/tmp/b07c2g/sdk/dotnet test Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --results-directory /tmp/mvp-photo/regression
++pnpm --dir src/Lms.Web exec vitest run src/test/protectedPhotos.test.tsx src/test/protectedWork.test.tsx
++pnpm --dir src/Lms.Web test --no-file-parallelism
++pnpm --dir src/Lms.Web build
++```
++
++- Initial photo HTTP matrix **13/13 PASS**. Final expanded matrix and compensation tests: results appended below.
++- Chrome **154.0.8037.57**, actual Chrome binary + Playwright, real Kestrel/PostgreSQL/private filesystem: **2/2 PASS**, Student and Teacher, zero skipped. [Log](evidence/MVP-PHOTO-READ/browser-final.log), [Student](evidence/MVP-PHOTO-READ/Student/results.json), [Teacher](evidence/MVP-PHOTO-READ/Teacher/results.json). No request mocks, no HAR/trace/video. JWTs travel via anonymous child pipe and in-memory auth, with diagnostic redaction. Submission rows are asserted unchanged after each scenario.
++- Frontend final serial regression **408/408 PASS**, 16 files; protected photo/work tests **10/10 PASS**. TypeScript/production Vite and isolated browser build **PASS** (browser bundle-size advisory).
++- Backend full regression: Domain **43 PASS**, Application **340 PASS**, Infrastructure **284 PASS** (includes private-stage/permissions/no-overwrite). API portion was interrupted after approximately ten minutes without a final result; **INCOMPLETE, not PASS**. The initial container check used a different Docker CLI context, so no claim of a proven hang is made. Final focused API verification is recorded below. Broader tests are not new acceptance of historical storage qualification or production.
++- Development failures retained: missing TestHost import; platform analyzer rejecting unconditional UnixCreateMode setter; first Chrome run found stale page image briefly labelled with the new page number (fixed by binding rendered URL to selected href); one unit test used a cross-realm Node Blob instead of browser Blob (fixed test response). [Initial HTTP](evidence/MVP-PHOTO-READ/http-initial.log), [platform build](evidence/MVP-PHOTO-READ/browser.log), [Chrome failure](evidence/MVP-PHOTO-READ/browser2.log), [initial frontend](evidence/MVP-PHOTO-READ/frontend.log). Failures are not erased or labelled PASS.
++
++### Browser evidence
++
++A4 synthetic PNG originals: 1240×1754, three distinct labelled sheets, no real data. Screenshots of history/page 1 and teacher page 2 at 200% were visually inspected; viewport scroll preserves the full A4 original.
++
++| Scenario | Student | Teacher |
++|---|---|---|
++| Current attempt, distinct photo | [image](evidence/MVP-PHOTO-READ/Student/01-current-attempt.png) | [image](evidence/MVP-PHOTO-READ/Teacher/01-current-attempt.png) |
++| Older attempt / first A4 page | [image](evidence/MVP-PHOTO-READ/Student/02-history-A4-page1.png) | [image](evidence/MVP-PHOTO-READ/Teacher/02-history-A4-page1.png) |
++| Second page / 200% zoom | [image](evidence/MVP-PHOTO-READ/Student/03-A4-page2-zoom.png) | [image](evidence/MVP-PHOTO-READ/Teacher/03-A4-page2-zoom.png) |
++| Corrupt original | [image](evidence/MVP-PHOTO-READ/Student/04-corrupt.png) | [image](evidence/MVP-PHOTO-READ/Teacher/04-corrupt.png) |
++| Missing original | [image](evidence/MVP-PHOTO-READ/Student/05-missing.png) | [image](evidence/MVP-PHOTO-READ/Teacher/05-missing.png) |
++| Current restriction | [image](evidence/MVP-PHOTO-READ/Student/04-restricted.png) | [image](evidence/MVP-PHOTO-READ/Teacher/04-restricted.png) |
++| Tablet viewport | [image](evidence/MVP-PHOTO-READ/Student/05-tablet-history.png) | [image](evidence/MVP-PHOTO-READ/Teacher/05-tablet-history.png) |
++| Expired JWT | [image](evidence/MVP-PHOTO-READ/Student/06-expired.png) | [image](evidence/MVP-PHOTO-READ/Teacher/06-expired.png) |
++
++Browser negative assertions cover foreign attachment ID, swapped work/submission/course, anonymous file request, direct legacy URL, restriction and expiry on both manifest and original, missing and same-length corrupt files, blob revocation and no cookies/localStorage/sessionStorage/IndexedDB/cache/304/remote calls/token URLs. Tablet is emulation, not physical-device evidence.
++
++## Guardrails §7 and security review
++
++| Requirement | Disposition and evidence |
++|---|---|
++| Actor/use case/invariants/states | covered — contract above, browser Student/Teacher |
++| Accepted S2/S3/PRS1, closed gates | covered — existing JWT + S3 policy + current conservative gate reused; exact PRS1 OFF, production registration unchanged |
++| Org/course/group/student/teacher/parent | covered — HTTP own controls and wrong group/course/org/attachment/work/submission/version/lesson, missing/malformed IDs; same-group peer and moved owner final matrix |
++| Affected subjects/evidence | covered — accepted work gates include history authors; attachment uploader equals submission student; missing scope/context/processing access denies |
++| Counts/list leakage | covered — manifest checks all returned IDs before emitting order/count; inaccessible manifest denies as a whole; existing work-list pre-materialization tests retained; pagination N/A, none added |
++| Attachments/history | covered — confirmed storage write before metadata, immutable claim chain and independent photo gates; pending/unqualified IDs denied; two attempts retain separate pages |
++| Writes/locks/CAS/retry/unknown | no new runtime command; synthetic seed uses existing store. Original retention after uncertain metadata save corrected, no replay. Full NR1 upload protocol NOT PROVEN |
++| Validation/limits/errors | covered — format/size/page/concurrency bounds; empty 401/403/503, no-store; interrupted staging, missing/corrupt files and deadline tests |
++| Tests | exact results/commands above and below; production restore/clock qualification and physical-device testing NOT RUN |
++| Authorized scope and unrelated files | covered — scoped docs/adapter/UI/tests only, no migrations/DI production/cutover; preservation evidence below |
++| Real data/secrets/readiness | covered — disposable synthetic fixtures, in-memory JWT/pipe, no public file paths or token logs. No pilot readiness claim |
++| Remaining limitations | G02 and deployment clock still blocked/open; operational backup/recovery separate; no user upload/Submit/review HTTP activation. Physical modification to a different valid same-length image can pass format checks: explicitly accepted tampering risk, not a hash/seal guarantee |
++
++## Changed paths and preservation
++
++New: Application/ProtectedPhotoRead.cs; Infrastructure/PostgresProtectedPhotoQueries.cs; Api/ProtectedPhotoHttp.cs; Web/features/protected-work/ProtectedPhotos.tsx and test/protectedPhotos.test.tsx; API photo HTTP/browser tests; Infrastructure/PrivatePhotoStorageTests.cs; tools/browser_read/photos.mjs; three tests/fixtures/photos originals; both requested reports and new evidence.
++
++Narrow existing-file edits: AttachmentService (retain unknown original), LocalFileAttachmentStorage (private creation permissions), PostgresProtectedWorkQueries and protectedWork DTO/UI (explicit protected-photo mode), protectedWork.css, isolated test HttpHost registration, AttachmentConsistencyTests (conservative retention expectation); NR1/ADR-L15/L18/bounded-execution notices and append-only owner register. Production Program.cs, global A1/S3 policy, DB schema and historical evidence unchanged.
++
++Canonical directory `/home/tea/github/lms`; existing dirty branch `codex/l1-s4-jwt-api-authorization`, HEAD `492e30aef65bbddd24f107903bfaa54a563abe39`. No branch switch, commit, push, merge, rebase, worktree, deploy or production cutover. Baseline snapshots/hashes include tracked and untracked source/docs/evidence; `.obsidian` and ignored build products excluded. [Preservation manifest](evidence/MVP-PHOTO-READ/preservation.json) and [task-only exact diff](evidence/MVP-PHOTO-READ/changes.diff) compare against the dirty starting state, not HEAD. Shell/tool reads/writes required escalation because the sandbox fails before execution with `mountinfo path is not absolute`; no approval rejection occurred.
++
++**UI PHOTO READ IMPLEMENTED · CHROME SYNTHETIC SCENARIOS PASS · OWNER ACCEPTANCE PENDING · FULL SYNTHETIC MVP NOT CLAIMED · PILOT NOT AUTHORIZED.**
++
++
++## Final execution and preservation
++
++- Final targeted API **65/65 PASS**, zero skipped: **16 photo**, **42 protected-work**, **7 attachment consistency**. Covers authorization before storage opens, same-group peer denial, historical ownership after group move, pending/unqualified references, concurrency saturation/release, file faults, before/after-read restrictions, JWT/deadline/clock failures, and before/after metadata-save exceptions retaining the original. [Log](evidence/MVP-PHOTO-READ/final-targeted.log), [TRX counters](evidence/MVP-PHOTO-READ/test-summary.json).
++- Final Chrome after the retention correction **2/2 PASS**, both roles, zero skipped. The earlier successful 2/2 run is overlapping evidence, not additional scenarios.
++- Backend broad run completed **43 Domain + 340 Application + 284 Infrastructure PASS**. API portion **INCOMPLETE / interrupted**, so no full-solution PASS is claimed. Focused final results above validate affected API paths on final code. [Broad log](evidence/MVP-PHOTO-READ/regression.log).
++- Frontend final **408/408 PASS**; final TypeScript/Vite build **PASS**. [Frontend](evidence/MVP-PHOTO-READ/frontend-final.log), [build](evidence/MVP-PHOTO-READ/build-final.log), [isolated build](evidence/MVP-PHOTO-READ/browser-build-final.log).
++- Preservation: **772/785 baseline files unchanged**; exactly 13 intended existing files changed. Four normative notices reverse to byte-identical original bodies; original owner-register prefix preserved. Branch, HEAD and index unchanged. New files/evidence and hashes are enumerated in preservation.json; task-only diff includes textual new/changed files, with PNG originals separately listed in the manifest.
++
++Additional final command:
++
++```sh
++/tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter 'FullyQualifiedName~Http_photo_|FullyQualifiedName~AttachmentConsistencyTests|FullyQualifiedName~Http_work_' --logger 'console;verbosity=normal' --logger trx --results-directory /tmp/mvp-photo/final-targeted
++python3 /tmp/mvp-photo/finalize.py
++```
+--- baseline/codex/MVP-STORAGE-RISK-ACCEPTANCE.md
++++ current/codex/MVP-STORAGE-RISK-ACCEPTANCE.md
+@@ -0,0 +1,41 @@
++# MVP storage — owner-authorized risk acceptance
++
++2026-10-12. **PHYSICAL TAMPERING RISK ACCEPTED · FS-VERITY NOT REQUIRED FOR MVP · STORAGE-PROFILE-02 CANCELLED.** Источник полномочий — явное решение владельца в текущем задании. Только фотографии учебных решений Sapientum; разработка/проверка только в изолированном SyntheticOnly. Production инфраструктура не выбрана; G02 production BLOCKED.
++
++## Точный нормативный override
++
++Эта поправка имеет приоритет только над перечисленными storage clauses; исходные тексты и evidence сохраняются как история.
++
++| Источник / прежняя норма | Действующая редакция только для фотографий решений |
++|---|---|
++| NR1 N3, первый абзац: «Только доказанно неизменяемая exact version с подтверждённой durability/hash/length может стать eligible. Retained writer handles и issued writes должны быть исключены до seal/claim; rename/chmod/hash сами по себе этого не доказывают. … Если immutability не доказана — quarantine, путь blocked.» | Eligible только после успешного завершения private upload: ограниченный и проверенный файл полностью записан, writer приложения закрыт, уникальный server-controlled key опубликован без overwrite, metadata подтверждены. Pending/failed/unknown uploads не выдаются. Приложение не перезаписывает и не переиспользует ключи оригиналов; попытки сохраняют собственные ссылки. Физическая неизменяемость bytes, fs-verity/kernel seal, retained FD/mmap exclusion proofs и квалификация filesystem машины разработчика не являются MVP prerequisite. Риск физической перезаписи после подтверждения принимается; length/format checks выявляют часть повреждений, но не доказывают отсутствие tampering. |
++| NR1 N5: «pending/unverified файлы не выдаются» | Сохраняется; verified означает подтверждённый завершённый upload по редакции выше, а не kernel seal. Parent/scope/current processing/JWT/deadline проверяются на каждом запросе. |
++| NR1 N6: «immutable storage isolation» | Для этих фотографий — private application-level isolation, уникальные ключи без overwrite, подтверждение upload, независимая авторизация родителей. Physical tampering исключён из требуемой модели защиты по принятому риску. Остальная acceptance-модель N6 неизменна. |
++| ADR-L15 D3 / NR1 N3,N5; ADR-L18 file dependency; G02 bounded execution I3, seal receipt и overwrite/FD proof clauses | В этой узкой части ссылки на seal/exact immutable version читаются как подтверждение завершённой записи выше. Это не ослабляет требования domain commit, immutable history, обработки unknown, current restrictions или temporal gates. |
++| STORAGE-SEAL-01 / STORAGE-PROFILE-01 вывод о необходимости fs-verity и STORAGE-PROFILE-02 | Исторические NO-GO/FAIL остаются достоверными результатами старого контракта. STORAGE-PROFILE-02 отменён, дальнейшая квалификация filesystem разработчика не требуется для MVP photo development. |
++
++Не изменены N1/N2/N4/N7 и остальные положения N3/N5/N6: запрет automatic replay/resume неизвестного результата; finite capacity и учёт pending; неизвестный исход не rollback; сохранение unknown originals; отдельная безопасная cleanup; deadline/clock; S2/S3, Organization/Course/Group/Student/Teacher, current ProcessingRestrictions и родительская цепочка; численные ограничения файлов/ресурсов; atomic claim/domain/history/audit. Не вводятся права из одного course grant. Никаких public/static/presigned URL. Backup/recovery остаются отдельными эксплуатационными требованиями ADR-L05: согласованная копия DB+originals, проверка восстановления и явно принятые RPO/RTO; данное решение не объявляет их выполненными и не требует выбора production FS сейчас.
++
++## Дословная замена первого абзаца N3 в указанном scope
++
++Прежний текст (остается в исходном документе как история):
++
++```text
++Storage/worker без domain credentials пишет только в уникальный private namespace старого operation/generation; namespace не переиспользуется. Только доказанно неизменяемая exact version с подтверждённой durability/hash/length может стать eligible. Retained writer handles и issued writes должны быть исключены до seal/claim; rename/chmod/hash сами по себе этого не доказывают. Late worker output не создаёт Ready/parent/reference/permission. Если immutability не доказана — quarantine, путь blocked.
++```
++
++Действующий текст только для фотографий решений Sapientum:
++
++```text
++Storage/worker без domain credentials пишет только в уникальный private namespace старого operation/generation; namespace не переиспользуется. Для фотографий учебных решений Sapientum eligible становится только полностью завершённая private запись: формат и размер проверены, запись/flush/закрытие writer приложения успешно завершены, уникальный server-controlled key опубликован без overwrite, metadata подтверждены. Физическая неизменяемость exact version, fs-verity/kernel immutable seal, специальные retained FD/mmap exclusion proofs и квалификация filesystem машины разработчика не требуются для MVP. Приложение не перезаписывает оригиналы и не переиспользует их ключи; попытки сохраняют собственные ссылки. Late worker output не создаёт Ready/parent/reference/permission. Pending/failed/unknown или неподтверждённые файлы не выдаются. Риск физической перезаписи оригиналов принят владельцем; обработка повреждений/отсутствия файла и отдельные backup/recovery требования сохраняются.
++```
++
++Остальные абзацы N3 не заменяются. N5 сохраняется с указанным выше определением completed/verified; в N6 меняется только storage isolation prerequisite. Нормативные notices и append-only запись — фактический diff, сохранённый в [changes.diff](evidence/MVP-PHOTO-READ/changes.diff).
++
++## Реализационная граница
++
++Повторно используются AttachmentService, StoredAttachment, AttachmentScope, LocalFileAttachmentStorage. Новые routes — isolated opt-in чтение списка страниц конкретной submission и оригинала. ComponentAuthorization A1 не расширяется глобально: используются его parent checks и существующий S3 ScopePolicy/IScopedAuthorityReader для каждого attachment. Нет production регистрации, миграций, нового upload/Submit HTTP protocol или automatic legacy qualification. Synthetic fixture создаёт новые фотографии через реальную завершённую запись и существующий claim. Неопределённые исходы записи не повторяются.
++
++Для новых domain writes NR1 durable operation/capacity/recovery protocol остаётся обязательным: исторический AttachmentService не является доказательством всего этого протокола. Здесь он используется для контролируемого fixture upload, без подключения legacy upload HTTP к защищённому контуру. Будущая пользовательская запись требует соответствующего implementation slice; снятие physical seal не закрывает остальные gaps.
++
++Связанный результат: [MVP-PHOTO-READ-RESULTS](MVP-PHOTO-READ-RESULTS.md). Исторические документы не переписаны, effective notices и реестр однозначно задают приоритет. model-domain/implement-use-case/implement-feature skills недоступны; выполнение не заявляется.
+--- baseline/docs/adr/ADR-L15-jwt-delayed-revocation.md
++++ current/docs/adr/ADR-L15-jwt-delayed-revocation.md
+@@ -1,4 +1,7 @@
+ # ADR-L15 — JWT и ограниченный по времени обычный отзыв
++
++> **MVP photo storage override — 2026-10-12.** [Owner-authorized exact diff](../../codex/MVP-STORAGE-RISK-ACCEPTANCE.md): physical original tampering risk accepted; fs-verity/kernel seal, retained FD/mmap exclusion proofs and developer filesystem qualification removed only for Sapientum solution photos. Completed private upload, parent/S2/S3/current processing/deadline and all other NR1 guarantees remain required. STORAGE-PROFILE-02 CANCELLED; G02 production BLOCKED. Historical clauses/results below are preserved.
++
+ 
+ > **NR1 effective notice — 2026-10-11.** Только в NR1 scope: D1 заменяет абзац «Deadline измеряется…» на N1/N4; D2 — «Engineering requirement…» на N2/N3; D3 — два file/stream абзаца на N3/N5; D4 — весь формальный completion proof §L0.4 на N1/N2/N4/N6; D8 — производный вывод 23m в §Решение. Числа таблицы 60/480s означают application budget N1, не physical completion. JWT/admission/revoke serialization сохранены. Ordinary jobs paragraph и исключённые paths не ослаблены.
+ > Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+--- baseline/docs/adr/ADR-L18-synthetic-processing-restrictions.md
++++ current/docs/adr/ADR-L18-synthetic-processing-restrictions.md
+@@ -1,4 +1,7 @@
+ # ADR-L18 — ProcessingRestrictions в SyntheticOnly L1
++
++> **MVP photo storage override — 2026-10-12.** [Owner-authorized exact diff](../../codex/MVP-STORAGE-RISK-ACCEPTANCE.md): physical original tampering risk accepted; fs-verity/kernel seal, retained FD/mmap exclusion proofs and developer filesystem qualification removed only for Sapientum solution photos. Completed private upload, parent/S2/S3/current processing/deadline and all other NR1 guarantees remain required. STORAGE-PROFILE-02 CANCELLED; G02 production BLOCKED. Historical clauses/results below are preserved.
++
+ 
+ > **NR1 effective notice — 2026-10-11.** D7 заменяет temporal dependency абзаца «Files проходят тот же gate…» на N5 только в NR1 scope: application deadline и возможный queued transport tail. Current restrictions, write serialization, pre-materialization checks и jobs fresh checks сохраняются. Реальная freshness/legal acceptance не предоставлена.
+ > Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+--- baseline/docs/architecture/L1-G02-BOUNDED-EXECUTION.md
++++ current/docs/architecture/L1-G02-BOUNDED-EXECUTION.md
+@@ -1,4 +1,7 @@
+ # G02/A02 — Bounded execution: архитектура и инварианты
++
++> **MVP photo storage override — 2026-10-12.** [Owner-authorized exact diff](../../codex/MVP-STORAGE-RISK-ACCEPTANCE.md): physical original tampering risk accepted; fs-verity/kernel seal, retained FD/mmap exclusion proofs and developer filesystem qualification removed only for Sapientum solution photos. Completed private upload, parent/S2/S3/current processing/deadline and all other NR1 guarantees remain required. STORAGE-PROFILE-02 CANCELLED; G02 production BLOCKED. Historical clauses/results below are preserved.
++
+ 
+ > **NR1 effective notice — 2026-10-11.** D6 заменяет только I6 all-executors-stop на N1–N3/N6 в NR1 scope. Производные physical completion/full-stop выводы читаются через D1–D4/D8. I1–I5/I7 остаются safety obligations с отдельным physical accounting; quiescence обязательна для seal/purge. Исторический A02 design и его отрицательные выводы не исправлены и не стали PASS.
+ > Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+--- baseline/src/Lms.Api/ProtectedPhotoHttp.cs
++++ current/src/Lms.Api/ProtectedPhotoHttp.cs
+@@ -0,0 +1,56 @@
++using System.Data.Common;
++using System.Text.Json;
++using Lms.Application;
++using Lms.Infrastructure;
++
++namespace Lms.Api;
++
++// Install only in the isolated synthetic host. Four concurrent bounded photo requests;
++// no queue and no automatic retries. Not a durable upload/recovery capacity manager.
++public sealed class PhotoReadCapacity : IDisposable
++{
++    internal SemaphoreSlim Slots { get; } = new(4, 4);
++    public void Dispose() => Slots.Dispose();
++}
++public static class ProtectedPhotoHttp
++{
++    public static void MapProtectedPhotoReads(this WebApplication app)
++    {
++        const string root = "/api/v1/courses/{courseId}/versions/{versionId}/lessons/{lessonId}/works/{workId}/submissions/{submissionId}/photos";
++        foreach (var route in new[] { root, root + "/{attachmentId}" })
++            app.MapGet(route, Execute).RequireAuthorization(p => p.AddAuthenticationSchemes(CourseBearerHandler.SchemeName).RequireAuthenticatedUser());
++    }
++    private static async Task Execute(HttpContext context, ComponentJwt jwt, IProtectedPhotoQueries queries, PhotoReadCapacity capacity)
++    {
++        context.Response.Headers.CacheControl = "no-store";
++        context.Response.Headers["X-Content-Type-Options"] = "nosniff";
++        var deadline = context.Features.Get<ApplicationDeadline>();
++        var accepted = context.Features.Get<ValidatedCourseBearer>();
++        if (accepted == null) { context.Response.StatusCode = 401; return; }
++        if (deadline == null || !deadline.Check(ApplicationAction.Admission).Allowed || !capacity.Slots.Wait(0))
++        { context.Response.StatusCode = 503; return; }
++        try
++        {
++            string? Route(string n) => context.Request.RouteValues[n]?.ToString();
++            if (!Guid.TryParse(Route("versionId"), out var version) || !Guid.TryParse(Route("workId"), out var work) ||
++                !Guid.TryParse(Route("submissionId"), out var submission) || Route("attachmentId") != null && !Guid.TryParse(Route("attachmentId"), out _))
++                throw new UseCaseException("Forbidden");
++            var read = await queries.Read(accepted.Authority, new(new(Route("courseId")!, version, Route("lessonId")!, WorkId: work),
++                submission, Route("attachmentId") == null ? null : Guid.Parse(Route("attachmentId")!)), deadline, context.RequestAborted);
++            if (!await queries.CanReturn(accepted.Authority, read, deadline, context.RequestAborted)) { context.Response.StatusCode = 403; return; }
++            if (jwt.Validate(accepted.Bearer) == null) { context.Response.StatusCode = 401; return; }
++            var bytes = read.Value is PhotoBytes photo ? photo.Bytes : JsonSerializer.SerializeToUtf8Bytes(read.Value, new JsonSerializerOptions(JsonSerializerDefaults.Web));
++            if (!deadline.Check(ApplicationAction.ResponseEnqueue).Allowed) { context.Response.StatusCode = 503; return; }
++            context.Response.ContentType = read.Value is PhotoBytes p ? p.MediaType : "application/json";
++            // Range is deliberately ignored: full bounded response, with all gates, never a bypass.
++            context.Response.ContentLength = bytes.Length;
++            await context.Response.Body.WriteAsync(bytes, context.RequestAborted);
++        }
++        catch (UseCaseException) { context.Response.StatusCode = 403; }
++        catch (Exception e) when (e is IOException or UnauthorizedAccessException or DbException)
++        { if (!context.Response.HasStarted) context.Response.StatusCode = 503; }
++        catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested || !deadline.Check(ApplicationAction.StartStage).Allowed)
++        { if (!context.Response.HasStarted) context.Response.StatusCode = 503; }
++        finally { capacity.Slots.Release(); }
++    }
++}
+--- baseline/src/Lms.Application/ProtectedPhotoRead.cs
++++ current/src/Lms.Application/ProtectedPhotoRead.cs
+@@ -0,0 +1,13 @@
++namespace Lms.Application;
++
++public sealed record PhotoSelection(WorkSelection Work, Guid SubmissionId, Guid? AttachmentId = null);
++public sealed record WorkPhotoDto(Guid Id, string Href);
++public sealed record WorkPhotosDto(IReadOnlyList<WorkPhotoDto> Items);
++public sealed record ProtectedPhotoRead(object Value, ProtectedWorkRead Work, PhotoSelection Selection,
++    IReadOnlyList<Guid> AttachmentIds);
++public sealed record PhotoBytes(byte[] Bytes, string MediaType);
++public interface IProtectedPhotoQueries
++{
++    Task<ProtectedPhotoRead> Read(TokenAuthority token, PhotoSelection selection, ApplicationDeadline deadline, CancellationToken ct);
++    Task<bool> CanReturn(TokenAuthority token, ProtectedPhotoRead read, ApplicationDeadline deadline, CancellationToken ct);
++}
+--- baseline/src/Lms.Infrastructure/AttachmentService.cs
++++ current/src/Lms.Infrastructure/AttachmentService.cs
+@@ -35,14 +35,9 @@
+         }
+         catch
+         {
+-            try
+-            {
+-                // A commit acknowledgement can be lost. Never remove a potentially committed file
+-                // if the database cannot confirm that its metadata is absent.
+-                if (!await db.StoredAttachments.AsNoTracking().AnyAsync(x => x.Id == record.Id, CancellationToken.None))
+-                    await storage.Delete(record.StorageKey, CancellationToken.None);
+-            }
+-            catch (Exception e) { logger.LogWarning(e, "Attachment compensation failed for {Id}", record.Id); }
++            // SELECT-not-found is not proof that an in-flight commit cannot finish later.
++            // Keep the unique private original for explicit reconciliation; never replay here.
++            logger.LogWarning("Attachment metadata outcome requires reconciliation for {Id}; original retained", record.Id);
+             throw;
+         }
+         return new(record.Id, name, mediaType, record.Size, record.CreatedAt, $"/api/v1/attachments/{record.Id}/content");
+--- baseline/src/Lms.Infrastructure/LocalFileAttachmentStorage.cs
++++ current/src/Lms.Infrastructure/LocalFileAttachmentStorage.cs
+@@ -18,12 +18,17 @@
+     public async Task Store(string key, Stream content, CancellationToken cancellationToken)
+     {
+         var target = Location(key);
+-        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
++        var directory = Path.GetDirectoryName(target)!;
++        if (OperatingSystem.IsWindows()) Directory.CreateDirectory(directory);
++        else Directory.CreateDirectory(directory, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+         var temporary = target + "." + Guid.NewGuid().ToString("N") + ".tmp";
+         try
+         {
+-            await using (var file = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None,
+-                81920, FileOptions.Asynchronous | FileOptions.WriteThrough))
++            var fileOptions = new FileStreamOptions {
++                Mode = FileMode.CreateNew, Access = FileAccess.Write, Share = FileShare.None,
++                BufferSize = 81920, Options = FileOptions.Asynchronous | FileOptions.WriteThrough };
++            if (!OperatingSystem.IsWindows()) fileOptions.UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
++            await using (var file = new FileStream(temporary, fileOptions))
+             {
+                 await content.CopyToAsync(file, cancellationToken);
+                 await file.FlushAsync(cancellationToken);
+--- baseline/src/Lms.Infrastructure/PostgresProtectedPhotoQueries.cs
++++ current/src/Lms.Infrastructure/PostgresProtectedPhotoQueries.cs
+@@ -0,0 +1,71 @@
++using Lms.Application;
++using Lms.Domain;
++using Microsoft.EntityFrameworkCore;
++
++namespace Lms.Infrastructure;
++
++// Isolated synthetic opt-in. Parent authorization remains on the accepted work boundary;
++// attachment authorization reuses S3 ownership and policy without enabling files globally in A1.
++public sealed class PostgresProtectedPhotoQueries(LmsDbContext db, IProtectedWorkQueries works,
++    IScopedAuthorityReader resources, ICurrentProcessingGate processing, IAttachmentStorage storage) : IProtectedPhotoQueries
++{
++    public const int MaxBytes = 10 * 1024 * 1024;
++    private static void Stage(ApplicationDeadline d)
++    { if (!d.Check(ApplicationAction.StartStage).Allowed) throw new OperationCanceledException(); }
++    private async Task<bool> Allows(TokenAuthority token, PhotoSelection s, Guid id, ApplicationDeadline d, CancellationToken ct)
++    {
++        Stage(d);
++        var owner = await resources.ResolveResource(new(ResourceKind.Attachment, id, s.Work.CourseId), ct);
++        if (owner == null || owner.PendingAttachment || owner.WorkId != s.Work.WorkId || owner.SubmissionId != s.SubmissionId ||
++            owner.UploaderActorId != owner.StudentId || !ScopePolicy.Allows(token.Authority, owner, ScopeAction.Read, token.Identity.ActorId)) return false;
++        Stage(d);
++        if (!await processing.Allows(owner, token.Identity.ActorId, ScopeAction.Read, ct)) return false;
++        Stage(d);
++        // Upload metadata is inserted only after Store succeeds. Claimed expiry is no longer
++        // pending-upload TTL; immutable submission linkage supplies historical eligibility.
++        return await db.StoredAttachments.AsNoTracking().AnyAsync(x => x.Id == id && !x.Deleted &&
++            x.SubmissionId == s.SubmissionId && x.MessageId == null && x.OwnerId == owner.UploaderActorId &&
++            x.Size > 0 && x.Size <= MaxBytes && (x.MediaType == "image/png" || x.MediaType == "image/jpeg"), ct);
++    }
++    public async Task<bool> CanReturn(TokenAuthority token, ProtectedPhotoRead read, ApplicationDeadline d, CancellationToken ct)
++    {
++        if (!await works.CanReturn(token, read.Work, d, ct)) return false;
++        foreach (var id in read.AttachmentIds) if (!await Allows(token, read.Selection, id, d, ct)) return false;
++        return true;
++    }
++    public async Task<ProtectedPhotoRead> Read(TokenAuthority token, PhotoSelection s, ApplicationDeadline d, CancellationToken ct)
++    {
++        if (s.Work.WorkId == null) throw new UseCaseException("Forbidden");
++        var work = await works.Read(token, s.Work, d, ct);
++        if (work.Value is not ProtectedWorkDto dto || !dto.Attempts.Any(a => a.Id == s.SubmissionId)) throw new UseCaseException("Forbidden");
++        Stage(d);
++        var ids = await db.Set<Submission>().AsNoTracking().Where(x => x.Id == s.SubmissionId && x.ProblemWorkId == s.Work.WorkId)
++            .Select(x => x.AttachmentIds).SingleAsync(ct);
++        if (ids.Count > 10 || ids.Distinct().Count() != ids.Count) throw new UseCaseException("Forbidden");
++        var selected = s.AttachmentId is { } id ? ids.Contains(id) ? new[] { id } : throw new UseCaseException("Forbidden") : ids.ToArray();
++        foreach (var item in selected) if (!await Allows(token, s, item, d, ct)) throw new UseCaseException("Forbidden");
++        object value;
++        if (s.AttachmentId is { } attachment)
++        {
++            Stage(d);
++            var record = await db.StoredAttachments.AsNoTracking().SingleAsync(x => x.Id == attachment, ct);
++            Stage(d);
++            // Bounded private buffer: no DB transaction/connection or filesystem handle during delivery.
++            await using var file = await storage.Open(record.StorageKey, ct);
++            if (!file.CanSeek || file.Length != record.Size) throw new IOException("Unavailable original");
++            var bytes = new byte[checked((int)record.Size)];
++            await file.ReadExactlyAsync(bytes, ct);
++            if (file.ReadByte() != -1) throw new IOException("Unavailable original");
++            Stage(d);
++            try { ImageUploadValidator.Validate(bytes, record.MediaType); }
++            catch (UseCaseException) { throw new IOException("Unavailable original"); }
++            value = new PhotoBytes(bytes, record.MediaType);
++        }
++        else
++        {
++            var root = $"/api/v1/courses/{Uri.EscapeDataString(s.Work.CourseId)}/versions/{s.Work.VersionId}/lessons/{Uri.EscapeDataString(s.Work.LessonId)}/works/{s.Work.WorkId}/submissions/{s.SubmissionId}/photos";
++            value = new WorkPhotosDto(selected.Select(i => new WorkPhotoDto(i, root + "/" + i)).ToArray());
++        }
++        return new(value, work, s, selected);
++    }
++}
+--- baseline/src/Lms.Infrastructure/PostgresProtectedWorkQueries.cs
++++ current/src/Lms.Infrastructure/PostgresProtectedWorkQueries.cs
+@@ -6,7 +6,7 @@
+ 
+ // Isolated read composition. No legacy Actor, writes, private storage or file authorization bypass.
+ public sealed class PostgresProtectedWorkQueries(LmsDbContext db, ComponentAuthorization authorization,
+-    IScopedAuthorityReader resources, ICurrentProcessingGate processing) : IProtectedWorkQueries
++    IScopedAuthorityReader resources, ICurrentProcessingGate processing, bool photoReads = false) : IProtectedWorkQueries
+ {
+     private static void Stage(ApplicationDeadline d)
+     { if (!d.Check(ApplicationAction.StartStage).Allowed) throw new OperationCanceledException(); }
+@@ -122,7 +122,7 @@
+             .Select(x => new { x.Id, x.AttemptNumber, x.BodyMarkdown, x.SubmittedAt, PhotoCount = x.AttachmentIds.Count }).ToListAsync(ct);
+         return new(new ProtectedWorkDto(workId, work.Status.ToString(), Root(s) + "/problems/" + Uri.EscapeDataString(work.ProblemId),
+             attempts.OrderBy(x => x.AttemptNumber).Select(x => new WorkAttemptDto(x.Id, x.AttemptNumber, x.BodyMarkdown, x.SubmittedAt,
+-                x.PhotoCount, "unavailable", reviewBodies.Where(r => r.SubmissionId == x.Id).OrderBy(r => r.CreatedAt).Select(r =>
++                x.PhotoCount, photoReads ? "protected" : "unavailable", reviewBodies.Where(r => r.SubmissionId == x.Id).OrderBy(r => r.CreatedAt).Select(r =>
+                     new WorkReviewDto(r.Id, r.Decision.ToString(), r.MessageId is { } mid ? bodies.Single(m => m.Id == mid).BodyMarkdown : null, r.CreatedAt)).ToArray())).ToArray(),
+             bodies.OrderBy(m => m.CreatedAt).ThenBy(m => m.Id).ToArray()), s, gates);
+     }
+--- baseline/src/Lms.Web/src/api/contracts/protectedWork.ts
++++ current/src/Lms.Web/src/api/contracts/protectedWork.ts
+@@ -3,11 +3,11 @@
+ const exact = (shape: Parameters<typeof object>[0]) => (v: unknown) => object(shape)(v) && Object.keys(v as object).length === Object.keys(shape).length;
+ const status = (v: unknown) => ['NotStarted', 'Submitted', 'NeedsRevision', 'Accepted'].includes(v as string);
+ type Review = { id: string; decision: string; feedbackMarkdown: string | null; createdAt: string };
+-export type Attempt = { id: string; number: number; bodyMarkdown: string | null; submittedAt: string; photoCount: number; photoAvailability: 'unavailable'; reviews: Review[] };
++export type Attempt = { id: string; number: number; bodyMarkdown: string | null; submittedAt: string; photoCount: number; photoAvailability: 'unavailable' | 'protected'; reviews: Review[] };
+ export type ProtectedWork = { id: string; status: string; statementHref: string; attempts: Attempt[]; messages: { id: string; role: string; bodyMarkdown: string; createdAt: string; photoCount: number }[] };
+ export type WorkList = { items: { id: string; problemId: string; status: string; href: string }[] };
+ const review = exact({ id: uuid, decision: (v: unknown) => ['Accepted', 'NeedsRevision'].includes(v as string), feedbackMarkdown: nullable(string), createdAt: string });
+-const attempt = exact({ id: uuid, number: count, bodyMarkdown: nullable(string), submittedAt: string, photoCount: count, photoAvailability: (v: unknown) => v === 'unavailable', reviews: array(review) });
++const attempt = exact({ id: uuid, number: count, bodyMarkdown: nullable(string), submittedAt: string, photoCount: count, photoAvailability: (v: unknown) => (v === 'unavailable' || v === 'protected'), reviews: array(review) });
+ const message = exact({ id: uuid, role: (v: unknown) => ['Student', 'Teacher'].includes(v as string), bodyMarkdown: string, createdAt: string, photoCount: count });
+ export function decodeWork(path: string, detail: boolean) {
+   return (value: unknown): ProtectedWork | WorkList => {
+--- baseline/src/Lms.Web/src/features/protected-work/ProtectedPhotos.tsx
++++ current/src/Lms.Web/src/features/protected-work/ProtectedPhotos.tsx
+@@ -0,0 +1,52 @@
++import { useEffect, useState } from 'react';
++import { ApiError, type ApiClient } from '../../api/client';
++
++type Photo = { id: string; href: string };
++export function ProtectedPhotos({ path, client }: { path: string; client: ApiClient }) {
++  const [photos, setPhotos] = useState<Photo[]>([]);
++  const [page, setPage] = useState(0);
++  const [image, setImage] = useState<{ href: string; url: string }>();
++  const url = image?.href === photos[page]?.href ? image?.url : undefined;
++  const [error, setError] = useState<string>();
++  const [zoom, setZoom] = useState(100);
++  const [reload, setReload] = useState(0);
++  useEffect(() => {
++    const controller = new AbortController(); setPhotos([]); setPage(0); setError(undefined);
++    void client.request(path.slice('/api/v1'.length), value => {
++      const items = (value as { items?: Photo[] })?.items;
++      if (!Array.isArray(items) || items.length > 10 || items.some(p => !/^[0-9a-f-]{36}$/i.test(p.id) || p.href !== `${path}/${p.id}`)) throw new Error('Invalid photos');
++      return items;
++    }, { signal: controller.signal }).then(items => { if (!controller.signal.aborted) setPhotos(items); })
++      .catch((e: unknown) => { if (!controller.signal.aborted) setError(message(e)); });
++    return () => controller.abort();
++  }, [path, client, reload]);
++  useEffect(() => {
++    const controller = new AbortController(); let objectUrl: string | undefined;
++    setImage(undefined); setZoom(100);
++    const photo = photos[page];
++    if (photo) {
++      setError(undefined);
++      void client.request(photo.href.slice('/api/v1'.length), value => {
++        if (!(value instanceof Blob) || !['image/png', 'image/jpeg'].includes(value.type) || value.size > 10 * 1024 * 1024) throw new Error('Invalid photo');
++        return value;
++      }, { signal: controller.signal, responseType: 'blob' }).then(blob => {
++        if (!controller.signal.aborted) { objectUrl = URL.createObjectURL(blob); setImage({ href: photo.href, url: objectUrl }); }
++      }).catch((e: unknown) => { if (!controller.signal.aborted) setError(message(e)); });
++    }
++    return () => { controller.abort(); if (objectUrl) URL.revokeObjectURL(objectUrl); };
++  }, [photos, page, client]);
++  return <section aria-label="Страницы решения">
++    {error ? <p role="alert">{error}</p> : !url && <p role="status">Загрузка фотографии…</p>}
++    <div className="photo-controls">
++      {photos.map((p, i) => <button type="button" key={p.id} aria-pressed={page === i} onClick={() => setPage(i)}>Страница {i + 1}</button>)}
++      {url && <label>Масштаб <select value={zoom} onChange={e => setZoom(Number(e.target.value))}>
++        {[50, 100, 150, 200].map(n => <option key={n} value={n}>{n}%</option>)}</select></label>}
++      <button type="button" onClick={() => { setImage(undefined); setPhotos([]); setReload(n => n + 1); }}>Обновить фотографии</button>
++    </div>
++    {url && <div className="photo-viewport"><img src={url} alt={`Страница ${page + 1} решения`} style={{ width: `${zoom}%`, maxWidth: 'none' }}
++      onError={() => { setImage(undefined); setError('Фотография недоступна или повреждена.'); }} /></div>}
++  </section>;
++}
++function message(e: unknown) {
++  return e instanceof ApiError && e.status === 401 ? 'Войдите, чтобы открыть фотографию.' : e instanceof ApiError && e.status === 403 ? 'Нет доступа к фотографии.' : 'Фотография недоступна или повреждена.';
++}
+--- baseline/src/Lms.Web/src/features/protected-work/ProtectedWorkPage.tsx
++++ current/src/Lms.Web/src/features/protected-work/ProtectedWorkPage.tsx
+@@ -1,4 +1,5 @@
+ import './protectedWork.css';
++import { ProtectedPhotos } from './ProtectedPhotos';
+ import { useEffect, useState } from 'react';
+ import { Link } from 'react-router-dom';
+ import { ApiError, type ApiClient } from '../../api/client';
+@@ -44,7 +45,7 @@
+             {work.attempts.map(a => <option key={a.id} value={a.id}>Попытка {a.number}</option>)}</select>
+             {attempt && <article key={attempt.id}><h3>Попытка {attempt.number}</h3>
+               {attempt.bodyMarkdown && <MarkdownContent>{attempt.bodyMarkdown}</MarkdownContent>}
+-              <h3>Фотографии</h3><p>{attempt.photoCount ? `Фотографии (${attempt.photoCount}) сейчас недоступны.` : 'В этой попытке нет фотографий.'}</p>
++              <h3>Фотографии</h3>{attempt.photoCount ? attempt.photoAvailability === 'protected' ? <ProtectedPhotos key={attempt.id} path={`${path}/submissions/${attempt.id}/photos`} client={client} /> : <p>{`Фотографии (${attempt.photoCount}) сейчас недоступны.`}</p> : <p>В этой попытке нет фотографий.</p>}
+               <h3>Замечания к попытке</h3>{attempt.reviews.length ? attempt.reviews.map(r => <div key={r.id}>
+                 <p>{r.decision === 'Accepted' ? 'Принято' : 'Требуется доработка'}</p>{r.feedbackMarkdown && <MarkdownContent>{r.feedbackMarkdown}</MarkdownContent>}</div>) : <p>Замечаний пока нет.</p>}
+             </article>}</> : <EmptyState title="Попыток пока нет" />}
+--- baseline/src/Lms.Web/src/features/protected-work/protectedWork.css
++++ current/src/Lms.Web/src/features/protected-work/protectedWork.css
+@@ -5,3 +5,9 @@
+ .protected-work select { min-height: 44px; min-width: 180px; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--border-strong); border-radius: var(--radius-small); background: var(--surface); color: var(--text); margin-bottom: var(--space-4); }
+ .protected-work article h3 { margin: var(--space-4) 0 var(--space-2); }
+ .protected-work > button { justify-self: start; }
++
++.photo-controls { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-block: .75rem; }
++.photo-controls button, .photo-controls select { min-height: 44px; padding: .5rem .75rem; }
++.photo-controls button[aria-pressed="true"] { outline: 2px solid #315f83; }
++.photo-viewport { max-height: 75vh; overflow: auto; background: #e8eaf0; border: 1px solid #c4c9d4; }
++.photo-viewport img { display: block; height: auto; }
+--- baseline/src/Lms.Web/src/test/protectedPhotos.test.tsx
++++ current/src/Lms.Web/src/test/protectedPhotos.test.tsx
+@@ -0,0 +1,40 @@
++import { render, screen, waitFor } from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import { afterEach, describe, expect, it, vi } from 'vitest';
++import { createApiClient } from '../api/client';
++import { ProtectedPhotos } from '../features/protected-work/ProtectedPhotos';
++const id = '11111111-1111-1111-1111-111111111111', other = '22222222-2222-2222-2222-222222222222';
++const path = `/api/v1/courses/own/versions/${id}/lessons/lesson/works/${id}/submissions/${id}/photos`;
++const manifest = () => new Response(JSON.stringify({ items: [id, other].map(id => ({ id, href: `${path}/${id}` })) }));
++const photo = () => { const response = new Response(); response.blob = async () => new Blob(['photo'], { type: 'image/png' }); return response; };
++afterEach(() => vi.unstubAllGlobals());
++describe('protected originals', () => {
++  it('fetches pages with bearer and no-store, revokes old bytes when changing page and on unmount', async () => {
++    const create = vi.fn().mockReturnValueOnce('blob:one').mockReturnValueOnce('blob:two'), revoke = vi.fn();
++    vi.stubGlobal('URL', class extends URL { static createObjectURL = create; static revokeObjectURL = revoke; });
++    const fetch = vi.fn().mockResolvedValueOnce(manifest()).mockResolvedValueOnce(photo())
++      .mockResolvedValueOnce(photo());
++    const client = createApiClient({ getAccessToken: () => 'synthetic-token', fetch });
++    const view = render(<ProtectedPhotos path={path} client={client} />);
++    await screen.findByRole('img', { name: 'Страница 1 решения' });
++    await userEvent.selectOptions(screen.getByLabelText('Масштаб'), '200');
++    expect(screen.getByRole('img')).toHaveStyle({ width: '200%' });
++    await userEvent.click(screen.getByRole('button', { name: 'Страница 2' }));
++    await screen.findByRole('img', { name: 'Страница 2 решения' }); expect(revoke).toHaveBeenCalledWith('blob:one');
++    expect(fetch.mock.calls[2]![0]).toBe(`${path}/${other}`);
++    for (const [, options] of fetch.mock.calls) {
++      expect(options.cache).toBe('no-store'); expect(options.headers.get('Authorization')).toBe('Bearer synthetic-token');
++    }
++    view.unmount(); expect(revoke).toHaveBeenCalledWith('blob:two');
++  });
++  it.each([401, 403, 503])('does not render or automatically retry denied/unavailable bytes: %s', async status => {
++    const fetch = vi.fn().mockResolvedValueOnce(manifest()).mockResolvedValueOnce(new Response('', { status }));
++    render(<ProtectedPhotos path={path} client={createApiClient({ getAccessToken: () => 'token', fetch })} />);
++    await screen.findByRole('alert'); expect(screen.queryByRole('img')).toBeNull(); expect(fetch).toHaveBeenCalledTimes(2);
++  });
++  it('rejects foreign photo links before sending a token or rendering an image', async () => {
++    const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ items: [{ id, href: 'https://foreign.invalid/photo' }] })));
++    render(<ProtectedPhotos path={path} client={createApiClient({ getAccessToken: () => 'token', fetch })} />);
++    await screen.findByRole('alert'); await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1)); expect(screen.queryByRole('img')).toBeNull();
++  });
++});
+--- baseline/tests/Lms.Api.Tests/AttachmentConsistencyTests.cs
++++ current/tests/Lms.Api.Tests/AttachmentConsistencyTests.cs
+@@ -18,14 +18,14 @@
+     [Theory]
+     [InlineData(false)]
+     [InlineData(true)]
+-    public async Task Database_failure_compensates_only_if_commit_is_known_absent(bool afterCommit)
++    public async Task Database_failure_retains_original_without_assuming_rollback_or_replaying(bool afterCommit)
+     {
+         await using var app = await fixture.CreateApp(); await using var source = app.Open();
+         await using var db = new LmsDbContext(new DbContextOptionsBuilder<LmsDbContext>().UseNpgsql(source.Database.GetConnectionString())
+             .AddInterceptors(new FailSave(afterCommit)).Options);
+         await Assert.ThrowsAsync<InvalidOperationException>(() => Upload(Service(db, Storage(app))));
+         Assert.Equal(afterCommit ? 1 : 0, await source.StoredAttachments.CountAsync());
+-        Assert.Equal(afterCommit ? 1 : 0, Directory.GetFiles(app.StorageRoot).Length);
++        Assert.Single(Directory.GetFiles(app.StorageRoot));
+     }
+ 
+     [Fact]
+--- baseline/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs
++++ current/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs
+@@ -44,7 +44,7 @@
+         { var result = await inner.Courses(token, cancellationToken); await after(); return result; }
+     }
+     private async Task<WebApplication> HttpHost(QualifiedAuthorityClock clock, ComponentJwt jwt,
+-        Func<Task>? after = null, Action<Microsoft.AspNetCore.Http.HttpContext>? ingress = null, CancellationToken aborted = default, Func<Task>? afterContent = null, string? browserRoot = null, bool workReads = false, Func<Task>? afterWork = null)
++        Func<Task>? after = null, Action<Microsoft.AspNetCore.Http.HttpContext>? ingress = null, CancellationToken aborted = default, Func<Task>? afterContent = null, string? browserRoot = null, bool workReads = false, Func<Task>? afterWork = null, IAttachmentStorage? photoStorage = null, Func<Task>? afterPhoto = null)
+     {
+         var builder = WebApplication.CreateBuilder();
+         builder.Logging.ClearProviders();
+@@ -68,13 +68,22 @@
+         if (workReads) builder.Services.AddScoped<IProtectedWorkQueries>(sp => new AfterWork(new PostgresProtectedWorkQueries(
+             sp.GetRequiredService<HttpDatabases>().Content, sp.GetRequiredService<ComponentAuthorization>(),
+             new PostgresScopedAuthorityReader(sp.GetRequiredService<HttpDatabases>().Resources, TimeProvider.System),
+-            new PostgresCurrentProcessingGate(sp.GetRequiredService<HttpDatabases>().Processing, clock)), afterWork ?? (() => Task.CompletedTask)));
++            new PostgresCurrentProcessingGate(sp.GetRequiredService<HttpDatabases>().Processing, clock), photoStorage != null), afterWork ?? (() => Task.CompletedTask)));
++        if (photoStorage != null)
++        {
++            builder.Services.AddSingleton<PhotoReadCapacity>();
++            builder.Services.AddScoped<IProtectedPhotoQueries>(sp => new AfterPhoto(new PostgresProtectedPhotoQueries(
++                sp.GetRequiredService<HttpDatabases>().Content, sp.GetRequiredService<IProtectedWorkQueries>(),
++                new PostgresScopedAuthorityReader(sp.GetRequiredService<HttpDatabases>().Resources, TimeProvider.System),
++                new PostgresCurrentProcessingGate(sp.GetRequiredService<HttpDatabases>().Processing, clock), photoStorage), afterPhoto ?? (() => Task.CompletedTask)));
++        }
+         var app = builder.Build();
+         if (aborted.CanBeCanceled) app.Use(async (ctx, next) => { ctx.RequestAborted = aborted; await next(ctx); });
+         app.UseMiddleware<CourseRequestIngress>();
+         app.Use(async (ctx, next) => { ingress?.Invoke(ctx); await next(ctx); });
+         app.UseAuthentication(); app.UseAuthorization(); app.MapProtectedCourses(); app.MapProtectedWorkspace();
+         if (workReads) app.MapProtectedWorkReads();
++        if (photoStorage != null) app.MapProtectedPhotoReads();
+         if (browserRoot != null)
+         {
+             // Public build assets only; no repo files, fixtures, keys or auth/control endpoint.
+--- baseline/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs
++++ current/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs
+@@ -0,0 +1,67 @@
++using System.Diagnostics;
++using System.Security.Cryptography;
++using System.Text.Json;
++using Lms.Application;
++using Lms.Infrastructure;
++
++namespace Lms.Api.Tests;
++public sealed partial class IsolatedProcessingDeploymentTests
++{
++    [BrowserReadTheory] [InlineData(ScopeRole.Student)] [InlineData(ScopeRole.Teacher)]
++    public async Task Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role)
++    {
++        var root = new DirectoryInfo(AppContext.BaseDirectory);
++        while (root != null && !File.Exists(Path.Combine(root.FullName, "Lms.sln"))) root = root.Parent;
++        Assert.NotNull(root);
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048);
++        var jwt = new ComponentJwt(key, "browser-work", "browser-work", clock);
++        var seed = await HttpSeed(role, time); var version = await WorkspaceSeed(time);
++        using var files = new PhotoFiles();
++        var data = await PhotoSeed(seed.Actor, role, version, time, seed.Context, files.Storage);
++        var outsider = (await IdentitySeed()).Actor;
++        await ChangeRestricted(new(AuthorityKind.Membership, AuthorityOperation.Grant, existingOrg, outsider, 0, Role: ScopeRole.Teacher));
++        var hidden = await PhotoSeed(outsider, ScopeRole.Teacher, version, time, seed.Context, files.Storage, "h");
++        var token = await HttpIssue(seed.User, seed.Session, clock, jwt); Assert.NotNull(token);
++        var evidence = Path.Combine(root.FullName, "codex/evidence/MVP-PHOTO-READ", role.ToString()); Directory.CreateDirectory(evidence);
++        await using var app = await HttpHost(clock, jwt, browserRoot: Path.Combine(root.FullName, "src/Lms.Web/dist-browser-read"), workReads: true, photoStorage: files.Storage);
++        var before = await Scalar<string>(owner, "SELECT md5(string_agg(row_to_json(s)::text, '' ORDER BY \"Id\")) FROM \"Submissions\" s");
++        var start = new ProcessStartInfo(Environment.GetEnvironmentVariable("LMS_BROWSER_NODE") ?? "node") {
++            WorkingDirectory = root.FullName, RedirectStandardInput = true, RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false };
++        start.ArgumentList.Add(Path.Combine(root.FullName, "tools/browser_read/photos.mjs"));
++        using var runner = Process.Start(start)!; using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(3));
++        var errors = runner.StandardError.ReadToEndAsync(timeout.Token);
++        await runner.StandardInput.WriteLineAsync(JsonSerializer.Serialize(new { origin = Assert.Single(app.Urls), token = token.Reveal(), version,
++            work = data.Work.Id, hidden = hidden.Work.Id, attachment = data.Work.Submissions[0].AttachmentIds[0], submission = data.Work.Submissions[0].Id, latest = data.Work.Submissions[1].Id, hiddenAttachment = hidden.Work.Submissions[0].AttachmentIds[0], role = role.ToString(), evidence }));
++        var passed = false; long revision = 2; Guid restriction = Guid.NewGuid();
++        try
++        {
++            while (await runner.StandardOutput.ReadLineAsync(timeout.Token) is { } command)
++            {
++                if (command == "PASS") { passed = true; break; }
++                if (command is "missing" or "corrupt")
++                {
++                    await using var db = Open(owner);
++                    var id = data.Work.Submissions[0].AttachmentIds[0];
++                    var record = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(db.StoredAttachments, x => x.Id == id);
++                    var file = Path.Combine(files.Root, record.StorageKey);
++                    if (command == "missing") File.Delete(file); else await File.WriteAllBytesAsync(file, new byte[record.Size]);
++                }
++                else if (command == "expire") time.Elapsed = TimeSpan.FromMinutes(15);
++                else
++                {
++                    await using var db = Open(processing);
++                    revision = await new PostgresProcessingStateAdministration(db).Change(new(existingOrg, Guid.NewGuid(), revision, command switch {
++                        "restrict" => new AddProcessingRestriction(restriction, seed.Context, 1, data.Student, 1),
++                        "withdraw" => new WithdrawProcessingRestriction(restriction, 1),
++                        _ => throw new InvalidOperationException("Unexpected runner command") }));
++                }
++                await runner.StandardInput.WriteLineAsync("{}");
++            }
++            await runner.WaitForExitAsync(timeout.Token);
++            var diagnostic = System.Text.RegularExpressions.Regex.Replace(await errors, @"eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+", "[REDACTED]");
++            Assert.True(passed && runner.ExitCode == 0, diagnostic);
++            Assert.Equal(before, await Scalar<string>(owner, "SELECT md5(string_agg(row_to_json(s)::text, '' ORDER BY \"Id\")) FROM \"Submissions\" s"));
++        }
++        finally { if (!runner.HasExited) runner.Kill(entireProcessTree: true); }
++    }
++}
+--- baseline/tests/Lms.Api.Tests/ProtectedPhotoHttpTests.cs
++++ current/tests/Lms.Api.Tests/ProtectedPhotoHttpTests.cs
+@@ -0,0 +1,201 @@
++using Microsoft.AspNetCore.TestHost;
++using System.Net;
++using System.Security.Cryptography;
++using System.Text.Json;
++using Lms.Application;
++using Lms.Domain;
++using Lms.Infrastructure;
++using Microsoft.EntityFrameworkCore;
++using Microsoft.Extensions.Logging.Abstractions;
++
++namespace Lms.Api.Tests;
++public sealed partial class IsolatedProcessingDeploymentTests
++{
++    private sealed class AfterPhoto(IProtectedPhotoQueries inner, Func<Task> after) : IProtectedPhotoQueries
++    {
++        public async Task<ProtectedPhotoRead> Read(TokenAuthority t, PhotoSelection s, ApplicationDeadline d, CancellationToken ct)
++        { var read = await inner.Read(t, s, d, ct); await after(); return read; }
++        public Task<bool> CanReturn(TokenAuthority t, ProtectedPhotoRead r, ApplicationDeadline d, CancellationToken ct) => inner.CanReturn(t, r, d, ct);
++    }
++    private static string Repository()
++    {
++        var root = new DirectoryInfo(AppContext.BaseDirectory);
++        while (root != null && !File.Exists(Path.Combine(root.FullName, "Lms.sln"))) root = root.Parent;
++        return root!.FullName;
++    }
++    private sealed class ObservedStorage(IAttachmentStorage inner) : IAttachmentStorage
++    {
++        public int OpenCount { get; private set; }
++        public Task Store(string key, Stream bytes, CancellationToken ct) => inner.Store(key, bytes, ct);
++        public Task Delete(string key, CancellationToken ct) => inner.Delete(key, ct);
++        public Task<Stream> Open(string key, CancellationToken ct) { OpenCount++; return inner.Open(key, ct); }
++    }
++    private sealed class PhotoFiles : IDisposable
++    {
++        public string Root { get; } = Path.Combine(Path.GetTempPath(), "lms-synthetic-photos-" + Guid.NewGuid().ToString("N"));
++        public LocalFileAttachmentStorage Storage => new(new() { Root = Root });
++        public void Dispose() { if (Directory.Exists(Root)) Directory.Delete(Root, true); }
++    }
++    private async Task<(Guid Student, Guid Teacher, ProblemWork Work)> PhotoSeed(Guid actor, ScopeRole role, Guid version, HttpClock time,
++        Guid context, IAttachmentStorage storage, string group = "g")
++    {
++        var student = role == ScopeRole.Student ? actor : (await IdentitySeed()).Actor;
++        var teacher = role == ScopeRole.Teacher ? actor : (await IdentitySeed()).Actor;
++        if (student != actor) await ChangeRestricted(new(AuthorityKind.Membership, AuthorityOperation.Grant, existingOrg, student, 0, Role: ScopeRole.Student));
++        if (teacher != actor) await ChangeRestricted(new(AuthorityKind.Membership, AuthorityOperation.Grant, existingOrg, teacher, 0, Role: ScopeRole.Teacher));
++        if (student != actor) await ChangeRestricted(new(AuthorityKind.Enrollment, AuthorityOperation.Grant, existingOrg, student, 0, 1, "http-own", group));
++        await using var db = Open(owner);
++        var assignment = new ProblemAssignment(Guid.NewGuid(), student, "http-own", new(version, "lesson", "problem"));
++        db.Add(assignment); await db.SaveChangesAsync(); db.ChangeTracker.Clear();
++        var upload = new AttachmentService(db, storage, new PostgresAccessPolicy(db, new HttpTimeProvider(time)), new(), new HttpTimeProvider(time), NullLogger<AttachmentService>.Instance);
++        var ids = new List<Guid>();
++        for (var i = 1; i <= 3; i++)
++        {
++            using var bytes = File.OpenRead(Path.Combine(Repository(), "tests/fixtures/photos", $"a4-{i}.png"));
++            var result = await upload.Upload(new(student, AuthorRole.Student), $"synthetic-a4-{i}.png", "image/png", bytes, CancellationToken.None);
++            ids.Add(result.AttachmentId);
++            db.Add(new AttachmentScope { AttachmentId = result.AttachmentId, OrganizationId = existingOrg, CourseId = "http-own",
++                UploaderActorId = student, ContextId = context, ContextVersion = 1 });
++            await db.SaveChangesAsync(); db.ChangeTracker.Clear();
++        }
++        var work = new ProblemWork(Guid.NewGuid(), assignment);
++        var first = work.SubmitSolution(assignment, student, "First synthetic attempt", ids.Take(2), time.At);
++        work.RequestRevision(teacher, first.Id, "First attempt: explain the calculation", time.At.AddSeconds(1));
++        work.SubmitSolution(assignment, student, "Second synthetic attempt", ids.Skip(2), time.At.AddSeconds(2));
++        await new PostgresWorkStore(db).Save(work, null, CancellationToken.None);
++        return (student, teacher, work);
++    }
++    private static string PhotoRoot(Guid version, ProblemWork work, int attempt = 0) => WorkRoot(version) + $"/{work.Id}/submissions/{work.Submissions[attempt].Id}/photos";
++    [Theory] [InlineData(ScopeRole.Student)] [InlineData(ScopeRole.Teacher)]
++    public async Task Http_photo_originals_and_independent_parent_denials(ScopeRole role)
++    {
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048); using var files = new PhotoFiles();
++        var jwt = new ComponentJwt(key, "photo", "photo", clock); var seed = await HttpSeed(role, time); var version = await WorkspaceSeed(time);
++        var own = await PhotoSeed(seed.Actor, role, version, time, seed.Context, files.Storage);
++        var outsider = (await IdentitySeed()).Actor;
++        await ChangeRestricted(new(AuthorityKind.Membership, AuthorityOperation.Grant, existingOrg, outsider, 0, Role: ScopeRole.Teacher));
++        var other = await PhotoSeed(outsider, ScopeRole.Teacher, version, time, seed.Context, files.Storage, "h");
++        var token = await HttpIssue(seed.User, seed.Session, clock, jwt);
++        var observed = new ObservedStorage(files.Storage);
++        await using var app = await HttpHost(clock, jwt, workReads: true, photoStorage: observed);
++        var root = PhotoRoot(version, own.Work); var id = own.Work.Submissions[0].AttachmentIds[0]; var path = root + "/" + id;
++        using var manifest = JsonDocument.Parse(await HttpGet(app, token, HttpStatusCode.OK, root));
++        Assert.Equal(own.Work.Submissions[0].AttachmentIds, manifest.RootElement.GetProperty("items").EnumerateArray().Select(x => x.GetProperty("id").GetGuid()));
++        using var client = app.GetTestClient(); client.DefaultRequestHeaders.Authorization = new("Bearer", token!.Reveal());
++        for (var attempt = 0; attempt < 2; attempt++)
++        for (var page = 0; page < own.Work.Submissions[attempt].AttachmentIds.Count; page++)
++        {
++            var response = await client.GetAsync(PhotoRoot(version, own.Work, attempt) + "/" + own.Work.Submissions[attempt].AttachmentIds[page]);
++            Assert.Equal(HttpStatusCode.OK, response.StatusCode); Assert.Equal("no-store", response.Headers.CacheControl!.ToString());
++            Assert.Equal("image/png", response.Content.Headers.ContentType!.MediaType);
++            Assert.Equal(await File.ReadAllBytesAsync(Path.Combine(Repository(), "tests/fixtures/photos", $"a4-{(attempt == 0 ? page + 1 : 3)}.png")), await response.Content.ReadAsByteArrayAsync());
++        }
++        var readsBeforeDenials = observed.OpenCount;
++        foreach (var invalid in new[] { root + "/" + other.Work.Submissions[0].AttachmentIds[0], PhotoRoot(version, other.Work) + "/" + other.Work.Submissions[0].AttachmentIds[0],
++            PhotoRoot(version, own.Work, 1) + "/" + id, path.Replace(own.Work.Id.ToString(), other.Work.Id.ToString()),
++            path.Replace("http-own", "http-other"), path.Replace("http-own", "http-foreign"), path.Replace("/lessons/lesson", "/lessons/absent"),
++            path.Replace(version.ToString(), Guid.NewGuid().ToString()), path.Replace(id.ToString(), Guid.NewGuid().ToString()), root + "/bad-id" })
++            await HttpGet(app, token, HttpStatusCode.Forbidden, invalid);
++        await HttpGet(app, null, HttpStatusCode.Unauthorized, path); await HttpGet(app, new("forged"), HttpStatusCode.Unauthorized, path);
++        await HttpGet(app, null, HttpStatusCode.NotFound, "/api/v1/attachments/" + id + "/content");
++        Assert.Equal(readsBeforeDenials, observed.OpenCount);
++        client.DefaultRequestHeaders.Range = new(0, 10);
++        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync(path)).StatusCode);
++        await ChangeRestricted(seed.Grant with { Operation = AuthorityOperation.Revoke, ExpectedVersion = 1 });
++        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync(path)).StatusCode); // accepted delayed revoke
++        time.Elapsed = TimeSpan.FromMinutes(15); await HttpGet(app, token, HttpStatusCode.Unauthorized, path);
++    }
++    [Theory]
++    [InlineData("missing", false)] [InlineData("corrupt", false)] [InlineData("same-length-corrupt", false)]
++    [InlineData("quarantine", false)] [InlineData("scope", false)] [InlineData("processing-db", false)]
++    [InlineData("restriction", false)] [InlineData("restriction", true)]
++    [InlineData("expiry", true)] [InlineData("deadline", true)] [InlineData("clock", true)]
++    public async Task Http_photo_faults_fail_closed(string fault, bool late)
++    {
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048); using var files = new PhotoFiles();
++        var jwt = new ComponentJwt(key, "photo", "photo", clock); var seed = await HttpSeed(ScopeRole.Student, time); var version = await WorkspaceSeed(time);
++        var own = await PhotoSeed(seed.Actor, ScopeRole.Student, version, time, seed.Context, files.Storage);
++        var id = own.Work.Submissions[0].AttachmentIds[0]; var token = await HttpIssue(seed.User, seed.Session, clock, jwt);
++        async Task Fault()
++        {
++            if (fault == "expiry") time.Elapsed = TimeSpan.FromMinutes(15);
++            else if (fault == "deadline") time.Elapsed = TimeSpan.FromSeconds(60);
++            else if (fault == "clock") time.Current = false;
++            else if (fault == "restriction") { await using var db = Open(processing); await new PostgresProcessingStateAdministration(db).Change(new(existingOrg, Guid.NewGuid(), 2, new AddProcessingRestriction(Guid.NewGuid(), seed.Context, 1, own.Student, 1))); }
++            else if (fault == "processing-db") await Sql(owner, "REVOKE SELECT ON \"ProcessingRestrictions\" FROM c2h_runtime");
++            else if (fault == "quarantine") await Sql(owner, $"UPDATE \"AttachmentScopes\" SET \"Quarantined\"=true WHERE \"AttachmentId\"='{id}'");
++            else if (fault == "scope") await Sql(owner, "REVOKE SELECT ON \"AttachmentScopes\" FROM c2h_runtime");
++            else
++            {
++                await using var db = Open(owner); var record = await db.StoredAttachments.SingleAsync(x => x.Id == id);
++                var path = Path.Combine(files.Root, record.StorageKey);
++                if (fault == "missing") File.Delete(path);
++                else await File.WriteAllBytesAsync(path, fault == "same-length-corrupt" ? new byte[record.Size] : [1, 2, 3]);
++            }
++        }
++        if (!late) await Fault();
++        await using var app = await HttpHost(clock, jwt, workReads: true, photoStorage: files.Storage, afterPhoto: late ? Fault : null);
++        await HttpGet(app, token, fault is "restriction" or "quarantine" ? HttpStatusCode.Forbidden : HttpStatusCode.ServiceUnavailable,
++            PhotoRoot(version, own.Work) + "/" + id);
++    }
++    [Fact]
++    public async Task Http_photo_unqualified_history_and_pending_ids_do_not_become_readable()
++    {
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048); using var files = new PhotoFiles();
++        var jwt = new ComponentJwt(key, "photo", "photo", clock); var seed = await HttpSeed(ScopeRole.Student, time); var version = await WorkspaceSeed(time);
++        var data = await ProtectedWorkSeed(seed.Actor, ScopeRole.Student, version, time);
++        var token = await HttpIssue(seed.User, seed.Session, clock, jwt);
++        await using var app = await HttpHost(clock, jwt, workReads: true, photoStorage: files.Storage);
++        await HttpGet(app, token, HttpStatusCode.Forbidden, PhotoRoot(version, data.Work));
++        await HttpGet(app, token, HttpStatusCode.Forbidden, PhotoRoot(version, data.Work) + "/" + data.Work.Submissions[0].AttachmentIds[0]);
++        await using var db = Open(owner);
++        var upload = new AttachmentService(db, files.Storage, new PostgresAccessPolicy(db, new HttpTimeProvider(time)), new(), new HttpTimeProvider(time), NullLogger<AttachmentService>.Instance);
++        var pending = await upload.Upload(new(seed.Actor, AuthorRole.Student), "synthetic.png", "image/png", new MemoryStream(AttachmentImages.Png), CancellationToken.None);
++        await HttpGet(app, token, HttpStatusCode.Forbidden, PhotoRoot(version, data.Work) + "/" + pending.AttachmentId);
++        var record = await db.StoredAttachments.AsNoTracking().SingleAsync(x => x.Id == pending.AttachmentId);
++        await HttpGet(app, null, HttpStatusCode.NotFound, "/" + record.StorageKey);
++    }
++    [Fact]
++    public async Task Http_photo_capacity_rejects_without_unbounded_wait_and_releases_after_completion()
++    {
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048); using var files = new PhotoFiles();
++        var jwt = new ComponentJwt(key, "photo", "photo", clock); var seed = await HttpSeed(ScopeRole.Student, time); var version = await WorkspaceSeed(time);
++        var data = await PhotoSeed(seed.Actor, ScopeRole.Student, version, time, seed.Context, files.Storage);
++        var token = await HttpIssue(seed.User, seed.Session, clock, jwt);
++        var entered = new TaskCompletionSource(); var release = new TaskCompletionSource(); var count = 0;
++        await using var app = await HttpHost(clock, jwt, workReads: true, photoStorage: files.Storage, afterPhoto: async () => {
++            if (Interlocked.Increment(ref count) == 4) entered.TrySetResult(); await release.Task;
++        });
++        var path = PhotoRoot(version, data.Work);
++        var pending = Enumerable.Range(0, 4).Select(_ => HttpGet(app, token, HttpStatusCode.OK, path)).ToArray();
++        try
++        {
++            await entered.Task.WaitAsync(TimeSpan.FromSeconds(20));
++            await HttpGet(app, token, HttpStatusCode.ServiceUnavailable, path);
++        }
++        finally { release.TrySetResult(); }
++        await Task.WhenAll(pending);
++        await HttpGet(app, token, HttpStatusCode.OK, path);
++    }
++
++    [Fact]
++    public async Task Http_photo_same_group_peer_denied_and_owner_move_keeps_historical_photos()
++    {
++        var time = new HttpClock(); var clock = time.Create(); using var key = RSA.Create(2048); using var files = new PhotoFiles();
++        var jwt = new ComponentJwt(key, "photo", "photo", clock); var seed = await HttpSeed(ScopeRole.Student, time); var version = await WorkspaceSeed(time);
++        var own = await PhotoSeed(seed.Actor, ScopeRole.Student, version, time, seed.Context, files.Storage);
++        var teacher = (await IdentitySeed()).Actor;
++        await ChangeRestricted(new(AuthorityKind.Membership, AuthorityOperation.Grant, existingOrg, teacher, 0, Role: ScopeRole.Teacher));
++        var peer = await PhotoSeed(teacher, ScopeRole.Teacher, version, time, seed.Context, files.Storage);
++        var token = await HttpIssue(seed.User, seed.Session, clock, jwt);
++        await using var app = await HttpHost(clock, jwt, workReads: true, photoStorage: files.Storage);
++        await HttpGet(app, token, HttpStatusCode.Forbidden, PhotoRoot(version, peer.Work));
++        await HttpGet(app, token, HttpStatusCode.Forbidden, PhotoRoot(version, peer.Work) + "/" + peer.Work.Submissions[0].AttachmentIds[0]);
++        await ChangeRestricted(seed.Grant with { Operation = AuthorityOperation.Move, ExpectedVersion = 1, GroupId = "h" });
++        var moved = await HttpIssue(seed.User, seed.Session, clock, jwt); Assert.NotNull(moved);
++        using var client = app.GetTestClient(); client.DefaultRequestHeaders.Authorization = new("Bearer", moved.Reveal());
++        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync(PhotoRoot(version, own.Work) + "/" + own.Work.Submissions[0].AttachmentIds[0])).StatusCode);
++        await HttpGet(app, moved, HttpStatusCode.Forbidden, PhotoRoot(version, peer.Work));
++    }
++
++}
+--- baseline/tests/Lms.Infrastructure.Tests/PrivatePhotoStorageTests.cs
++++ current/tests/Lms.Infrastructure.Tests/PrivatePhotoStorageTests.cs
+@@ -0,0 +1,36 @@
++using Lms.Infrastructure;
++namespace Lms.Infrastructure.Tests;
++public sealed class PrivatePhotoStorageTests
++{
++    private sealed class InterruptedSource(TaskCompletionSource entered, TaskCompletionSource release) : MemoryStream(new byte[] { 1, 2, 3 })
++    {
++        public override async Task CopyToAsync(Stream destination, int bufferSize, CancellationToken ct)
++        { await destination.WriteAsync(new byte[] { 1 }, ct); entered.SetResult(); await release.Task; throw new IOException("synthetic write failure"); }
++    }
++    [Fact]
++    public async Task Unfinished_or_failed_upload_never_opens_and_existing_key_never_overwrites()
++    {
++        var root = Path.Combine(Path.GetTempPath(), "private-photo-" + Guid.NewGuid().ToString("N"));
++        var storage = new LocalFileAttachmentStorage(new() { Root = root }); var key = Guid.NewGuid().ToString("N");
++        var entered = new TaskCompletionSource(); var release = new TaskCompletionSource();
++        try
++        {
++            using var source = new InterruptedSource(entered, release);
++            var pending = storage.Store(key, source, CancellationToken.None); await entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
++            await Assert.ThrowsAsync<FileNotFoundException>(() => storage.Open(key, CancellationToken.None));
++            release.SetResult(); await Assert.ThrowsAsync<IOException>(() => pending);
++            Assert.Empty(Directory.GetFiles(root));
++            await storage.Store(key, new MemoryStream([7, 8]), CancellationToken.None);
++            await Assert.ThrowsAsync<IOException>(() => storage.Store(key, new MemoryStream([9]), CancellationToken.None));
++            await using var opened = await storage.Open(key, CancellationToken.None); using var bytes = new MemoryStream(); await opened.CopyToAsync(bytes);
++            Assert.Equal(new byte[] { 7, 8 }, bytes.ToArray()); Assert.Single(Directory.GetFiles(root));
++            if (!OperatingSystem.IsWindows())
++            {
++                Assert.Equal(UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute, File.GetUnixFileMode(root));
++                Assert.Equal(UnixFileMode.UserRead | UnixFileMode.UserWrite, File.GetUnixFileMode(Path.Combine(root, key)));
++            }
++            await Assert.ThrowsAsync<ArgumentException>(() => storage.Open("../escape", CancellationToken.None));
++        }
++        finally { release.TrySetResult(); if (Directory.Exists(root)) Directory.Delete(root, true); }
++    }
++}
+--- baseline/tools/browser_read/photos.mjs
++++ current/tools/browser_read/photos.mjs
+@@ -0,0 +1,111 @@
++import assert from 'node:assert/strict';
++import { createInterface } from 'node:readline';
++import { writeFile } from 'node:fs/promises';
++import { join } from 'node:path';
++const lines = createInterface({ input: process.stdin })[Symbol.asyncIterator]();
++const receive = async () => JSON.parse((await lines.next()).value);
++const config = await receive();
++const command = async name => { process.stdout.write(`${name}\n`); return receive(); };
++const { chromium } = await import(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
++const browser = await chromium.launch(process.env.LMS_BROWSER_EXECUTABLE ? { executablePath: process.env.LMS_BROWSER_EXECUTABLE, headless: true } : { channel: 'chrome', headless: true });
++const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block' });
++await context.addInitScript(({ origin, token }) => {
++  if (location.origin !== origin) return;
++  let access = token;
++  window.lmsAuth = { getAccessToken: () => access, onUnauthenticated: () => { access = null; } };
++}, { origin: config.origin, token: config.token });
++const page = await context.newPage(); page.setDefaultTimeout(12000);
++const logs = [], urls = [], responses = [], cache = [];
++page.on('console', m => logs.push(m.text())); page.on('pageerror', e => logs.push(e.message));
++page.on('request', r => urls.push(r.url()));
++page.on('response', r => { if (r.url().includes('/api/')) responses.push(r); });
++const cdp = await context.newCDPSession(page); await cdp.send('Network.enable');
++cdp.on('Network.responseReceived', ({ response: r }) => { if (r.url.includes('/api/')) cache.push(r.fromDiskCache || r.fromServiceWorker || r.fromPrefetchCache || r.status === 304); });
++const lesson = `/courses/http-own/versions/${config.version}/lessons/lesson`;
++const problem = `${lesson}/problems/problem`, list = `${lesson}/works`, work = `${list}/${config.work}`;
++const photos = `${work}/submissions/${config.submission}/photos`, original = `${photos}/${config.attachment}`;
++const screenshot = name => page.screenshot({ path: join(config.evidence, name), fullPage: true });
++async function get(path, expected) {
++  const r = await page.evaluate(async path => {
++    const token = await window.lmsAuth.getAccessToken();
++    const response = await fetch('/api/v1' + path, { headers: { Authorization: 'Bearer ' + token } });
++    return { status: response.status, body: await response.text(), cache: response.headers.get('cache-control') };
++  }, path);
++  assert.equal(r.status, expected); assert.equal(r.cache, 'no-store'); if (expected !== 200) assert.equal(r.body, '');
++  return r.body;
++}
++try {
++  await page.goto(config.origin + (config.role === 'Student' ? problem : lesson));
++  await page.getByRole('link', { name: config.role === 'Student' ? 'Моя работа / доступные работы' : 'Работы учеников', exact: true }).click();
++  await page.getByRole('link', { name: 'Работа 1 · problem', exact: true }).click();
++  await page.getByRole('heading', { name: 'Попытка 2', exact: true }).waitFor();
++  await page.getByRole('img', { name: 'Страница 1 решения' }).waitFor();
++  await screenshot('01-current-attempt.png');
++  await page.getByLabel('Попытка', { exact: true }).selectOption({ label: 'Попытка 1' });
++  await page.getByRole('heading', { name: 'Попытка 1', exact: true }).waitFor();
++  assert.equal(await page.getByText('First attempt: explain the calculation', { exact: true }).count(), 2);
++  await page.getByRole('img', { name: 'Страница 1 решения' }).waitFor();
++  assert.equal(await page.getByRole('img').evaluate(img => img.naturalWidth), 1240);
++  await screenshot('02-history-A4-page1.png');
++  const prior = await page.getByRole('img').getAttribute('src');
++  await page.getByRole('button', { name: 'Страница 2', exact: true }).click();
++  await page.getByRole('img', { name: 'Страница 2 решения' }).waitFor();
++  assert.notEqual(await page.getByRole('img').getAttribute('src'), prior);
++  assert.equal(await page.evaluate(async url => { try { await fetch(url); return true; } catch { return false; } }, prior), false);
++  await page.getByLabel('Масштаб').selectOption('200');
++  assert.equal(await page.getByRole('img').evaluate(img => img.style.width), '200%');
++  await screenshot('03-A4-page2-zoom.png');
++  await page.getByRole('link', { name: 'Условие задачи', exact: true }).click();
++  await page.getByRole('heading', { name: 'Условие задачи', exact: true }).waitFor();
++  assert.equal(await page.locator('.katex').count(), 1);
++  await screenshot('03-statement.png');
++  const back = page.waitForResponse(r => r.url() === config.origin + '/api/v1' + work);
++  await page.goBack(); assert.equal((await back).status(), 200);
++  await page.getByRole('heading', { name: 'Попытка 2', exact: true }).waitFor();
++  await get(`${list}/${config.hidden}`, 403);
++  for (const course of ['http-other', 'http-foreign']) await get(work.replace('http-own', course), 403);
++  await get(work.replace('/lessons/lesson', '/lessons/other-lesson'), 403);
++  await get(`/attachments/${config.attachment}/content`, 404);
++  await get(`${photos}/${config.hiddenAttachment}`, 403);
++  await get(`${work}/submissions/${config.latest}/photos/${config.attachment}`, 403);
++  await get(original.replace('http-own', 'http-other'), 403);
++  await get(original.replace(config.work, config.hidden), 403);
++  await get(original, 200);
++  const anonymous = await context.request.get(config.origin + '/api/v1' + original);
++  assert.equal(anonymous.status(), 401);
++  await command('corrupt'); await get(original, 503);
++  await page.getByLabel('Попытка', { exact: true }).selectOption({ label: 'Попытка 1' });
++  await page.getByText('Фотография недоступна или повреждена.', { exact: true }).waitFor();
++  assert.equal(await page.getByRole('img').count(), 0); await screenshot('04-corrupt.png');
++  await command('missing'); await page.getByRole('button', { name: 'Обновить фотографии' }).click();
++  await page.getByText('Фотография недоступна или повреждена.', { exact: true }).waitFor();
++  await get(original, 503); await screenshot('05-missing.png');
++  await get(work, 200); await get(work, 200); // Browser default cache policy, no route mocking/cache disabling.
++  await command('restrict'); await get(work, 403); await get(original, 403); await get(photos, 403);
++  await page.getByRole('button', { name: 'Обновить работу' }).click();
++  await page.getByText('Нет доступа к работе', { exact: true }).waitFor();
++  assert.equal(await page.getByText('Second synthetic attempt').count(), 0);
++  await screenshot('04-restricted.png');
++  await command('withdraw'); await page.goto(config.origin + work);
++  await page.getByRole('heading', { name: 'Попытка 2', exact: true }).waitFor();
++  await page.setViewportSize({ width: 768, height: 1024 }); await screenshot('05-tablet-history.png');
++  await command('expire'); await get(original, 401); await get(photos, 401);
++  await page.getByRole('button', { name: 'Обновить работу' }).click();
++  await page.getByText('Войдите, чтобы открыть работу', { exact: true }).waitFor();
++  assert.equal(await page.evaluate(() => window.lmsAuth.getAccessToken()), null);
++  await screenshot('06-expired.png');
++  for (const r of responses) { assert.equal(r.headers()['cache-control'], 'no-store'); assert.equal(r.headers()['set-cookie'], undefined); }
++  assert.equal(cache.some(Boolean), false);
++  assert.equal(logs.join('\n').includes(config.token), false); assert.equal(urls.some(u => u.includes(config.token)), false);
++  assert.equal(urls.every(u => u.startsWith(config.origin) || u.startsWith('blob:' + config.origin)), true);
++  assert.deepEqual(await context.cookies(), []);
++  assert.deepEqual(await page.evaluate(async () => ({ local: localStorage.length, session: sessionStorage.length, caches: await caches.keys(), db: await indexedDB.databases() })), { local: 0, session: 0, caches: [], db: [] });
++  await writeFile(join(config.evidence, 'results.json'), JSON.stringify({ role: config.role, browser: await browser.version(), status: 'PASS',
++    covered: ['real-http-postgres', 'own-assigned-work', 'historical-review-binding', 'statement', 'foreign-work-denial', 'parent-denial', 'current-restriction', 'jwt-expiry', 'no-store', 'tablet-history', 'A4-pages', 'zoom', 'attempt-photo-separation', 'foreign-photo-denial', 'anonymous-photo-denial', 'corrupt-original', 'missing-original', 'photo-restriction', 'photo-expiry', 'blob-revocation'],
++    blocked: ['production', 'user-upload-http'], apiRequests: responses.length }, null, 2));
++  process.stdout.write('PASS\n');
++} catch (error) {
++  let message = error?.stack || String(error);
++  message = message.replaceAll(config.token, '[REDACTED]').replace(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g, '[REDACTED]');
++  process.stderr.write(message + '\n'); process.exitCode = 1;
++} finally { await context.close(); await browser.close(); process.stdin.destroy(); }

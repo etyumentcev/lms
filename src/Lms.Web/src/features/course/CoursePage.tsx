@@ -1,3 +1,4 @@
+import { ContentPage } from '../content/ContentPage';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { ApiClient, ApiError } from '../../api/client';
@@ -118,4 +119,8 @@ export function CoursePage({ courseId, client }: { courseId: string; client: Api
       {data && <Lessons data={data} />}
     </div>
   </AppShell>;
+}
+
+export function CourseContentPage({ path, client }: { path: string; client: ApiClient }) {
+  return <ContentPage kind="course" path={path} client={client} />;
 }

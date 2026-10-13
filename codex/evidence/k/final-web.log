@@ -1,0 +1,23 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/shell.test.tsx (14 tests) 1066ms
+ ✓ src/test/course.test.tsx (34 tests) 1601ms
+ ✓ src/test/lesson.test.tsx (37 tests) 1840ms
+ ✓ src/test/attachments.test.tsx (19 tests) 599ms
+ ✓ src/test/primitives.test.tsx (15 tests) 379ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 2952ms
+ ✓ src/test/history.test.tsx (37 tests) 3017ms
+     ✓ NotStarted reads workspace only, never null work or mutation  376ms
+ ✓ src/test/annotations.test.tsx (28 tests) 476ms
+ ✓ src/test/api.test.ts (20 tests) 13ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 8ms
+ ✓ src/test/problem.test.tsx (53 tests) 3597ms
+ ✓ src/test/teacherReview.test.tsx (62 tests) 4908ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  357ms
+
+ Test Files  12 passed (12)
+      Tests  366 passed (366)
+   Start at  23:38:46
+   Duration  6.16s (transform 1.75s, setup 1.47s, import 3.53s, tests 20.46s, environment 5.84s)

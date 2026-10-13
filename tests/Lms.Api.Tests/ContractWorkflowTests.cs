@@ -11,10 +11,10 @@ public sealed partial class ContractApiTests
     public async Task Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress()
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "group-a", scopedTeacher: true);
         await Publish(app, a);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         var initial = await Get(student, Workspace(a.Id));
         Fields(initial, "assignment", "course", "lesson", "problem", "availability", "work", "hints", "history", "usefulMaterials", "permissions");
         Fields(initial.GetProperty("assignment"), "id", "isActive");
@@ -110,7 +110,7 @@ public sealed partial class ContractApiTests
         Assert.Equal(originalSubmission.GetRawText(), submissions[1].GetRawText());
         var reviews = final.GetProperty("history").GetProperty("reviews").EnumerateArray().ToArray();
         Assert.Equal(new[] { "Accepted", "NeedsRevision" }, reviews.Select(r => r.GetProperty("decision").GetString()));
-        foreach (var review in reviews) Fields(review, "id", "submissionId", "teacherId", "decision", "messageId", "createdAt");
+        foreach (var review in reviews) Fields(review, "id", "submissionId", "teacherId", "decision", "messageId", "createdAt", "annotations");
         Assert.Equal(second.GetProperty("submissionId").GetGuid(), reviews[0].GetProperty("submissionId").GetGuid());
         Assert.Equal(first.GetProperty("submissionId").GetGuid(), reviews[1].GetProperty("submissionId").GetGuid());
         Assert.Equal(feedback.GetProperty("id").GetGuid(), reviews[1].GetProperty("messageId").GetGuid());
@@ -153,22 +153,23 @@ public sealed partial class ContractApiTests
     public async Task Message_capability_allows_command_and_fresh_GET_returns_incremented_version(string role, string state)
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "group-a", scopedTeacher: true);
         await Publish(app, a);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         var id = await Submit(student, a);
         if (state != "Submitted")
         {
             var work = await Get(teacher, WorkPath(id));
             await Json(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/" + (state == "Accepted" ? "accept" : "needs-revision"), ReviewBody(work)));
         }
-        using var actor = app.Client(role == "Student" ? ApiFactory.Student : ApiFactory.Teacher, role);
+        using var actor = role == "Student" ? app.Client(ApiFactory.Student) : await app.SecureClient();
         var before = await Get(actor, WorkPath(id));
         Assert.True(before.GetProperty("permissions").GetProperty("canPostMessage").GetBoolean());
         var lesson = await Get(actor, LessonPath(a));
         Assert.True(Assert.Single(lesson.GetProperty("problems").EnumerateArray()).GetProperty("permissions").GetProperty("canPostMessage").GetBoolean());
-        var result = await Json(await actor.PostAsJsonAsync(WorkPath(id) + "/messages", MessageBody));
+        var result = await Json(await actor.PostAsJsonAsync(WorkPath(id) + "/messages",
+            role == "Student" ? MessageBody : TeacherMessageBody));
         Fields(result, "messageId", "createdAt"); // Accepted Feature UC-A06: no response version.
         Assert.Equal(TimeSpan.Zero, result.GetProperty("createdAt").GetDateTimeOffset().Offset);
         var after = await Get(actor, WorkPath(id));
@@ -180,18 +181,20 @@ public sealed partial class ContractApiTests
     }
 
     [Fact]
-    public async Task Concurrent_messages_return_one_conflict_without_partial_history()
+    public async Task Concurrent_duplicate_teacher_message_returns_one_conflict_without_partial_history()
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "group-a", scopedTeacher: true);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacherA = await app.SecureClient();
+        using var teacherB = await app.SecureClient();
         var id = await Submit(student, a);
+        var command = TeacherMessageBody;
         app.Barrier.Armed = true;
-        var responses = await Task.WhenAll(student.PostAsJsonAsync(WorkPath(id) + "/messages", MessageBody),
-            teacher.PostAsJsonAsync(WorkPath(id) + "/messages", MessageBody));
+        var responses = await Task.WhenAll(teacherA.PostAsJsonAsync(WorkPath(id) + "/messages", command),
+            teacherB.PostAsJsonAsync(WorkPath(id) + "/messages", command));
         await Json(Assert.Single(responses, r => (int)r.StatusCode == 200));
-        await Error(Assert.Single(responses, r => (int)r.StatusCode == 409), 409, "ConcurrencyConflict");
+        await Error(Assert.Single(responses, r => (int)r.StatusCode == 409), 409, "OperationAlreadyAttempted");
         var work = await app.Reload(id);
         Assert.Equal(2, work.Version);
         Assert.Single(work.Messages);

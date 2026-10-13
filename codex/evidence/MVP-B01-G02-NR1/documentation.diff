@@ -1,0 +1,213 @@
+--- before/codex/MVP-B01-G02-NORMATIVE-REVIEW.md
++++ after/codex/MVP-B01-G02-NORMATIVE-REVIEW.md
+@@ -1,4 +1,8 @@
+ # MVP-B01/G02 — normative review для synthetic MVP Sapientum
++
++> **NR1 effective notice — 2026-10-11.** N1–N7 и ограниченный supersession D1–D8 приняты. Формулировки PROPOSED / NOT ACCEPTED, §§3/9 и итоговый статус ниже сохранены как история review до решения; они больше не описывают нормативный статус NR1. Сам текст N1–N7/D1–D8 не изменён. Техническая реализация NOT IMPLEMENTED / NOT ACCEPTED.
++> Нормативный источник: [N1–N7 / точный D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](L03-OWNER-DECISION-REGISTER.md), [sync results](MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-11. **DOCUMENTATION ONLY · PROPOSED, NOT ACCEPTED · STOP AT OWNER REVIEW.**
+ 
+--- before/docs/adr/ADR-L15-jwt-delayed-revocation.md
++++ after/docs/adr/ADR-L15-jwt-delayed-revocation.md
+@@ -1,4 +1,8 @@
+ # ADR-L15 — JWT и ограниченный по времени обычный отзыв
++
++> **NR1 effective notice — 2026-10-11.** Только в NR1 scope: D1 заменяет абзац «Deadline измеряется…» на N1/N4; D2 — «Engineering requirement…» на N2/N3; D3 — два file/stream абзаца на N3/N5; D4 — весь формальный completion proof §L0.4 на N1/N2/N4/N6; D8 — производный вывод 23m в §Решение. Числа таблицы 60/480s означают application budget N1, не physical completion. JWT/admission/revoke serialization сохранены. Ordinary jobs paragraph и исключённые paths не ослаблены.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **ACCEPTED T04**, owner: владелец; evidence: окончательная редакция T04 в задании консолидации L0.3. Реализация NOT VERIFIED, L1 не разрешён. Supersedes cookie/per-request session и PostgreSQL revoke barrier в прежних ADR-L01, ADR-L14 и ORG-G04. Остальные принципы изоляции сохранены.
+ 
+--- before/docs/adr/ADR-L16-organization-jwt-browser-session.md
++++ after/docs/adr/ADR-L16-organization-jwt-browser-session.md
+@@ -1,4 +1,8 @@
+ # ADR-L16 — Organization-scoped JWT и browser refresh-session
++
++> **NR1 effective notice — 2026-10-11.** Связанные ссылки на T04/E03 для ранее linearized JWT читаются через N4 и D4/D5/D8 только в NR1 scope. E01/E02/O01 и credential issuance/rotation не получают learning late-COMMIT исключение; после позднего ACK нельзя выдавать JWT/cookie в истёкшем ответе. Отдельный S2 timing/serialization review остаётся обязательным.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **ACCEPTED E01/E02** по L0.4 owner request §4. DTO/поля — engineering contract; **O01 ACCEPTED** по заданию L1/S2. [Реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). S1 ACCEPTED; только S2 AUTHORIZED, S3–S8 не разрешены. SYNTHETIC DATA ONLY. Временные гарантии — ADR-L15.
+ 
+--- before/docs/adr/ADR-L17-account-security-recovery-challenges.md
++++ after/docs/adr/ADR-L17-account-security-recovery-challenges.md
+@@ -1,4 +1,8 @@
+ # ADR-L17 — SecurityBlocked, independent recovery и AccessChallenge
++
++> **NR1 effective notice — 2026-10-11.** D5 заменяет только completion-абзац «JWT, выпущенный до block…» на N4 для NR1 paths. Первый абзац SecurityBlocked E03, E04/E05, issuance/consume/block/session/audit не изменены. Полное прекращение effects/egress через 23m больше не обещается для NR1 scope; true JWT≤900s сохранён.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **ACCEPTED E03/E04/E05**, T01/T02 неизменны. Owner evidence: L0.4 §4; [реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). SYNTHETIC DATA ONLY; implementation NOT VERIFIED. Нормативный lifecycle здесь, ADR-L02 сохраняет provisioning boundary.
+ 
+--- before/docs/adr/ADR-L18-synthetic-processing-restrictions.md
++++ after/docs/adr/ADR-L18-synthetic-processing-restrictions.md
+@@ -1,4 +1,8 @@
+ # ADR-L18 — ProcessingRestrictions в SyntheticOnly L1
++
++> **NR1 effective notice — 2026-10-11.** D7 заменяет temporal dependency абзаца «Files проходят тот же gate…» на N5 только в NR1 scope: application deadline и возможный queued transport tail. Current restrictions, write serialization, pre-materialization checks и jobs fresh checks сохраняются. Реальная freshness/legal acceptance не предоставлена.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **ACCEPTED E06**, совместно T05/ADR-L13, owner L0.4 §4. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY. LEGAL SOURCE NOT VERIFIED.
+ 
+--- before/docs/architecture/L1-G02-BOUNDED-EXECUTION.md
++++ after/docs/architecture/L1-G02-BOUNDED-EXECUTION.md
+@@ -1,4 +1,8 @@
+ # G02/A02 — Bounded execution: архитектура и инварианты
++
++> **NR1 effective notice — 2026-10-11.** D6 заменяет только I6 all-executors-stop на N1–N3/N6 в NR1 scope. Производные physical completion/full-stop выводы читаются через D1–D4/D8. I1–I5/I7 остаются safety obligations с отдельным physical accounting; quiescence обязательна для seal/purge. Исторический A02 design и его отрицательные выводы не исправлены и не стали PASS.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **DESIGN PROPOSAL; runtime NOT IMPLEMENTED; T04 NOT PROVEN; S4 BLOCKED.**
+ Основание: владелец разрешил G02/A02 DESIGN, отдельно разрешил сохранить документы в текущей ветке `codex/l1-s4-jwt-api-authorization` канонического `/home/tea/github/lms`. Новая реализация требует отдельного разрешения. [Модель отказов](L1-G02-FAILURE-MODEL.md), [варианты](../../codex/L1-G02-OPTIONS.md), [verification plan](../../codex/L1-G02-VERIFICATION-PLAN.md), [решение владельца](../../codex/L1-G02-OWNER-DECISION.md).
+--- before/docs/architecture/L1-G02-FAILURE-MODEL.md
++++ after/docs/architecture/L1-G02-FAILURE-MODEL.md
+@@ -1,4 +1,8 @@
+ # G02/A02 — Модель отказов и границы гарантий
++
++> **NR1 effective notice — 2026-10-11.** Историческая A02 failure model ниже сохранена. Для NR1 paths temporal completion obligations заменены только согласно D1–D8; successor failure/acceptance model — N1–N7 и §6 review. Старые FAIL/unsupported full-stop результаты не стали PASS. Safe pending accounting обязателен, универсального recovery RTO нет.
++> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-09. **PROPOSED model; no certified deployment; S4 BLOCKED.** См. [архитектуру](L1-G02-BOUNDED-EXECUTION.md) и [план доказательства](../../codex/L1-G02-VERIFICATION-PLAN.md).
+ 
+--- before/codex/SAPIENTUM-MVP-ENGINEERING-GUARDRAILS.md
++++ after/codex/SAPIENTUM-MVP-ENGINEERING-GUARDRAILS.md
+@@ -1,4 +1,8 @@
+ # Sapientum LMS — MVP Engineering Guardrails
++
++> **NR1 effective notice — 2026-10-11.** Прежнее «T04/E03 unchanged» ниже — исторический статус. Единственное новое нормативное изменение — scoped temporal supersession D1–D8 по N1–N7. Остальные guardrails и открытые security gates сохранены; NR1 не разрешает implementation или release.
++> Нормативный источник: [N1–N7 / точный D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](L03-OWNER-DECISION-REGISTER.md), [sync results](MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ **Owner proposal · 2026-10-10 · applies to all new MVP work, pending adoption in repository**
+ 
+--- before/codex/MVP-GUARDRAILS-RECONCILIATION.md
++++ after/codex/MVP-GUARDRAILS-RECONCILIATION.md
+@@ -1,4 +1,8 @@
+ # MVP guardrails — adoption and owner review
++
++> **NR1 effective notice — 2026-10-11.** Прежнее boundary statement «timing guarantees unchanged» сохранено как история и заменено только scoped NR1 D1–D8. A06 E03-C/N не приняты; прежние R01–R04 этим решением не закрываются.
++> Нормативный источник: [N1–N7 / точный D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](L03-OWNER-DECISION-REGISTER.md), [sync results](MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
++> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+ 
+ 2026-10-10. Documentation integration only. The supplied [proposal](SAPIENTUM-MVP-ENGINEERING-GUARDRAILS.md) was already present, untracked, and is preserved byte-for-byte. Its shared process is connected through [root AGENTS.md](../AGENTS.md). This does not accept conflicting proposal wording or amend any ADR/owner decision.
+ 
+--- before/codex/L03-OWNER-DECISION-REGISTER.md
++++ after/codex/L03-OWNER-DECISION-REGISTER.md
+@@ -116,3 +116,24 @@
+ Разрешён только **G02-NORMATIVE-REVIEW, documentation only**: [сравнение действующего T04/E03, A06 и ограниченной safety/recoverability альтернативы](MVP-B01-G02-NORMATIVE-REVIEW.md), точный предлагаемый diff, последствия, acceptance tests, blockers и текст будущего owner decision. Предложения review этим решением не принимаются. Не разрешены изменения действующих ADR/T04/E03, production configuration, реализация или Git-операции. Остановиться на owner review.
+ 
+ **P1 ACCEPTED · G02 NORMATIVE REVIEW AUTHORIZED · A06 NOT ACCEPTED · G02 BLOCKED · H04/READY BLOCKED · S4 HTTP NOT AUTHORIZED.**
++
++
++## MVP-B01/G02-NR1 — normative acceptance / documentation synchronization — 2026-10-11
++
++Owner: владелец проекта. Основание: явное сообщение «OWNER DECISION — MVP-B01/G02-NR1 — NR1 NORMATIVE MODEL ACCEPTED — SYNTHETICONLY SCOPE». **Дата вступления в силу: 2026-10-11**, с настоящего решения; не ретроактивная техническая приёмка.
++
++Приняты в точности [N1–N7 и ограниченный supersession D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md). Это изменение temporal completion guarantees: 60/480s — application deadline в qualified execution envelope; возможны поздняя видимость ранее допустимого атомарного набора learning mutations и поздняя передача уже queued bytes. Универсального recovery RTO при произвольной инфраструктурной остановке нет; безопасный durable учёт pending обязателен. Прежний T04 этим не доказан. Scope — только controlled SyntheticOnly, route-by-route acceptance ещё отсутствует; Submit/Review/attachment claim — кандидаты, ImportAttempt writer требует отдельного включения. Неопределённый path blocked.
++
++D1–D4/D8 заменяют только указанные completion clauses ADR-L15 и производные реестра; D5 — только completion clause E03 ADR-L17; D6 — I6; D7 — temporal stream dependency ADR-L18. Прежние тексты остаются историей. Для NR1 D8 применяется точный текст:
++
++> JWT, выпущенный до заявки, истечёт максимум через 15 минут; 60/480s ограничивают новые application actions по NR1 N1, но поздняя видимость ранее допустимого COMMIT и queued bytes не имеют этого wall-clock bound. Утверждение о полном завершении через 23 минуты не применяется.
++
++> Если conservative true JWT≤15m, application deadline enforcement в принятом envelope, domain safety или recovery/capacity не доказаны — STOP соответствующего path и общей acceptance; physical completion внешнего I/O≤8m не является общим prerequisite NR1. Исключённые paths сохраняют прежний gate.
++
++True JWT lifetime≤900s, conservative expiry без положительного leeway, exp≤AccessValidUntil−600s, D≤request+7200s без retry extension, delayed revocation, E01/E02/O01/E04/E05, S2/S3 org/course/group authorization, current ProcessingRestrictions и сериализация writes, atomic mutation/result/audit, immutable history/file versions, parent authorization и отдельная авторизация каждого нового запроса сохранены. Unknown outcome ≠ rollback; automatic replay запрещён. Late-COMMIT исключение не распространяется автоматически на credential issuance, grants, B08 publication, general jobs и внешние irreversible effects. CLOCK NOT PROVEN — самостоятельный обязательный blocker для issuance/admission/q и общей acceptance.
++
++**NR1 нормативно принято; технически NOT IMPLEMENTED / NOT ACCEPTED.** A06 E03-C/N и ND-01–ND-10 не принимаются. P1-SINGLE-LOCAL остаётся NO-GO; T04/E03/A02–A06 evidence и failure results сохранены, не исправлены и не превращены в PASS.
++
++Авторизована только документационная синхронизация и [короткий implementation roadmap](MVP-B01-G02-NR1-IMPLEMENTATION-ROADMAP.md); [результат и точный diff](MVP-B01-G02-NR1-SYNC-RESULTS.md) остановить на owner acceptance. Следующий инженерный slice должен давать проверяемый код qualified clock source и evidence после отдельного задания, без нового бесконечного qualification цикла. Runtime/schema/production DI/HTTP/Docker/edge/processing guards не менять. Branch/HEAD/index и посторонние изменения сохранить; commit/merge/rebase/push/deploy запрещены.
++
++**NR1 NORMATIVELY ACCEPTED · G02 IMPLEMENTATION BLOCKED · CLOCK NOT PROVEN · H04/READY BLOCKED · B08 NOT AUTHORIZED · PRS1 EXACT OFF · S4 HTTP CUTOVER NOT AUTHORIZED.**
+--- before/codex/MVP-B01-G02-NR1-SYNC-RESULTS.md
++++ after/codex/MVP-B01-G02-NR1-SYNC-RESULTS.md
+@@ -0,0 +1,65 @@
++# MVP-B01/G02-NR1 — documentation synchronization results
++
++2026-10-11. **DOCUMENTATION ONLY · SYNC OWNER ACCEPTANCE PENDING.** NR1 нормативно принято с **2026-10-11** явным owner decision текущего задания. Технически **NOT IMPLEMENTED / NOT ACCEPTED**. Это изменение temporal completion guarantees только controlled SyntheticOnly, не доказательство прежнего T04 и не принятие A06 E03-C/N.
++
++## Нормативный diff и scope
++
++Принятый источник — неизменённые [N1–N7 и точный D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md). Применена предусмотренная review append-only запись владельца и effective notices; исходные clauses не удалены. Notices имеют приоритет над историческими PROPOSED/NOT ACCEPTED/unchanged headlines только в явно указанной части. Route-by-route technical acceptance ещё отсутствует; неидентифицированный path blocked.
++
++| Файл | Точное назначение изменения |
++|---|---|
++| [Реестр решений](L03-OWNER-DECISION-REGISTER.md) | Append-only owner acceptance, effective date, N1–N7 by reference, D1–D8 scope; оба точных replacement текста D8; неизменяемые требования и blockers |
++| [Normative review](MVP-B01-G02-NORMATIVE-REVIEW.md) | Effective notice принятия; N1–N7, D1–D8, исходный проект §9 и историческая validation сохранены |
++| [ADR-L15](../docs/adr/ADR-L15-jwt-delayed-revocation.md) | D1 response/full-operation→N1/N4; D2 transaction→N2/N3; D3 file/stream→N3/N5; D4 formal proof→N1/N2/N4/N6; D8 derivative 23m; старые тексты сохранены |
++| [ADR-L16](../docs/adr/ADR-L16-organization-jwt-browser-session.md) | Уточнение связанной T04/E03 ссылки, без замены E01/E02/O01/credential contract |
++| [ADR-L17](../docs/adr/ADR-L17-account-security-recovery-challenges.md) | D5 только completion E03→N4; первый абзац SecurityBlocked, E04/E05 сохранены |
++| [ADR-L18](../docs/adr/ADR-L18-synthetic-processing-restrictions.md) | D7 temporal stream dependency→N5, current restrictions/write serialization/jobs сохранены |
++| [G02 bounded execution](../docs/architecture/L1-G02-BOUNDED-EXECUTION.md) | D6 I6→N1–N3/N6; производные completion выводы scoped; I1–I5/I7 safety сохранены |
++| [G02 failure model](../docs/architecture/L1-G02-FAILURE-MODEL.md) | Successor notice, исторические A02 failure results не переписаны |
++| [Guardrails](SAPIENTUM-MVP-ENGINEERING-GUARDRAILS.md) | Notice только об изменении temporal status; прочие правила не пересмотрены |
++| [Reconciliation](MVP-GUARDRAILS-RECONCILIATION.md) | Notice scoped supersession, без закрытия R01–R04 |
++
++Дополнительно созданы этот отчёт и [шестишаговый roadmap](MVP-B01-G02-NR1-IMPLEMENTATION-ROADMAP.md). [Точный unified diff](evidence/MVP-B01-G02-NR1/documentation.diff) сравнивает с фактическим dirty baseline начала задания, включая untracked документы; это не diff против HEAD и не присваивание посторонних изменений. Diff включает десять синхронизированных документов и оба deliverables. [Preservation manifest](evidence/MVP-B01-G02-NR1/preservation.json) содержит исходные SHA-256, hashes неизменённого evidence и Git identity. Сам manifest и diff — дополнительные evidence artifacts; diff не включает себя.
++
++## Consistency и неизменяемые границы
++
++- True JWT lifetime≤900s; conservative expiry без positive leeway; exp≤AccessValidUntil−600s; delayed revocation и D≤request+7200s, E01/E02/O01/E04/E05 сохранены. CLOCK NOT PROVEN — обязательный самостоятельный blocker, не снятый NR1. Нет безусловного wall-clock SLA при unknown clock.
++- S2/S3, org/course/group scope, current ProcessingRestrictions и сериализация всех relevant writers, atomic mutation/result/audit, immutable history, exact immutable file versions/parent authorization и новый admission для каждого запроса сохранены. Нет новых runtime assertions о выполнении этих обязательств.
++- Late COMMIT допустим только для фиксированного ранее допустимого набора learning mutations по N2. Нет автоматического распространения на credential issuance, grants, B08 publication, general jobs или внешние irreversible effects. L15 jobs paragraph, L17 первый SecurityBlocked paragraph и полный L16 body сохранены.
++- Unknown outcome≠rollback; automatic replay/resume запрещён. Late queued bytes и отсутствие универсального recovery RTO явно приняты, safe finite pending accounting обязателен. Quiescence нужна для seal/purge; timeout не освобождает ресурсы.
++- A02–A06/T04/E03 historical failure evidence сохранены. A06 E03-C/N и ND-01–ND-10 не становятся новым контрактом. P1 NO-GO не закрыт и не квалифицирован повторно. Старые FAIL не исправлены и не стали PASS.
++
++## Проверки и preservation evidence
++
++Воспроизводимая проверка текущего задания: `python3 /tmp/nr1-sync/validate.py` из `/home/tea/github/lms`. Baseline и точные исходные тексты сохранены в `/tmp/nr1-sync`; постоянный итог — manifest и diff по ссылкам выше. Проверка выполняется после формирования отчёта; её фактические счётчики записаны в manifest.
++
++Проверяются: byte-for-byte исходный prefix реестра; восстановление каждого исходного документа удалением единственного notice; неизменность N1–N7/D1–D8; семь дословных original-text blocks D1–D7 в исходных ADR/G02; наличие локальных Markdown link targets; сбалансированные code fences и отсутствие trailing whitespace; SHA-256 остальных baseline файлов в codex/docs/src/tests/tools и корневых файлов; branch/HEAD/index hash. Fragment anchors не добавлялись; web links не перепроверялись.
++
++Branch сохранён: `codex/l1-s4-jwt-api-authorization`, HEAD `492e30aef65bbddd24f107903bfaa54a563abe39`. Это существующий dirty checkout, а не main; переключение не выполнялось. Посторонние runtime/schema/test/content edits не изменены. `.obsidian` и ignored build outputs не входят в baseline coverage; полная неизменность всего filesystem не заявляется. Commit/merge/rebase/push/deploy не выполнялись.
++
++Фактический результат `python3 /tmp/nr1-sync/validate.py`: **PASS** — 112 local link targets, 7/7 historical blocks; 7 880 прочих baseline файлов без изменений, из них 152 evidence-файла в отдельном hash manifest; branch/HEAD/index unchanged. Все девять notices обратимы без потери исходного текста; prefix реестра сохранён побайтово.
++
++Runtime/unit/integration/negative-access/security/fault/browser tests **NOT RUN**: scope документационный. Исторические PASS не являются новым прогоном. Проверки документов не дают G02/security acceptance.
++
++## Guardrails §7
++
++| Проверка | Результат / предел |
++|---|---|
++| Actor/use case/invariants/states | covered — owner→scoped normative sync; application/domain/physical states заданы N1–N7, roadmap задаёт будущие deliverables |
++| S2/S3/PRS1 и gates | covered — нормы сохранены; exact OFF, cutover закрыт |
++| Server org/course/group/ownership | covered нормативно; runtime проверка N/A — нет новых access paths |
++| Subjects/sources | covered — current deny и processing evidence обязательны, narrowing не введён |
++| Lists/counts/aggregates | covered нормативно; runtime N/A — queries не менялись |
++| Attachments/history | covered — N3/N5, original docs preserved; новые file paths не реализованы |
++| Transactions/locks/CAS/retry/unknown | covered в принятом контракте; полный writer lock graph и implementation evidence BLOCKED до соответствующего slice |
++| Validation/limits/errors | covered — N1/N3/N4; profile caps/clock evidence NOT PROVEN |
++| Unit/integration/negative/E2E | NOT RUN — documentation only; будущие AT01–AT12 не объявлены PASS |
++| Неавторизованные изменения | covered — только перечисленные docs/evidence; runtime/schema/DI/HTTP/Docker/edge/processing guards не менялись |
++| Real data/secrets/release claims | covered — SyntheticOnly; unsupported readiness не заявлена |
++| Фактические проверки/remaining gaps | Documentation validation и preservation — см. manifest; clock, storage, recovery, route/security evidence открыты |
++
++Специализированные model-domain/implement-use-case/implement-feature skills в текущем каталоге доступных skills отсутствуют; их выполнение не заявляется. Изменение кода здесь не требовалось.
++
++Остановлено на owner acceptance документационной синхронизации. Следующий отдельно авторизованный инженерный slice — минимальный clock component с проверяемым кодом и evidence; бесконечный G02 qualification цикл не создаётся.
++
++**NR1 NORMATIVELY ACCEPTED · G02 IMPLEMENTATION BLOCKED · CLOCK NOT PROVEN · H04/READY BLOCKED · B08 NOT AUTHORIZED · PRS1 EXACT OFF · S4 HTTP CUTOVER NOT AUTHORIZED.**
+--- before/codex/MVP-B01-G02-NR1-IMPLEMENTATION-ROADMAP.md
++++ after/codex/MVP-B01-G02-NR1-IMPLEMENTATION-ROADMAP.md
+@@ -0,0 +1,16 @@
++# MVP-B01/G02-NR1 — implementation roadmap
++
++2026-10-11. **PLAN ONLY · IMPLEMENTATION NOT AUTHORIZED.** Основание: [owner decision](L03-OWNER-DECISION-REGISTER.md), принятые [N1–N7/D1–D8](MVP-B01-G02-NORMATIVE-REVIEW.md); [sync results](MVP-B01-G02-NR1-SYNC-RESULTS.md). Последовательная работа, controlled SyntheticOnly. Эта очередность не принимает код и не открывает закрытые gates.
++
++| Шаг | Проверяемый результат и evidence | Зависимости | Запреты / stop condition |
++|---|---|---|---|
++| 1. Минимальный qualified clock source | После отдельного implementation задания: узкий компонент trusted UTC interval + conservative elapsed, состояния Untrusted/Qualified/Invalidated; проверки true lifetime≤900s, U(admission)<exp, exp≤D−600s и q cutoff. Unknown/step/suspend/reboot инвалидируют trust; восстановление только по подтверждённому источнику. Fake-clock boundary tests плюс evidence реального источника/uncertainty для одного фиксированного профиля; источник и dispatch assumptions явно записаны. Код и тесты — обязательный deliverable, fake-clock PASS не qualification реального clock. | N4/N6; явная авторизация узкого code slice; один выбранный источник и численный envelope, independent oracle. | Не подставлять неизвестную error как ноль, не вводить positive leeway, не подключать production DI/issuance/HTTP автоматически. Если source bound не подтверждён — компонент остаётся fail closed, CLOCK NOT PROVEN; фиксированный отчёт о gap, без нового цикла поиска провайдеров. |
++| 2. Application deadline и response gating | Один исходный t0 до очереди/header/body, 60/480s budget; gates перед admission/stage/q/COMMIT dispatch/chunk enqueue, abort по обнаружению expiry, resume recheck. AT01/02: boundaries, late ACK, queue/body, pause between check/dispatch; trace отделяет application actions от queued transport tail. | Qualified clock для acceptance; измеренный dispatch margin/envelope; явный inventory adapters/aliases и отдельная авторизация integration scope. Компонентные тесты возможны при blocked clock, release — нет. | Нет budget reset, late success/JWT/cookie в старом ответе, hard last-TX обещания или HTTP cutover по одному unit PASS. Credential paths требуют собственного review. |
++| 3. Durable OperationId, reconciliation, serialization learning mutations | Canonical scoped identity/digest/context/generation/expectedVersion; domain+result+audit атомарны. Полный lock graph всех restriction/context/claim writers, fresh reads после lock wait и phantom coverage. AT03/04/06: lost ACK, оба порядка prohibition/q, concurrent keys/new-key bypass, restart; один effect, authoritative resolution либо durable unknown. | Шаги 1–2; отдельно утверждённые writer inventory, transaction owner/isolation/lock order/CAS и schema slice. Application owns transaction; no external I/O in it. | Unknown≠rollback, no automatic replay/resume/compensation, no success по q, no replica-not-found→Aborted. Нет generic late credential/grant/B08/job/outbox exception. ImportAttempt ещё excluded до шага 6. |
++| 4. Private storage seal, immutable version, capacity/restart | Уникальные private operation/generation namespaces; exact durable hash/length/version; доказанное отсутствие retained writable handles/issued writes до seal/claim. Durable reservations до side effects, численные global/per-org caps, учёт OutcomeUnknown и PhysicalPending через restart. AT07/08: retained FD, crash seal, full caps, claim/purge race, authoritative recovery/restore evidence. | Шаг 3 для identity/claim/outcome; storage adapter и поддержанный профиль; least-privilege worker без domain credentials; отдельно принятый capacity/recovery contract. | Rename/chmod/hash не proof immutability; TTL не physical deletion bound. Не освобождать слот по timeout, не удалять unknown/claimed originals, не создавать unbounded replacements. Late worker receipt не Ready; universal RTO не обещать. |
++| 5. B02/B11 HTTP integration и отдельная security acceptance | После отдельного разрешения: route-by-route read/write/list/count/file/status inventory, N1 gates и current scope/parent/processing checks. AT09/10/12 и positive controls; org/course/group/role/parent negatives, pagination leakage, refresh concurrency/O01, CSRF/Origin/cache, late ACK без credentials, issue/block serialization. Отдельный security report, SR-01–SR-04/human audit и owner acceptance. | Evidence шагов 1–4 и принятого профиля; S2/S3/O01; отдельное разрешение HTTP integration, затем отдельные G02 acceptance и S4 cutover. | Ни component PASS, ни этот план не разрешают HTTP cutover. Не менять delayed revoke на global barrier, не восстанавливать successor secrets, не включать PRS1 exact. Clock gap блокирует общую acceptance. |
++| 6. B07b ImportAttempt/H04 и пользовательская загрузка курса | Отдельный закрытый writer с whole-course capability, current context/restrictions, stable identity, exact receipt/immutable artifacts, CAS и atomic result/audit. Отдельное включение writer в NR1 inventory. AT07/09/11 + H04 negative matrix; synthetic upload→validation→status→Ready, ошибки/unknown/auth expiry без replay; Ready не Published. | Шаги 1–5 в принятом scope; B07a/C1/C2-J isolated evidence, собственные ImportAttempt schema/writer и H04 authorization/acceptance. | H03 не открывает private composition helpers. Late output не создаёт Ready; после expiry нет новой transaction от старой authority. Никакого B08 publication, новых grants или реальных данных. |
++
++Каждый шаг заканчивается конкретным diff кода, воспроизводимыми проверками с независимым oracle и перечнем оставшихся gaps. Это будущие deliverables: в текущем документационном задании **runtime/security/fault/browser tests NOT RUN**. No-Go по clock не превращается в оправдание ослабить expiry или начать общий G02 qualification заново; следующий отдельно авторизованный инженерный slice — шаг 1 с проверяемым изменением кода, ограниченным профилем и конечным отчётом.
++
++**NR1 NORMATIVELY ACCEPTED · G02 IMPLEMENTATION BLOCKED · CLOCK NOT PROVEN · H04/READY BLOCKED · B08 NOT AUTHORIZED · PRS1 EXACT OFF · S4 HTTP CUTOVER NOT AUTHORIZED.**

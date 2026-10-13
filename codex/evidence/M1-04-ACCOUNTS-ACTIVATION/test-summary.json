@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-12",
+  "scope": "M1-04 Accounts, Activation & Recovery",
+  "syntheticOnly": true,
+  "realChromiumHttps": {
+    "status": "PASS",
+    "tests": 1,
+    "scenario": "organization admin login -> create student -> one-time code -> activation -> password -> first student login",
+    "screenshots": 6
+  },
+  "targeted": {
+    "infrastructure": { "passed": 7, "failed": 0 },
+    "api": { "passed": 1, "failed": 0 },
+    "frontendBuild": "PASS"
+  },
+  "regression": {
+    "domain": { "passed": 43, "failed": 0 },
+    "application": { "passed": 369, "failed": 0 },
+    "infrastructure": { "passed": 340, "failed": 0, "note": "full run before final added challenge-state case; final targeted run includes it" },
+    "api": { "passed": 377, "skippedOptInBrowser": 8, "failed": 0 },
+    "frontend": { "passed": 411, "failed": 0 }
+  },
+  "notes": [
+    "The activation code visible in screenshot 03 is synthetic and was consumed during the same E2E run.",
+    "No password, plaintext challenge, refresh token, access JWT, or platform JWT is persisted in the evidence summary."
+  ]
+}

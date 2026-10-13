@@ -1,0 +1,13 @@
+{
+  "baseline_files": 567,
+  "changed_baseline_files": [],
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "index_sha256": "2a0e936a9f7a3395633ba3ee7084970af663a4412cec6f92f72b765a264f56a4",
+  "head_preserved": true,
+  "branch_preserved": true,
+  "index_preserved": true,
+  "new_file_whitespace_errors": [],
+  "report_local_links": 8,
+  "broken_local_links": []
+}

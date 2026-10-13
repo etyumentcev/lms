@@ -1,0 +1,75 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 1664ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  441ms
+   ✓ student traverses list → course → lesson → assignment → history and returns to the same lesson  354ms
+ ✓ src/test/course.test.tsx (34 tests) 2538ms
+     ✓ keeps shell/main/context visible while loading header and rows  503ms
+ ✓ src/test/lesson.test.tsx (40 tests) 2917ms
+     ✓ keeps shell with header, row and context skeletons  330ms
+     ✓ returns to Course with Router and focuses main  468ms
+ ✓ src/test/history.test.tsx (37 tests) 4041ms
+     ✓ keyboard tabs and Back/Forward preserve focus and history selection  372ms
+ ✓ src/test/shell.test.tsx (14 tests) 923ms
+ ✓ src/test/annotations.test.tsx (28 tests) 643ms
+ ❯ src/test/attachments.test.tsx (19 tests | 1 failed) 1132ms
+     ✓ starts empty and ready without server requests 287ms
+     ✓ offers gallery/camera-compatible multiple image input with accessible help 19ms
+     × selects one image and returns only confirmed attachment IDs 41ms
+     ✓ retrieves protected content for a preview 30ms
+     ✓ keeps multiple pages in selection order despite reversed upload completion 64ms
+     ✓ reorders pages and returned attachment array 89ms
+     ✓ deletes pending server resource before removing page 84ms
+     ✓ retains page if server deletion fails 83ms
+     ✓ shows upload failure without reporting a confirmed attachment 40ms
+     ✓ retries only the failed page and preserves successful pages 59ms
+     ✓ displays server validation AttachmentTooLarge 14ms
+     ✓ displays server validation UnsupportedAttachmentType 15ms
+     ✓ displays server validation InvalidAttachment 14ms
+     ✓ displays real progress and does not treat 100 percent transport as success 34ms
+     ✓ supports keyboard page reordering 46ms
+     ✓ can remove a failed page without issuing server delete 66ms
+     ✓ retries preview without uploading duplicate resources 123ms
+     ✓ aborts active requests when unmounted 9ms
+   ✓ attachment adapter uses only upload/content/delete routes, same auth and Problem Details 13ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 5186ms
+     ✓ keeps shell, header, filter labels, row and context skeletons while loading  801ms
+ ✓ src/test/api.test.ts (20 tests) 23ms
+ ✓ src/test/problem.test.tsx (53 tests) 5609ms
+     ✓ keeps shell, statement/tabs/solution/context skeletons while loading  315ms
+     ✓ preserves uploaded pages and text across tabs without delete or reupload  310ms
+ ✓ src/test/primitives.test.tsx (15 tests) 427ms
+     ✓ supports arrows, wrapping, Home/End, disabled skipping and one tab stop  324ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 23ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 408ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 7680ms
+     ✓ enlarges, reduces and resets photo without altering original  426ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  318ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  540ms
+     ✓ allows corrected input after 422 FeedbackRequired  391ms
+     ✓ allows corrected input after 400 ValidationFailed  318ms
+     ✓ handles command 0 with explicit refresh, preserved draft and no retry  493ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/attachments.test.tsx > photo uploader foundation > selects one image and returns only confirmed attachment IDs
+TypeError: Cannot read properties of undefined (reading 'attachmentId')
+ ❯ src/test/attachments.test.tsx:35:86
+     33|   it('selects one image and returns only confirmed attachment IDs', as…
+     34|     const { input, api, onChange } = setup(); await select(input, file…
+     35|     expect(api.upload).toHaveBeenCalledTimes(1); expect(onChange.mock.…
+       |                                                                                      ^
+     36|     expect(screen.getByRole('heading', { name: 'Страница 1' })).toBeVi…
+     37|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 13 passed (14)
+      Tests  1 failed | 397 passed (398)
+   Start at  04:51:10
+   Duration  9.49s (transform 2.64s, setup 2.16s, import 6.32s, tests 33.21s, environment 9.96s)
+
+[ELIFECYCLE] Test failed. See above for more details.

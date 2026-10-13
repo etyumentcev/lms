@@ -1,0 +1,138 @@
+{
+  "captured_utc": "2026-10-09T16:46:42.282810+00:00",
+  "commands": {
+    "kernel": {
+      "command": [
+        "uname",
+        "-a"
+      ],
+      "exit": 0,
+      "stdout": "Linux tea-Swift-SFG16-74 7.0.0-38-generic #38-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 09:10:14 UTC 2026 x86_64 GNU/Linux\n",
+      "stderr": ""
+    },
+    "os": {
+      "command": [
+        "cat",
+        "/etc/os-release"
+      ],
+      "exit": 0,
+      "stdout": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n",
+      "stderr": ""
+    },
+    "tmpfs": {
+      "command": [
+        "findmnt",
+        "-T",
+        "/tmp"
+      ],
+      "exit": 0,
+      "stdout": "TARGET SOURCE FSTYPE OPTIONS\n/tmp   tmpfs  tmpfs  rw,nosuid,nodev,size=15980352k,nr_inodes=1048576,inode64,usrquota\n",
+      "stderr": ""
+    },
+    "persistence": {
+      "command": [
+        "findmnt",
+        "-T",
+        "/home/tea/.local/share/docker"
+      ],
+      "exit": 0,
+      "stdout": "TARGET SOURCE         FSTYPE OPTIONS\n/      /dev/nvme0n1p2 ext4   rw,relatime,stripe=128\n",
+      "stderr": ""
+    },
+    "docker": {
+      "command": [
+        "docker",
+        "version",
+        "--format",
+        "{{json .}}"
+      ],
+      "exit": 0,
+      "stdout": "{\"Client\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.1\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"4a63305\",\"GoVersion\":\"go1.26.8\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"BuildTime\":\"Tue Sep 15 16:25:42 2026\",\"Context\":\"rootless\"},\"Server\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.1\",\"ApiVersion\":\"1.56\",\"MinAPIVersion\":\"1.40\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"Components\":[{\"Name\":\"Engine\",\"Version\":\"29.8.1\",\"Details\":{\"ApiVersion\":\"1.56\",\"Arch\":\"amd64\",\"BuildTime\":\"Tue Sep 15 16:25:42 2026\",\"Experimental\":\"false\",\"GitCommit\":\"464cd50\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"7.0.0-38-generic\",\"MinAPIVersion\":\"1.40\",\"Module\":\"github.com/moby/moby/v2\",\"ModuleVersion\":\"v2.0.0+unknown\",\"Os\":\"linux\"}},{\"Name\":\"containerd\",\"Version\":\"v2.3.5\",\"Details\":{\"GitCommit\":\"1294c24a7da8e5a793ed378161673abe94118892\"}},{\"Name\":\"runc\",\"Version\":\"1.5.1\",\"Details\":{\"GitCommit\":\"v1.5.1-0-g8f2685a4\"}},{\"Name\":\"docker-init\",\"Version\":\"0.19.0\",\"Details\":{\"GitCommit\":\"de40ad0\"}},{\"Name\":\"rootlesskit\",\"Version\":\"3.1.0\",\"Details\":{\"ApiVersion\":\"1.1.2\",\"NetworkDriver\":\"gvisor-tap-vsock\",\"PortDriver\":\"builtin\",\"StateDir\":\"/run/user/1000/dockerd-rootless\"}}],\"GitCommit\":\"464cd50\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"7.0.0-38-generic\",\"BuildTime\":\"2026-09-15T16:25:42.000000000+00:00\"}}\n",
+      "stderr": ""
+    },
+    "docker_storage": {
+      "command": [
+        "docker",
+        "info",
+        "--format",
+        "{{.Driver}} {{.DockerRootDir}}"
+      ],
+      "exit": 0,
+      "stdout": "overlayfs /home/tea/.local/share/docker\n",
+      "stderr": ""
+    },
+    "pg_image": {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "postgres:17.6-alpine",
+        "--format",
+        "{{.Id}} {{json .RepoDigests}}"
+      ],
+      "exit": 0,
+      "stdout": "sha256:ef257d85f76e48da1c64832459b59fcaba1a4dac97bf5d7450c77753542eee94 [\"postgres@sha256:ef257d85f76e48da1c64832459b59fcaba1a4dac97bf5d7450c77753542eee94\"]\n",
+      "stderr": ""
+    },
+    "nginx_image": {
+      "command": [
+        "docker",
+        "image",
+        "inspect",
+        "lms-local-web:latest",
+        "--format",
+        "{{.Id}} {{json .RepoDigests}}"
+      ],
+      "exit": 0,
+      "stdout": "sha256:2a9ff2bed2452490f7ac6cc2c64ad6ec8c22aad2ee71d89d7b4705f916fdda14 [\"lms-local-web@sha256:2a9ff2bed2452490f7ac6cc2c64ad6ec8c22aad2ee71d89d7b4705f916fdda14\"]\n",
+      "stderr": ""
+    },
+    "clock": {
+      "command": [
+        "chronyc",
+        "tracking"
+      ],
+      "exit": 0,
+      "stdout": "Reference ID    : B97DBE7A (ntp-nts-2.ps5.canonical.com)\nStratum         : 3\nRef time (UTC)  : Fri Oct 09 16:31:32 2026\nSystem time     : 0.000001050 seconds fast of NTP time\nLast offset     : -0.000406231 seconds\nRMS offset      : 0.003289781 seconds\nFrequency       : 2.632 ppm slow\nResidual freq   : -0.007 ppm\nSkew            : 0.791 ppm\nRoot delay      : 0.096236706 seconds\nRoot dispersion : 0.003438089 seconds\nUpdate interval : 4.0 seconds\nLeap status     : Normal\n",
+      "stderr": ""
+    },
+    "chrony": {
+      "command": [
+        "chronyc",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout": "chronyc (chrony) version 4.8 (+READLINE +SECHASH +IPV6 -DEBUG)\n",
+      "stderr": ""
+    },
+    "python": {
+      "command": [
+        "python3",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "Python 3.14.4\n",
+      "stderr": ""
+    },
+    "device": {
+      "command": [
+        "lsblk",
+        "-d",
+        "-o",
+        "NAME,MODEL,REV"
+      ],
+      "exit": 0,
+      "stdout": "NAME    MODEL                                REV\nloop0                                   \nloop1                                   \nloop2                                   \nloop3                                   \nloop4                                   \nloop5                                   \nloop6                                   \nloop7                                   \nloop8                                   \nloop9                                   \nloop10                                  \nloop11                                  \nloop12                                  \nloop13                                  \nloop14                                  \nloop15                                  \nloop16                                  \nloop17                                  \nloop18                                  \nloop19                                  \nloop20                                  \nloop21                                  \nloop22                                  \nloop23                                  \nloop24                                  \nloop25                                  \nloop26                                  \nloop27                                  \nloop28                                  \nloop29                                  \nloop30                                  \nloop31                                  \nloop32                                  \nloop33                                  \nloop34                                  \nloop35                                  \nloop36                                  \nloop37                                  \nloop38                                  \nloop39                                  \nloop40                                  \nloop41                                  \nloop42                                  \nloop43                                  \nloop44                                  \nnvme0n1 WD PC SN5000S SDEQNSJ-1T00-1014 34230100\n",
+      "stderr": ""
+    },
+    "clocksource": {
+      "command": [
+        "cat",
+        "/sys/devices/system/clocksource/clocksource0/current_clocksource"
+      ],
+      "exit": 0,
+      "stdout": "tsc\n",
+      "stderr": ""
+    }
+  }
+}

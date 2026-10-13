@@ -1,0 +1,36 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/course.test.tsx (34 tests) 2068ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 2143ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  613ms
+   ✓ student traverses list → course → lesson → assignment → history and returns to the same lesson  441ms
+ ✓ src/test/lesson.test.tsx (40 tests) 2251ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 3476ms
+     ✓ keeps shell, header, filter labels, row and context skeletons while loading  419ms
+ ✓ src/test/history.test.tsx (37 tests) 3570ms
+ ✓ src/test/annotations.test.tsx (28 tests) 846ms
+   ✓ draws mouse and supports undo/redo/eraser  307ms
+ ✓ src/test/attachments.test.tsx (19 tests) 1031ms
+ ✓ src/test/api.test.ts (20 tests) 21ms
+ ✓ src/test/shell.test.tsx (14 tests) 1340ms
+     ✓ composes navigation, main and one required contextual region  349ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 10ms
+ ✓ src/test/primitives.test.tsx (15 tests) 441ms
+ ✓ src/test/problem.test.tsx (53 tests) 5263ms
+     ✓ keeps shell, statement/tabs/solution/context skeletons while loading  327ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 6756ms
+     ✓ keeps shell and separate main/context loading representations  303ms
+     ✓ enlarges, reduces and resets photo without altering original  422ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  338ms
+     ✓ previous attempt opens its own photos and focuses viewer; return retains draft  304ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  629ms
+     ✓ allows corrected input after 422 FeedbackRequired  440ms
+     ✓ allows corrected input after 400 ValidationFailed  316ms
+
+ Test Files  13 passed (13)
+      Tests  387 passed (387)
+   Start at  04:21:20
+   Duration  8.22s (transform 1.69s, setup 1.62s, import 4.31s, tests 29.22s, environment 8.37s)
+

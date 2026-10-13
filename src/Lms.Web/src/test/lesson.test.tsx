@@ -44,7 +44,7 @@ describe('Lesson C4 workspace', () => {
   });
   it('navigates by assignment with null work using keyboard and focuses workspace', async () => {
     mount(); await loaded(); const link = screen.getByRole('link', { name: 'Открыть задачу: Задача 1' });
-    expect(link).toHaveAttribute('href', `/problem-assignments/${fixtureJson.problems[0]!.problemAssignmentId}`);
+    expect(link).toHaveAttribute('href', `/problem-assignments/${fixtureJson.problems[0]!.problemAssignmentId}?source=lesson`);
     link.focus(); await userEvent.keyboard('{Enter}'); expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Задача');
     expect(screen.getByRole('main')).toHaveFocus(); expect(screen.getByRole('complementary')).toBeInTheDocument();
   });
@@ -114,7 +114,7 @@ describe('Lesson C4 workspace', () => {
   it('distinguishes multiple students and does not offer teacher revision editing', async () => {
     const data = fixture(); data.problems[1]!.studentId = 'other-student'; data.problems[2]!.permissions.canSubmit = false;
     mount(data); await loaded(); expect(screen.getByText('Ученик: other-student')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Посмотреть задачу: Задача 3' })).toHaveAttribute('href', `/problem-assignments/${data.problems[2]!.problemAssignmentId}`);
+    expect(screen.getByRole('link', { name: 'Посмотреть задачу: Задача 3' })).toHaveAttribute('href', `/problem-assignments/${data.problems[2]!.problemAssignmentId}?source=lesson`);
     expect(screen.queryByRole('link', { name: 'Исправить решение: Задача 3' })).not.toBeInTheDocument();
   });
   it('rejects noncanonical work status and mismatched identity', async () => {
@@ -132,4 +132,18 @@ describe('Lesson C4 workspace', () => {
     await waitFor(() => expect(fetch).toHaveBeenCalledOnce()); rerender({ id: 'new' }); await waitFor(() => expect(result.current.state.phase).toBe('success'));
     await act(async () => resolveOld(response(fixture()))); expect(result.current.state.phase === 'success' && result.current.state.data.lesson.id).toBe('new');
   });
+});
+
+
+it.each(['canAccept', 'canRequestRevision'] as const)('opens review from lesson using server %s capability', async capability => {
+  const data = fixture(); const row = data.problems[1]!;
+  row.permissions.canSubmit = false; row.permissions.canAccept = false; row.permissions.canRequestRevision = false;
+  row.permissions[capability] = true;
+  mount(data); await loaded();
+  expect(screen.getByRole('link', { name: `Проверить решение: ${row.problem.title}` })).toHaveAttribute('href', `/teacher/reviews/${row.work.problemWorkId}`);
+});
+it('student submitted work still opens the student workspace', async () => {
+  const data = fixture(); const row = data.problems[1]!;
+  mount(data); await loaded();
+  expect(screen.getByRole('link', { name: `Посмотреть решение: ${row.problem.title}` })).toHaveAttribute('href', `/problem-assignments/${row.problemAssignmentId}?source=lesson`);
 });

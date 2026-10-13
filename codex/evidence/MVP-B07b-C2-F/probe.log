@@ -1,0 +1,84 @@
+full EF chain S2 -> S3, repeated migrate, model snapshot: 8 migrations; PASS
+candidate additive schema after full chain and repeated EF migrate: PASS
+Ready blocked until compatibility: P0001
+unsealed Ready: P0001
+partial descriptors: P0001
+stale Version: P0001
+descriptor path traversal: P0001
+cross generation descriptor: P0001
+journal failure rolls back Ready + audit: 23514
+sealed Ready + atomic journal/audit + positive read: PASS
+lost ACK injection, journal reconciliation, no duplicate audit: application-boundary ACK suppression; not wire loss
+same OperationId different fingerprint: 23505
+terminal Ready cannot Complete again: 23514
+immutable owner=gen_random_uuid(): 23514
+immutable org=gen_random_uuid(): 23514
+immutable course='foreign': 23514
+immutable context=gen_random_uuid(): 23514
+immutable context_version=2: 23514
+immutable binding_from=binding_from+interval '1 second': 23514
+immutable expires=expires+interval '1 hour': 23514
+immutable admitted=admitted+interval '1 hour': 23514
+retained tombstone: 23514
+journal append-only: 23514
+unknown state: 23514
+wrong owner: P0001
+wrong org: P0001
+wrong org/owner read deny: PASS
+serving DELETE c2f."ImportAttempt": 42501
+serving INSERT c2f."ImportAttempt": 42501
+serving UPDATE c2f."ImportAttempt": 42501
+serving TRUNCATE c2f."ImportAttempt": 42501
+serving DELETE c2f."ImportTransitions": 42501
+serving INSERT c2f."ImportTransitions": 42501
+serving UPDATE c2f."ImportTransitions": 42501
+serving TRUNCATE c2f."ImportTransitions": 42501
+serving DELETE c2f."ProcessingGuard": 42501
+serving INSERT c2f."ProcessingGuard": 42501
+serving UPDATE c2f."ProcessingGuard": 42501
+serving TRUNCATE c2f."ProcessingGuard": 42501
+serving DELETE public."ProcessingRestrictions": 42501
+serving INSERT public."ProcessingRestrictions": 42501
+serving UPDATE public."ProcessingRestrictions": 42501
+serving TRUNCATE public."ProcessingRestrictions": 42501
+serving DELETE public."CourseContextBindings": 42501
+serving INSERT public."CourseContextBindings": 42501
+serving UPDATE public."CourseContextBindings": 42501
+serving TRUNCATE public."CourseContextBindings": 42501
+serving DELETE public."ProcessingContextVersions": 42501
+serving INSERT public."ProcessingContextVersions": 42501
+serving UPDATE public."ProcessingContextVersions": 42501
+serving TRUNCATE public."ProcessingContextVersions": 42501
+serving descriptors unreadable: 42501
+serving cannot call internal command: 42501
+restricted executor positive control: PASS
+missing context admission: P0001
+no active binding: P0001
+ambiguous overlapping context rejected by base schema: 23P01
+ambiguous count fail-closed predicate: SQL predicate only; stored ambiguity rejected 23P01
+authority negative Student: P0001
+authority negative OrgAdmin: P0001
+authority negative group-only: P0001
+authority negative generation-mismatch: P0001
+authority negative revoked: P0001
+authority negative wrong-course: P0001
+two Complete: wait -> 40001; fresh retry -> P0001; exactly one terminal transition
+cancel wins: wait -> 40001; fresh retry -> P0001; exactly one terminal transition
+Ready wins: wait -> 40001; fresh retry -> P0001; exactly one terminal transition
+Restriction commit -> Ready: 40001 then P0001; no Ready
+Ready commit -> Restriction commit -> read: 40001 then committed restriction; read=false, metadata Ready retained
+COUNTEREXAMPLE phantom raw restriction bypass: raw restriction 00000 before Ready 00000; Serializable alone unsafe; later fresh read denies
+snapshot freshness ReadCommitted: 00000
+snapshot freshness RepeatableRead: 40001
+snapshot freshness Serializable: 40001
+guard/attempt reversed lock order: 40P01; victim abort, survivor released
+expiry during lock wait -> Ready denied: P0001; clock_timestamp after lock; no sliding TTL
+Expired retained before physical cleanup: PASS
+DB abort after sealed metadata update: Ready + audit + journal rolled back; FS orphan tested separately
+existing writer guard bypass: restriction insert/withdrawal, binding closure, context insert all 00000 while guard locked
+admission fingerprint conflict: 23505
+admission idempotency: same id and no second admission
+LIMIT expiry after Ready check before COMMIT: 00000 commit after deadline; fresh read=false; no commit-time deadline proof
+actual EF Add/SaveChanges bypasses held candidate guard: PASS
+missing guard denies admission: P0001
+COMPLETE 83 assertions/groups

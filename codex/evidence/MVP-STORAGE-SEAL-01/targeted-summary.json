@@ -1,0 +1,127 @@
+[
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Killed_private_worker_leaves_pending_bytes_accounted_after_restart",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: \"missing\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Concurrent_confirm_and_claim_probe_only_observe_atomic_confirmed_receipt",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: \"durability\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Reservations_are_global_per_org_durable_and_concurrent_admission_is_bounded",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 10485761)",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: \"version\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: \"reservation\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: \"hash\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_lost_ack_does_not_replay_or_confuse_committed_with_aborted(phase: \"confirmation\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: \"quarantine\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_confirmed_original_fails_closed_when_evidence_changes(fault: \"length\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: \"retained-writer\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_competing_seals_have_one_winner_and_claim_probe_serializes_quarantine",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Restart_fences_old_worker_and_unknown_cannot_be_promoted_even_with_plausible_proof",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_retained_writer_is_closed_before_kernel_enable_and_postseal_write_is_not_issued",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Legacy_and_unavailable_confirmation_never_become_readable",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Untrusted_database_role_cannot_forge_or_read_confirmation",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_fault_never_confirms_and_never_releases_reservation(fault: \"before-confirmation\")",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: \"/tmp\")",
+    "outcome": "Passed",
+    "output": "PHYSICAL PROFILE BLOCKED: FS_IOC_ENABLE_VERITY failed: errno=25; positive physical seal and retained-handle proof NOT RUN."
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Real_local_profile_either_enforces_kernel_seal_or_reports_explicit_blocker(temporaryBase: \"/var/tmp\")",
+    "outcome": "Passed",
+    "output": "PHYSICAL PROFILE BLOCKED: FS_IOC_ENABLE_VERITY failed: errno=95; positive physical seal and retained-handle proof NOT RUN."
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.In_flight_org_capacity_has_no_waiting_queue_and_cancellation_cannot_seal",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_restart_after_confirmed_commit_preserves_fact_and_immutable_receipt",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Model_three_pages_have_unique_generations_and_exact_hash_length",
+    "outcome": "Passed",
+    "output": ""
+  },
+  {
+    "name": "Lms.Infrastructure.Tests.StorageSealTests.Empty_or_oversized_original_is_never_confirmed(length: 0)",
+    "outcome": "Passed",
+    "output": ""
+  }
+]

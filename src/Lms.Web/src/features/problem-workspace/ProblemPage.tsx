@@ -1,3 +1,4 @@
+import { ContentPage } from '../content/ContentPage';
 import { useEffect, useMemo, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import type { ApiClient, ApiError } from '../../api/client';
@@ -9,6 +10,7 @@ import { Tabs } from '../../components/Tabs';
 import { MarkdownContent } from '../../components/MarkdownContent';
 import { attachmentApi } from '../../components/attachments/api';
 import { CurrentSubmission } from './CurrentSubmission';
+import { HistoryTimeline } from './HistoryTimeline';
 import { SolutionForm } from './SolutionForm';
 import { useProblemWorkspace } from './query';
 import './problem.css';
@@ -31,13 +33,18 @@ function Materials({ materials }: { materials: ProblemWorkspace['usefulMaterials
   })}</ul></ContextSection>;
 }
 export function ProblemPage({ assignmentId, client }: { assignmentId: string; client: ApiClient }) {
-  const { state, refresh } = useProblemWorkspace(client, assignmentId);
   const [params, setParams] = useSearchParams();
+  const tab = ['solution', 'hints', 'history'].includes(params.get('tab') ?? '') ? params.get('tab')! : 'solution';
+  const { state, refresh, retryHistory } = useProblemWorkspace(client, assignmentId, tab === 'history');
   const api = useMemo(() => attachmentApi(client), [client]);
   const afterRefresh = useRef(false);
+  const afterHistoryRetry = useRef(false);
   const data = state.phase === 'success' ? state.data : null;
   const title = data ? data.problem.title?.trim() || `Задача ${data.problem.order}` : state.phase === 'loading' ? 'Загрузка задачи' : 'Задача';
-  const tab = ['solution', 'hints', 'history'].includes(params.get('tab') ?? '') ? params.get('tab')! : 'solution';
+  const legacyLesson = params.get('source') === 'lesson';
+  const courseUrl = data ? (legacyLesson ? `/courses/${encodeURIComponent(data.course.id)}` : `/study/courses/${encodeURIComponent(data.course.id)}`) : '';
+  const lessonUrl = data ? (legacyLesson ? `/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}`
+    : `/study/courses/${encodeURIComponent(data.course.id)}/versions/${encodeURIComponent(data.problem.courseVersionId)}/lessons/${encodeURIComponent(data.lesson.id)}`) : '';
   function tabParams(value: string) { const next = new URLSearchParams(params); next.set('tab', value); return next; }
   const reload = () => { afterRefresh.current = true; refresh(); };
   useEffect(() => { document.title = `${title} · Sapientum`; }, [title]);
@@ -46,19 +53,26 @@ export function ProblemPage({ assignmentId, client }: { assignmentId: string; cl
       document.getElementById('main-content')?.focus(); afterRefresh.current = false;
     }
   }, [state.phase]);
+  useEffect(() => {
+    if (afterHistoryRetry.current && state.phase === 'success' && !state.refreshing && !state.historyError) {
+      if (tab === 'history') document.querySelector<HTMLElement>('.problem-workspace [role="tabpanel"]:not([hidden])')?.focus();
+      afterHistoryRetry.current = false;
+    }
+  }, [state, tab]);
   const feedback = data?.work.latestTeacherFeedback;
   return <AppShell preview={false} role="Student" context={state.phase === 'loading'
     ? <ContextSection title="Текущая задача"><LoadingSkeleton label="Загрузка контекста задачи" /></ContextSection>
     : data ? <><ContextSection title="Текущая задача"><StatusBadge status={data.work.status} />
       <p>{data.work.attemptCount === 0 ? 'Решение ещё не отправлено' : `Попыток: ${data.work.attemptCount}`}</p>
       {data.work.latestSubmission && <p>Последняя попытка №{data.work.latestSubmission.attemptNumber}</p>}
-      <Link to={{ search: `?${tabParams('history')}` }}>Перейти к истории →</Link>
+      {tab === 'history' ? <Link to={{ search: `?${tabParams('solution')}` }}>Вернуться к решению →</Link>
+        : <Link to={{ search: `?${tabParams('history')}` }}>Перейти к истории →</Link>}
     </ContextSection>{feedback && <ContextSection title="Обратная связь"><p>Есть замечание преподавателя к последней проверке.</p>
       <Link to={{ search: `?${tabParams('solution')}`, hash: '#teacher-feedback' }}>Прочитать замечание →</Link></ContextSection>}
       <Materials materials={data.usefulMaterials} /></> : null}>
     <Breadcrumbs items={[{ label: 'Мои курсы', to: '/courses' }, ...(data ? [
-      { label: data.course.title || 'Курс', to: `/courses/${encodeURIComponent(data.course.id)}` },
-      { label: data.lesson.title || `Занятие ${data.lesson.order}`, to: `/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}` },
+      { label: data.course.title || 'Курс', to: courseUrl },
+      { label: data.lesson.title || `Занятие ${data.lesson.order}`, to: lessonUrl },
     ] : []), { label: title }]} />
     <div className="workspace-content problem-workspace" aria-busy={state.phase === 'loading'}>
       <PageHeader title={title} meta={data ? <span>Задача {data.problem.order}</span> : undefined} />
@@ -66,6 +80,7 @@ export function ProblemPage({ assignmentId, client }: { assignmentId: string; cl
         <LoadingSkeleton label="Загрузка вкладок" rows={1} /><LoadingSkeleton label="Загрузка решения" rows={4} /></>}
       {state.phase === 'error' && <Failure error={state.error} retry={reload} />}
       {data && <>
+        <Link className="text-link" to={lessonUrl}>Назад к занятию</Link>
         <section className="problem-statement" aria-label="Условие задачи"><MarkdownContent>{data.problem.statementMarkdown}</MarkdownContent></section>
         <Tabs label="Задача" value={tab} onChange={value => setParams(tabParams(value))} items={[
           { id: 'solution', label: 'Решение', content: <>
@@ -82,9 +97,17 @@ export function ProblemPage({ assignmentId, client }: { assignmentId: string; cl
           { id: 'hints', label: 'Подсказки', content: data.hints.length ? <ol className="problem-hints">{[...data.hints].sort((a, b) => a.order - b.order).map(hint => <li key={hint.id}>
             <h2>{hint.title || `Подсказка ${hint.order}`}</h2><MarkdownContent>{hint.bodyMarkdown}</MarkdownContent>
           </li>)}</ol> : <EmptyState title="Подсказок пока нет" /> },
-          { id: 'history', label: 'История', content: <EmptyState title="История будет доступна здесь" /> },
+          { id: 'history', label: 'История', content: tab === 'history' && (state.phase === 'success' && state.refreshing
+            ? <LoadingSkeleton label="Загрузка истории" rows={4} />
+            : state.phase === 'success' && state.historyError
+              ? <Failure error={state.historyError} retry={() => { afterHistoryRetry.current = true; retryHistory(); }} />
+              : <HistoryTimeline data={data} api={api} />) },
         ]} />
       </>}
     </div>
   </AppShell>;
+}
+
+export function ProblemContentPage({ path, client }: { path: string; client: ApiClient }) {
+  return <ContentPage kind="problem" path={path} client={client} />;
 }

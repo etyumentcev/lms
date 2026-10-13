@@ -1,0 +1,59 @@
+[
+  {
+    "id": "fifo-open",
+    "pid": 130991,
+    "wchan": "wait_for_partner",
+    "exit": -9,
+    "kill_reap_ms": 1.1132159997941926,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "fifo-read",
+    "pid": 130992,
+    "wchan": "anon_pipe_read",
+    "exit": -9,
+    "kill_reap_ms": 1.1731220001820475,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "fifo-write",
+    "pid": 130993,
+    "wchan": "anon_pipe_write",
+    "exit": -9,
+    "kill_reap_ms": 1.1317860007693525,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "userspace-hang",
+    "exit": -9,
+    "kill_reap_ms": 1.1468230004538782
+  },
+  {
+    "id": "generation-toctou",
+    "generation": 1,
+    "new_epoch": 2,
+    "declared_fence_ns": 21808136469287,
+    "observed_mutation_ns": 21808139744624,
+    "bytes": 4,
+    "sha256": "089001a35679a33ef3db0ca350db9b9a2f0136e0e327577b04b3b98127470961",
+    "result": "COUNTEREXAMPLE: token check is not mutation fence"
+  },
+  {
+    "id": "retained-fd-seal",
+    "result": "COUNTEREXAMPLE: rename/chmod does not revoke writable FD",
+    "sha256": "18a0c098c7fb0098093fc0fd619c8032ae193215c5f695d7f5eaafa28aa64d70"
+  },
+  {
+    "id": "tcp-close-buffer",
+    "close_ns": 21808143767235,
+    "last_receive_ns": 21808244283196,
+    "bytes_received_after_close": 65536,
+    "result": "COUNTEREXAMPLE to close == client receive completion; NIC boundary unobserved"
+  },
+  {
+    "id": "cleanup",
+    "removed_containers": [
+      "27e459d1e0f416677fa3e911d8a9deac1ba9fbc63124ac63ee3675276a139249"
+    ]
+  }
+]

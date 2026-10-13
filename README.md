@@ -385,8 +385,7 @@ Open a problem from Course → Lesson, or `/problem-assignments/{assignmentId}`.
 The immutable statement stays above Solution / Hints / History tabs. Upload one or
 more photos with the U1 picker, preview/reorder pages, optionally explain the solution,
 and submit. Text-only solutions are also supported. Submission refreshes the authoritative
-workspace; NeedsRevision enables a new attempt, Accepted is read-only. History remains
-a placeholder for H; no teacher review UI is added.
+workspace; NeedsRevision enables a new attempt, Accepted is read-only. History is implemented by H on the same route; no teacher review UI is added.
 
 Draft text/pages survive tab changes in memory, not navigation/reload. Failed validation
 preserves the form. Concurrency or uncertain network outcomes require an explicit state
@@ -396,3 +395,50 @@ content adapter; photos are never public.
 
 See [G results](codex/G-RESULTS.md) for the complete 33-part report: 196 frontend tests,
 225 backend tests, both builds, live Docker workflow and isolated persistence/reset checks.
+
+
+### H — Student History
+
+Read-only `?tab=history` now shows immutable attempts, linked reviews/feedback and
+independent work messages from the existing workspace read model. Each attempt keeps
+its own ordered protected originals. Reopening History refetches server state while
+retaining the problem statement; ContextPanel contains only summary/navigation.
+
+See [H results](codex/H-RESULTS.md): 233 frontend tests, 225 backend regressions, builds,
+Docker and browser Submit → Revision → Submit → Accept smoke. J remains deferred.
+
+
+### I — Teacher Review Queue
+
+Teacher navigation opens `/teacher/reviews`, backed by the real authorized queue endpoint.
+Search and course/group/student-ID/attempt filters apply together with **Применить**;
+pagination and summary stay server-side. Applied filters/search/page live in the URL.
+Nullable profile names fall back to supplied IDs. **Проверить** opens the existing J
+placeholder using ProblemWorkId; returning preserves filters and refreshes the queue.
+
+See [I results](codex/I-RESULTS.md): 276 frontend tests, 225 backend regressions,
+Docker/browser smoke, responsive checks and isolated persistence/reset. J is not implemented.
+
+### J1 — Teacher Review Workspace
+
+`/teacher/reviews/{problemWorkId}` now reads the existing authorized work details:
+immutable statement, current submission, ordered protected photos with paging/zoom,
+prior attempts and linked feedback. Teachers can request revision (nonblank feedback)
+or accept (optional feedback), using server capabilities and expectedVersion.
+Conflicts/uncertain failures require explicit refresh; commands never automatically retry.
+Returning to Queue preserves filters and refetches server data. Reference solutions,
+criteria and materials are hidden because the current teacher contract has no source.
+See [J1 results](codex/J1-RESULTS.md). Image annotations remain deferred to J2.
+
+## K — integration and release hardening
+
+All six screens and immutable image annotations are implemented. Current readiness,
+security findings, reproducible real E2E and measurements are in [K results](codex/K-RESULTS.md)
+and [release readiness](codex/K-RELEASE-READINESS.md); earlier checkpoint sections above
+are historical. Development Compose is not a pilot/production deployment.
+
+K hardens attached-file access after revocation, provides a Teacher-role screen read
+alias, loads history through consistent split-query snapshots, and carries forward the
+stylus compatibility fix. Attached originals follow parent-work permissions, including
+for their uploader; general student-own-work GET remains compatible. No migrations or
+new domain workflows are introduced. [Verification instructions](src/Lms.Web/README.md).

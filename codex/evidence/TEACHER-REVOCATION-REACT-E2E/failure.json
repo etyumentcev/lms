@@ -1,0 +1,103 @@
+{
+  "message": "locator.waitFor: Error: strict mode violation: getByLabel('Статус: Нужна доработка') resolved to 3 elements:\n    1) <span class=\"badge badge--warning\" aria-label=\"Статус: Нужна доработка\">…</span> aka locator('header').getByLabel('Статус: Нужна доработка')\n    2) <span class=\"badge badge--warning\" aria-label=\"Статус: Нужна доработка\">…</span> aka getByRole('region', { name: 'Результат проверки' }).getByLabel('Статус: Нужна доработка')\n    3) <span class=\"badge badge--warning\" aria-label=\"Статус: Нужна доработка\">…</span> aka getByRole('region', { name: 'Информация о работе' }).getByLabel('Статус: Нужна доработка')\n\nCall log:\n\u001b[2m  - waiting for getByLabel('Статус: Нужна доработка') to be visible\u001b[22m\n",
+  "events": [
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/37864d33-17d8-4a83-bb2c-0240d4cd6d0e/workspace",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/c8df9f14-4d62-4e1c-82d6-66051b560a77/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/37864d33-17d8-4a83-bb2c-0240d4cd6d0e/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/37864d33-17d8-4a83-bb2c-0240d4cd6d0e/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/c8df9f14-4d62-4e1c-82d6-66051b560a77/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/c8df9f14-4d62-4e1c-82d6-66051b560a77/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938/uploads/8cf0188d-5922-424e-a07d-9ddadbb552c7",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/6ccfbabd-a9e5-43e1-bd09-196e593e0072/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938/messages",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/c8df9f14-4d62-4e1c-82d6-66051b560a77/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938/reviews/needs-revision",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/e5b9fe4b-a5c7-49fa-aa78-432e6c3bd938",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/c8df9f14-4d62-4e1c-82d6-66051b560a77/content",
+      "status": 200
+    }
+  ],
+  "stages": [
+    {
+      "action": "student-submit",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-message",
+      "ui": "React",
+      "photo": true
+    }
+  ]
+}

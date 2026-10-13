@@ -1,0 +1,16 @@
+{
+  "baselineFileCount": 539,
+  "changedExisting": [
+    "src/Lms.Infrastructure/PostgresIdentityMapping.cs",
+    "src/Lms.Infrastructure/PostgresIdentitySessions.cs",
+    "tests/Lms.Api.Tests/IsolatedIdentityCompatibilityTests.cs",
+    "tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs"
+  ],
+  "missing": [],
+  "unexpectedChanges": [],
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "branchPreserved": true,
+  "headPreserved": true,
+  "indexPreserved": true
+}

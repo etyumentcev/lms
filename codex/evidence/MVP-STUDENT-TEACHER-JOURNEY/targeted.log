@@ -1,0 +1,21 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:05.74]     Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes [FAIL]
+  Failed Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes [2 s]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 4
+Actual:   6
+  Stack Trace:
+     at Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes() in /home/tea/github/lms/tests/Lms.Api.Tests/StudentTeacherJourneyTests.cs:line 68
+   at Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes() in /home/tea/github/lms/tests/Lms.Api.Tests/StudentTeacherJourneyTests.cs:line 70
+   at Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes() in /home/tea/github/lms/tests/Lms.Api.Tests/StudentTeacherJourneyTests.cs:line 79
+--- End of stack trace from previous location ---
+Results File: /tmp/mvp-journey/targeted/_tea-Swift-SFG16-74_2026-10-12_03_53_46_net10.0.trx
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 2 s - Lms.Api.Tests.dll (net10.0)

@@ -1,0 +1,50 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Domain.Tests -> /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/course-navigation/regression/_tea-Swift-SFG16-74_2026-10-12_04_06_48_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    43, Skipped:     0, Total:    43, Duration: 61 ms - Lms.Domain.Tests.dll (net10.0)
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Application.Tests -> /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/course-navigation/regression/_tea-Swift-SFG16-74_2026-10-12_04_06_51_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   340, Skipped:     0, Total:   340, Duration: 77 ms - Lms.Application.Tests.dll (net10.0)
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/course-navigation/regression/_tea-Swift-SFG16-74_2026-10-12_04_06_55_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   258, Skipped:     0, Total:   258, Duration: 31 s - Lms.Infrastructure.Tests.dll (net10.0)
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:33.73]     Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress [FAIL]
+[xUnit.net 00:00:34.06]     Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id [FAIL]
+  Failed Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress [305 ms]
+  Error Message:
+   Assert.Equal() Failure: Collections differ
+Expected: ["canAccept", "canPostMessage", "canRequestRevision", "canSubmit"]
+Actual:   ["canAccept", "canPostMessage", "canRequestRevision", "canSubmit", "canViewAsTeacher"]
+                                                                             ↑ (pos 4)
+  Stack Trace:
+     at Lms.Api.Tests.ContractApiTests.Fields(JsonElement value, String[] fields) in /home/tea/github/lms/tests/Lms.Api.Tests/ContractApiTests.cs:line 37
+   at Lms.Api.Tests.ContractApiTests.PermissionFields(JsonElement value) in /home/tea/github/lms/tests/Lms.Api.Tests/ContractApiTests.cs:line 39
+   at Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress() in /home/tea/github/lms/tests/Lms.Api.Tests/ContractWorkflowTests.cs:line 27
+   at Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress() in /home/tea/github/lms/tests/Lms.Api.Tests/ContractWorkflowTests.cs:line 143
+--- End of stack trace from previous location ---
+  Failed Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id [327 ms]
+  Error Message:
+   {"type":"urn:lms:error:ValidationFailed","title":"ValidationFailed","status":400,"instance":"/api/v1/problem-assignments/1e4b00cd-12f5-46fa-988e-a7db65c7dba6/submissions","code":"ValidationFailed","traceId":"0HNP7SG5MOMML"}
+  Stack Trace:
+     at Lms.Api.Tests.ContractApiTests.Json(HttpResponseMessage response, Int32 status) in /home/tea/github/lms/tests/Lms.Api.Tests/ContractApiTests.cs:line 30
+   at Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id() in /home/tea/github/lms/tests/Lms.Api.Tests/CourseNavigationTests.cs:line 20
+   at Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id() in /home/tea/github/lms/tests/Lms.Api.Tests/CourseNavigationTests.cs:line 40
+--- End of stack trace from previous location ---
+Results File: /tmp/course-navigation/regression/_tea-Swift-SFG16-74_2026-10-12_04_07_30_net10.0.trx
+
+Failed!  - Failed:     2, Passed:   219, Skipped:     0, Total:   221, Duration: 1 m 13 s - Lms.Api.Tests.dll (net10.0)

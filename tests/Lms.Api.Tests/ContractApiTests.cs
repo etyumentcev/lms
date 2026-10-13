@@ -20,9 +20,11 @@ public sealed partial class ContractApiTests(ApiPostgresFixture postgres) : ICla
     private static object Solution(long? version = null, string body = "Solution")
         => new { bodyMarkdown = body, attachmentIds = Array.Empty<Guid>(), expectedVersion = version };
     private static object ReviewBody(JsonElement work, string? feedback = "Explain the proof")
-        => new { submissionId = work.GetProperty("currentSubmission").GetProperty("id").GetGuid(),
-            expectedVersion = work.GetProperty("version").GetInt64(), feedbackMarkdown = feedback };
+        => new { commandId = Guid.NewGuid(), submissionId = work.GetProperty("currentSubmission").GetProperty("id").GetGuid(),
+            expectedVersion = work.GetProperty("version").GetInt64(), feedback };
     private static object MessageBody => new { bodyMarkdown = "Discussion", attachmentIds = Array.Empty<Guid>() };
+    private static object TeacherMessageBody => new { commandId = Guid.NewGuid(), intentId = Guid.NewGuid(),
+        body = "Discussion", replyTo = (Guid?)null, attachments = Array.Empty<Guid>() };
     private static async Task<JsonElement> Json(HttpResponseMessage response, int status = 200)
     {
         using (response)
@@ -36,7 +38,7 @@ public sealed partial class ContractApiTests(ApiPostgresFixture postgres) : ICla
     private static void Fields(JsonElement value, params string[] fields)
         => Assert.Equal(fields.OrderBy(x => x), value.EnumerateObject().Select(p => p.Name).OrderBy(x => x));
     private static void PermissionFields(JsonElement value)
-        => Fields(value, "canSubmit", "canPostMessage", "canAccept", "canRequestRevision");
+        => Fields(value, "canSubmit", "canPostMessage", "canAccept", "canRequestRevision", "canViewAsTeacher");
     private static void SubmissionFields(JsonElement value)
     {
         Fields(value, "id", "attemptNumber", "bodyMarkdown", "submittedAt", "attachmentIds");
@@ -110,14 +112,14 @@ public sealed partial class ContractApiTests(ApiPostgresFixture postgres) : ICla
     {
         await using var app = await postgres.CreateApp();
         var submit = suffix == "submissions";
-        using var client = app.Client(submit || suffix == "messages" ? ApiFactory.Student : ApiFactory.Teacher,
-            submit || suffix == "messages" ? "Student" : "Teacher");
+        using var client = submit || suffix == "messages" ? app.Client(ApiFactory.Student) : await app.SecureClient();
         var route = submit ? SubmitPath(Guid.NewGuid()) : WorkPath(Guid.NewGuid()) + "/" + suffix;
         foreach (var body in new[] { "{", "{}", "{\"actorId\":\"forged\"}" })
             await Error(await client.PostAsync(route, new StringContent(body, Encoding.UTF8, "application/json")), 400, "ValidationFailed");
         object valid = submit ? Solution() : suffix == "messages" ? MessageBody
-            : new { submissionId = Guid.NewGuid(), feedbackMarkdown = "Feedback", expectedVersion = 1 };
-        await Error(await client.PostAsJsonAsync(route, valid), 404, "NotFound");
+            : new { commandId = Guid.NewGuid(), submissionId = Guid.NewGuid(), feedback = "Feedback", expectedVersion = 1 };
+        await Error(await client.PostAsJsonAsync(route, valid), submit || suffix == "messages" ? 404 : 403,
+            submit || suffix == "messages" ? "NotFound" : "Forbidden");
     }
 
     [Theory]
@@ -129,13 +131,19 @@ public sealed partial class ContractApiTests(ApiPostgresFixture postgres) : ICla
     public async Task Student_read_and_command_access_remain_consistent_after_access_changes(string scenario)
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "A", scopedTeacher: true);
         await Publish(app, a);
         using var owner = app.Client(ApiFactory.Student);
         var id = await Submit(owner, a);
         await using (var db = app.Open())
         {
-            if (scenario == "inactive-enrollment") (await db.Enrollments.SingleAsync()).IsActive = false;
+            if (scenario == "inactive-enrollment")
+            {
+                var enrollment = await db.Set<EnrollmentScope>().AsNoTracking().SingleAsync(x => x.StudentId == ApiFactory.Student && x.CourseId == a.CourseId);
+                await new PostgresScopedAuthorityAdministration(db).Change(new(AuthorityKind.Enrollment,
+                    AuthorityOperation.Revoke, app.OrganizationId, ApiFactory.Student, enrollment.Version,
+                    enrollment.MembershipGeneration, a.CourseId, enrollment.GroupId));
+            }
             if (scenario == "withdrawn") (await db.Assignments.SingleAsync()).Withdraw();
             if (scenario == "unpublished") (await db.Lessons.SingleAsync()).IsPublished = false;
             if (scenario == "scheduled") (await db.Lessons.SingleAsync()).AvailableFrom = DateTimeOffset.UtcNow.AddDays(1);
@@ -166,45 +174,51 @@ public sealed partial class ContractApiTests(ApiPostgresFixture postgres) : ICla
         var a = await app.Seed();
         await Publish(app, a);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
+        using var scopedStudent = await app.SecureClient("Student");
         var id = await Submit(student, a);
         var work = await Get(teacher, WorkPath(id));
         await Error(await teacher.GetAsync(Workspace(a.Id)), 403, "Forbidden");
         await Error(await teacher.PostAsJsonAsync(SubmitPath(a.Id), Solution()), 403, "Forbidden");
         await Error(await student.GetAsync(QueuePath), 403, "Forbidden");
         foreach (var action in new[] { "accept", "needs-revision" })
-            await Error(await student.PostAsJsonAsync(WorkPath(id) + "/reviews/" + action, ReviewBody(work)), 403, "Forbidden");
+            await Error(await scopedStudent.PostAsJsonAsync(WorkPath(id) + "/reviews/" + action, ReviewBody(work)), 403, "Forbidden");
         Assert.Equal(1, (await app.Reload(id)).Version);
     }
 
     [Theory]
     [InlineData("missing-grant")]
     [InlineData("wrong-group")]
-    [InlineData("inactive-group")]
+    [InlineData("revoked-grant")]
     public async Task Teacher_reads_and_both_reviews_share_the_same_resource_boundary(string scenario)
     {
         await using var app = await postgres.CreateApp();
         var a = await app.Seed(teacherGrant: scenario != "missing-grant", studentGroup: "A",
-            teacherGroup: scenario == "wrong-group" ? "B" : "A");
+            teacherGroup: scenario == "wrong-group" ? "B" : "A", scopedTeacher: true);
         await Publish(app, a);
         using var student = app.Client(ApiFactory.Student);
         var id = await Submit(student, a);
-        var body = new { submissionId = (await app.Reload(id)).Submissions.Single().Id, expectedVersion = 1, feedbackMarkdown = "Feedback" };
-        if (scenario == "inactive-group")
+        var submissionId = (await app.Reload(id)).Submissions.Single().Id;
+        object Body() => new { commandId = Guid.NewGuid(), submissionId, expectedVersion = 1, feedback = "Feedback" };
+        if (scenario == "revoked-grant")
         {
-            await using var db = app.Open();
-            (await db.Enrollments.SingleAsync()).IsActive = false;
-            await db.SaveChangesAsync();
+            TeacherAssignmentScope grant;
+            await using (var db = app.Open())
+                grant = await db.Set<TeacherAssignmentScope>().SingleAsync(x => x.CourseId == a.CourseId && x.TeacherId == ApiFactory.Teacher);
+            await using var administration = app.Open();
+            await new PostgresScopedAuthorityAdministration(administration).Change(new(AuthorityKind.Teacher,
+                AuthorityOperation.Revoke, app.OrganizationId, ApiFactory.Teacher, grant.Version,
+                grant.MembershipGeneration, a.CourseId, grant.GroupId, grant.GrantId));
         }
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         await Error(await teacher.GetAsync(WorkPath(id)), 403, "Forbidden");
         foreach (var action in new[] { "accept", "needs-revision" })
-            await Error(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/" + action, body), 403, "Forbidden");
-        await Error(await teacher.PostAsJsonAsync(WorkPath(id) + "/messages", MessageBody), 403, "Forbidden");
+            await Error(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/" + action, Body()), 403, "Forbidden");
+        await Error(await teacher.PostAsJsonAsync(WorkPath(id) + "/messages", TeacherMessageBody), 403, "Forbidden");
         var queue = await Get(teacher, QueuePath);
         Assert.Empty(queue.GetProperty("items").EnumerateArray());
         Assert.Equal(0, queue.GetProperty("summary").GetProperty("total").GetInt32());
-        if (scenario == "missing-grant")
+        if (scenario is "missing-grant" or "revoked-grant")
         {
             await Error(await teacher.GetAsync(CoursePath(a)), 403, "Forbidden");
             await Error(await teacher.GetAsync(LessonPath(a)), 403, "Forbidden");

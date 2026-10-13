@@ -4,3 +4,6 @@
 .markdown-content pre, .markdown-content .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
 .markdown-content pre { white-space: pre-wrap; }
 .markdown-content blockquote { margin-inline: 0; padding-left: 1rem; border-left: 3px solid var(--border); }
+.markdown-protected-image { display: block; max-width: 100%; height: auto; margin-block: var(--space-4); border-radius: var(--radius-md); }
+.markdown-asset-loading, .markdown-asset-error { display: inline-block; color: var(--text-muted); font-size: var(--font-small); }
+.markdown-asset-error { color: var(--danger); }

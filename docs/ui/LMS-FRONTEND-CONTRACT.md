@@ -2222,3 +2222,58 @@ Uploaded IDs are server resources, not domain attempts/drafts. Do not submit whi
 page is uploading/failed/deleting. A failed page retry does not repeat successful pages.
 The U1 component provides ordered confirmed IDs and a readiness flag to its future parent.
 No full Student Solution, History or Teacher Review screen is part of U1.
+
+
+## J2 image annotations (2026-10-08)
+
+Review now contains immutable `annotations: AnnotatedAttachment[]`. Each item is
+`{ attachmentId, strokes }`; each stroke is `{ id, tool: "pen", color: "#RRGGBB",
+width, points: [{ x, y, pressure? }] }`. Review identity and SubmissionId provide
+the enclosing association; clients cannot choose a separate ReviewId. AttachmentId
+must belong to the current submission. Original uploaded bytes never change.
+
+Both existing review POST routes accept optional `annotations`; omitted/null means
+empty. Final decision and annotations use one existing transaction/version check.
+Review read DTOs (teacher details and student history) return annotations, including
+empty arrays for legacy records. Invalid annotations return 422 InvalidAnnotations;
+invalid JSON/shape returns 400 ValidationFailed. No server annotation draft exists.
+
+Coordinates are normalized [0,1] in the browser-oriented original image (including
+EXIF). Width is a fraction of the smaller oriented image dimension, in [.0005,.05].
+Pressure is optional [0,1]; renderer uses width × (.5 + pressure), default pressure .5.
+Rendering and pointer positions use the image rectangle, excluding contain margins.
+Only the pen tool is persisted; erasing removes whole strokes locally.
+
+Limits per review: 20 annotated pages, 2000 strokes total, 4096 points per stroke,
+100000 points total; both review HTTP request bodies are capped at 4 MiB. IDs of
+annotated pages and strokes must be unique. No arbitrary metadata or HTML is accepted.
+Annotations are copied into read-only value collections and persisted in Review JSONB.
+Existing immutable history database triggers prohibit subsequent changes.
+
+Local undo/redo, zoom/pan are separate per page. Undo retains the latest 50 actions.
+Drafts survive command failures and explicit refresh in the mounted page, with
+unsaved-navigation/reload warnings. No crash/reload recovery is promised. Students
+and completed teacher reviews can toggle/zoom the layer but cannot edit it.
+
+## K hardening amendment (2026-10-08)
+
+Teacher Review route uses `/teacher/problem-works/{id}` (same DTO); Student receives403
+on this role-gated endpoint even for their own work. General `/problem-works/{id}` and
+Student workspace remain backward-compatible. Review POST URLs/payloads unchanged.
+Pen/eraser reserve touch gestures before pointer contact; native pinch is in Hand mode.
+UUID generation supports browsers without secure-context `crypto.randomUUID` using
+`crypto.getRandomValues`; production deployment still requires HTTPS.
+
+## L0.3 — будущая Identity integration, PROPOSED
+
+Шесть основных учебных экранов сохраняются. Дополнительные минимальные login/activation/reset формы не являются multi-organization management UI. Accounts выдаёт уполномоченный администратор образовательной организации; public registration и обязательные email/phone отсутствуют. При 401 очищаются previous account state/drafts/Blob URLs; при 403 закрывается недоступный scope, session перечитывается без replay команды. Startup/focus/cross-tab проверяют сервер, frontend не является authorization authority.
+
+[API compatibility и contracts L1](../../codex/L03-L1-IMPLEMENTATION-PLAN.md): existing business routes/DTO сохраняются, подписанный JWT ≤15 минут задаёт auth transport; browser/refresh E02 ACCEPTED (idle60m/absolute12h, access memory/refresh cookie), CSRF там, где cookies; POST uploads добавляет validated courseId для scope, отсутствие допустимо только при единственном доступном course. Все files повторно авторизуются сервером. T02 ACCEPTED: минимальный UI администратора своей организации для accounts/activation/recovery и отдельных membership/enrollment/teacher assignments/блокировки. Полная multi-org панель вне L1. В L0.3 frontend/API код не изменяется. Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+T04: принятие обычного отзыва показывает сохранённый deadline (≤2 часа), не немедленную invalidation JWT. API 60 секунд, max HTTP 8 минут; timeout/обрыв не вызывает автоматический повтор команды. Каждое фото отдельным upload, перед Submit действующий JWT; temporary files очищаются по сроку. Scope A/B не смешивать. [ADR-L15](../adr/ADR-L15-jwt-delayed-revocation.md), [ACCEPTED E01–E06 / OPEN O01](../../codex/L03-OWNER-DECISION-REGISTER.md).
+
+## L0.4 — browser и security UI contracts
+
+E01/E02: active org per-tab, switch получает fresh one-org JWT и clears old requests/drafts/cache/Blob URLs; late response старого scope discarded. Access только memory, reload через HttpOnly Secure refresh cookie; idle60m/absolute12h. Разные вкладки могут иметь разные org, общая refresh-session координирует rotation по [ADR-L16](../adr/ADR-L16-organization-jwt-browser-session.md); O01 race/replay policy PROPOSED, не скрытый auto logout. Logout общий session signal без tokens, commands не replay.
+
+E04 minimal security operator UI: independent approve/suspend/reject recovery и confirmed block/unblock, только minimal request/identity refs без document copies/works. Org admin не self-approve; no duplicate-account recovery workaround. E05 secret показывается однажды после issuance; reload/idempotent retry receipt без secret, потерянный code→explicit reissue. Activation/Recovery purpose separate, terminal failure/expiry понятны без account enumeration. E03 UI не обещает instant access termination: refresh запрещён, existing JWT до15m и started operation до8m. [ADR-L17](../adr/ADR-L17-account-security-recovery-challenges.md).

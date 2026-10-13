@@ -48,13 +48,13 @@ public sealed class ProblemWork
         return submission;
     }
 
-    public Review RequestRevision(Guid teacherId, Guid submissionId, string? feedback, DateTimeOffset at)
-        => ReviewCurrent(teacherId, submissionId, feedback, ReviewDecision.NeedsRevision, at);
+    public Review RequestRevision(Guid teacherId, Guid submissionId, string? feedback, DateTimeOffset at, IEnumerable<AnnotatedAttachment>? annotations = null)
+        => ReviewCurrent(teacherId, submissionId, feedback, ReviewDecision.NeedsRevision, at, annotations);
 
-    public Review Accept(Guid teacherId, Guid submissionId, string? feedback, DateTimeOffset at)
-        => ReviewCurrent(teacherId, submissionId, feedback, ReviewDecision.Accepted, at);
+    public Review Accept(Guid teacherId, Guid submissionId, string? feedback, DateTimeOffset at, IEnumerable<AnnotatedAttachment>? annotations = null)
+        => ReviewCurrent(teacherId, submissionId, feedback, ReviewDecision.Accepted, at, annotations);
 
-    private Review ReviewCurrent(Guid teacherId, Guid submissionId, string? feedback, ReviewDecision decision, DateTimeOffset at)
+    private Review ReviewCurrent(Guid teacherId, Guid submissionId, string? feedback, ReviewDecision decision, DateTimeOffset at, IEnumerable<AnnotatedAttachment>? annotations)
     {
         Guard.Id(teacherId);
         if (Status != ProblemWorkStatus.Submitted) throw new DomainException("WorkNotSubmitted");
@@ -62,10 +62,11 @@ public sealed class ProblemWork
         if (reviews.Any(r => r.SubmissionId == submissionId)) throw new DomainException("SubmissionAlreadyReviewed");
         if (decision == ReviewDecision.NeedsRevision && string.IsNullOrWhiteSpace(feedback))
             throw new DomainException("FeedbackRequired");
+        var validatedAnnotations = AnnotationRules.Copy(annotations, submissions[^1].AttachmentIds);
         Message? message = null;
         if (!string.IsNullOrWhiteSpace(feedback))
             message = AddMessage(teacherId, AuthorRole.Teacher, feedback, null, [], at);
-        var review = new Review(Id, submissionId, teacherId, decision, message?.Id, at);
+        var review = new Review(Id, submissionId, teacherId, decision, message?.Id, at, validatedAnnotations);
         reviews.Add(review);
         Status = decision == ReviewDecision.Accepted ? ProblemWorkStatus.Accepted : ProblemWorkStatus.NeedsRevision;
         if (Status == ProblemWorkStatus.Accepted) AcceptedAt = review.CreatedAt;

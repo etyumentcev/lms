@@ -1,0 +1,25 @@
+{
+  "role": "Student",
+  "browser": "154.0.8037.57",
+  "status": "PASS",
+  "covered": [
+    "real-http-postgres",
+    "own-assigned-work",
+    "historical-review-binding",
+    "statement",
+    "foreign-work-denial",
+    "parent-denial",
+    "current-restriction",
+    "jwt-expiry",
+    "no-store",
+    "tablet-history"
+  ],
+  "blocked": [
+    "photo-metadata",
+    "originals",
+    "photo-order",
+    "A4-zoom-fullscreen",
+    "Range-preview"
+  ],
+  "apiRequests": 16
+}

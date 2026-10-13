@@ -1,0 +1,34 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:11.51]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher) [5 s]
+  Error Message:
+   AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+
+'blob:http://127.0.0.1:34235/f557d454-8aee-45d1-aca5-349521910232'
+    at file:///home/tea/github/lms/tools/browser_read/photos.mjs:53:10
+
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 62
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 65
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:18.05]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student) [4 s]
+  Error Message:
+   AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+
+'blob:http://127.0.0.1:45965/d745bb28-e718-4b51-9094-fe1996a71349'
+    at file:///home/tea/github/lms/tools/browser_read/photos.mjs:53:10
+
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 62
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 65
+--- End of stack trace from previous location ---
+Results File: /tmp/mvp-photo/browser2/_tea-Swift-SFG16-74_2026-10-12_06_13_14_net10.0.trx
+
+Failed!  - Failed:     2, Passed:     0, Skipped:     0, Total:     2, Duration: 17 s - Lms.Api.Tests.dll (net10.0)

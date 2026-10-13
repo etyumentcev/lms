@@ -1,0 +1,16 @@
+{
+  "baseline_file_count": 528,
+  "authorized_changed_baseline_files": [
+    "tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs",
+    "src/Lms.Infrastructure/PostgresComponentTokenIssuer.cs",
+    "src/Lms.Infrastructure/PostgresIdentityMapping.cs",
+    "src/Lms.Infrastructure/PostgresIdentitySessions.cs"
+  ],
+  "unexpected_changed_baseline_files": [],
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "index_sha256": "2a0e936a9f7a3395633ba3ee7084970af663a4412cec6f92f72b765a264f56a4",
+  "branch_unchanged": true,
+  "head_unchanged": true,
+  "index_unchanged": true
+}

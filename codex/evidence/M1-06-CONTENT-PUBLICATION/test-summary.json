@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "imports": 3,
+  "versions": 2,
+  "historicalAssignments": 5,
+  "historicalVersion": 1,
+  "roleIsolation": true,
+  "unknownResultAutoReplay": false,
+  "screenshots": 7
+}

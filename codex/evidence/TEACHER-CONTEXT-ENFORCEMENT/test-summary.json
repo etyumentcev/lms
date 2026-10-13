@@ -1,0 +1,1562 @@
+{
+  "date": "2026-10-12",
+  "original_git": {
+    "branch": "codex/l1-s4-jwt-api-authorization",
+    "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+    "index": "2a0e936a9f7a3395633ba3ee7084970af663a4412cec6f92f72b765a264f56a4"
+  },
+  "preservation": {
+    "branch": true,
+    "HEAD": true,
+    "index": true,
+    "unexpected_changed_baseline_files": []
+  },
+  "runs": [
+    {
+      "stage": "application",
+      "assembly": "lms.application.tests.dll",
+      "counters": {
+        "total": "369",
+        "executed": "369",
+        "passed": "369",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/application/_tea-Swift-SFG16-74_2026-10-12_11_36_32_net10.0.trx.gz"
+    },
+    {
+      "stage": "enforcement-api-2",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "11",
+        "executed": "11",
+        "passed": "10",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed",
+          "message": "System.InvalidOperationException : Identity creation requires a fresh, dedicated DbContext."
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed"
+        }
+      ],
+      "artifact": "runs/enforcement-api-2/_tea-Swift-SFG16-74_2026-10-12_11_40_42_net10.0.trx.gz"
+    },
+    {
+      "stage": "enforcement-infra",
+      "assembly": "lms.infrastructure.tests.dll",
+      "counters": {
+        "total": "21",
+        "executed": "21",
+        "passed": "21",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/enforcement-infra/_tea-Swift-SFG16-74_2026-10-12_11_38_21_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-api-boundary",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "11",
+        "executed": "11",
+        "passed": "10",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed",
+          "message": "file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:18\n    catch { await writeFile(path.join(input.evidence, 'failure.json'), JSON.stringify({ stage: id, events }, null, 2)); throw new Error('Stage ' + id + ' expected ' + state + ', observed ' + await page.locator('#state').innerText() + ', events ' + JSON.stringify(events)); }\n                                                                                                                              ^\n\nError: Stage retry expected HTTP 409, observed Accepted, events [{\"method\":\"POST\",\"path\":\"/test/student/submit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/api/v1/auth/csrf\",\"status\":200},{\"method\":\"POST\",\"path\":\"/api/v1/problem-works/a2a3beac-9ddd-42d5-8153-e033745c95b7/reviews/needs-revision\",\"status\":200},{\"method\":\"POST\",\"path\":\"/test/student/submit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/api/v1/auth/csrf\",\"status\":200},{\"method\":\"POST\",\"path\":\"/api/v1/problem-works/a2a3beac-9ddd-42d5-8153-e033745c95b7/reviews/accept\",\"status\":200},{\"error\":\"TypeError\",\"message\":\"Failed to fetch\"}]\n    at file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:18:127\n\nNode.js v24.19.0\n"
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed"
+        }
+      ],
+      "artifact": "runs/final-api-boundary/_tea-Swift-SFG16-74_2026-10-12_11_55_29_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-api-isolated",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "14",
+        "executed": "14",
+        "passed": "14",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Passed"
+        }
+      ],
+      "artifact": "runs/final-api-isolated/_tea-Swift-SFG16-74_2026-10-12_12_03_55_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.domain.tests.dll",
+      "counters": {
+        "total": "43",
+        "executed": "43",
+        "passed": "43",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_11_47_37_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.application.tests.dll",
+      "counters": {
+        "total": "369",
+        "executed": "369",
+        "passed": "369",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_11_47_42_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.infrastructure.tests.dll",
+      "counters": {
+        "total": "333",
+        "executed": "333",
+        "passed": "333",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_11_47_50_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-regression",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "382",
+        "executed": "382",
+        "passed": "346",
+        "failed": "36",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Concurrent_messages_return_one_conflict_without_partial_history",
+          "outcome": "Failed",
+          "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 500, ReasonPhrase: 'Internal Server Error', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"Accepted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/9787587c-7a5e-486f-9771-48e93114f91c/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CM\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"NeedsRevision\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/df7baece-d440-4382-be41-3dff7389e030/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9C4\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"matching-group\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/feb9a410-13fe-4002-90d8-e243a3dd08c6/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K922\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: False)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: NotFound\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Accepted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/ec57f0bb-4d30-48f2-b5ed-a272961f76d1/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CF\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Successful_submission_claims_all_pages_in_request_order_and_history_remains_readable",
+          "outcome": "Failed",
+          "message": "System.Net.Http.HttpRequestException : Response status code does not indicate success: 403 (Forbidden)."
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Full_flow_preserves_history_and_message_does_not_change_status_or_attempt_count",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/7484ea2c-495a-467b-b89d-f17053b151f4/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9AH\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/needs-revision\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: True)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: null, studentGroup: \"group-a\", allowed: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/7d267ff0-bdc9-465d-aa7b-e56483de082b/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K99K\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"NeedsRevision\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/69608100-aa88-4876-8713-f8d6da1c552d/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9C7\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed",
+          "message": "file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:16\n    catch { throw new Error('Stage ' + id + ' expected ' + state + ', observed ' + await page.locator('#state').innerText()); }\n                  ^\n\nError: Stage retry expected HTTP 409, observed Accepted\n    at file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:16:19\n\nNode.js v24.19.0\n"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: \"missing-author\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/6011e7c1-cb46-41b9-b2c6-79ddb4711287/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FH\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Concurrent_reviews_have_one_winner_and_no_partial_writes",
+          "outcome": "Failed",
+          "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Submitted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/d0507d44-a054-4975-b709-471076e707c1/messages\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CJ\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_group_scope_and_message_history_are_protected",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/accept\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/3c06e97b-611d-4362-88a6-168fc0267a08/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FC\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"accept\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"matching-group\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/43539ca1-c5ea-4006-82d8-6f1b90bbdb2f/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K90Q\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"   \")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: \"group-a\", studentGroup: \"group-a\", allowed: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/98f27a90-bb70-4226-9430-ffdc82318ec3/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K98O\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/eeb73620-f6f1-42af-91bb-1b52d7427aca/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K95Q\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Existing_application_starts_and_Submit_Review_Revise_Accept_uses_runtime_login",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 200\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: null)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Foreign_and_unknown_resources_are_indistinguishable_and_pending_teacher_access_denied",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Queue_search_and_attempt_filters_exclude_earlier_rows_before_pagination",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/25a10c54-31da-439f-b9b2-b89c9e813390/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FP\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_screen_endpoint_requires_role_and_scope_including_terminal_state(accepted: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/b84f5047-d6cf-43ac-a8d5-ab29f35702d7/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9B6\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"unavailable\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/d7dc87d7-f5d6-42df-acaa-a5a65aab7f6b/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K91A\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"needs-revision\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: Created\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Progress_counts_only_accepted_active_assignments_through_revision_and_withdrawal",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/14525923-d5b3-4eec-a9c5-be8aa7479321/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9B9\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"withdrawn\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/ab1920d0-2cb0-4d30-9fab-32b5bc5334ed/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K906\"}"
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        }
+      ],
+      "artifact": "runs/final-regression/_tea-Swift-SFG16-74_2026-10-12_11_50_42_net10.0.trx.gz"
+    },
+    {
+      "stage": "final-teardown",
+      "assembly": "lms.infrastructure.tests.dll",
+      "counters": {
+        "total": "23",
+        "executed": "23",
+        "passed": "23",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/final-teardown/_tea-Swift-SFG16-74_2026-10-12_11_53_54_net10.0.trx.gz"
+    },
+    {
+      "stage": "infrastructure-2",
+      "assembly": "lms.infrastructure.tests.dll",
+      "counters": {
+        "total": "332",
+        "executed": "332",
+        "passed": "332",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/infrastructure-2/_tea-Swift-SFG16-74_2026-10-12_11_42_10_net10.0.trx.gz"
+    },
+    {
+      "stage": "journey-3",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "0",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed",
+          "message": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\npage.waitForFunction: Timeout 30000ms exceeded.\n    at /home/tea/github/lms/tools/browser_read/teacher-journey.mjs:15:16 {\n  log: [],\n  name: 'TimeoutError'\n}\n\nNode.js v24.19.0\n"
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed"
+        }
+      ],
+      "artifact": "runs/journey-3/_tea-Swift-SFG16-74_2026-10-12_11_41_54_net10.0.trx.gz"
+    },
+    {
+      "stage": "journey-4",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Passed"
+        }
+      ],
+      "artifact": "runs/journey-4/_tea-Swift-SFG16-74_2026-10-12_11_42_46_net10.0.trx.gz"
+    },
+    {
+      "stage": "network-diagnostic-run",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "0",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed",
+          "message": "file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:19\n    catch { await writeFile(path.join(input.evidence, 'failure.json'), JSON.stringify({ stage: id, events }, null, 2)); throw new Error('Stage ' + id + ' expected ' + state + ', observed ' + await page.locator('#state').innerText() + ', events ' + JSON.stringify(events)); }\n                                                                                                                              ^\n\nError: Stage review expected NeedsRevision, observed Submitted, events [{\"method\":\"POST\",\"path\":\"/test/student/submit\",\"status\":200},{\"path\":\"/api/v1/auth/csrf\",\"failure\":\"net::ERR_NETWORK_CHANGED\"},{\"error\":\"TypeError\",\"message\":\"Failed to fetch\"}]\n    at file:///home/tea/github/lms/tools/browser_read/teacher-journey.mjs:19:127\n\nNode.js v24.19.0\n"
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)",
+          "outcome": "Failed"
+        }
+      ],
+      "artifact": "runs/network-diagnostic-run/_tea-Swift-SFG16-74_2026-10-12_11_58_52_net10.0.trx.gz"
+    },
+    {
+      "stage": "regression",
+      "assembly": "lms.domain.tests.dll",
+      "counters": {
+        "total": "43",
+        "executed": "43",
+        "passed": "43",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "browser_results": [],
+      "artifact": "runs/regression/_tea-Swift-SFG16-74_2026-10-12_11_33_03_net10.0.trx.gz"
+    },
+    {
+      "stage": "regression",
+      "assembly": "lms.application.tests.dll",
+      "counters": {
+        "total": "360",
+        "executed": "360",
+        "passed": "350",
+        "failed": "10",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Revision_feedback_is_validated_before_domain_mutation_or_save(feedback: \"\\t\\r\\n\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n            ↓ (pos 1)\nExpected: \"FeedbackRequired\"\nActual:   \"Forbidden\"\n            ↑ (pos 1)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Revision_feedback_is_validated_before_domain_mutation_or_save(feedback: null)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n            ↓ (pos 1)\nExpected: \"FeedbackRequired\"\nActual:   \"Forbidden\"\n            ↑ (pos 1)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Annotation_validation_precedes_save_and_review_uses_one_save",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(Lms.Domain.DomainException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Revision_feedback_is_validated_before_domain_mutation_or_save(feedback: \"   \")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n            ↓ (pos 1)\nExpected: \"FeedbackRequired\"\nActual:   \"Forbidden\"\n            ↑ (pos 1)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Revision_feedback_is_validated_before_domain_mutation_or_save(feedback: \"\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n            ↓ (pos 1)\nExpected: \"FeedbackRequired\"\nActual:   \"Forbidden\"\n            ↑ (pos 1)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Unauthorized_teacher_cannot_mutate_or_save",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n           ↓ (pos 0)\nExpected: \"TeacherNotAuthorized\"\nActual:   \"Forbidden\"\n           ↑ (pos 0)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Missing_assignment_and_work_have_explicit_errors",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n           ↓ (pos 0)\nExpected: \"ProblemWorkNotFound\"\nActual:   \"Forbidden\"\n           ↑ (pos 0)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Stale_review_version_does_not_mutate_work",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Strings differ\n           ↓ (pos 0)\nExpected: \"ConcurrencyConflict\"\nActual:   \"Forbidden\"\n           ↑ (pos 0)"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.First_submit_requires_absent_version_and_resubmit_requires_current_version",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Application.Tests.ProblemWorkServiceTests.Full_slice_uses_same_work_and_expected_versions",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        }
+      ],
+      "browser_results": [],
+      "artifact": "runs/regression/_tea-Swift-SFG16-74_2026-10-12_11_33_04_net10.0.trx.gz"
+    },
+    {
+      "stage": "regression",
+      "assembly": "lms.infrastructure.tests.dll",
+      "counters": {
+        "total": "327",
+        "executed": "327",
+        "passed": "306",
+        "failed": "21",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Concurrent_reviews_and_stale_review_cannot_overwrite_next_attempt",
+          "outcome": "Failed",
+          "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [Lms.Application.UseCaseException: Forbidden\n   at Lms.Infrastructure.PostgresWorkStore.SaveCore(ProblemWork work, Nullable`1 expectedPersistedVersion, CancellationToken cancellationToken, TeacherOperationContext operation) in /home/tea/github/lms/src/Lms.Infrastructure/PostgresWorkStore.cs:line 49\n   at Xunit.Record.ExceptionAsync(Func`1 testCode) in /_/src/xunit.core/Record.cs:line 76, Lms.Application.UseCaseException: Forbidden\n   at Lms.Infrastructure.PostgresWorkStore.SaveCore(ProblemWork work, Nullable`1 expectedPersistedVersion, CancellationToken cancellationToken, TeacherOperationContext operation) in /home/tea/github/lms/src/Lms.Infrastructure/PostgresWorkStore.cs:line 49\n   at Xunit.Record.ExceptionAsync(Func`1 testCode) in /_/src/xunit.core/Record.cs:line 76]"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Bounded_work_normal_commit_succeeds_once_and_cannot_reuse_original_handle",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 1, selector: null)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Split_history_load_keeps_one_snapshot_when_review_commits_between_queries(existingTransaction: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Ownership_follows_submission_review_parent_and_denies_foreign_student",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Commit_failure_rolls_back_and_retry_keeps_attempt_and_annotations(firstSubmit: False)",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(System.InvalidOperationException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Failure_after_all_writes_rolls_back_state_history_and_events(firstSubmit: False)",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(System.InvalidOperationException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Bounded_work_late_commit_is_recorded_but_never_confirmed_as_timely_success",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(System.OperationCanceledException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 8, selector: \"malformed:opaque\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Committed_events_are_not_replayed_on_same_instance_or_reload",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 2, selector: \"work:unknown\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.SchemaFoundationTests.M1_preserves_synthetic_legacy_history_and_original_hashes_without_backfill",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Bounded_work_deadline_before_commit_rolls_back_domain_history_together",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(System.OperationCanceledException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Split_history_load_keeps_one_snapshot_when_review_commits_between_queries(existingTransaction: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.PersistenceTests.Workflow_preserves_snapshots_accept_is_terminal_but_messages_are_allowed",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Move_creates_generation_preserves_old_work_group_and_entire_learning_history",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 31, selector: \"\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 4, selector: \"course:a\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Bounded_upload_finishing_after_deadline_never_publishes_eligible_metadata",
+          "outcome": "Failed",
+          "message": "Assert.Throws() Failure: Exception type was not an exact match\nExpected: typeof(System.OperationCanceledException)\nActual:   typeof(Lms.Application.UseCaseException)\n---- Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.Submit_and_review_require_current_grant_and_server_workflow",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Infrastructure.Tests.ScopedAuthorityTests.A2_opaque_selectors_cannot_bypass_parent_or_child_restrictions(operations: 16, selector: \"other-organization/resource\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        }
+      ],
+      "browser_results": [],
+      "artifact": "runs/regression/_tea-Swift-SFG16-74_2026-10-12_11_33_12_net10.0.trx.gz"
+    },
+    {
+      "stage": "regression",
+      "assembly": "lms.api.tests.dll",
+      "counters": {
+        "total": "375",
+        "executed": "375",
+        "passed": "274",
+        "failed": "101",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"processing-db\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Existing_application_starts_and_Submit_Review_Revise_Accept_uses_runtime_login",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 200\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"restriction\", late: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_embedded_teacher_subject_is_checked_even_for_student(late: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"deadline\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_reads_own_history_exact_dto_and_no_unverified_files(role: Student)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Concurrent_reviews_have_one_winner_and_no_partial_writes",
+          "outcome": "Failed",
+          "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Full_flow_preserves_history_and_message_does_not_change_status_or_attempt_count",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/9ac6e709-a8ad-412b-ac05-f821602c0cbf/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMQC\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/accept\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Teacher, course: \"http-foreign\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Queue_search_and_attempt_filters_exclude_earlier_rows_before_pagination",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/e97a6f7f-819d-45f9-945a-bef865977250/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMVC\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"expiry\", late: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"deadline\", late: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"accept\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"reader\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"unknown\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_student_move_preserves_historical_ownership_and_never_reads_storage",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"context\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 59.999000000000002, status: 200)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_reads_own_history_exact_dto_and_no_unverified_files(role: Teacher)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_capacity_rejects_without_unbounded_wait_and_releases_after_completion",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"student\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"needs-revision\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/c7f5b10f-0e14-40e3-b393-9da25eb913a2/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMV4\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Submitted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/e79c790b-8655-4c60-8cdd-1936f9dcad59/messages\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMS6\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"expiry\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Successful_submission_claims_all_pages_in_request_order_and_history_remains_readable",
+          "outcome": "Failed",
+          "message": "System.Net.Http.HttpRequestException : Response status code does not indicate success: 403 (Forbidden)."
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: \"processing-db\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: True)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: \"missing-author\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"expiry\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: null)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"student\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ReadApiTests.Course_enrollment_is_real_for_student_null_for_teacher_and_progress_is_derived",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"corrupt\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"student\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_group_scope_and_message_history_are_protected",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: Created\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"restriction\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_final_failure_and_missing_subject_evidence(fault: \"version\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ReadApiTests.Queue_filters_search_totals_and_summary_use_full_filtered_dataset_before_paging",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Progress_counts_only_accepted_active_assignments_through_revision_and_withdrawal",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/22e15170-ca95-4a4c-b728-994ee21e182b/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMQS\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"missing\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: False)",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: NotFound\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: null, studentGroup: \"group-a\", allowed: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/0d38d483-978b-4b7e-9095-abd1994a4ed3/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMPP\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 60.000999999999998, status: 503)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: \"group-a\", studentGroup: \"group-a\", allowed: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/29680812-703e-403b-9f39-308bd1ca41f2/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMPJ\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"deadline\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"Accepted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/e7e059b5-7e44-4e75-a518-fa586e55d458/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMS9\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"matching-group\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/524f9e03-61c8-458c-89ca-8f008a0ac7f4/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMF0\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_same_group_peer_denied_and_owner_move_keeps_historical_photos",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_embedded_teacher_subject_is_checked_even_for_student(late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Teacher, course: \"http-other\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_screen_endpoint_requires_role_and_scope_including_terminal_state(accepted: True)",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/9eb207f5-4b52-49f6-a998-837eca81c599/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMQP\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"unavailable\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/b881eb94-4a91-423f-b783-cc69538fcb56/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMFF\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ReadApiTests.Current_submission_history_review_linkage_and_permissions_follow_full_flow",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"same-length-corrupt\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_originals_and_independent_parent_denials(role: Student)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_deadline_boundaries(seconds: 60, status: 503)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"clock\", late: True)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"deadline\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"student\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"quarantine\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Student, course: \"http-other\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.AttachmentApiTests.Foreign_and_unknown_resources_are_indistinguishable_and_pending_teacher_access_denied",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_existing_foreign_resources_cannot_enter_list_or_detail(role: Student, course: \"http-foreign\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"matching-group\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/687406ca-7ab8-408e-983e-a095c22a84f2/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMFV\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"reader\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"reader\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"context\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"expiry\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"unknown\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Concurrent_messages_return_one_conflict_without_partial_history",
+          "outcome": "Failed",
+          "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 500, ReasonPhrase: 'Internal Server Error', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+        },
+        {
+          "name": "Lms.Api.Tests.ReadApiTests.Attachments_and_discussion_are_projected_without_fake_storage_metadata",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"deadline\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_student_cannot_read_peer_in_same_group",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"NeedsRevision\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/1a26b7eb-74c0-48ff-a123-fd7e09cea274/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMRN\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ReadApiTests.Course_counts_completed_over_available_lessons_and_excludes_withdrawn_assignments",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"reader\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_unqualified_history_and_pending_ids_do_not_become_readable",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: True, fault: \"expiry\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/e2e6860a-62fd-498b-8a39-93eb1476a36a/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMUV\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Accepted\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/cf960e54-3c66-4a1b-80e2-f96b914ad71d/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMS2\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_originals_and_independent_parent_denials(role: Teacher)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"context\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"   \")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: True, late: False, fault: \"unknown\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: False, fault: \"context\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"NeedsRevision\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/3338549d-73ee-44ab-a2ca-ffe5cb941e92/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMRQ\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_photo_faults_fail_closed(fault: \"scope\", late: False)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"withdrawn\")",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/fae2a4e1-271d-49a3-b5a1-d14b13688cdd/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMEH\"}"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_processing_jwt_deadline_before_and_after_materialization(detail: False, late: True, fault: \"unknown\")",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/needs-revision\")",
+          "outcome": "Failed",
+          "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Student)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Teacher)",
+          "outcome": "Failed",
+          "message": "Lms.Application.UseCaseException : Forbidden"
+        },
+        {
+          "name": "Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes",
+          "outcome": "Failed",
+          "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/7c9f8ec0-8d73-4b7f-ac36-7e1ce09e48e5/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84ALJEMKB\"}"
+        }
+      ],
+      "browser_results": [
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)",
+          "outcome": "Failed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student)",
+          "outcome": "Passed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)",
+          "outcome": "Failed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)",
+          "outcome": "Failed"
+        },
+        {
+          "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)",
+          "outcome": "Failed"
+        }
+      ],
+      "artifact": "runs/regression/_tea-Swift-SFG16-74_2026-10-12_11_35_47_net10.0.trx.gz"
+    }
+  ],
+  "other_suites": {
+    "frontend": 408,
+    "compiler": 74,
+    "importer": 49,
+    "frontend_build": "PASS"
+  },
+  "readiness": {
+    "full_regression": "NOT PASS; see final-regression failures",
+    "production": "NOT CLAIMED",
+    "AUTH_01_to_04": "NOT ACCEPTED",
+    "physical_completion_guarantee": "NOT PROVEN",
+    "public_cutover": "NOT PERFORMED",
+    "commit": "NOT PERFORMED"
+  },
+  "notes": [
+    "Full regression preceded the final awaited-disposal result-gate correction; final-teardown and final-api-boundary are follow-up tests of that correction.",
+    "Browser journey uses a loopback HTTPS protocol harness, not the production React application.",
+    "final-api-isolated follows the full run and checks awaited disposal, true corrupt-history injection and browser collection isolation; previous browser failures were traced to ERR_NETWORK_CHANGED caused by concurrent Docker network changes.",
+    "Legacy positive teacher HTTP expectations are preserved as visible failures, not skipped or reclassified PASS.",
+    "Storage-only synthetic context fixtures test persistence mechanics, not JWT admission, durable reservation or replay authorization."
+  ],
+  "commands": [
+    "LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome LMS_BROWSER_EVIDENCE_ROOT=/tmp/lms-mandatory-context/final-browser /tmp/b07c2g/sdk/dotnet test Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --logger \"console;verbosity=normal\" --results-directory /tmp/lms-mandatory-context/final-regression",
+    "/tmp/b07c2g/sdk/dotnet test tests/Lms.Infrastructure.Tests/Lms.Infrastructure.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter \"FullyQualifiedName~Teacher_composition|FullyQualifiedName~Legacy_teacher_file|FullyQualifiedName~Direct_store_teacher|FullyQualifiedName~Transaction_store_cannot|FullyQualifiedName~Teacher_private_read_rechecks\" --logger trx --results-directory /tmp/lms-mandatory-context/final-teardown",
+    "LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome LMS_BROWSER_EVIDENCE_ROOT=/tmp/lms-mandatory-context/journey-diagnostic /tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter \"FullyQualifiedName~TeacherOperationJourneyTests|FullyQualifiedName~MandatoryTeacherContextTests|FullyQualifiedName~TeacherRevocationHttpTests\" --logger trx --results-directory /tmp/lms-mandatory-context/final-api-boundary",
+    "PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH pnpm --dir src/Lms.Web test",
+    "PATH=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH pnpm --dir src/Lms.Web build",
+    "SAPIENTUM_CONTENT_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node NODE_PATH=/home/tea/github/lms/src/Lms.Web/node_modules python3 -m unittest discover -s tests/content_compiler -v",
+    "B07_EVIDENCE_PATH=/tmp/lms-mandatory-context/import-evidence.json python3 -m unittest discover -s tests/content_import -v",
+    "LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome LMS_BROWSER_EVIDENCE_ROOT=/tmp/lms-mandatory-context/isolated-browser /tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-restore -m:1 -p:UseSharedCompilation=false --filter \"FullyQualifiedName~TeacherOperationJourneyTests|FullyQualifiedName~MandatoryTeacherContextTests|FullyQualifiedName~TeacherRevocationHttpTests|FullyQualifiedName~Http_work_final_failure_and_missing_subject_evidence\" --logger trx --results-directory /tmp/lms-mandatory-context/final-api-isolated"
+  ],
+  "latest_results": {
+    "lms.domain.tests.dll": {
+      "total": "43",
+      "executed": "43",
+      "passed": "43",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "lms.application.tests.dll": {
+      "total": "369",
+      "executed": "369",
+      "passed": "369",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "lms.infrastructure.tests.dll": {
+      "total": "333",
+      "executed": "333",
+      "passed": "333",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "lms.api.tests.dll": {
+      "total": "382",
+      "executed": "382",
+      "passed": "346",
+      "failed": "36",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  },
+  "remaining_api_failures": 34,
+  "follow_up_results": {
+    "final-api-isolated": {
+      "total": "14",
+      "executed": "14",
+      "passed": "14",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "final-teardown": {
+      "total": "23",
+      "executed": "23",
+      "passed": "23",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  }
+}

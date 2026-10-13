@@ -1,0 +1,21 @@
+{
+  "role": "Teacher",
+  "browser": "154.0.8037.57",
+  "checks": [
+    "API-backed courses → course → published lesson → problem/Markdown/LaTeX; no writes; XSS/image boundary",
+    "browser back/forward and parent links re-fetch; empty lesson and course from PostgreSQL",
+    "own positive; same-org ungranted, foreign-org, absent, malformed version, locked/missing/swapped parent uniformly 403",
+    "current restriction while open; refresh, default-cache fetch, history and list deny; post-read pre-response restriction denies buffered content",
+    "real DB permission failure →503, explicit GET retry; offline → error → reconnect",
+    "no token/content in public build/HTML; no public auth/fixture/file routes; unauthenticated all reads 401; memory-only auth, no cookies/storage/CacheStorage/IndexedDB/SW",
+    "exact 15m JWT expiry →401; adapter clears per-tab token; no automatic retry/refresh",
+    "forged JWT signature →401 through real validator",
+    "independent valid reissued JWT positive → synthetic clock qualification loss →401; tablet viewport render",
+    "no bearer/private canary in URLs or browser logs; CDP shows no API disk/SW/prefetch cache or 304, without disabling browser cache"
+  ],
+  "apiResponseCount": 46,
+  "cacheResponseCount": 46,
+  "cachedApiResponses": 0,
+  "publicResourceCount": 24,
+  "limitation": "Synthetic local Chromium only; not retroactive erasure, production G02 or CLOCK-DEPLOY evidence."
+}

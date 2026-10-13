@@ -1,0 +1,5 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+/home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoHttpTests.cs(75,32): error CS1061: 'WebApplication' does not contain a definition for 'GetTestClient' and no accessible extension method 'GetTestClient' accepting a first argument of type 'WebApplication' could be found (are you missing a using directive or an assembly reference?) [/home/tea/github/lms/tests/Lms.Api.Tests/Lms.Api.Tests.csproj]

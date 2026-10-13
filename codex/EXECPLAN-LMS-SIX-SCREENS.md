@@ -1,6 +1,8 @@
 # ExecPlan: шесть экранов LMS и Submit → Review → Revise → Accept
 
-**Текущее состояние: B–F завершены; U1 Attachment Upload & Storage и G Student Problem / Solution завершены 2026-10-08; G03 CLOSED. H/I/J не начаты.** Фактические результаты — §12–21, `codex/G-RESULTS.md`, `codex/U1-RESULTS.md`, `codex/F-RESULTS.md`, `codex/E-RESULTS.md`, `codex/D-RESULTS.md`, `codex/C4-RESULTS.md`, `codex/C3-RESULTS.md`, `codex/C2-RESULTS.md` и исторический отчёт `codex/C1-RESULTS.md`. Ограничения documentation-only запуска ниже относятся к истории B/планирования.
+**Текущий checkpoint: L0.1 documentation-only; compliance NOT VERIFIED, pilot NOT_READY. Следующее действие — review [L01-RESULTS](L01-RESULTS.md) и [PD gates](L01-DECISION-GATES.md), не реализация L1.**
+
+**Историческое состояние после L0: шесть экранов и J2 реализованы; K завершён, pilot/production NOT_READY. L0 Architecture & Decision Gates подготовлен 2026-10-09: только документы, L1–L4 не начаты.** Актуальный L0 — §27 и `codex/L0-RESULTS.md`; K — §26 и `codex/K-RESULTS.md`. Старые scope/status записи ниже — история checkpoint; разрешение того запуска ограничивалось L0. Текущий L0.1 — §28.
 
 Дата: 2026-10-07. Статус: **Repository Preflight и domain analysis выполнены; greenfield foundation + Domain/Application checkpoint выполнен**.
 
@@ -891,3 +893,261 @@ No backend contract defect or backend production changes. Unsourced hints/materi
 Markdown image assets remain existing enrichment gaps; no invented data. Local draft survives tabs
 but is not persisted across navigation/refresh; pending uploads remain for U1 future cleanup.
 See `codex/G-RESULTS.md`. **Stop after G; H/I/J not started.**
+
+
+## 22. H — Student History (complete, 2026-10-08)
+
+Base `6157592`, branch `codex/h-student-history`, canonical `/home/tea/github/lms`;
+no additional worktree or parallel agents. Baseline: 196 frontend, 225 backend tests,
+both builds zero warnings/errors. Domain/Feature, C3/C4 wire amendments, U1/G results,
+Frontend History and UI Flow §9 plus composition mockup informed implementation.
+
+Pre-implementation decisions: workspace already contains complete history, so use the
+existing assignment GET without duplicating work-details GET. Preserve server newest
+attempt order; join Review.SubmissionId/MessageId, never attach work discussion by time.
+General messages are independent entries, newest first from reversed server CreatedAt/ID
+order; timestamp merge positions them among attempt blocks. Equal cross-kind timestamps
+put messages first; server order resolves same-kind ties. Backend has no common event
+sequence, so this is deterministic presentation, not a reconstructed domain audit log.
+Historical content is assignment-level exact immutable problem/courseVersionId; no
+per-attempt revision field exists. Do not fetch latest publication or invent snapshots.
+
+History refresh uses the existing workspace state, retains statement/tabs during GET,
+hides stale timeline during loading/error and updates server context atomically on success.
+Initial deep link needs one GET; reopening History refetches. Solution has no extra history
+request or old-photo rendering, though C3 workspace payload itself always includes history.
+No endpoint/backend production defect found; no backend/dependency/state-machine changes.
+
+H verified exit checklist:
+- [x] Real read-only History on existing query-tab route, condition remains above tabs.
+- [x] Null work / empty history; no work creation or null work GET.
+- [x] Pure immutable attempt grouping, correct review/feedback and separate messages.
+- [x] Protected original pages retain attempt identity/order; no edit/delete; error/retry.
+- [x] Available historical content reference used, no latest revision fallback.
+- [x] Context status/count/latest/materials/return link, no duplicated timeline, mobile after main.
+- [x] Loading/errors/GET retry/focus, cancellation/stale protection, Submit → History refresh.
+- [x] 233 frontend tests = 196 prior + 37 H; 225 backend regressions, zero failed/skipped.
+- [x] Frontend/full solution builds zero warnings/errors; default and isolated Compose healthy.
+- [x] Real browser Submit #1 → Revision → Message → Submit #2 → Accept; immutable hashes.
+- [x] Reload/API restart persistence, keyboard enlargement/tabs/Back/Forward, no page errors.
+- [x] Five widths 320/375/768/1024/1440, long feedback/body/12 attempts, no horizontal overflow.
+- [x] Documentation/result report updated; final commit and clean tree verified at delivery.
+
+Evidence and all 22 report items: `codex/H-RESULTS.md`; logs `/tmp/lms-h-*`, screenshots
+and browser result JSON `/tmp/lms-h-browser/`. G03 remains CLOSED. Existing enrichment,
+workspace full-payload and per-attempt content-reference limits are documented honestly.
+**Stop after H. I Teacher Queue and J Teacher Review not started.**
+
+
+## 23. Checkpoint I — Teacher Review Queue (2026-10-08)
+
+База `200ab25`, новая запрошенная ветка `codex/i-teacher-queue`; canonical checkout,
+последовательно, без новых worktrees. Baseline: 233 frontend/225 backend tests,
+обе сборки zero warnings/errors, default Docker Compose healthy.
+
+Decisions: Domain §29 → Feature UC-A02/queue → C3/C4 amendments/ReadModels.cs/
+PostgresReviewQueue.cs → UI Flow §10 → mockup composition. Queue — server projection
+Submitted/latest submission. Стабильный порядок SubmittedAt/ProblemWorkId. Exact C4
+DTO; nullable names fallback на IDs без lookup. Нет filter catalog/grade/byGroup или
+global unfiltered total: не изобретать эти данные из paginated rows/filtered byCourse.
+
+Реализованы /teacher/reviews, cancellable bearer GET/runtime decoder, все documented
+filters и explicit-submit search, URL normalization/Back/Forward, server pagination,
+filtered all-pages summary/context, loading/error/retry/empty, responsive rows.
+J остаётся placeholder; CTA uses ProblemWorkId; return URL сохраняется в Router state,
+возврат/remount получает актуальную queue. Нет polling, mutable aggregate, local
+business-state mirror, dependencies или backend changes. Имена/группы — existing gap.
+
+I exit checklist:
+- [x] Real authorized Submitted queue; first/revision и excluded states live verified.
+- [x] Server course/group/student/attempt/search filters and page/pageSize/total.
+- [x] Summary independent of page size; available context only, no duplicated rows.
+- [x] Validated URL, Back/Forward, reset to page one, cancellation/stale guards.
+- [x] ProblemWorkId → unchanged J placeholder → preserved URL + authoritative refresh.
+- [x] 401/403/404/errors/retry/empty; live Student API/UI forbidden.
+- [x] 320/375/768/1024/1440, long labels, no overflow, keyboard and landmarks.
+- [x] 276 frontend = 233 baseline + 43 I; 225 backend, zero failed/skipped.
+- [x] Both builds zero warnings/errors, default/dedicated Compose startup healthy.
+- [x] Real Student photo → Teacher queue, filters/search/pagination/J browser smoke PASS.
+- [x] API restart/down-up history/photo persistence; dedicated clean reset PASS.
+- [x] Shared shell browser smoke and git diff --check PASS.
+- [x] Results/README updated, final commit and clean working tree verified at delivery.
+
+24-part report: `codex/I-RESULTS.md`. Evidence `/tmp/lms-i-*.log`, browser screenshots/
+results `/tmp/lms-i-browser/`, lifecycle `/tmp/lms-i-lifecycle.json`. G03 remains CLOSED.
+**Stop after I. Do not start J.**
+
+## 24. J1 Teacher Review — decisions before implementation (2026-10-08)
+
+Scope: J1 only, branch `codex/j1-teacher-review`, base `a388c6d`, canonical checkout.
+Source order: Domain → Feature → Frontend C3/C4 amendments → Flow → mockup.
+- Existing ProblemWorkDetailsDto provides exact immutable statement, currentSubmission,
+  ordered attachmentIds, history, permissions and version. No backend change needed.
+- Teacher details has no reference solutions, evaluation criteria or materials and no
+  trusted source for them. Nonblocking gap: omit sections; do not invent DTO fields/tests.
+- Earlier Frontend §29.7 puts actions in the right panel; explicit J1 composition places
+  feedback/actions in main. Follow J1; context holds identity and compact prior attempts.
+- Feature UC-A03/C4 permits Student to GET their own work. This is not a teacher-only
+  endpoint; review commands remain forbidden, and UI follows separate server capabilities.
+  No fabricated role field or stricter backend policy; foreign work and review denial tested.
+- Feedback joins Review.messageId; attempt joins Review.submissionId. No time-based guesses.
+- Existing native textarea styling/form conventions, common API client and U1 protected
+  AttachmentPreview will be reused. J1 adds paging/zoom without a canvas or annotations.
+- Commands use currentSubmission.id/version; immediate mutual exclusion, no automatic retry,
+  explicit refresh after conflict/uncertain outcome, authoritative GET after success.
+
+### J1 results and exit checklist
+
+- Real ProblemWork GET, immutable statement, protected paged/zoom viewer, compact history,
+  feedback and both commands implemented with existing capabilities/version.
+- Immediate double-submit lock, explicit conflict/uncertain refresh, authoritative success
+  GET and fresh queue return with original filters. Backend unchanged; gaps above retained.
+- Frontend 331/331 (276 baseline +55); backend 225/225; both builds 0 warnings/errors.
+- Docker/browser real Submit → Revision → Submit → Accept, responsive five widths,
+  concurrency/double-click/Student denial, immutable photos/history, restart/down-up and
+  dedicated clean reset PASS; shared shell smoke PASS.
+- Full report/evidence/limitations: `codex/J1-RESULTS.md`. Commit and clean tree checked
+  as final step. Only J1 delivered. J2 annotations not started.
+
+## 25. J2 — контракт до реализации (2026-10-08)
+
+Ветка codex/j2-image-annotation, база bf3b750. Review получает immutable value objects
+AnnotatedAttachment → PenStroke → StrokePoint. JSONB выбран потому, что набор читается
+и сохраняется целиком, без независимого lifecycle или запросов по отдельным точкам.
+ReviewId/SubmissionId принадлежат Review; attachmentId проверяется по current Submission.
+Старые записи получают пустой массив. Существующий запрет UPDATE/DELETE Review и
+транзакция PostgresWorkStore сохраняются. Optional annotations в обоих review commands.
+Координаты [0,1] относительно изображения после EXIF orientation браузером; width —
+доля меньшей стороны. Только pen, #RRGGBB, pressure optional [0,1].
+Лимиты: 20 страниц, 2000 штрихов всего, 4096 точек на штрих, 100000 точек всего,
+4 MiB HTTP body. Пустые наборы допустимы. Серверных черновиков нет.
+UI: общий слой canvas над protected original, локальная история каждой страницы;
+финальная команда атомарна, ошибки сохраняют draft. Student получает read-only слой.
+Новые статусы, aggregates и endpoints не добавляются.
+
+- [x] Backend/domain/persistence/API и тесты
+- [x] Editor, teacher/student integration и тесты
+- [x] Browser/responsive verification
+- [x] J2-RESULTS; итоговый commit содержит этот отчёт
+
+J2 completed: 362 frontend / 248 backend tests, .NET/Vite builds, PostgreSQL migration/
+rollback/concurrency, Chrome workflow и tablet EXIF/DPR/native-pen stress PASS.
+20,002 points / 201 strokes за ~3.6s, original bytes unchanged. Исправлены geometry
+CSS cascade, keyboard focus, empty coalesced samples и image-error overlay.
+Hardware iPad/Safari не проверялись; draft crash recovery не заявляется.
+Подробности и evidence: `codex/J2-RESULTS.md`. После итогового commit — остановка.
+
+
+## 26. K — Integration & Release Hardening (2026-10-08)
+
+Canonical checkout, requested branch `codex/k-release-hardening` from `47d6de3`.
+Audit-first baseline before fixes:362 frontend /248 backend PASS. Existing contracts,
+authorization, storage/migrations/Docker and actual smoke coverage inspected; risk matrix
+recorded before implementation. No worktree, parallel agent, new framework or schema.
+
+New evidence: reproducible Playwright real-API release runner (35 main steps, negative
+uploads/submit/role/terminal/navigation boundaries), six performance profiles, SQL-count
+queue/lesson measurement, unsigned JWT, attachment revocation, commit-boundary failure
+and interleaved snapshot tests. Existing tests remain; write barriers explicitly exclude
+read-only snapshot transactions. Physical-device protocol90 rows honestly BLOCKED.
+
+Confirmed fixes: P0 uploader bypass of revoked parent-work access; P1 Cartesian history
+read (20-attempt teacher p95 5520.76→59.36ms, student5328.28→71.87ms); ported proven P1
+stylus/UUID compatibility fix from post-base594578d; P2 teacher-screen role gate; asynchronous
+resize assertion in tablet smoke. General C4 own-work API remains backward-compatible;
+new teacher-only alias has the same DTO. Attached bytes, Domain transitions and migrations
+unchanged. Split reads share RepeatableRead snapshot; concurrency tests verify consistency.
+
+Final evidence:366 frontend /260 backend PASS, both builds PASS (.NET0 warnings/errors),
+Docker/real browser and CDP tablet runner PASS, no browser errors, cleanup PASS. P6 queue
+5 SQL queries at page sizes1/50/200; adjacent Lesson1001 assignments2011queries/1166.20ms
+remains P2, as does dense500-stroke next-frame p95 73ms. No fabricated performance budgets.
+Raw summaries and logs retained in `codex/evidence/k`, screenshots in `/tmp/lms-k-run`.
+
+Seven deliverables: K-TEST-MATRIX, K-SECURITY-AUDIT, K-PERFORMANCE-REPORT,
+K-DEVICE-TEST-PROTOCOL, K-MVP-GAPS, K-RELEASE-READINESS, K-RESULTS.
+**NOT_READY**: real IdP/session/provisioning, deployment security/resource protections,
+coordinated DB+photo backup/restore and operational recovery remain release gates;
+Safari/physical devices unavailable. P0 finding fixed, open P1 gates explicitly tracked
+with remediation, not masked as nonblocking limitations. Names/lookups/reference/criteria
+classified, not implemented speculatively. Recommend staged Identity & Operations
+Readiness only after a new instruction. Stop after K commit; no next checkpoint.
+
+
+## 27. L0 — Architecture & Decision Gates (2026-10-09)
+
+Canonical `/home/tea/github/lms`, clean base `c7a500f`, requested branch
+`codex/l0-architecture` непосредственно от K. Последовательно, без новых worktrees,
+без изменения кода/Domain/schema/migrations/Docker. D1 собственный VPS/сервер,
+D2 Compose и D3 ASP.NET Core Identity приняты пользователем; остальные рекомендации
+не считаются принятыми. Полный результат: [L0-RESULTS](L0-RESULTS.md).
+
+- [x] Изучены обязательные K/normative sources и фактические слои/auth/storage/E2E.
+- [x] Созданы ADR-L01–L08: Identity, provisioning, VPS, HTTPS/secrets, backup,
+  resource protection, device scope, operations/privacy.
+- [x] [L-ARCHITECTURE](L-ARCHITECTURE.md): Actor mapping и existing component boundaries.
+- [x] [L-DECISION-REGISTER](L-DECISION-REGISTER.md): accepted D1–D3, proposed B01–B09,
+  open C01–C09; минимум для L1 — C01 provisioning и C02 initial access/recovery.
+- [x] [L-IMPLEMENTATION-PLAN](L-IMPLEMENTATION-PLAN.md): последовательность, gates,
+  changes/tests/exit/complexity/risks, future branch/merge policy.
+- [x] Source links, Domain consistency, docs-only diff и whitespace проверены;
+  app tests не перезапускались, K baseline 366 frontend/260 backend исторический.
+
+PROPOSAL: same-origin Identity cookie + CSRF/server session validation; независимый
+IdentityUserId→ActorId без переписывания истории; operator-only provisioning; private
+single-host topology; coordinated DB+originals+keys backup; durable resource admission
+и cleanup, не удаляющий linked history. Safari/Apple Pencil не объявлены проверенными.
+Owner hosting/recovery/privacy/quotas/devices/ops gates остаются открытыми.
+
+| Следующий этап | Prerequisites / scope | Exit |
+|---|---|---|
+| L1 Identity | Разрешение L1 + C01/C02; Identity mapping/session/login/CSRF/provisioning, synthetic data | Real Identity auth/scope/lifecycle/upgrade/browser tests; no demo pilot auth |
+| L2 Resource Protection | Accepted L1 + разрешение; C06/C08 для product quotas/retention | Rate/concurrency/quota/cleanup races, disk safety, immutable history preserved |
+| L3 Deployment & Backup | Accepted L2 + разрешение; C03–C05/C09, capacity/privacy inputs | HTTPS/private Compose/secrets/keys, migration/rollback и off-host clean-host restore доказаны |
+| L4 Pilot Acceptance | Accepted L1–L3 + разрешение; owner gates закрыты | Real-account E2E, recovery/performance/physical devices, evidence-based readiness |
+
+Будущий порядок: review L0 → отдельно разрешённая integration K+L0 → L1 review/merge
+→ L2 → L3 → L4, каждый от accepted predecessor, отдельная ветка, sequential canonical
+checkout. Сейчас push/merge/deployment не выполняются. Исторический ранний пункт
+«L — Responsive/a11y» в §8 остаётся историей первоначального плана; текущее задание
+переопределяет новый L как Pilot Identity & Operations Readiness.
+
+**После L0 остановиться: согласовать результат с владельцем. L1–L4 не начинать.**
+
+
+## 28. L0.1 — Personal Data Compliance Architecture (2026-10-09)
+
+Documentation-only от exact `b1e4084`, ветка `codex/l01-personal-data-compliance`; canonical checkout, без новых worktrees/агентов. История C–L0 сохранена. [L01-RESULTS](L01-RESULTS.md) и [PD decision gates](L01-DECISION-GATES.md) определяют следующий review.
+
+D4 **ACCEPTED**: российское ООО владельца — оператор, реквизиты UNKNOWN. D5 **ACCEPTED**: применимые требования 152-ФЗ и связанных актов — обязательный release gate до самого первого пилота с реальными ПД. Не переносить на production.
+
+Созданы 9 документов `docs/compliance`, ADR-L09/L10, PD-G01–14 и результат. Инвентарь привязан к фактическим UUID/JSONB/Markdown/files/EXIF/browser/logs; Identity/profiles ещё proposal. Вариант D (разделение identity + privileged erasure, обезличивание только при evidence) сохраняет обычную immutable history/Accepted terminal; требует отдельной реализации/принятия ADR. Restore — quarantine + независимый актуальный ledger и reconciliation до доступа.
+
+Официальные правовые тексты недоступны через инструмент; **LEGAL SOURCE NOT VERIFIED**, текущие редакции/даты не подтверждены. Уровень ИСПДн, реквизиты, сроки, providers, основания/представительство и operational evidence остаются gates. Никаких фиктивных compliance PASS.
+
+План обновлён: L1 Identity & Personal Data Lifecycle → L2 Resource Protection & Data Lifecycle → L3 Secure Deployment & Recovery → L4 Compliance & Pilot Acceptance. Минимальный пакет запуска L1 теперь C01/C02 + согласованные основания/несовершеннолетние/поля/ADR и retention принципы; одних прежних двух ответов L0 недостаточно. Всё локальное до real-data gates — synthetic-only.
+
+Production code/migrations не изменялись; app tests не перезапускались, 366/260 только baseline K. Проверка документации/ссылок/diff и commit описаны в отчёте. **Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.** После commit/clean tree остановиться; L1–L4, push/merge/deployment не разрешены.
+
+## L0.2 — Organization / processing context checkpoint
+
+Documentation-only: [результат](L02-RESULTS.md), [gates](L02-DECISION-GATES.md), [обновлённый план L1–L4](L-IMPLEMENTATION-PLAN.md). Принят pilot scope одной сторонней организации/5–8 классов/closed accounts и возможность собственных курсов ООО; роли ПД по цели требуют юридической проверки.
+
+PROPOSED: Organization/course boundary без отдельной LearningSpace entity, membership отдельно от Identity/Actor, durable ProcessingContext, scope guards для SQL/files/exports и scoped lifecycle. ADR-L11–L14 не ACCEPTED. Обычные immutable attempts/reviews, exact content refs, шесть экранов и API не изменены. Реализация L1 не начата, app tests не запускались; исторические PASS не подтверждают новую изоляцию. Следующий шаг — согласование ORG и прежних PD/C gates, затем отдельное разрешение L1. Compliance NOT VERIFIED; NOT_READY. Push/merge/deployment не выполнялись.
+
+## L0.3 — Owner Decisions & L1 Readiness (2026-10-09)
+
+Предыдущие L0/L0.1/L0.2 разделы выше — исторические результаты соответствующих checkpoints; их прежние PROPOSED/gate/issuer/L1-scope формулировки superseded этим разделом и текущими документами, результаты тестов не переписаны.
+
+C01/C02 business и ORG-G01–04/06/07 ACCEPTED по явному заданию владельца. Organization обязательна, LearningSpace entity не вводится; Identity/Actor/membership/enrollment/assignment разделены. Accounts выдаёт уполномоченный администратор образовательной организации, admin не reader; отзыв и scoped erasure не распространяются автоматически на B/общую Identity. D1–D5 и D4a–d сохранены; legal roles/основания/сроки REQUIRE LEGAL REVIEW.
+
+- [Reconciliation](L03-DECISION-RECONCILIATION.md): таблица противоречий и superseding decisions.
+- [План L1](L03-L1-IMPLEMENTATION-PLAN.md): synthetic Identity, Organization Scopes & Access Lifecycle, восемь slices.
+- [Readiness](L03-L1-READINESS.md): T01–T06 ACCEPTED; документационная готовность и OPEN E01–E06, отдельное разрешение L1 отсутствует.
+- [Результат](L03-RESULTS.md): evidence проверок документации и docs-only commit.
+
+Шесть основных экранов и учебные инварианты сохраняются. L1–L4 не начаты; никаких migrations, push/merge/deployment. T01–T06 согласованы; OPEN E01–E06 и отдельное разрешение L1 на synthetic data остаются. [Owner register](L03-OWNER-DECISION-REGISTER.md), [execution task](CODEX-TASK-L1-EXECUTION.md). Compliance status: NOT VERIFIED. Pilot readiness: NOT_READY.
+
+## L0.4 — E01–E06 consolidation
+
+Исторические L0–L0.3 sections выше сохранены как результаты checkpoints; их E OPEN superseded L0.4. E01–E06 ACCEPTED, T01–T06 сохранены; ADR-L16–L18/security specification и подробные восемь slices подготовлены. O01 concurrency/replay policy отдельно PROPOSED; S1–S3 могут быть отдельно разрешены sequentially. [Readiness](L03-L1-READINESS.md), [reconciliation](L04-DECISION-RECONCILIATION.md), [results](L04-RESULTS.md), [execution task](CODEX-TASK-L1-EXECUTION.md). L1 не начат/не разрешён; SYNTHETIC DATA ONLY; Compliance status: NOT VERIFIED; Pilot readiness: NOT_READY; LEGAL SOURCE NOT VERIFIED.

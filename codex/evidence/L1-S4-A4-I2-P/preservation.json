@@ -1,0 +1,12 @@
+{
+  "baseline_files": 382,
+  "changed_existing": [
+    "codex/L03-OWNER-DECISION-REGISTER.md"
+  ],
+  "original_register_prefix_preserved": true,
+  "branch_unchanged": true,
+  "head_unchanged": true,
+  "index_unchanged": true,
+  "all_probes_match": true,
+  "probes": 117
+}

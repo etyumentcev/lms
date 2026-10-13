@@ -1,0 +1,6 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+/home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs(214,19): error CS0266: Cannot implicitly convert type 'System.Guid?' to 'System.Guid'. An explicit conversion exists (are you missing a cast?) [/home/tea/github/lms/tests/Lms.Api.Tests/Lms.Api.Tests.csproj]
+/home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs(214,19): error CS8629: Nullable value type may be null. [/home/tea/github/lms/tests/Lms.Api.Tests/Lms.Api.Tests.csproj]

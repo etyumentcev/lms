@@ -1,0 +1,14 @@
+{"id": "fifo-open", "pid": 132903, "wchan": "wait_for_partner", "exit": -9, "kill_reap_ms": 1.3173680017644074, "scope": "interruptible surrogate only"}
+{"id": "fifo-read", "pid": 132904, "wchan": "anon_pipe_read", "exit": -9, "kill_reap_ms": 1.1472599981061649, "scope": "interruptible surrogate only"}
+{"id": "fifo-write", "pid": 132905, "wchan": "anon_pipe_write", "exit": -9, "kill_reap_ms": 1.143972000136273, "scope": "interruptible surrogate only"}
+{"id": "userspace-hang", "exit": -9, "kill_reap_ms": 1.181139003165299}
+{"id": "generation-toctou", "generation": 1, "new_epoch": 2, "declared_fence_ns": 21847213028702, "observed_mutation_ns": 21847216195396, "bytes": 4, "sha256": "089001a35679a33ef3db0ca350db9b9a2f0136e0e327577b04b3b98127470961", "result": "COUNTEREXAMPLE: token check is not mutation fence"}
+{"id": "retained-fd-seal", "result": "COUNTEREXAMPLE: rename/chmod does not revoke writable FD", "sha256": "18a0c098c7fb0098093fc0fd619c8032ae193215c5f695d7f5eaafa28aa64d70"}
+{"id": "tcp-close-buffer", "close_ns": 21847217455989, "last_receive_ns": 21847317825648, "bytes_received_after_close": 65536, "result": "COUNTEREXAMPLE to close == client receive completion; NIC boundary unobserved"}
+{"id": "pg-config", "settings": [["PostgreSQL 17.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit", "on", "on", "on", "fdatasync", "f", "7694710441849249833", "1"]]}
+{"id": "pg-lost-ack", "commit_sent_ns": 21848423498350, "outcome_observed_ns": 21848426273681, "client_commit_response_read": false, "false_absence_before_commit": [["0"]], "serialized_resolve_twice": [["lost", "1", "Committed"], ["1"]], "result": "Committed exactly one effect; no replay"}
+{"id": "pg-rollback", "result": "confirmed ROLLBACK, fresh primary sees zero effects"}
+{"id": "pg-terminate-signal", "pid": 149, "signal_result": [["t"]], "backend_still_present": [["1"]], "elapsed_ms": 2.7504280005814508, "result": "COUNTEREXAMPLE: signal acknowledgement is not process exit; SIGSTOP surrogate, not WAL fault"}
+{"id": "pg-clean-restart", "effects": [["lost"]], "result": "history survived clean container restart; not power-loss or failover proof"}
+{"id": "nginx-trickle", "duration_seconds": 1.6607317849993706, "proxy_read_timeout_seconds": 1, "body_bytes": 10, "result": "COUNTEREXAMPLE: ongoing traffic exceeds inactivity timeout total"}
+{"id": "cleanup", "removed_containers": ["3225abdf32415f46bdf08874e31b896b17578949b7a806f467a7f1a2f1bea3b7", "7182b3647d2351cb146a7460c679355b27ee5ac4a6f052a35afd9cc1bb0536f9"]}

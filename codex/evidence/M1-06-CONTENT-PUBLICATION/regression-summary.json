@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-10-13",
+  "scope": "M1-06 Content Import & Publication",
+  "results": {
+    "solutionBuild": { "status": "passed", "warnings": 0, "errors": 0 },
+    "m1_06ApiTargeted": { "passed": 3, "failed": 0 },
+    "m1_06ChromiumHttps": { "passed": 1, "failed": 0 },
+    "b07aCompiler": { "passed": 74, "failed": 0 },
+    "b07bImporter": { "passed": 49, "failed": 0 },
+    "frontendVitest": { "passed": 411, "failed": 0 },
+    "frontendTypeScript": { "status": "passed" },
+    "frontendProductionBuild": { "status": "passed" },
+    "domain": { "passed": 43, "failed": 0 },
+    "application": { "passed": 369, "failed": 0 },
+    "infrastructure": { "passed": 342, "failed": 0 },
+    "api": { "passed": 381, "skippedOptIn": 10, "failed": 0 }
+  },
+  "screenshots": [
+    "01-import-diagnostics-invalid.png",
+    "02-import-ready.png",
+    "03-preview-student.png",
+    "04-preview-teacher.png",
+    "05-published-v1-assigned-g1.png",
+    "06-published-v2.png",
+    "07-student-v1-assignments-after-v2.png"
+  ]
+}

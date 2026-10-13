@@ -18,14 +18,14 @@ public sealed class AttachmentConsistencyTests(ApiPostgresFixture fixture) : ICl
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async Task Database_failure_compensates_only_if_commit_is_known_absent(bool afterCommit)
+    public async Task Database_failure_retains_original_without_assuming_rollback_or_replaying(bool afterCommit)
     {
         await using var app = await fixture.CreateApp(); await using var source = app.Open();
         await using var db = new LmsDbContext(new DbContextOptionsBuilder<LmsDbContext>().UseNpgsql(source.Database.GetConnectionString())
             .AddInterceptors(new FailSave(afterCommit)).Options);
         await Assert.ThrowsAsync<InvalidOperationException>(() => Upload(Service(db, Storage(app))));
         Assert.Equal(afterCommit ? 1 : 0, await source.StoredAttachments.CountAsync());
-        Assert.Equal(afterCommit ? 1 : 0, Directory.GetFiles(app.StorageRoot).Length);
+        Assert.Single(Directory.GetFiles(app.StorageRoot));
     }
 
     [Fact]

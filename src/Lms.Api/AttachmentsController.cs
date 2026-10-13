@@ -18,6 +18,7 @@ public sealed class AttachmentsController(AttachmentService service, AttachmentO
     public async Task<ActionResult<AttachmentResult>> Upload(CancellationToken ct)
     {
         var actor = actors.Map(User);
+        if (actor.Role != Lms.Domain.AuthorRole.Student) throw new UseCaseException("Forbidden");
         if (!Request.HasFormContentType || !Request.ContentType!.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
             throw new UseCaseException("UnsupportedAttachmentType");
         // The transport envelope is bounded independently of any claimed file length.
@@ -38,7 +39,7 @@ public sealed class AttachmentsController(AttachmentService service, AttachmentO
         return Created(result.PreviewUrl, result);
     }
 
-    [HttpGet("attachments/{id:guid}/content")]
+    [NonAction]
     public async Task<IActionResult> Content(Guid id, CancellationToken ct)
     {
         var result = await service.Open(actors.Map(User), id, ct);

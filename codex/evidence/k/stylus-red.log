@@ -1,0 +1,286 @@
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ❯ src/test/annotations.test.tsx (27 tests | 3 failed) 312ms
+   ✓ normalizes actual image rectangle at zoom/pan/resize 10 20 1ms
+   ✓ normalizes actual image rectangle at zoom/pan/resize -200 80 0ms
+   ✓ normalizes actual image rectangle at zoom/pan/resize 5 3 0ms
+   ✓ normalizes actual image rectangle at zoom/pan/resize 0 0 0ms
+   ✓ rejects contain margins and zero-size geometry 0ms
+   ✓ undo redo restores a stroke and a new edit clears redo 0ms
+   ✓ eraser intersects segments rather than just points 0ms
+   ✓ bounds undo memory 1ms
+   ✓ accepts empty annotations and rejects invalid metadata 0ms
+   ✓ rejects invalid coordinates NaN 0ms
+   ✓ rejects invalid coordinates Infinity 0ms
+   ✓ rejects invalid coordinates -1 0ms
+   ✓ rejects invalid coordinates 1.1 0ms
+   ✓ draws mouse and supports undo/redo/eraser 115ms
+   ✓ draws pen and supports undo/redo/eraser 27ms
+   ✓ touch defaults to gestures and opt-in allows drawing 20ms
+   ✓ multiple touches cancel the provisional stroke 14ms
+   ✓ pointer cancellation never commits a stroke 11ms
+   ✓ student has no editing tools and drawing cannot mutate 9ms
+   ✓ color and thickness are accessible controls 10ms
+   ✓ page switching preserves independent strokes, zoom and undo history 39ms
+   ✓ fullscreen fallback enters, traps focus and exits on Escape 13ms
+   ✓ empty coalesced event arrays still record the pointermove sample 9ms
+   ✓ image decode failure exposes retry without an intercepting canvas 14ms
+   × creates valid unique stroke UUIDs without secure-context randomUUID 3ms
+   × pen mode reserves the drawing surface before contact; Hand permits browser pinch 11ms
+   × stylus draws when randomUUID is unavailable 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/annotations.test.tsx > creates valid unique stroke UUIDs without secure-context randomUUID
+AssertionError: expected 1 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 1
+
+ ❯ src/test/annotations.test.tsx:64:31
+     62|   try {
+     63|     const ids = Array.from({ length: 100 }, strokeId);
+     64|     expect(new Set(ids).size).toBe(100);
+       |                               ^
+     65|     for (const id of ids) expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}…
+     66|   } finally { randomUUID.mockRestore(); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/test/annotations.test.tsx > pen mode reserves the drawing surface before contact; Hand permits browser pinch
+AssertionError: expected 'pinch-zoom' to be 'none' // Object.is equality
+
+Expected: "none"
+Received: "pinch-zoom"
+
+ ❯ src/test/annotations.test.tsx:70:38
+     68| it('pen mode reserves the drawing surface before contact; Hand permits…
+     69|   render(<Editor />); await screen.findByRole('img');
+     70|   expect(canvas().style.touchAction).toBe('none');
+       |                                      ^
+     71|   fireEvent.click(screen.getByText('Ластик')); expect(canvas().style.t…
+     72|   fireEvent.click(screen.getByText('Рука')); expect(canvas().style.tou…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/test/annotations.test.tsx > stylus draws when randomUUID is unavailable
+TestingLibraryElementError: Unable to find an element with the text: /Графические пометки: 1/. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"annotation-photo"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Инструменты фотографии"[39m
+        [33mclass[39m=[32m"annotation-tools"[39m
+        [33mrole[39m=[32m"group"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mПеро[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mЛастик[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mРука[0m
+        [36m</button>[39m
+        [36m<label>[39m
+          [0mЦвет [0m
+          [36m<input[39m
+            [33maria-label[39m=[32m"Цвет пера"[39m
+            [33mtype[39m=[32m"color"[39m
+            [33mvalue[39m=[32m"#dc2626"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<label>[39m
+          [0mТолщина [0m
+          [36m<select[39m
+            [33maria-label[39m=[32m"Толщина пера"[39m
+          [36m>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"0.0015"[39m
+            [36m>[39m
+              [0mТонкая[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"0.003"[39m
+            [36m>[39m
+              [0mСредняя[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"0.006"[39m
+            [36m>[39m
+              [0mТолстая[0m
+            [36m</option>[39m
+          [36m</select>[39m
+        [36m</label>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mОтмена[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mПовтор[0m
+        [36m</button>[39m
+        [36m<label>[39m
+          [36m<input[39m
+            [33mtype[39m=[32m"checkbox"[39m
+          [36m/>[39m
+          [0mРисовать пальцем[0m
+        [36m</label>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Уменьшить фото"[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mdisabled[39m=[32m""[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m−[0m
+        [36m</button>[39m
+        [36m<output[39m
+          [33maria-label[39m=[32m"Масштаб"[39m
+        [36m>[39m
+          [0m100[0m
+          [0m%[0m
+        [36m</output>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Увеличить фото"[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0m+[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"button button--secondary"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mВписать страницу[0m
+        [36m</button>[39m
+        [36m<label>[39m
+          [36m<input[39m
+            [33mchecked[39m=[32m""[39m
+            [33mtype[39m=[32m"checkbox"[39m
+          [36m/>[39m
+          [0mПоказать пометки[0m
+        [36m</label>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"small muted"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m>[39m
+        [0mГрафические пометки: [0m
+        [0m0[0m
+        [0m штр. [0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33maria-label[39m=[32m"Просмотр фото"[39m
+        [33mclass[39m=[32m"annotation-viewport"[39m
+        [33mrole[39m=[32m"region"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"annotation-image"[39m
+          [33mstyle[39m=[32m"width: min(100%, calc(var(--annotation-height, 65vh) * 0.5)); transform: translate(0px, 0px) scale(1);"[39m
+        [36m>[39m
+          [36m<img[39m
+            [33malt[39m=[32m"Страница 1 — фото решения"[39m
+            [33msrc[39m=[32m"blob:original"[39m
+          [36m/>[39m
+          [36m<a[39m
+            [33maria-label[39m=[32m"Открыть страницу 1 в полном размере (новая вкладка)"[39m
+            [33mclass[39m=[32m"annotation-original"[39m
+            [33mhref[39m=[32m"blob:original"[39m
+            [33mrel[39m=[32m"noopener noreferrer"[39m
+            [33mtarget[39m=[32m"_blank"[39m
+          [36m>[39m
+            [0mОткрыть оригинал[0m
+          [36m</a>[39m
+          [36m<canvas[39m
+            [33maria-label[39m=[32m"Слой пометок страницы 1"[39m
+            [33mstyle[39m=[32m"touch-action: pinch-zoom;"[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"small muted"[39m
+      [36m>[39m
+        [0mОригинал доступен по ссылке под фотографией. Масштаб — кнопками; перемещение — рукой или стрелками. Для пера касания пальцем отключены по умолчанию.[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.pnpm/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/test/annotations.test.tsx:77:88
+     75|   const randomUUID = vi.spyOn(crypto, 'randomUUID');
+     76|   Object.defineProperty(crypto, 'randomUUID', { value: undefined, conf…
+     77|   try { render(<Editor />); await screen.findByRole('img'); draw('pen'…
+       |                                                                                        ^
+     78|   finally { randomUUID.mockRestore(); }
+     79| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+TypeError: crypto.randomUUID is not a function
+ ❯ start src/components/annotations/AnnotationPhoto.tsx:72:30
+     70|       if (state.strokes.length >= 2000) { setNotice('Достигнут лимит ш…
+     71|       gesture.current = { id: event.pointerId, x: event.clientX, y: ev…
+     72|         stroke: { id: crypto.randomUUID(), tool: 'pen', color, width, …
+       |                              ^
+     73|     }
+     74|   }
+ ❯ executeDispatch node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:20804:9
+ ❯ runWithFiberInDEV node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13
+ ❯ processDispatchQueue node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:20854:19
+ ❯ node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:21423:9
+ ❯ batchedUpdates$1 node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:3437:40
+ ❯ dispatchEventForPluginEventSystem node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:21008:7
+ ❯ dispatchEvent node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:26142:11
+ ❯ dispatchDiscreteEvent node_modules/.pnpm/react-dom@19.3.0_react@19.3.0/node_modules/react-dom/cjs/react-dom-client.development.js:26110:11
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/.pnpm/jsdom@30.1.2/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+
+This error originated in "src/test/annotations.test.tsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "stylus draws when randomUUID is unavailable". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 24 passed (27)
+     Errors  1 error
+   Start at  23:31:47
+   Duration  916ms (transform 94ms, setup 79ms, import 166ms, tests 312ms, environment 293ms)

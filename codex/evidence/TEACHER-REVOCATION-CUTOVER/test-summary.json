@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-12",
+  "scope": "Teacher Revocation HTTP cutover, React teacher migration, 34-failure regression and real React journey",
+  "source": {
+    "repository": "/home/tea/github/lms",
+    "branch": "codex/l1-s4-jwt-api-authorization",
+    "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+    "indexSha256": "2a0e936a9f7a3395633ba3ee7084970af663a4412cec6f92f72b765a264f56a4",
+    "commitOrDeployPerformed": false
+  },
+  "final": [
+    {
+      "suite": "Domain",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "Application",
+      "passed": 369,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "Infrastructure",
+      "passed": 334,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "API with browser opt-in",
+      "passed": 383,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "00:15:26",
+      "command": "env LMS_BROWSER_READ=1 LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome /tmp/b07c2g/sdk/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj --no-build --no-restore -m:1",
+      "trxDuringRun": "/tmp/lms-teacher-cutover-final-api/_tea-Swift-SFG16-74_2026-10-12_14_25_35_net10.0.trx"
+    },
+    {
+      "suite": "Frontend Vitest",
+      "files": 16,
+      "passed": 408,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "Frontend production build",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "Content compiler",
+      "passed": 74,
+      "failed": 0,
+      "skipped": 0,
+      "command": "SAPIENTUM_CONTENT_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node NODE_PATH=/home/tea/github/lms/src/Lms.Web/node_modules python3 -m unittest discover -s tests/content_compiler -v"
+    },
+    {
+      "suite": "Content importer",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "ReactTeacherJourneyTests targeted after final rebuild",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "00:00:15"
+    }
+  ],
+  "browserEvidence": {
+    "result": "../TEACHER-REVOCATION-REACT-E2E/result.json",
+    "screenshot": "../TEACHER-REVOCATION-REACT-E2E/react-teacher-journey.png",
+    "intermediateFailureRetained": "../TEACHER-REVOCATION-REACT-E2E/failure.json",
+    "productionReactBundle": true,
+    "realChromium": true,
+    "https": true,
+    "postgresql": true,
+    "privateFileStorage": true,
+    "browserLoginRefreshLogout": false,
+    "preissuedTokens": true,
+    "preseededCourseGroupAssignment": true,
+    "imageInput": "valid synthetic PNG file bytes, not a camera photograph",
+    "persistedAnnotation": "one mouse-emulated stroke on one page"
+  },
+  "intermediateRuns": [
+    {
+      "suite": "Infrastructure",
+      "passed": 332,
+      "failed": 2,
+      "resolution": "Guard historical schemas without AttachmentScopes and keep direct legacy stores fail-closed; final full rerun passed 334."
+    },
+    {
+      "suite": "Frontend invocation",
+      "outcome": "ENVIRONMENT ERROR",
+      "detail": "node was not on PATH; canonical runtime rerun passed 408."
+    },
+    {
+      "suite": "Content compiler invocation 1",
+      "outcome": "E_CONFIG",
+      "reportedSubcases": 132,
+      "detail": "Pinned Node/NODE_PATH omitted; canonical configured rerun passed 74."
+    },
+    {
+      "suite": "Content compiler invocation 2",
+      "outcome": "E_CONFIG",
+      "reportedSubcases": 131,
+      "detail": "Pinned runtime configuration still incomplete; canonical configured rerun passed 74."
+    },
+    {
+      "suite": "React browser journey construction",
+      "outcome": "INTERMEDIATE HARNESS FAILURES RETAINED",
+      "detail": "Selector wording, fixture clock order, token persistence, ambiguous locators, open readline handle and unordered collection oracle were corrected. Final targeted and full API browser runs pass."
+    }
+  ],
+  "baselineFailures": {
+    "count": 34,
+    "source": "../TEACHER-CONTEXT-ENFORCEMENT/remaining-api-failures.json",
+    "finalDisposition": "All named tests are in the final API run; 0 failures and 0 skips. Per-item classification is in ../../TEACHER-REVOCATION-CUTOVER-RESULTS.md."
+  },
+  "acceptance": {
+    "productionReady": false,
+    "auth01Through04Accepted": false,
+    "m1": {
+      "M1-01": "BLOCKED",
+      "M1-02": "PARTIAL",
+      "M1-08": "PARTIAL",
+      "M1-09": "PARTIAL",
+      "M1-11": "BLOCKED"
+    }
+  }
+}

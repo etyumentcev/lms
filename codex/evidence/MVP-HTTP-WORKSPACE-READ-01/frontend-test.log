@@ -1,0 +1,32 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/course.test.tsx (34 tests) 1331ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 1704ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  490ms
+   ✓ student traverses list → course → lesson → assignment → history and returns to the same lesson  374ms
+ ✓ src/test/lesson.test.tsx (40 tests) 2263ms
+     ✓ keeps shell with header, row and context skeletons  324ms
+ ✓ src/test/history.test.tsx (37 tests) 2903ms
+     ✓ NotStarted reads workspace only, never null work or mutation  493ms
+ ✓ src/test/shell.test.tsx (14 tests) 662ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 3544ms
+     ✓ keeps shell, header, filter labels, row and context skeletons while loading  340ms
+     ✓ sends documented Ученик · UUID filter only on submit  304ms
+ ✓ src/test/attachments.test.tsx (19 tests) 807ms
+ ✓ src/test/api.test.ts (20 tests) 18ms
+ ✓ src/test/annotations.test.tsx (28 tests) 547ms
+ ✓ src/test/problem.test.tsx (53 tests) 4008ms
+ ✓ src/test/primitives.test.tsx (15 tests) 271ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 8ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 5703ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  369ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  445ms
+     ✓ allows corrected input after 422 FeedbackRequired  341ms
+
+ Test Files  13 passed (13)
+      Tests  387 passed (387)
+   Start at  04:32:48
+   Duration  6.99s (transform 1.48s, setup 1.61s, import 3.67s, tests 23.77s, environment 7.45s)
+

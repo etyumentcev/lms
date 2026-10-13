@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Lms.Application;
+using Lms.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace Lms.Api;
 
 public sealed record SubmitRequest(string? BodyMarkdown, [Required] Guid[] AttachmentIds, long? ExpectedVersion);
 public sealed record MessageRequest([Required] string BodyMarkdown, Guid? ReplyToMessageId, [Required] Guid[] AttachmentIds);
-public sealed record ReviewRequest([Required] Guid? SubmissionId, string? FeedbackMarkdown, [Required] long? ExpectedVersion);
+public sealed record ReviewRequest([Required] Guid? SubmissionId, string? FeedbackMarkdown, [Required] long? ExpectedVersion, AnnotatedAttachment[]? Annotations = null);
 
 [ApiController]
 [Authorize]
@@ -19,18 +20,18 @@ public sealed class CommandsController(ProblemWorkService service, IActorMapper 
         => StatusCode(StatusCodes.Status201Created, await service.SubmitSolution(actors.Map(User), assignmentId,
             request.BodyMarkdown, request.AttachmentIds, request.ExpectedVersion, cancellationToken));
 
-    [HttpPost("problem-works/{problemWorkId}/messages")]
+    [NonAction]
     public async Task<ActionResult<MessageResult>> Message(Guid problemWorkId, MessageRequest request, CancellationToken cancellationToken)
         => Ok(await service.PostMessage(actors.Map(User), problemWorkId, request.BodyMarkdown,
             request.ReplyToMessageId, request.AttachmentIds, cancellationToken));
 
-    [HttpPost("problem-works/{problemWorkId}/reviews/needs-revision")]
+    [NonAction]
     public async Task<ActionResult<ReviewResult>> Revise(Guid problemWorkId, ReviewRequest request, CancellationToken cancellationToken)
         => Ok(await service.RequestRevision(actors.Map(User), problemWorkId, request.SubmissionId!.Value,
-            request.FeedbackMarkdown ?? "", request.ExpectedVersion!.Value, cancellationToken));
+            request.FeedbackMarkdown ?? "", request.ExpectedVersion!.Value, cancellationToken, request.Annotations));
 
-    [HttpPost("problem-works/{problemWorkId}/reviews/accept")]
+    [NonAction]
     public async Task<ActionResult<ReviewResult>> Accept(Guid problemWorkId, ReviewRequest request, CancellationToken cancellationToken)
         => Ok(await service.AcceptSubmission(actors.Map(User), problemWorkId, request.SubmissionId!.Value,
-            request.FeedbackMarkdown, request.ExpectedVersion!.Value, cancellationToken));
+            request.FeedbackMarkdown, request.ExpectedVersion!.Value, cancellationToken, request.Annotations));
 }

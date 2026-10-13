@@ -1,0 +1,11 @@
+{
+  "baseline_files": 772,
+  "changed_baseline_files": [],
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "index_unchanged": true,
+  "branch_unchanged": true,
+  "head_unchanged": true,
+  "missing_local_links": [],
+  "trailing_whitespace_lines": []
+}
