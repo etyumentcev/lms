@@ -17,20 +17,29 @@ public sealed class LocalFileAttachmentStorage(LocalAttachmentStorageOptions opt
 
     public async Task Store(string key, Stream content, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var target = Location(key);
-        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+        var directory = Path.GetDirectoryName(target)!;
+        if (OperatingSystem.IsWindows()) Directory.CreateDirectory(directory);
+        else Directory.CreateDirectory(directory, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
         var temporary = target + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
-            await using (var file = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None,
-                81920, FileOptions.Asynchronous | FileOptions.WriteThrough))
+            var fileOptions = new FileStreamOptions {
+                Mode = FileMode.CreateNew, Access = FileAccess.Write, Share = FileShare.None,
+                BufferSize = 81920, Options = FileOptions.Asynchronous | FileOptions.WriteThrough };
+            if (!OperatingSystem.IsWindows()) fileOptions.UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+            await using (var file = new FileStream(temporary, fileOptions))
             {
                 await content.CopyToAsync(file, cancellationToken);
                 await file.FlushAsync(cancellationToken);
             }
+            cancellationToken.ThrowIfCancellationRequested();
             File.Move(temporary, target, overwrite: false);
         }
-        finally { if (File.Exists(temporary)) File.Delete(temporary); }
+        // Cancelled staging remains private for separately bounded cleanup; do not
+        // start a new filesystem delete after the caller's execution cutoff.
+        finally { if (!cancellationToken.IsCancellationRequested && File.Exists(temporary)) File.Delete(temporary); }
     }
 
     public Task<Stream> Open(string key, CancellationToken cancellationToken)

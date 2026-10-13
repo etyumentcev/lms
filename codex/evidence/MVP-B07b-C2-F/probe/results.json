@@ -1,0 +1,334 @@
+[
+  {
+    "name": "full EF chain S2 -\u003E S3, repeated migrate, model snapshot",
+    "detail": "8 migrations; PASS"
+  },
+  {
+    "name": "candidate additive schema after full chain and repeated EF migrate",
+    "detail": "PASS"
+  },
+  {
+    "name": "Ready blocked until compatibility",
+    "detail": "P0001"
+  },
+  {
+    "name": "unsealed Ready",
+    "detail": "P0001"
+  },
+  {
+    "name": "partial descriptors",
+    "detail": "P0001"
+  },
+  {
+    "name": "stale Version",
+    "detail": "P0001"
+  },
+  {
+    "name": "descriptor path traversal",
+    "detail": "P0001"
+  },
+  {
+    "name": "cross generation descriptor",
+    "detail": "P0001"
+  },
+  {
+    "name": "journal failure rolls back Ready \u002B audit",
+    "detail": "23514"
+  },
+  {
+    "name": "sealed Ready \u002B atomic journal/audit \u002B positive read",
+    "detail": "PASS"
+  },
+  {
+    "name": "lost ACK injection, journal reconciliation, no duplicate audit",
+    "detail": "application-boundary ACK suppression; not wire loss"
+  },
+  {
+    "name": "same OperationId different fingerprint",
+    "detail": "23505"
+  },
+  {
+    "name": "terminal Ready cannot Complete again",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable owner=gen_random_uuid()",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable org=gen_random_uuid()",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable course=\u0027foreign\u0027",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable context=gen_random_uuid()",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable context_version=2",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable binding_from=binding_from\u002Binterval \u00271 second\u0027",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable expires=expires\u002Binterval \u00271 hour\u0027",
+    "detail": "23514"
+  },
+  {
+    "name": "immutable admitted=admitted\u002Binterval \u00271 hour\u0027",
+    "detail": "23514"
+  },
+  {
+    "name": "retained tombstone",
+    "detail": "23514"
+  },
+  {
+    "name": "journal append-only",
+    "detail": "23514"
+  },
+  {
+    "name": "unknown state",
+    "detail": "23514"
+  },
+  {
+    "name": "wrong owner",
+    "detail": "P0001"
+  },
+  {
+    "name": "wrong org",
+    "detail": "P0001"
+  },
+  {
+    "name": "wrong org/owner read deny",
+    "detail": "PASS"
+  },
+  {
+    "name": "serving DELETE c2f.\u0022ImportAttempt\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT c2f.\u0022ImportAttempt\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE c2f.\u0022ImportAttempt\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE c2f.\u0022ImportAttempt\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving DELETE c2f.\u0022ImportTransitions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT c2f.\u0022ImportTransitions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE c2f.\u0022ImportTransitions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE c2f.\u0022ImportTransitions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving DELETE c2f.\u0022ProcessingGuard\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT c2f.\u0022ProcessingGuard\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE c2f.\u0022ProcessingGuard\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE c2f.\u0022ProcessingGuard\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving DELETE public.\u0022ProcessingRestrictions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT public.\u0022ProcessingRestrictions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE public.\u0022ProcessingRestrictions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE public.\u0022ProcessingRestrictions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving DELETE public.\u0022CourseContextBindings\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT public.\u0022CourseContextBindings\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE public.\u0022CourseContextBindings\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE public.\u0022CourseContextBindings\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving DELETE public.\u0022ProcessingContextVersions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving INSERT public.\u0022ProcessingContextVersions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving UPDATE public.\u0022ProcessingContextVersions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving TRUNCATE public.\u0022ProcessingContextVersions\u0022",
+    "detail": "42501"
+  },
+  {
+    "name": "serving descriptors unreadable",
+    "detail": "42501"
+  },
+  {
+    "name": "serving cannot call internal command",
+    "detail": "42501"
+  },
+  {
+    "name": "restricted executor positive control",
+    "detail": "PASS"
+  },
+  {
+    "name": "missing context admission",
+    "detail": "P0001"
+  },
+  {
+    "name": "no active binding",
+    "detail": "P0001"
+  },
+  {
+    "name": "ambiguous overlapping context rejected by base schema",
+    "detail": "23P01"
+  },
+  {
+    "name": "ambiguous count fail-closed predicate",
+    "detail": "SQL predicate only; stored ambiguity rejected 23P01"
+  },
+  {
+    "name": "authority negative Student",
+    "detail": "P0001"
+  },
+  {
+    "name": "authority negative OrgAdmin",
+    "detail": "P0001"
+  },
+  {
+    "name": "authority negative group-only",
+    "detail": "P0001"
+  },
+  {
+    "name": "authority negative generation-mismatch",
+    "detail": "P0001"
+  },
+  {
+    "name": "authority negative revoked",
+    "detail": "P0001"
+  },
+  {
+    "name": "authority negative wrong-course",
+    "detail": "P0001"
+  },
+  {
+    "name": "two Complete",
+    "detail": "wait -\u003E 40001; fresh retry -\u003E P0001; exactly one terminal transition"
+  },
+  {
+    "name": "cancel wins",
+    "detail": "wait -\u003E 40001; fresh retry -\u003E P0001; exactly one terminal transition"
+  },
+  {
+    "name": "Ready wins",
+    "detail": "wait -\u003E 40001; fresh retry -\u003E P0001; exactly one terminal transition"
+  },
+  {
+    "name": "Restriction commit -\u003E Ready",
+    "detail": "40001 then P0001; no Ready"
+  },
+  {
+    "name": "Ready commit -\u003E Restriction commit -\u003E read",
+    "detail": "40001 then committed restriction; read=false, metadata Ready retained"
+  },
+  {
+    "name": "COUNTEREXAMPLE phantom raw restriction bypass",
+    "detail": "raw restriction 00000 before Ready 00000; Serializable alone unsafe; later fresh read denies"
+  },
+  {
+    "name": "snapshot freshness ReadCommitted",
+    "detail": "00000"
+  },
+  {
+    "name": "snapshot freshness RepeatableRead",
+    "detail": "40001"
+  },
+  {
+    "name": "snapshot freshness Serializable",
+    "detail": "40001"
+  },
+  {
+    "name": "guard/attempt reversed lock order",
+    "detail": "40P01; victim abort, survivor released"
+  },
+  {
+    "name": "expiry during lock wait -\u003E Ready denied",
+    "detail": "P0001; clock_timestamp after lock; no sliding TTL"
+  },
+  {
+    "name": "Expired retained before physical cleanup",
+    "detail": "PASS"
+  },
+  {
+    "name": "DB abort after sealed metadata update",
+    "detail": "Ready \u002B audit \u002B journal rolled back; FS orphan tested separately"
+  },
+  {
+    "name": "existing writer guard bypass",
+    "detail": "restriction insert/withdrawal, binding closure, context insert all 00000 while guard locked"
+  },
+  {
+    "name": "admission fingerprint conflict",
+    "detail": "23505"
+  },
+  {
+    "name": "admission idempotency",
+    "detail": "same id and no second admission"
+  },
+  {
+    "name": "LIMIT expiry after Ready check before COMMIT",
+    "detail": "00000 commit after deadline; fresh read=false; no commit-time deadline proof"
+  },
+  {
+    "name": "actual EF Add/SaveChanges bypasses held candidate guard",
+    "detail": "PASS"
+  },
+  {
+    "name": "missing guard denies admission",
+    "detail": "P0001"
+  }
+]

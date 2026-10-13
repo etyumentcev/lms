@@ -6,7 +6,7 @@ namespace Lms.Infrastructure;
 
 // Use a dedicated context per operation, as with other persistence adapters.
 // Not registered at public ingress until S4/S5 authorization exists.
-public sealed class PostgresIdentityMapping(LmsDbContext db, TimeProvider clock) : IIdentityMapping
+public sealed class PostgresIdentityMapping(LmsDbContext db, TimeProvider clock, bool restrictedCapabilities = false) : IIdentityMapping
 {
     public async Task<IdentityLink> CreateInactive(Guid userId, Guid actorId, Guid provisioningOrgId,
         string userName, CancellationToken cancellationToken = default)
@@ -17,6 +17,17 @@ public sealed class PostgresIdentityMapping(LmsDbContext db, TimeProvider clock)
         if (db.ChangeTracker.Entries().Any())
             throw new InvalidOperationException("Identity creation requires a fresh, dedicated DbContext.");
         await using var tx = await db.Database.BeginTransactionAsync(cancellationToken);
+        if (restrictedCapabilities)
+        {
+            // Only the trusted internal provisioning LOGIN can execute this capability.
+            // IDs are explicit mapping selectors, never evidence of caller authority.
+            var normalized = new UpperInvariantLookupNormalizer().NormalizeName(userName);
+            var at = clock.GetUtcNow();
+            await db.Database.ExecuteSqlInterpolatedAsync(
+                $"SELECT public.s2_create_inactive({userId}, {actorId}, {provisioningOrgId}, {userName}, {normalized}, {at})", cancellationToken);
+            await tx.CommitAsync(cancellationToken);
+            return new IdentityLink(userId, actorId, false);
+        }
         // Explicit actor ID only. Never guess an association or reassign an existing mapping.
         if (!await db.Set<ActorRecord>().AnyAsync(x => x.ActorId == actorId, cancellationToken))
             db.Add(new ActorRecord { ActorId = actorId });
@@ -27,9 +38,10 @@ public sealed class PostgresIdentityMapping(LmsDbContext db, TimeProvider clock)
             ProvisioningOrgId = provisioningOrgId });
         db.Add(new AccountSecurityState { UserId = userId, State = "Enabled", CredentialEpoch = 1,
             Version = 1, ChangedAt = clock.GetUtcNow() });
+        var auditAt = clock.GetUtcNow();
         db.Add(new SecurityAudit { AuditId = Guid.NewGuid(), ActorId = actorId,
             OrganizationId = provisioningOrgId, Action = "identity_mapping_created", SubjectRef = userId.ToString(),
-            Result = "inactive", TraceId = Guid.NewGuid().ToString(), OccurredAt = clock.GetUtcNow() });
+            Result = "inactive", TraceId = Guid.NewGuid().ToString(), OccurredAt = auditAt });
         await db.SaveChangesAsync(cancellationToken);
         await tx.CommitAsync(cancellationToken);
         return new IdentityLink(userId, actorId, false);

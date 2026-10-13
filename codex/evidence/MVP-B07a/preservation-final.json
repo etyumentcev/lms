@@ -1,0 +1,13 @@
+{
+  "checkedExistingFiles": 492,
+  "authorizedChangedExistingFiles": [
+    "tools/content_compiler/markdown.py",
+    "tools/content_compiler/model.py",
+    "tools/content_compiler/.gitignore",
+    "tools/content_compiler/compiler.py"
+  ],
+  "unexpectedChanges": [],
+  "headUnchanged": true,
+  "branchUnchanged": true,
+  "baselineScope": "Resume only; original baseline lost"
+}

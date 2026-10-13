@@ -4,3 +4,4 @@ coverage/
 *.tsbuildinfo
 
 .qa/
+dist-browser-read/

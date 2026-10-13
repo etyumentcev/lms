@@ -1,0 +1,32 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:01:01.95]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Teacher) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Teacher) [580 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   NotFound
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 138
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs:line 106
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs:line 106
+--- End of stack trace from previous location ---
+[xUnit.net 00:01:04.16]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Student) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(role: Student) [508 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   NotFound
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 138
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs:line 106
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_work_negative_student_teacher_group_course_org_and_parent(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkHttpTests.cs:line 106
+--- End of stack trace from previous location ---
+Results File: /tmp/protected-work-read/targeted2/_tea-Swift-SFG16-74_2026-10-12_05_06_35_net10.0.trx
+
+Failed!  - Failed:     2, Passed:    28, Skipped:     0, Total:    30, Duration: 1 m 8 s - Lms.Api.Tests.dll (net10.0)

@@ -6,7 +6,7 @@ public sealed record SubmissionResult(Guid ProblemWorkId, Guid SubmissionId, int
 public sealed record ReviewResult(Guid ReviewId, Guid? MessageId, ProblemWorkStatus Status, long Version);
 public sealed record MessageResult(Guid MessageId, DateTimeOffset CreatedAt);
 
-public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, TimeProvider time)
+public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, TimeProvider time, TeacherOperationContext? teacherOperation = null)
 {
     public async Task<SubmissionResult> SubmitSolution(Actor actor, Guid assignmentId, string? body,
         IReadOnlyList<Guid> attachmentIds, long? expectedVersion, CancellationToken cancellationToken = default)
@@ -41,6 +41,7 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
         string? feedback, long expectedVersion, bool revision, CancellationToken cancellationToken, IReadOnlyList<AnnotatedAttachment>? annotations)
     {
         EnsureRole(actor, AuthorRole.Teacher);
+        (teacherOperation ?? throw new UseCaseException("Forbidden")).Enter(actor, workId, "Review");
         var work = await Work(workId, cancellationToken);
         var assignment = await Assignment(work.ProblemAssignmentId, cancellationToken);
         await access.EnsureCanReview(actor, assignment, cancellationToken);
@@ -49,7 +50,9 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
         var review = revision
             ? work.RequestRevision(actor.Id, submissionId, feedback, time.GetUtcNow(), annotations)
             : work.Accept(actor.Id, submissionId, feedback, time.GetUtcNow(), annotations);
+        teacherOperation!.EnsureActive();
         await store.Save(work, expectedVersion, cancellationToken);
+        teacherOperation.EnsureActive();
         return new(review.Id, review.MessageId, work.Status, work.Version);
     }
 
@@ -57,6 +60,8 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
         Guid? replyTo, IReadOnlyList<Guid> attachmentIds, CancellationToken cancellationToken = default)
     {
         if (actor.Id == Guid.Empty || !Enum.IsDefined(actor.Role)) throw new UseCaseException("Unauthenticated");
+        if (actor.Role == AuthorRole.Teacher)
+            (teacherOperation ?? throw new UseCaseException("Forbidden")).Enter(actor, workId, "Message");
         var work = await Work(workId, cancellationToken);
         var assignment = await Assignment(work.ProblemAssignmentId, cancellationToken);
         if (actor.Role == AuthorRole.Student) assignment.EnsureCanSubmit(actor.Id);
@@ -65,7 +70,9 @@ public sealed class ProblemWorkService(IWorkStore store, IAccessPolicy access, T
         await access.EnsureCanUseAttachments(actor, ids, cancellationToken);
         var version = work.Version;
         var message = work.PostMessage(actor.Id, actor.Role, body, replyTo, ids, time.GetUtcNow());
+        teacherOperation?.EnsureActive();
         await store.Save(work, version, cancellationToken);
+        teacherOperation?.EnsureActive();
         return new(message.Id, message.CreatedAt);
     }
 

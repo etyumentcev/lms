@@ -1,5 +1,11 @@
 # ADR-L16 — Organization-scoped JWT и browser refresh-session
 
+> **2026-10-12 — bounded teacher revocation.** [Действующий scoped contract](../architecture/TEACHER-REVOCATION.md): fresh issue/refresh, JWT≤15m, immutable operation≤30m, revoke≤60m в выбранном bounded execution envelope. Для ordinary revoke двухчасовой D и D−10m superseded; неограниченный late COMMIT/egress не удовлетворяет новому контракту. История ниже сохранена. Processing/file safety, PRS1 и release gates не сняты; общий HTTP/physical bound NOT PROVEN.
+
+> **NR1 effective notice — 2026-10-11.** Связанные ссылки на T04/E03 для ранее linearized JWT читаются через N4 и D4/D5/D8 только в NR1 scope. E01/E02/O01 и credential issuance/rotation не получают learning late-COMMIT исключение; после позднего ACK нельзя выдавать JWT/cookie в истёкшем ответе. Отдельный S2 timing/serialization review остаётся обязательным.
+> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+
 2026-10-09. **ACCEPTED E01/E02** по L0.4 owner request §4. DTO/поля — engineering contract; **O01 ACCEPTED** по заданию L1/S2. [Реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). S1 ACCEPTED; только S2 AUTHORIZED, S3–S8 не разрешены. SYNTHETIC DATA ONLY. Временные гарантии — ADR-L15.
 
 ## Claims и authority

@@ -1,0 +1,18 @@
+{
+  "baselineFiles": 701,
+  "unchanged": 698,
+  "changed": [
+    "src/Lms.Web/src/App.tsx",
+    "src/Lms.Web/src/features/content/ContentPage.tsx",
+    "tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs"
+  ],
+  "unexpected": [],
+  "branchUnchanged": true,
+  "headUnchanged": true,
+  "indexUnchanged": true,
+  "existingEditsPreservedByReversingOnlyTaskAdditions": {
+    "src/Lms.Web/src/App.tsx": true,
+    "src/Lms.Web/src/features/content/ContentPage.tsx": true,
+    "tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-12",
+  "final": true,
+  "build": { "solution": "PASS", "warnings": 0, "errors": 0 },
+  "dotnet": {
+    "domain": { "passed": 43, "failed": 0, "skipped": 0 },
+    "application": { "passed": 369, "failed": 0, "skipped": 0 },
+    "infrastructure": { "passed": 334, "failed": 0, "skipped": 0 },
+    "api": { "passed": 375, "failed": 0, "skipped": 6 },
+    "authTargeted": { "passed": 2, "failed": 0, "skipped": 0 },
+    "reactBrowserAuthOptIn": { "passed": 1, "failed": 0, "skipped": 0 }
+  },
+  "frontend": {
+    "vitest": { "filesPassed": 17, "testsPassed": 411, "failed": 0 },
+    "productionBuild": "PASS"
+  },
+  "content": {
+    "compiler": { "passed": 74, "failed": 0 },
+    "importer": { "passed": 49, "failed": 0 }
+  },
+  "notes": [
+    "The six API skips are opt-in browser suites; the new M1-01 browser suite was run separately with LMS_BROWSER_READ=1 and passed.",
+    "An initial content-compiler invocation used a bundled Python without PyYAML and failed during discovery; the canonical /usr/bin/python3 rerun passed 74 tests.",
+    "No commit or deployment was performed."
+  ]
+}

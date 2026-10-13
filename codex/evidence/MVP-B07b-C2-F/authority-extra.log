@@ -1,0 +1,9 @@
+  Lms.Domain -> /tmp/b07c2f/repo/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /tmp/b07c2f/repo/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /tmp/b07c2f/repo/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /tmp/b07c2f/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /tmp/b07c2f/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+No test matches the given testcase filter `FullyQualifiedName~ComponentIssuanceTests|FullyQualifiedName~ComponentCommitAcknowledgementTests` in /tmp/b07c2f/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Results File: /tmp/b07c2f/regression/authority-extra.trx
+

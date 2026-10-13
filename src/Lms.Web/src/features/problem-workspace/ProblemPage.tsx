@@ -1,3 +1,4 @@
+import { ContentPage } from '../content/ContentPage';
 import { useEffect, useMemo, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import type { ApiClient, ApiError } from '../../api/client';
@@ -75,6 +76,7 @@ export function ProblemPage({ assignmentId, client }: { assignmentId: string; cl
         <LoadingSkeleton label="Загрузка вкладок" rows={1} /><LoadingSkeleton label="Загрузка решения" rows={4} /></>}
       {state.phase === 'error' && <Failure error={state.error} retry={reload} />}
       {data && <>
+        <Link className="text-link" to={`/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}`}>Назад к занятию</Link>
         <section className="problem-statement" aria-label="Условие задачи"><MarkdownContent>{data.problem.statementMarkdown}</MarkdownContent></section>
         <Tabs label="Задача" value={tab} onChange={value => setParams(tabParams(value))} items={[
           { id: 'solution', label: 'Решение', content: <>
@@ -100,4 +102,8 @@ export function ProblemPage({ assignmentId, client }: { assignmentId: string; cl
       </>}
     </div>
   </AppShell>;
+}
+
+export function ProblemContentPage({ path, client }: { path: string; client: ApiClient }) {
+  return <ContentPage kind="problem" path={path} client={client} />;
 }

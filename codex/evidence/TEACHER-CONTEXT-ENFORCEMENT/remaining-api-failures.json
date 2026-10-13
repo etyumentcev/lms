@@ -1,0 +1,172 @@
+[
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Concurrent_messages_return_one_conflict_without_partial_history",
+    "outcome": "Failed",
+    "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 500, ReasonPhrase: 'Internal Server Error', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"Accepted\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/9787587c-7a5e-486f-9771-48e93114f91c/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CM\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Student\", state: \"NeedsRevision\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/df7baece-d440-4382-be41-3dff7389e030/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9C4\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"matching-group\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/feb9a410-13fe-4002-90d8-e243a3dd08c6/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K922\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: False)",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: NotFound\nActual:   Forbidden"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Accepted\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/ec57f0bb-4d30-48f2-b5ed-a272961f76d1/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CF\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Successful_submission_claims_all_pages_in_request_order_and_history_remains_readable",
+    "outcome": "Failed",
+    "message": "System.Net.Http.HttpRequestException : Response status code does not indicate success: 403 (Forbidden)."
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Full_flow_preserves_history_and_message_does_not_change_status_or_attempt_count",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/7484ea2c-495a-467b-b89d-f17053b151f4/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9AH\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/needs-revision\")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Submitted_content_honors_teacher_group_access(matching: True)",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: OK\nActual:   Forbidden"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: null, studentGroup: \"group-a\", allowed: True)",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/7d267ff0-bdc9-465d-aa7b-e56483de082b/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K99K\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"NeedsRevision\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/69608100-aa88-4876-8713-f8d6da1c552d/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9C7\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Navigation_teacher_capability_survives_terminal_state_and_absent_work_never_has_work_id",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/6011e7c1-cb46-41b9-b2c6-79ddb4711287/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FH\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Concurrent_reviews_have_one_winner_and_no_partial_writes",
+    "outcome": "Failed",
+    "message": "Assert.Single() Failure: The collection did not contain any matching items\nExpected:   (predicate expression)\nCollection: [StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}, StatusCode: 403, ReasonPhrase: 'Forbidden', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:\n{\n  Content-Type: application/problem+json\n}]"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Message_capability_allows_command_and_fresh_GET_returns_incremented_version(role: \"Teacher\", state: \"Submitted\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/d0507d44-a054-4975-b709-471076e707c1/messages\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9CJ\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_group_scope_and_message_history_are_protected",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Every_command_rejects_invalid_body_and_missing_resource(suffix: \"reviews/accept\")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Complete_HTTP_workflow_preserves_versions_content_history_queue_and_progress",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/3c06e97b-611d-4362-88a6-168fc0267a08/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FC\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"accept\")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"matching-group\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/43539ca1-c5ea-4006-82d8-6f1b90bbdb2f/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K90Q\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"   \")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Teacher_review_and_message_require_course_or_matching_group(grant: True, teacherGroup: \"group-a\", studentGroup: \"group-a\", allowed: True)",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/98f27a90-bb70-4226-9430-ffdc82318ec3/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K98O\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: \"\")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/eeb73620-f6f1-42af-91bb-1b52d7427aca/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K95Q\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Existing_application_starts_and_Submit_Review_Revise_Accept_uses_runtime_login",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 200\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.CommandApiTests.Revision_requires_feedback(feedback: null)",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 422\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Foreign_and_unknown_resources_are_indistinguishable_and_pending_teacher_access_denied",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 404\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Queue_search_and_attempt_filters_exclude_earlier_rows_before_pagination",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/25a10c54-31da-439f-b9b2-b89c9e813390/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9FP\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Teacher_screen_endpoint_requires_role_and_scope_including_terminal_state(accepted: True)",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/b84f5047-d6cf-43ac-a8d5-ab29f35702d7/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9B6\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"needs-revision\", scenario: \"unavailable\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/d7dc87d7-f5d6-42df-acaa-a5a65aab7f6b/reviews/needs-revision\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K91A\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Annotation_commands_are_authorized_atomic_and_readable_in_history(decision: \"needs-revision\")",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: 409\nActual:   403"
+  },
+  {
+    "name": "Lms.Api.Tests.AttachmentApiTests.Teacher_owned_message_original_rechecks_revoked_grant",
+    "outcome": "Failed",
+    "message": "Assert.Equal() Failure: Values differ\nExpected: Created\nActual:   Forbidden"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Progress_counts_only_accepted_active_assignments_through_revision_and_withdrawal",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/14525923-d5b3-4eec-a9c5-be8aa7479321/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K9B9\"}"
+  },
+  {
+    "name": "Lms.Api.Tests.ContractApiTests.Teacher_capability_matches_review_authorization_including_historical_access(decision: \"accept\", scenario: \"withdrawn\")",
+    "outcome": "Failed",
+    "message": "{\"type\":\"urn:lms:error:Forbidden\",\"title\":\"Forbidden\",\"status\":403,\"instance\":\"/api/v1/problem-works/ab1920d0-2cb0-4d30-9fab-32b5bc5334ed/reviews/accept\",\"code\":\"Forbidden\",\"traceId\":\"0HNP84J06K906\"}"
+  }
+]

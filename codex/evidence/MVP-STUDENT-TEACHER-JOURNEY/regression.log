@@ -1,0 +1,39 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Domain.Tests -> /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/mvp-journey/regression/_tea-Swift-SFG16-74_2026-10-12_03_54_11_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    43, Skipped:     0, Total:    43, Duration: 69 ms - Lms.Domain.Tests.dll (net10.0)
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Application.Tests -> /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/mvp-journey/regression/_tea-Swift-SFG16-74_2026-10-12_03_54_12_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   340, Skipped:     0, Total:   340, Duration: 95 ms - Lms.Application.Tests.dll (net10.0)
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/mvp-journey/regression/_tea-Swift-SFG16-74_2026-10-12_03_54_13_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   257, Skipped:     0, Total:   257, Duration: 31 s - Lms.Infrastructure.Tests.dll (net10.0)
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:15.41]     Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes [FAIL]
+  Failed Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes [957 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 404
+Actual:   403
+  Stack Trace:
+     at Lms.Api.Tests.ContractApiTests.Error(HttpResponseMessage response, Int32 status, String code) in /home/tea/github/lms/tests/Lms.Api.Tests/ContractApiTests.cs:line 49
+   at Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes() in /home/tea/github/lms/tests/Lms.Api.Tests/StudentTeacherJourneyTests.cs:line 74
+   at Lms.Api.Tests.ContractApiTests.Photo_revision_journey_reopens_originals_history_and_progress_in_fresh_scopes() in /home/tea/github/lms/tests/Lms.Api.Tests/StudentTeacherJourneyTests.cs:line 79
+--- End of stack trace from previous location ---
+Results File: /tmp/mvp-journey/regression/_tea-Swift-SFG16-74_2026-10-12_03_54_47_net10.0.trx
+
+Failed!  - Failed:     1, Passed:   219, Skipped:     0, Total:   220, Duration: 1 m 11 s - Lms.Api.Tests.dll (net10.0)

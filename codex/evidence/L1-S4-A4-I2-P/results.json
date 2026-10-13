@@ -1,0 +1,938 @@
+[
+  {
+    "name": "prerequisite synthetic projection",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "CREATE ROLE\nCREATE ROLE\nCREATE ROLE\nCREATE ROLE\nREVOKE\nGRANT\nSET\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE FUNCTION\nCREATE TRIGGER\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\n",
+    "sql": "CREATE ROLE prs1_owner NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;\nCREATE ROLE prs1_writer NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;\nCREATE ROLE prs1_reader NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;\nCREATE ROLE prs1_app NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;\nREVOKE CREATE ON SCHEMA public FROM PUBLIC;\nGRANT USAGE,CREATE ON SCHEMA public TO prs1_owner;\nSET ROLE prs1_owner;\nCREATE TABLE \"Organizations\" (\"OrganizationId\" uuid PRIMARY KEY);\nCREATE TABLE \"Actors\" (\"ActorId\" uuid PRIMARY KEY);\nCREATE TABLE \"OrganizationMemberships\" (\"OrganizationId\" uuid,\"ActorId\" uuid,PRIMARY KEY(\"OrganizationId\",\"ActorId\"));\nCREATE TABLE \"ProcessingContextVersions\" (\"ContextId\" uuid,\"Version\" bigint,\"OrganizationId\" uuid,PRIMARY KEY(\"ContextId\",\"Version\",\"OrganizationId\"));\nCREATE TABLE \"ProblemWorks\" (\"Id\" uuid PRIMARY KEY);\nCREATE TABLE \"Submissions\" (\"Id\" uuid PRIMARY KEY,\"ProblemWorkId\" uuid, UNIQUE(\"ProblemWorkId\",\"Id\"));\nCREATE TABLE \"Reviews\" (\"Id\" uuid PRIMARY KEY);\nCREATE TABLE \"ProcessingRestrictions\" (\"RestrictionId\" uuid PRIMARY KEY,\"ContextId\" uuid NOT NULL,\"OriginVersion\" bigint NOT NULL,\"OrganizationId\" uuid NOT NULL,\"SubjectActorId\" uuid,\"ResourceRef\" text,\"Operations\" integer NOT NULL,\"State\" text NOT NULL,\"Version\" bigint NOT NULL,\nCHECK (\"State\" IN ('Active','Withdrawn') AND \"Version\">0 AND \"Operations\">0 AND \"Operations\"<=31),\nFOREIGN KEY(\"ContextId\",\"OriginVersion\",\"OrganizationId\") REFERENCES \"ProcessingContextVersions\"(\"ContextId\",\"Version\",\"OrganizationId\") ON DELETE RESTRICT,\nFOREIGN KEY(\"OrganizationId\",\"SubjectActorId\") REFERENCES \"OrganizationMemberships\"(\"OrganizationId\",\"ActorId\") ON DELETE RESTRICT);\nCREATE FUNCTION s1_stable_key() RETURNS trigger LANGUAGE plpgsql AS $$\n                DECLARE col text;\n                BEGIN\n                  IF TG_OP = 'DELETE' THEN RAISE EXCEPTION 'L1 root retained' USING ERRCODE = '23514'; END IF;\n                  FOREACH col IN ARRAY TG_ARGV LOOP\n                    IF to_jsonb(NEW)->col IS DISTINCT FROM to_jsonb(OLD)->col THEN\n                      RAISE EXCEPTION 'L1 stable association: %', col USING ERRCODE = '23514';\n                    END IF;\n                  END LOOP;\n                  RETURN NEW;\n                END $$;CREATE TRIGGER s1_restriction_provenance BEFORE UPDATE OR DELETE ON \"ProcessingRestrictions\" FOR EACH ROW EXECUTE FUNCTION s1_stable_key('RestrictionId','ContextId','OriginVersion','OrganizationId','SubjectActorId','ResourceRef','Operations');INSERT INTO \"Organizations\" VALUES ('00000000-0000-0000-0000-000000000001'); INSERT INTO \"Actors\" VALUES ('00000000-0000-0000-0000-000000000002'); INSERT INTO \"ProcessingContextVersions\" VALUES ('00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001');INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000010','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);"
+  },
+  {
+    "name": "unmodified candidate DDL",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nALTER TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nALTER TABLE\nCREATE FUNCTION\nCREATE TRIGGER\nCREATE FUNCTION\nCREATE TRIGGER\nCREATE FUNCTION\nCREATE TRIGGER\nCREATE FUNCTION\nCREATE TRIGGER\nCREATE TRIGGER\nCREATE TRIGGER\nCREATE TRIGGER\nCREATE TABLE\nCREATE TRIGGER\nREVOKE\nREVOKE\nREVOKE\n",
+    "sql": "SET ROLE prs1_owner;ALTER TABLE public.\"ProcessingRestrictions\"\n  ADD CONSTRAINT \"AK_Restriction_IdOrg\" UNIQUE (\"RestrictionId\", \"OrganizationId\");\n\nCREATE TABLE public.\"Prs1Decisions\" (\n  \"DecisionId\" uuid PRIMARY KEY,\n  \"OrganizationId\" uuid NOT NULL REFERENCES public.\"Organizations\"(\"OrganizationId\") ON DELETE RESTRICT,\n  \"AttestedByActorId\" uuid NOT NULL REFERENCES public.\"Actors\"(\"ActorId\") ON DELETE RESTRICT,\n  \"DecisionRef\" text COLLATE \"C\" NOT NULL CHECK (length(\"DecisionRef\") > 0),\n  \"ApprovedCommand\" jsonb NOT NULL CHECK (jsonb_typeof(\"ApprovedCommand\") = 'object'),\n  \"CommandDigest\" bytea NOT NULL CHECK (octet_length(\"CommandDigest\") = 32),\n  \"Evidence\" jsonb NOT NULL CHECK (jsonb_typeof(\"Evidence\") = 'object' AND \"Evidence\" <> '{}'::jsonb),\n  \"RecordedAt\" timestamptz NOT NULL DEFAULT clock_timestamp(),\n  UNIQUE (\"DecisionId\", \"OrganizationId\")\n);\n\nCREATE TABLE public.\"Prs1Commands\" (\n  \"CommandId\" uuid PRIMARY KEY,\n  \"OrganizationId\" uuid NOT NULL,\n  \"DecisionId\" uuid NOT NULL,\n  \"Kind\" text COLLATE \"C\" NOT NULL CHECK (\"Kind\" IN ('Issue','Reissue','Withdraw')),\n  \"NewRestrictionId\" uuid,\n  \"OldRestrictionId\" uuid,\n  \"ExpectedOldVersion\" bigint,\n  \"CommandDigest\" bytea NOT NULL CHECK (octet_length(\"CommandDigest\") = 32),\n  \"RecordedAt\" timestamptz NOT NULL DEFAULT clock_timestamp(),\n  UNIQUE (\"CommandId\", \"OrganizationId\"),\n  UNIQUE (\"NewRestrictionId\"),\n  FOREIGN KEY (\"DecisionId\", \"OrganizationId\") REFERENCES public.\"Prs1Decisions\"(\"DecisionId\", \"OrganizationId\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"OldRestrictionId\", \"OrganizationId\") REFERENCES public.\"ProcessingRestrictions\"(\"RestrictionId\", \"OrganizationId\") ON DELETE RESTRICT,\n  CHECK ((\"Kind\" = 'Issue' AND \"NewRestrictionId\" IS NOT NULL AND \"OldRestrictionId\" IS NULL AND \"ExpectedOldVersion\" IS NULL)\n      OR (\"Kind\" = 'Reissue' AND \"NewRestrictionId\" IS NOT NULL AND \"OldRestrictionId\" IS NOT NULL AND \"ExpectedOldVersion\" IS NOT NULL AND \"ExpectedOldVersion\" > 0 AND \"NewRestrictionId\" <> \"OldRestrictionId\")\n      OR (\"Kind\" = 'Withdraw' AND \"NewRestrictionId\" IS NULL AND \"OldRestrictionId\" IS NOT NULL AND \"ExpectedOldVersion\" IS NOT NULL AND \"ExpectedOldVersion\" > 0))\n);\n\nCREATE TABLE public.\"RestrictionBirths\" (\n  \"RestrictionId\" uuid PRIMARY KEY,\n  \"OrganizationId\" uuid NOT NULL,\n  \"BirthTransaction\" xid8 NOT NULL,\n  FOREIGN KEY (\"RestrictionId\", \"OrganizationId\") REFERENCES public.\"ProcessingRestrictions\"(\"RestrictionId\", \"OrganizationId\") ON DELETE RESTRICT\n);\n\nCREATE TABLE public.\"RestrictionSelectorProvenance\" (\n  \"RestrictionId\" uuid PRIMARY KEY,\n  \"OrganizationId\" uuid NOT NULL,\n  \"ContextId\" uuid NOT NULL,\n  \"OriginVersion\" bigint NOT NULL CHECK (\"OriginVersion\" > 0),\n  \"SubjectActorId\" uuid,\n  \"ProfileId\" text COLLATE \"C\" NOT NULL CHECK (\"ProfileId\" = 'PRS1'),\n  \"ContractRevision\" text COLLATE \"C\" NOT NULL CHECK (\"ContractRevision\" = 'R1-2026-10-10'),\n  \"CanonicalResourceRef\" text COLLATE \"C\" NOT NULL CHECK (octet_length(\"CanonicalResourceRef\") BETWEEN 1 AND 4096),\n  \"Operations\" integer NOT NULL CHECK (\"Operations\" BETWEEN 1 AND 7),\n  \"CommandId\" uuid NOT NULL UNIQUE,\n  \"DecisionId\" uuid NOT NULL,\n  \"RecordedAt\" timestamptz NOT NULL DEFAULT clock_timestamp(),\n  \"SupersedesRestrictionId\" uuid,\n  UNIQUE (\"RestrictionId\", \"OrganizationId\"),\n  FOREIGN KEY (\"RestrictionId\", \"OrganizationId\") REFERENCES public.\"ProcessingRestrictions\"(\"RestrictionId\", \"OrganizationId\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"ContextId\", \"OriginVersion\", \"OrganizationId\") REFERENCES public.\"ProcessingContextVersions\"(\"ContextId\", \"Version\", \"OrganizationId\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"OrganizationId\", \"SubjectActorId\") REFERENCES public.\"OrganizationMemberships\"(\"OrganizationId\", \"ActorId\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"CommandId\", \"OrganizationId\") REFERENCES public.\"Prs1Commands\"(\"CommandId\", \"OrganizationId\") ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED,\n  FOREIGN KEY (\"DecisionId\", \"OrganizationId\") REFERENCES public.\"Prs1Decisions\"(\"DecisionId\", \"OrganizationId\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"SupersedesRestrictionId\", \"OrganizationId\") REFERENCES public.\"ProcessingRestrictions\"(\"RestrictionId\", \"OrganizationId\") ON DELETE RESTRICT,\n  CHECK (\"SupersedesRestrictionId\" IS NULL OR \"SupersedesRestrictionId\" <> \"RestrictionId\")\n);\nALTER TABLE public.\"Prs1Commands\" ADD CONSTRAINT \"FK_Command_NewProvenance\"\n  FOREIGN KEY (\"NewRestrictionId\", \"OrganizationId\")\n  REFERENCES public.\"RestrictionSelectorProvenance\"(\"RestrictionId\", \"OrganizationId\")\n  ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED;\n\nCREATE FUNCTION public.prs1_record_birth() RETURNS trigger\nLANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$\nBEGIN\n  INSERT INTO public.\"RestrictionBirths\" VALUES\n    (NEW.\"RestrictionId\", NEW.\"OrganizationId\", pg_current_xact_id());\n  RETURN NEW;\nEND $$;\nCREATE TRIGGER prs1_record_birth AFTER INSERT ON public.\"ProcessingRestrictions\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_record_birth();\n\nCREATE FUNCTION public.prs1_check_snapshot() RETURNS trigger\nLANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$\nDECLARE r public.\"ProcessingRestrictions\"%ROWTYPE;\nBEGIN\n  SELECT * INTO STRICT r FROM public.\"ProcessingRestrictions\"\n    WHERE \"RestrictionId\" = NEW.\"RestrictionId\";\n  IF NOT EXISTS (SELECT 1 FROM public.\"RestrictionBirths\" b\n      WHERE b.\"RestrictionId\" = NEW.\"RestrictionId\"\n        AND b.\"OrganizationId\" = NEW.\"OrganizationId\"\n        AND b.\"BirthTransaction\" = pg_current_xact_id()) THEN\n    RAISE EXCEPTION 'prs1_late_attestation' USING ERRCODE = '23514';\n  END IF;\n  IF ROW(r.\"OrganizationId\",r.\"ContextId\",r.\"OriginVersion\",r.\"SubjectActorId\",r.\"ResourceRef\" COLLATE \"C\",r.\"Operations\")\n     IS DISTINCT FROM ROW(NEW.\"OrganizationId\",NEW.\"ContextId\",NEW.\"OriginVersion\",NEW.\"SubjectActorId\",NEW.\"CanonicalResourceRef\" COLLATE \"C\",NEW.\"Operations\")\n     OR r.\"State\" <> 'Active' OR r.\"Version\" <> 1 THEN\n    RAISE EXCEPTION 'prs1_snapshot_mismatch' USING ERRCODE = '23514';\n  END IF;\n  IF NOT EXISTS (SELECT 1 FROM public.\"Prs1Commands\" c\n      WHERE c.\"CommandId\"=NEW.\"CommandId\" AND c.\"OrganizationId\"=NEW.\"OrganizationId\"\n        AND c.\"NewRestrictionId\"=NEW.\"RestrictionId\" AND c.\"DecisionId\"=NEW.\"DecisionId\"\n        AND c.\"Kind\" IN ('Issue','Reissue')\n        AND c.\"OldRestrictionId\" IS NOT DISTINCT FROM NEW.\"SupersedesRestrictionId\") THEN\n    RAISE EXCEPTION 'prs1_command_pair_mismatch' USING ERRCODE='23514';\n  END IF;\n  RETURN NEW;\nEND $$;\nCREATE TRIGGER prs1_check_snapshot BEFORE INSERT ON public.\"RestrictionSelectorProvenance\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_check_snapshot();\n\nCREATE FUNCTION public.prs1_command_complete() RETURNS trigger\nLANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$\nDECLARE p public.\"RestrictionSelectorProvenance\"%ROWTYPE;\nBEGIN\n  IF NOT EXISTS (SELECT 1 FROM public.\"Prs1Decisions\" d\n      WHERE d.\"DecisionId\"=NEW.\"DecisionId\" AND d.\"OrganizationId\"=NEW.\"OrganizationId\"\n        AND d.\"CommandDigest\"=NEW.\"CommandDigest\") THEN\n    RAISE EXCEPTION 'prs1_decision_mismatch' USING ERRCODE='23514';\n  END IF;\n  IF NEW.\"NewRestrictionId\" IS NOT NULL THEN\n    SELECT * INTO STRICT p FROM public.\"RestrictionSelectorProvenance\"\n      WHERE \"RestrictionId\"=NEW.\"NewRestrictionId\";\n    IF p.\"CommandId\" <> NEW.\"CommandId\" OR p.\"OrganizationId\" <> NEW.\"OrganizationId\"\n       OR p.\"DecisionId\" <> NEW.\"DecisionId\"\n       OR p.\"SupersedesRestrictionId\" IS DISTINCT FROM NEW.\"OldRestrictionId\"\n       OR NOT EXISTS (SELECT 1 FROM public.\"ProcessingRestrictions\" r\n         WHERE r.\"RestrictionId\"=p.\"RestrictionId\" AND r.\"State\"='Active' AND r.\"Version\"=1) THEN\n      RAISE EXCEPTION 'prs1_pair_incomplete' USING ERRCODE='23514';\n    END IF;\n  END IF;\n  IF NEW.\"OldRestrictionId\" IS NOT NULL AND NOT EXISTS (\n      SELECT 1 FROM public.\"ProcessingRestrictions\" r WHERE r.\"RestrictionId\"=NEW.\"OldRestrictionId\"\n        AND r.\"State\"='Withdrawn' AND r.\"Version\"=NEW.\"ExpectedOldVersion\"+1) THEN\n    RAISE EXCEPTION 'prs1_withdraw_incomplete' USING ERRCODE='23514';\n  END IF;\n  RETURN NULL;\nEND $$;\nCREATE CONSTRAINT TRIGGER prs1_command_complete AFTER INSERT ON public.\"Prs1Commands\"\n  DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.prs1_command_complete();\n\nCREATE FUNCTION public.prs1_immutable() RETURNS trigger LANGUAGE plpgsql AS $$\nBEGIN RAISE EXCEPTION 'prs1_history_immutable' USING ERRCODE='23514'; END $$;\nCREATE TRIGGER prs1_provenance_immutable BEFORE UPDATE OR DELETE ON public.\"RestrictionSelectorProvenance\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_immutable();\nCREATE TRIGGER prs1_decision_immutable BEFORE UPDATE OR DELETE ON public.\"Prs1Decisions\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_immutable();\nCREATE TRIGGER prs1_command_immutable BEFORE UPDATE OR DELETE ON public.\"Prs1Commands\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_immutable();\nCREATE TRIGGER prs1_birth_immutable BEFORE UPDATE OR DELETE ON public.\"RestrictionBirths\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_immutable();\n\n\n-- Educational mutation outcome ledger; not administrative selector provenance.\nCREATE TABLE public.\"Prs1MutationReceipts\" (\n  \"OrganizationId\" uuid NOT NULL REFERENCES public.\"Organizations\"(\"OrganizationId\") ON DELETE RESTRICT,\n  \"CommandId\" uuid NOT NULL,\n  \"ActorId\" uuid NOT NULL REFERENCES public.\"Actors\"(\"ActorId\") ON DELETE RESTRICT,\n  \"Kind\" text COLLATE \"C\" NOT NULL CHECK (\"Kind\" IN ('Submit','Review')),\n  \"CommandDigest\" bytea NOT NULL CHECK (octet_length(\"CommandDigest\")=32),\n  \"WorkId\" uuid NOT NULL REFERENCES public.\"ProblemWorks\"(\"Id\") ON DELETE RESTRICT,\n  \"SubmissionId\" uuid NOT NULL,\n  \"ReviewId\" uuid,\n  \"ExpectedWorkVersion\" bigint CHECK (\"ExpectedWorkVersion\" >= 0),\n  \"ResultWorkVersion\" bigint NOT NULL CHECK (\"ResultWorkVersion\" > 0),\n  \"RecordedAt\" timestamptz NOT NULL DEFAULT clock_timestamp(),\n  PRIMARY KEY (\"OrganizationId\", \"CommandId\"),\n  FOREIGN KEY (\"WorkId\", \"SubmissionId\") REFERENCES public.\"Submissions\"(\"ProblemWorkId\", \"Id\") ON DELETE RESTRICT,\n  FOREIGN KEY (\"ReviewId\") REFERENCES public.\"Reviews\"(\"Id\") ON DELETE RESTRICT,\n  CHECK ((\"Kind\"='Submit' AND \"ReviewId\" IS NULL)\n      OR (\"Kind\"='Review' AND \"ReviewId\" IS NOT NULL AND \"ExpectedWorkVersion\" IS NOT NULL))\n);\nCREATE TRIGGER prs1_mutation_receipt_immutable BEFORE UPDATE OR DELETE ON public.\"Prs1MutationReceipts\"\n  FOR EACH ROW EXECUTE FUNCTION public.prs1_immutable();\nREVOKE ALL ON public.\"Prs1MutationReceipts\" FROM PUBLIC;\n\nREVOKE ALL ON public.\"RestrictionSelectorProvenance\", public.\"Prs1Decisions\",\n  public.\"Prs1Commands\", public.\"RestrictionBirths\" FROM PUBLIC;\nREVOKE ALL ON FUNCTION public.prs1_record_birth(), public.prs1_check_snapshot(),\n  public.prs1_command_complete(), public.prs1_immutable() FROM PUBLIC;"
+  },
+  {
+    "name": "environment",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "PostgreSQL 17.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit\nprs1_owner|f|f|f\nprs1_writer|f|f|f\nprs1_reader|f|f|f\nprs1_app|f|f|f\n",
+    "sql": "SELECT version(); SELECT rolname,rolsuper,rolcreaterole,rolcanlogin FROM pg_roles WHERE rolname LIKE 'prs1_%';"
+  },
+  {
+    "name": "positive issue commit",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nCOMMIT\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001100','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002100','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001100','Issue','00000000-0000-0000-0000-000000000100',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000100','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000100','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002100','00000000-0000-0000-0000-000000001100',NULL);COMMIT;"
+  },
+  {
+    "name": "immutable RestrictionSelectorProvenance UPDATE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "immutable RestrictionSelectorProvenance DELETE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;DELETE FROM \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "immutable Prs1Decisions UPDATE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "immutable Prs1Decisions DELETE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;DELETE FROM \"Prs1Decisions\";"
+  },
+  {
+    "name": "immutable Prs1Commands UPDATE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "immutable Prs1Commands DELETE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;DELETE FROM \"Prs1Commands\";"
+  },
+  {
+    "name": "immutable RestrictionBirths UPDATE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "immutable RestrictionBirths DELETE",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;DELETE FROM \"RestrictionBirths\";"
+  },
+  {
+    "name": "preinstall legacy late attestation",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_late_attestation\nCONTEXT:  PL/pgSQL function prs1_check_snapshot() line 10 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001200','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002200','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001200','Issue','00000000-0000-0000-0000-000000000010',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000010','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002200','00000000-0000-0000-0000-000000001200',NULL);COMMIT;"
+  },
+  {
+    "name": "postinstall legacy insert",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nINSERT 0 1\n",
+    "sql": "SET ROLE prs1_owner;INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);"
+  },
+  {
+    "name": "postinstall late attestation",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_late_attestation\nCONTEXT:  PL/pgSQL function prs1_check_snapshot() line 10 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001201','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002201','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001201','Issue','00000000-0000-0000-0000-000000000011',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002201','00000000-0000-0000-0000-000000001201',NULL);COMMIT;"
+  },
+  {
+    "name": "missing sidecar at commit",
+    "matched_expected": true,
+    "expected_sqlstate": "23503",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nERROR:  23503: insert or update on table \"Prs1Commands\" violates foreign key constraint \"FK_Command_NewProvenance\"\nDETAIL:  Key (NewRestrictionId, OrganizationId)=(00000000-0000-0000-0000-000000000300, 00000000-0000-0000-0000-000000000001) is not present in table \"RestrictionSelectorProvenance\".\nSCHEMA NAME:  public\nTABLE NAME:  Prs1Commands\nCONSTRAINT NAME:  FK_Command_NewProvenance\nLOCATION:  ri_ReportViolation, ri_triggers.c:2599\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001300','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002300','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001300','Issue','00000000-0000-0000-0000-000000000300',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000300','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);COMMIT;"
+  },
+  {
+    "name": "missing pair rollback verified",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "0\n",
+    "sql": "SELECT count(*) FROM \"ProcessingRestrictions\" WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000300';"
+  },
+  {
+    "name": "snapshot mismatch",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_snapshot_mismatch\nCONTEXT:  PL/pgSQL function prs1_check_snapshot() line 15 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001301','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002301','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001301','Issue','00000000-0000-0000-0000-000000000301',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000301','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'wrong',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000301','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002301','00000000-0000-0000-0000-000000001301',NULL);COMMIT;"
+  },
+  {
+    "name": "digest mismatch",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_decision_mismatch\nCONTEXT:  PL/pgSQL function prs1_command_complete() line 7 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001302','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002302','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001302','Issue','00000000-0000-0000-0000-000000000302',NULL,NULL,decode(repeat('02',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000302','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000302','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002302','00000000-0000-0000-0000-000000001302',NULL);COMMIT;"
+  },
+  {
+    "name": "root only commits (legacy permitted)",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nINSERT 0 1\n",
+    "sql": "SET ROLE prs1_owner;INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000303','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);"
+  },
+  {
+    "name": "forged evidence and noncanonical selector commits with owner",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nCOMMIT\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001304','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002304','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001304','Issue','00000000-0000-0000-0000-000000000304',NULL,NULL,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000304','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000304','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002304','00000000-0000-0000-0000-000000001304',NULL);COMMIT;"
+  },
+  {
+    "name": "withdraw without transition rejected",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_withdraw_incomplete\nCONTEXT:  PL/pgSQL function prs1_command_complete() line 23 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001400','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002400','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001400','Withdraw',NULL,'00000000-0000-0000-0000-000000000100',1,decode(repeat('01',32),'hex'));COMMIT;"
+  },
+  {
+    "name": "withdraw positive",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nUPDATE 1\nCOMMIT\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001401','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002401','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001401','Withdraw',NULL,'00000000-0000-0000-0000-000000000100',1,decode(repeat('01',32),'hex'));UPDATE \"ProcessingRestrictions\" SET \"State\"='Withdrawn',\"Version\"=2 WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000100';COMMIT;"
+  },
+  {
+    "name": "repeated withdrawal without new transition commits",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nCOMMIT\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001402','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002402','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001402','Withdraw',NULL,'00000000-0000-0000-0000-000000000100',1,decode(repeat('01',32),'hex'));COMMIT;"
+  },
+  {
+    "name": "resurrection without receipt commits",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nUPDATE 1\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"ProcessingRestrictions\" SET \"State\"='Active',\"Version\"=1 WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000100';"
+  },
+  {
+    "name": "reissue positive",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nUPDATE 1\nCOMMIT\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001500','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002500','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001500','Reissue','00000000-0000-0000-0000-000000000500','00000000-0000-0000-0000-000000000100',1,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000500','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000500','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002500','00000000-0000-0000-0000-000000001500','00000000-0000-0000-0000-000000000100');UPDATE \"ProcessingRestrictions\" SET \"State\"='Withdrawn',\"Version\"=2 WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000100';COMMIT;"
+  },
+  {
+    "name": "reissue failure rollback",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "BEGIN\nSET\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nINSERT 0 1\nERROR:  23514: prs1_withdraw_incomplete\nCONTEXT:  PL/pgSQL function prs1_command_complete() line 23 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;INSERT INTO \"Prs1Decisions\" (\"DecisionId\",\"OrganizationId\",\"AttestedByActorId\",\"DecisionRef\",\"ApprovedCommand\",\"CommandDigest\",\"Evidence\") VALUES ('00000000-0000-0000-0000-000000001501','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000002','synthetic','{}',decode(repeat('01',32),'hex'),'{\"synthetic\":true}');INSERT INTO \"Prs1Commands\" (\"CommandId\",\"OrganizationId\",\"DecisionId\",\"Kind\",\"NewRestrictionId\",\"OldRestrictionId\",\"ExpectedOldVersion\",\"CommandDigest\") VALUES ('00000000-0000-0000-0000-000000002501','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000001501','Reissue','00000000-0000-0000-0000-000000000501','00000000-0000-0000-0000-000000000500',1,decode(repeat('01',32),'hex'));INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000501','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);INSERT INTO \"RestrictionSelectorProvenance\" (\"RestrictionId\",\"OrganizationId\",\"ContextId\",\"OriginVersion\",\"SubjectActorId\",\"ProfileId\",\"ContractRevision\",\"CanonicalResourceRef\",\"Operations\",\"CommandId\",\"DecisionId\",\"SupersedesRestrictionId\") VALUES ('00000000-0000-0000-0000-000000000501','00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000003',1,NULL,'PRS1','R1-2026-10-10','canonical',1,'00000000-0000-0000-0000-000000002501','00000000-0000-0000-0000-000000001501','00000000-0000-0000-0000-000000000500');COMMIT;"
+  },
+  {
+    "name": "old active new absent after rollback",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "Active\n0\n",
+    "sql": "SELECT \"State\" FROM \"ProcessingRestrictions\" WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000500'; SELECT count(*) FROM \"ProcessingRestrictions\" WHERE \"RestrictionId\"='00000000-0000-0000-0000-000000000501';"
+  },
+  {
+    "name": "ACL overlay",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "GRANT\nGRANT\n",
+    "sql": "GRANT USAGE ON SCHEMA public TO prs1_app,prs1_reader,prs1_writer; GRANT SELECT ON ALL TABLES IN SCHEMA public TO prs1_reader;"
+  },
+  {
+    "name": "prs1_app denies insert ProcessingRestrictions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"ProcessingRestrictions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies insert RestrictionSelectorProvenance",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"RestrictionSelectorProvenance\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies insert Prs1Decisions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"Prs1Decisions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies insert Prs1Commands",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"Prs1Commands\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies insert RestrictionBirths",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"RestrictionBirths\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies insert Prs1MutationReceipts",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"Prs1MutationReceipts\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_app denies UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_app denies DELETE FROM \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;DELETE FROM \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_app denies TRUNCATE \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;TRUNCATE \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_app denies trigger disable",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: must be owner of table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2981\n",
+    "sql": "SET ROLE prs1_app;ALTER TABLE \"ProcessingRestrictions\" DISABLE TRIGGER ALL;"
+  },
+  {
+    "name": "prs1_app denies function execute",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for function prs1_record_birth\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_app;SELECT prs1_record_birth();"
+  },
+  {
+    "name": "prs1_reader denies insert ProcessingRestrictions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"ProcessingRestrictions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies insert RestrictionSelectorProvenance",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"RestrictionSelectorProvenance\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies insert Prs1Decisions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"Prs1Decisions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies insert Prs1Commands",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"Prs1Commands\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies insert RestrictionBirths",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"RestrictionBirths\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies insert Prs1MutationReceipts",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;INSERT INTO \"Prs1MutationReceipts\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_reader denies UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_reader denies DELETE FROM \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;DELETE FROM \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_reader denies TRUNCATE \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;TRUNCATE \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_reader denies trigger disable",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: must be owner of table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2981\n",
+    "sql": "SET ROLE prs1_reader;ALTER TABLE \"ProcessingRestrictions\" DISABLE TRIGGER ALL;"
+  },
+  {
+    "name": "prs1_reader denies function execute",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for function prs1_record_birth\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_reader;SELECT prs1_record_birth();"
+  },
+  {
+    "name": "prs1_writer denies insert ProcessingRestrictions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"ProcessingRestrictions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies insert RestrictionSelectorProvenance",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"RestrictionSelectorProvenance\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies insert Prs1Decisions",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"Prs1Decisions\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies insert Prs1Commands",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"Prs1Commands\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies insert RestrictionBirths",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"RestrictionBirths\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies insert Prs1MutationReceipts",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;INSERT INTO \"Prs1MutationReceipts\" DEFAULT VALUES;"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"ProcessingRestrictions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"ProcessingRestrictions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"ProcessingRestrictions\";"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"RestrictionSelectorProvenance\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"RestrictionSelectorProvenance\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionSelectorProvenance\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"Prs1Decisions\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"Prs1Decisions\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Decisions\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"Prs1Decisions\";"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"Prs1Commands\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"Prs1Commands\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1Commands\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"Prs1Commands\";"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"RestrictionBirths\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"RestrictionBirths\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table RestrictionBirths\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"RestrictionBirths\";"
+  },
+  {
+    "name": "prs1_writer denies UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;UPDATE \"Prs1MutationReceipts\" SET \"OrganizationId\"=\"OrganizationId\";"
+  },
+  {
+    "name": "prs1_writer denies DELETE FROM \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;DELETE FROM \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_writer denies TRUNCATE \"Prs1MutationReceipts\";",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for table Prs1MutationReceipts\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;TRUNCATE \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "prs1_writer denies trigger disable",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: must be owner of table ProcessingRestrictions\nLOCATION:  aclcheck_error, aclchk.c:2981\n",
+    "sql": "SET ROLE prs1_writer;ALTER TABLE \"ProcessingRestrictions\" DISABLE TRIGGER ALL;"
+  },
+  {
+    "name": "prs1_writer denies function execute",
+    "matched_expected": true,
+    "expected_sqlstate": "42501",
+    "exit": 3,
+    "output": "SET\nERROR:  42501: permission denied for function prs1_record_birth\nLOCATION:  aclcheck_error, aclchk.c:2843\n",
+    "sql": "SET ROLE prs1_writer;SELECT prs1_record_birth();"
+  },
+  {
+    "name": "reader SELECT",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nt\n",
+    "sql": "SET ROLE prs1_reader;SELECT count(*)>0 FROM \"RestrictionSelectorProvenance\";"
+  },
+  {
+    "name": "no membership",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "0\n",
+    "sql": "SELECT count(*) FROM pg_auth_members m JOIN pg_roles r ON r.oid=m.roleid WHERE r.rolname='prs1_owner';"
+  },
+  {
+    "name": "existing grant setup",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "GRANT\n",
+    "sql": "GRANT INSERT ON \"ProcessingRestrictions\" TO prs1_app;"
+  },
+  {
+    "name": "existing app grant survives candidate revoke",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nREVOKE\nREVOKE\n",
+    "sql": "SET ROLE prs1_owner;REVOKE ALL ON public.\"RestrictionSelectorProvenance\", public.\"Prs1Decisions\",\n  public.\"Prs1Commands\", public.\"RestrictionBirths\" FROM PUBLIC;\nREVOKE ALL ON FUNCTION public.prs1_record_birth(), public.prs1_check_snapshot(),\n  public.prs1_command_complete(), public.prs1_immutable() FROM PUBLIC;"
+  },
+  {
+    "name": "existing direct root grant bypass",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "SET\nINSERT 0 1\n",
+    "sql": "SET ROLE prs1_app;INSERT INTO \"ProcessingRestrictions\" VALUES ('00000000-0000-0000-0000-000000000600','00000000-0000-0000-0000-000000000003',1,'00000000-0000-0000-0000-000000000001',NULL,'canonical',1,'Active',1);"
+  },
+  {
+    "name": "revoke fixture grant",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "REVOKE\n",
+    "sql": "REVOKE INSERT ON \"ProcessingRestrictions\" FROM prs1_app;"
+  },
+  {
+    "name": "mutation fixture",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "INSERT 0 1\nINSERT 0 1\nINSERT 0 1\n",
+    "sql": "INSERT INTO \"ProblemWorks\" VALUES ('00000000-0000-0000-0000-000000000700');INSERT INTO \"Submissions\" VALUES ('00000000-0000-0000-0000-000000000701','00000000-0000-0000-0000-000000000700');INSERT INTO \"Prs1MutationReceipts\" (\"OrganizationId\",\"CommandId\",\"ActorId\",\"Kind\",\"CommandDigest\",\"WorkId\",\"SubmissionId\",\"ResultWorkVersion\") VALUES ('00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000702','00000000-0000-0000-0000-000000000002','Submit',decode(repeat('01',32),'hex'),'00000000-0000-0000-0000-000000000700','00000000-0000-0000-0000-000000000701',1);"
+  },
+  {
+    "name": "mutation immutable update",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;UPDATE \"Prs1MutationReceipts\" SET \"ResultWorkVersion\"=2;"
+  },
+  {
+    "name": "mutation immutable delete",
+    "matched_expected": true,
+    "expected_sqlstate": "23514",
+    "exit": 3,
+    "output": "SET\nERROR:  23514: prs1_history_immutable\nCONTEXT:  PL/pgSQL function prs1_immutable() line 2 at RAISE\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "sql": "SET ROLE prs1_owner;DELETE FROM \"Prs1MutationReceipts\";"
+  },
+  {
+    "name": "TRUNCATE row triggers bypass on isolated history table",
+    "matched_expected": true,
+    "expected_sqlstate": null,
+    "exit": 0,
+    "output": "BEGIN\nSET\nTRUNCATE TABLE\n0\nROLLBACK\n",
+    "sql": "BEGIN; SET LOCAL ROLE prs1_owner;TRUNCATE \"Prs1MutationReceipts\";SELECT count(*) FROM \"Prs1MutationReceipts\";ROLLBACK;"
+  }
+]

@@ -19,6 +19,22 @@ internal static class SchemaFoundationMappings
             e.HasKey(x => x.OrganizationId);
             e.Property(x => x.OrganizationId).ValueGeneratedNever();
         });
+        model.Entity<OrganizationProfile>(e =>
+        {
+            e.ToTable("OrganizationProfiles");
+            e.HasKey(x => x.OrganizationId);
+            e.Property(x => x.OrganizationId).ValueGeneratedNever();
+        });
+        model.Entity<OrganizationBootstrapReceipt>(e =>
+        {
+            e.ToTable("OrganizationBootstrapReceipts");
+            e.HasKey(x => x.CommandId);
+            e.Property(x => x.CommandId).ValueGeneratedNever();
+            e.HasIndex(x => x.OrganizationId).IsUnique();
+            e.HasIndex(x => x.AdminUserId).IsUnique();
+            e.HasIndex(x => x.AdminActorId).IsUnique();
+            e.HasIndex(x => x.ChallengeId).IsUnique();
+        });
         model.Entity<ActorIdentity>(e =>
         {
             e.ToTable("ActorIdentities");
@@ -42,6 +58,23 @@ internal static class SchemaFoundationMappings
         {
             e.ToTable("CourseGroups");
             e.HasKey(x => new { x.CourseId, x.GroupId });
+        });
+        model.Entity<CourseCatalogRecord>(e =>
+        {
+            e.ToTable("CourseCatalog");
+            e.HasKey(x => x.CourseId);
+            e.Property(x => x.Version).IsConcurrencyToken();
+        });
+        model.Entity<CourseGroupCatalogRecord>(e =>
+        {
+            e.ToTable("CourseGroupCatalog");
+            e.HasKey(x => new { x.CourseId, x.GroupId });
+            e.Property(x => x.Version).IsConcurrencyToken();
+        });
+        model.Entity<CourseRosterCommandReceipt>(e =>
+        {
+            e.ToTable("CourseRosterCommandReceipts");
+            e.HasKey(x => new { x.AdministratorActorId, x.IdempotencyKey });
         });
         model.Entity<EnrollmentScope>(e =>
         {
@@ -86,6 +119,21 @@ internal static class SchemaFoundationMappings
             e.ToTable("ProvisioningRequests");
             e.HasKey(x => new { x.OrganizationId, x.ExternalRosterKey });
             e.Property(x => x.OrganizationId).ValueGeneratedNever();
+        });
+        model.Entity<OrganizationParticipantProfile>(e =>
+        {
+            e.ToTable("OrganizationParticipantProfiles");
+            e.HasKey(x => new { x.OrganizationId, x.ActorId });
+            e.Property(x => x.OrganizationId).ValueGeneratedNever();
+            e.HasIndex(x => new { x.OrganizationId, x.ExternalRosterKey }).IsUnique();
+        });
+        model.Entity<AccountLinkRequest>(e =>
+        {
+            e.ToTable("AccountLinkRequests");
+            e.HasKey(x => x.RequestId);
+            e.Property(x => x.RequestId).ValueGeneratedNever();
+            e.Property(x => x.Version).IsConcurrencyToken();
+            e.HasIndex(x => new { x.OrganizationId, x.ExternalRosterKey }).IsUnique();
         });
         model.Entity<AccountSecurityState>(e =>
         {
@@ -139,6 +187,11 @@ internal static class SchemaFoundationMappings
         model.Entity<ActorIdentity>().HasOne<Organization>().WithMany().HasForeignKey("ProvisioningOrgId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<ActorIdentity>().HasIndex("ActorId").IsUnique();
         model.Entity<OrganizationMembership>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationProfile>().HasOne<Organization>().WithOne().HasForeignKey<OrganizationProfile>("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationBootstrapReceipt>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationBootstrapReceipt>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("AdminUserId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationBootstrapReceipt>().HasOne<ActorRecord>().WithMany().HasForeignKey("AdminActorId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationBootstrapReceipt>().HasOne<AccessChallenge>().WithMany().HasForeignKey("ChallengeId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<OrganizationMembership>().HasOne<ActorRecord>().WithMany().HasForeignKey("ActorId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<OrganizationMembership>().HasIndex("ActorId","State","OrganizationId");
         model.Entity<CourseRegistration>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
@@ -147,6 +200,13 @@ internal static class SchemaFoundationMappings
         // constraints, immutable guards, and the deferred user -> actor mapping FK.
         model.Entity<CourseRegistration>().HasIndex("CourseId","OrganizationId").IsUnique();
         model.Entity<CourseGroup>().HasOne<CourseRegistration>().WithMany().HasForeignKey("CourseId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseCatalogRecord>().HasOne<CourseRegistration>().WithOne().HasForeignKey<CourseCatalogRecord>("CourseId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseCatalogRecord>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseCatalogRecord>().HasIndex("OrganizationId", "CreatedAt");
+        model.Entity<CourseGroupCatalogRecord>().HasOne<CourseGroup>().WithOne().HasForeignKey<CourseGroupCatalogRecord>("CourseId", "GroupId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseGroupCatalogRecord>().HasIndex("CourseId", "Name").IsUnique();
+        model.Entity<CourseRosterCommandReceipt>().HasOne<OrganizationMembership>().WithMany()
+            .HasForeignKey("OrganizationId", "AdministratorActorId").HasPrincipalKey("OrganizationId", "ActorId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<EnrollmentScope>().HasOne<EnrollmentAccess>().WithMany().HasForeignKey("StudentId","CourseId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<EnrollmentScope>().HasOne<OrganizationMembership>().WithMany().HasForeignKey("OrganizationId","StudentId").HasPrincipalKey("OrganizationId","ActorId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<EnrollmentScope>().HasOne<CourseGroup>().WithMany().HasForeignKey("CourseId","GroupId").OnDelete(DeleteBehavior.Restrict);
@@ -168,6 +228,13 @@ internal static class SchemaFoundationMappings
         model.Entity<AttachmentScope>().HasOne<ProcessingContextVersion>().WithMany().HasForeignKey("ContextId","ContextVersion","OrganizationId").HasPrincipalKey("ContextId","Version","OrganizationId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<AttachmentScope>().HasIndex("CourseId","OrganizationId");
         model.Entity<ProvisioningRequest>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationParticipantProfile>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<OrganizationParticipantProfile>().HasOne<ActorRecord>().WithMany().HasForeignKey("ActorId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<AccountLinkRequest>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<AccountLinkRequest>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("TargetUserId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<AccountLinkRequest>().HasOne<ActorRecord>().WithMany().HasForeignKey("TargetActorId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<AccountLinkRequest>().HasOne<ActorRecord>().WithMany().HasForeignKey("InitiatorActorId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<AccountLinkRequest>().HasOne<ActorRecord>().WithMany().HasForeignKey("ApproverActorId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<ProvisioningRequest>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<AccountSecurityState>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<IdentitySession>().HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict);
@@ -194,6 +261,8 @@ internal static class SchemaFoundationMappings
         model.Entity<ActorRecord>().ToTable(t => t.HasCheckConstraint("CK_Actor_Role", "\"PrimaryEducationalRole\" IS NULL OR \"PrimaryEducationalRole\" IN ('Student','Teacher')"));
         model.Entity<Organization>().ToTable(t => t.HasCheckConstraint("CK_Organization_State", "\"State\" IN ('Enabled','Suspended')"));
         model.Entity<Organization>().ToTable(t => t.HasCheckConstraint("CK_Organization_Synthetic", "\"SyntheticOnly\""));
+        model.Entity<OrganizationProfile>().ToTable(t => t.HasCheckConstraint("CK_OrganizationProfile_Name", "char_length(btrim(\"Name\")) BETWEEN 2 AND 160"));
+        model.Entity<OrganizationBootstrapReceipt>().ToTable(t => t.HasCheckConstraint("CK_BootstrapReceipt_Digests", "char_length(\"PayloadDigest\") = 64 AND char_length(\"OperatorSubjectHash\") = 64"));
         model.Entity<OrganizationMembership>().ToTable(t => t.HasCheckConstraint("CK_Membership_Role", "\"EducationalRole\" IS NULL OR \"EducationalRole\" IN ('Student','Teacher')"));
         model.Entity<OrganizationMembership>().ToTable(t => t.HasCheckConstraint("CK_Membership_Permissions", "\"PermissionFlags\" BETWEEN 0 AND 15"));
         model.Entity<OrganizationMembership>().ToTable(t => t.HasCheckConstraint("CK_OrganizationMembership_State", "\"State\" IN ('Active','Revoked')"));
@@ -206,11 +275,25 @@ internal static class SchemaFoundationMappings
         model.Entity<TeacherAssignmentScope>().ToTable(t => t.HasCheckConstraint("CK_TeacherAssignmentScope_Generation", "\"Generation\" > 0 AND \"Version\" > 0 AND \"MembershipGeneration\" > 0"));
         model.Entity<TeacherAssignmentScope>().ToTable(t => t.HasCheckConstraint("CK_TeacherAssignmentScope_Deadline", "(\"RevocationRequestedAt\" IS NULL AND \"AccessValidUntil\" IS NULL AND \"State\" = 'Active') OR (\"RevocationRequestedAt\" IS NOT NULL AND \"AccessValidUntil\" IS NOT NULL AND \"State\" = 'Revoked' AND \"AccessValidUntil\" <= \"RevocationRequestedAt\" + interval '2 hours')"));
         model.Entity<CourseRegistration>().ToTable(t => t.HasCheckConstraint("CK_Course_Mapping", "(\"MappingState\" = 'Verified' AND \"OrganizationId\" IS NOT NULL) OR (\"MappingState\" = 'Unknown' AND \"OrganizationId\" IS NULL)"));
+        model.Entity<CourseCatalogRecord>().ToTable(t =>
+        {
+            t.HasCheckConstraint("CK_CourseCatalog_Title", "char_length(btrim(\"Title\")) BETWEEN 2 AND 160");
+            t.HasCheckConstraint("CK_CourseCatalog_State", "\"State\" IN ('Draft','Published') AND \"Version\" > 0");
+        });
+        model.Entity<CourseGroupCatalogRecord>().ToTable(t =>
+        {
+            t.HasCheckConstraint("CK_CourseGroupCatalog_Name", "char_length(btrim(\"Name\")) BETWEEN 2 AND 120");
+            t.HasCheckConstraint("CK_CourseGroupCatalog_Version", "\"Version\" > 0");
+        });
+        model.Entity<CourseRosterCommandReceipt>().ToTable(t =>
+            t.HasCheckConstraint("CK_CourseRosterReceipt_Digest", "char_length(\"PayloadDigest\") = 64"));
         model.Entity<ProcessingContextVersion>().ToTable(t => t.HasCheckConstraint("CK_Context_Version", "\"Version\" > 0"));
         model.Entity<ProcessingContextVersion>().ToTable(t => t.HasCheckConstraint("CK_Context_Synthetic", "\"SyntheticOnly\" AND \"ApprovalState\" IN ('Unreviewed','SyntheticOnly') AND \"LegalBasisRef\" IS NULL"));
         model.Entity<CourseContextBinding>().ToTable(t => t.HasCheckConstraint("CK_Binding_Interval", "\"EffectiveTo\" IS NULL OR \"EffectiveTo\" > \"EffectiveFrom\""));
         model.Entity<ProcessingRestriction>().ToTable(t => t.HasCheckConstraint("CK_Restriction_State", "\"State\" IN ('Active','Withdrawn') AND \"Version\" > 0 AND \"Operations\" > 0 AND \"Operations\" <= 31"));
         model.Entity<ProvisioningRequest>().ToTable(t => t.HasCheckConstraint("CK_Provision_State", "(\"State\" = 'Pending' AND \"UserId\" IS NULL) OR (\"State\" = 'Completed' AND \"UserId\" IS NOT NULL)"));
+        model.Entity<OrganizationParticipantProfile>().ToTable(t => t.HasCheckConstraint("CK_Participant_Profile", "char_length(btrim(\"ExternalRosterKey\")) BETWEEN 3 AND 128 AND char_length(btrim(\"DisplayName\")) BETWEEN 2 AND 160"));
+        model.Entity<AccountLinkRequest>().ToTable(t => t.HasCheckConstraint("CK_AccountLink_State", "\"State\" IN ('Requested','Approved','Rejected','Suspended') AND \"EducationalRole\" IN ('Student','Teacher') AND \"Version\" > 0"));
         model.Entity<AccountSecurityState>().ToTable(t => t.HasCheckConstraint("CK_Security_State", "\"State\" IN ('Enabled','SecurityBlocked') AND \"CredentialEpoch\" > 0 AND \"Version\" > 0"));
         model.Entity<IdentitySession>().ToTable(t => t.HasCheckConstraint("CK_Session_Times", "\"Generation\" > 0 AND \"Version\" > 0 AND \"AbsoluteExpiresAt\" = \"CreatedAt\" + interval '12 hours' AND \"LastSuccessfulRefreshAt\" >= \"CreatedAt\" AND \"LastSuccessfulRefreshAt\" <= \"AbsoluteExpiresAt\" AND (\"RevokedAt\" IS NULL OR \"RevokedAt\" >= \"CreatedAt\")"));
         model.Entity<RefreshVerifier>().ToTable(t => t.HasCheckConstraint("CK_Refresh_Verifier", "\"Generation\" > 0 AND octet_length(\"Verifier\") = 32 AND \"KeyVersion\" > 0 AND (\"ConsumedAt\" IS NULL OR \"ConsumedAt\" >= \"CreatedAt\")"));

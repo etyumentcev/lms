@@ -1,0 +1,10 @@
+{
+  "baseline_head": "a60ee6c73c4400bd1bdf6c6df434358372745c41",
+  "baseline_files_checked": 313,
+  "modified_existing_files": [
+    "codex/L1-S4-RESULTS.md"
+  ],
+  "missing_files": [],
+  "s4_original_preserved_as_prefix": true,
+  "existing_test_sha256": "4624bf5b7d743dbd9b63ed0239775caa18ac74c7d46248f64b22bb83cbc2e141"
+}

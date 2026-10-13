@@ -1,18 +1,20 @@
 import { newPage, type PageState } from '../../components/annotations/model';
 import { useUnsavedAnnotations } from './useUnsavedAnnotations';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import type { ApiClient } from '../../api/client';
 import { AppShell, ContextSection } from '../../layout/AppShell';
 import { Breadcrumbs, Button, EmptyState, ErrorState, LoadingSkeleton, PageHeader } from '../../components/primitives';
 import { MarkdownContent } from '../../components/MarkdownContent';
 import { StatusBadge } from '../../components/StatusBadge';
-import { attachmentApi } from '../../components/attachments/api';
+import { AttachmentPreview } from '../../components/attachments/AttachmentPreview';
+import { teacherAttachmentApi } from '../../components/attachments/api';
 import { normalizeQueueQuery } from '../review-queue/query';
 import { useProblemWork } from './query';
 import { ReviewForm } from './ReviewForm';
 import { ReviewContext } from './ReviewContext';
 import { SubmissionViewer } from './SubmissionViewer';
+import { TeacherMessageForm } from './TeacherMessageForm';
 import '../problem-workspace/problem.css';
 import './review.css';
 export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: string; client: ApiClient }) {
@@ -26,10 +28,12 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
   useUnsavedAnnotations(dirty);
   const [feedback, setFeedback] = useState('');
   const [saved, setSaved] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [params, setParams] = useSearchParams();
+  const selected = params.get('attempt');
+  function setSelected(id: string | null) { const next = new URLSearchParams(params); if (id) next.set('attempt', id); else next.delete('attempt'); setParams(next, { state: location.state }); }
   const focusAfterRefresh = useRef(false), focusViewer = useRef(false);
   const viewerRef = useRef<HTMLElement>(null);
-  const api = useMemo(() => attachmentApi(client), [client]);
+  const api = useMemo(() => teacherAttachmentApi(client, problemWorkId), [client, problemWorkId]);
   const data = state.phase === 'success' ? state.data : null;
   const current = data?.currentSubmission;
   const submission = selected ? data?.submissions.find(item => item.id === selected) ?? current : current;
@@ -44,13 +48,17 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
     if (state.phase !== 'loading' && focusAfterRefresh.current) { document.getElementById('main-content')?.focus(); focusAfterRefresh.current = false; }
   }, [state.phase]);
   useEffect(() => { if (focusViewer.current) { viewerRef.current?.focus(); focusViewer.current = false; } }, [selected]);
-  return <AppShell role={data && (data.permissions.canAccept || data.permissions.canRequestRevision) ? 'Teacher' : null} preview={false}
+  return <AppShell role={data && (data.permissions.canViewAsTeacher || data.permissions.canAccept || data.permissions.canRequestRevision) ? 'Teacher' : null} preview={false}
     context={state.phase === 'loading' ? <ContextSection title="Информация о работе"><LoadingSkeleton label="Загрузка контекста проверки" /></ContextSection>
       : data ? <ReviewContext data={data} selectAttempt={selectAttempt} /> : null}>
-    <Breadcrumbs items={[{ label: 'Проверка работ', to: queueUrl }, { label: title }]} />
+    <Breadcrumbs items={[{ label: 'Мои курсы', to: '/courses' }, ...(data ? [
+      { label: data.course.title || 'Курс', to: `/courses/${encodeURIComponent(data.course.id)}` },
+      { label: data.lesson.title || 'Занятие', to: `/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}` },
+    ] : []), { label: title }]} />
     <div className="workspace-content teacher-review" aria-busy={state.phase === 'loading'}>
       <PageHeader title={title} meta={data ? <StatusBadge status={data.status} /> : undefined} />
       <Link className="text-link review-queue-link" to={queueUrl}>К очереди проверок</Link>
+      {data && <Link className="text-link" to={`/courses/${encodeURIComponent(data.course.id)}/lessons/${encodeURIComponent(data.lesson.id)}`}>Назад к занятию</Link>}
       {dirty && <p role="status">Есть несохранённые графические пометки. Они сохранятся вместе с решением проверки.</p>}
       {saved && <p role="status">{state.phase === 'success' ? 'Проверка сохранена. Состояние работы обновлено.' : 'Проверка сохранена. Ожидается обновление состояния работы.'}</p>}
       {state.phase === 'loading' && <><LoadingSkeleton label="Загрузка условия задачи" rows={3} /><LoadingSkeleton label="Загрузка решения" rows={6} /></>}
@@ -60,16 +68,29 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
           : 'Проверьте доступ и соединение. Повтор загрузки не отправляет решение проверки повторно.'}
         onRetry={[401, 403, 404].includes(state.error.status) ? undefined : reload} />}
       {data && <>
+        <Link className="text-link" to={{ search: '?tab=history' }} state={location.state}>История работы</Link>
+        {params.get('tab') === 'history' && <section aria-label="История работы"><h2>История</h2>
+          <Link to={{ search: '' }} state={location.state}>Вернуться к текущему решению</Link>
+          {data.submissions.length ? <ol>{data.submissions.map(attempt => <li key={attempt.id}>
+            <Link to={{ search: `?attempt=${encodeURIComponent(attempt.id)}` }} state={location.state}>Попытка №{attempt.attemptNumber}</Link>
+          </li>)}</ol> : <EmptyState title="Отправленных попыток нет" />}
+        </section>}
+
         <section className="review-statement" aria-label="Условие задачи"><h2>Условие задачи</h2><MarkdownContent>{data.problem.statementMarkdown}</MarkdownContent></section>
         <section ref={viewerRef} tabIndex={-1} aria-label="Отправленное решение" className="review-work-area">
-          {archived && <div className="review-archive-note"><p>Просмотр предыдущей попытки. Проверка относится к текущей попытке №{current?.attemptNumber}.</p>
+          {archived && <div className="review-archive-note"><p>Просмотр предыдущей попытки. Действия проверки доступны только для текущей попытки №{current?.attemptNumber}.</p>
             <Button onClick={() => selectAttempt(null)}>К текущей попытке</Button></div>}
           {submission ? <SubmissionViewer key={submission.id} submission={submission} api={api} annotations={review?.annotations ?? []}
             editable={!archived && !review && !busy && data.status === 'Submitted' && (data.permissions.canAccept || data.permissions.canRequestRevision)}
             pages={!archived && !review ? pages : undefined} changePages={!archived && !review ? setPages : undefined} /> : <EmptyState title="Отправленных попыток нет" />}
-          {review && !archived && <section className="review-outcome" aria-label="Результат проверки"><h2>Результат проверки</h2><StatusBadge status={review.decision} />
+          {review && <section className="review-outcome" aria-label="Результат проверки"><h2>Результат проверки попытки №{submission?.attemptNumber}</h2><StatusBadge status={review.decision} />
             <p><time dateTime={review.createdAt}>{new Intl.DateTimeFormat('ru', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(review.createdAt))}</time></p>
-            {reviewedFeedback && <div className="review-text"><MarkdownContent>{reviewedFeedback.bodyMarkdown}</MarkdownContent></div>}
+            {reviewedFeedback && <><div className="review-text"><MarkdownContent>{reviewedFeedback.bodyMarkdown}</MarkdownContent></div>
+              {reviewedFeedback.attachmentIds.length > 0 && <section aria-label="Фотографии замечания"><ol className="attachment-pages">
+                {reviewedFeedback.attachmentIds.map((attachmentId, index) => <li key={attachmentId}>
+                  <h3>Страница замечания {index + 1}</h3><AttachmentPreview api={api} id={attachmentId} page={index + 1} />
+                </li>)}
+              </ol></section>}</>}
           </section>}
         </section>
         {current && data.status === 'Submitted' && (data.permissions.canAccept || data.permissions.canRequestRevision)
@@ -78,6 +99,8 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
           })} completed={() => { setPages({}); setSaved(true); focusAfterRefresh.current = true; setSelected(null); refresh(); }} /></div>
           : !archived && <p className="muted">{data.status === 'Accepted' ? 'Решение принято. Работа доступна только для чтения.'
             : data.status === 'NeedsRevision' ? 'Работа возвращена на доработку. Ожидается новая попытка ученика.' : 'Действия проверки недоступны.'}</p>}
+        {!archived && data.permissions.canPostMessage && <TeacherMessageForm client={client} api={api}
+          workId={data.id} refresh={reload} completed={() => { setSaved(true); focusAfterRefresh.current = true; refresh(); }} />}
       </>}
     </div>
   </AppShell>;

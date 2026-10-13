@@ -1,0 +1,116 @@
+{
+  "regression": [
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_04_50_14_net10.0.trx",
+      "total": "43",
+      "executed": "43",
+      "passed": "43",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_04_50_15_net10.0.trx",
+      "total": "340",
+      "executed": "340",
+      "passed": "340",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_04_50_16_net10.0.trx",
+      "total": "258",
+      "executed": "258",
+      "passed": "258",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_04_50_51_net10.0.trx",
+      "total": "306",
+      "executed": "306",
+      "passed": "306",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  ],
+  "e2e-final": [
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_04_55_32_net10.0.trx",
+      "total": "2",
+      "executed": "2",
+      "passed": "2",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  ],
+  "frontend": {
+    "files": 14,
+    "passed": 398,
+    "failed": 0,
+    "final_command": "pnpm --dir src/Lms.Web exec vitest run --maxWorkers=1",
+    "earlier_parallel_rerun": {
+      "passed": 397,
+      "failed": 1,
+      "failure": "Existing attachments.test.tsx async onChange assertion; unchanged; serial rerun passed"
+    },
+    "first_parallel_run": {
+      "passed": 398,
+      "failed": 0
+    }
+  }
+}

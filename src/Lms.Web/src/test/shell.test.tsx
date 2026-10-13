@@ -56,10 +56,10 @@ describe('Shared shell', () => {
 describe('Routes inside shell', () => {
   it.each([
     ['/courses', 'Мои курсы'],
-  ])('%s is only a placeholder', (path, title) => {
+  ])('%s loads server courses inside shell', (path, title) => {
     renderApp(path);
     expect(within(screen.getByRole('main')).getByRole('heading', { level: 1, name: title })).toBeInTheDocument();
-    expect(screen.getByText('Раздел готовится')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Загрузка курсов' })).toBeInTheDocument();
     expect(screen.getByRole('complementary')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Отправить|Принять решение/ })).not.toBeInTheDocument();
     expect(document.title).toBe(`${title} · Sapientum`);

@@ -1,0 +1,164 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:05.20]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "before") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "before") [857 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:07.30]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "invalidated") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "invalidated") [221 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: ServiceUnavailable
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:09.33]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "expiry-late") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "expiry-late") [273 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:11.40]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "split") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "split") [285 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: ServiceUnavailable
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:13.31]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "unknown-late") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "unknown-late") [179 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:15.22]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "exact") [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(boundary: "exact") [193 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: ServiceUnavailable
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 204
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_same_ingress_deadline_and_final_time_gates(String boundary) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 205
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:17.22]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: False) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: False) [204 ms]
+  Error Message:
+   Npgsql.PostgresException : 23514: L1 course ownership is stable
+  Stack Trace:
+     at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.<>c__DisplayClass65_1.<<Http_courses_current_processing_and_ownership_before_read_and_response>g__Mutate|0>d.MoveNext() in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 167
+--- End of stack trace from previous location ---
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 179
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:19.24]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: True) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "ownership", late: True) [290 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 181
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 183
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:21.23]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "context", late: True) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "context", late: True) [301 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 181
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 183
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:23.26]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "restriction", late: False) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "restriction", late: False) [257 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 181
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 183
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:25.13]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "restriction", late: True) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "restriction", late: True) [211 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Forbidden
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 181
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 183
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:27.02]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "context", late: False) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(fault: "context", late: False) [209 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   Unauthorized
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.HttpGet(WebApplication app, AccessToken token, HttpStatusCode expected, String path) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 108
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 181
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_current_processing_and_ownership_before_read_and_response(String fault, Boolean late) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 183
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:42.36]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(role: Teacher) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(role: Teacher) [178 ms]
+  Error Message:
+   Assert.NotNull() Failure: Value is null
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 120
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:44.23]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(role: Student) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(role: Student) [211 ms]
+  Error Message:
+   Assert.NotNull() Failure: Value is null
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_courses_positive_scope_and_delayed_grant_session_revocation(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs:line 120
+--- End of stack trace from previous location ---
+Results File: /tmp/http-courses/target/_tea-Swift-SFG16-74_2026-10-12_04_19_33_net10.0.trx
+
+Failed!  - Failed:    14, Passed:     7, Skipped:     0, Total:    21, Duration: 44 s - Lms.Api.Tests.dll (net10.0)

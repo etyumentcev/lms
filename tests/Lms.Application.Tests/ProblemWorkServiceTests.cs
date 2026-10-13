@@ -156,7 +156,7 @@ public sealed class ProblemWorkServiceTests
     {
         var f = new Fixture();
         await Error("AssignmentNotFound", () => f.Service.SubmitSolution(f.Student, Guid.NewGuid(), "body", [], null));
-        await Error("ProblemWorkNotFound", () => f.Service.AcceptSubmission(f.Teacher, Guid.NewGuid(), Guid.NewGuid(), null, 0));
+        await Error("Forbidden", () => f.Service.AcceptSubmission(f.Teacher, Guid.NewGuid(), Guid.NewGuid(), null, 0));
     }
 
     [Fact]
@@ -178,12 +178,14 @@ public sealed class ProblemWorkServiceTests
         public ProblemAssignment Assignment { get; }
         public StoreSpy Store { get; }
         public AccessStub Policy { get; } = new();
-        public ProblemWorkService Service { get; }
+        // Unit-level capability only; real admission/reservation is asserted in Infrastructure tests.
+        public ProblemWorkService Service => new(Store, Policy, new FixedTime(),
+            new TeacherOperationContext(Teacher.Id, Store.Work?.Id ?? Guid.Empty, "Review", new Ingress().Arrive()));
         public Fixture()
         {
             Assignment = new(Guid.NewGuid(), Student.Id, "course", new(Guid.NewGuid(), "lesson", "problem"));
             Store = new(Assignment);
-            Service = new(Store, Policy, new FixedTime());
+
         }
         public Task<SubmissionResult> Submit() => Service.SubmitSolution(Student, Assignment.Id, "body", [], null);
     }
@@ -208,6 +210,13 @@ public sealed class ProblemWorkServiceTests
         }
     }
 
+    private sealed class Source : IQualifiedClockSource
+    {
+        public QualifiedClockReading Read() => new("unit", true,
+            new(DateTimeOffset.UnixEpoch, DateTimeOffset.UnixEpoch), TimeSpan.Zero, TimeSpan.Zero);
+    }
+    private sealed class Ingress() : TrustedApplicationIngressAdapter(new(new Source(), TimeSpan.Zero, TimeSpan.Zero))
+    { public ApplicationDeadline Arrive() => Capture(ApplicationRequestKind.TeacherOperation); }
     private sealed class FixedTime : TimeProvider
     {
         public override DateTimeOffset GetUtcNow() => new(2026, 10, 7, 0, 0, 0, TimeSpan.Zero);

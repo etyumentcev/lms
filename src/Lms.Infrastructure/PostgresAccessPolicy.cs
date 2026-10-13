@@ -21,10 +21,29 @@ public sealed class PostgresAccessPolicy(LmsDbContext db, TimeProvider time) : I
 
     public async Task EnsureCanReview(Actor actor, ProblemAssignment assignment, CancellationToken cancellationToken)
     {
-        if (actor.Role != AuthorRole.Teacher || !await db.TeacherGrants.AnyAsync(g =>
-            g.TeacherId == actor.Id && g.CourseId == assignment.CourseId &&
-            (g.GroupId == null || db.Enrollments.Any(e => e.StudentId == assignment.StudentId &&
-                e.CourseId == assignment.CourseId && e.IsActive && e.GroupId == g.GroupId)), cancellationToken))
+        if (actor.Role != AuthorRole.Teacher) throw new UseCaseException("Forbidden");
+        var scoped = await db.Set<AssignmentScope>().AsNoTracking()
+            .SingleOrDefaultAsync(x => x.AssignmentId == assignment.Id, cancellationToken);
+        var allowed = scoped == null
+            ? await db.TeacherGrants.AnyAsync(g => g.TeacherId == actor.Id && g.CourseId == assignment.CourseId &&
+                (g.GroupId == null || db.Enrollments.Any(e => e.StudentId == assignment.StudentId &&
+                    e.CourseId == assignment.CourseId && e.IsActive && e.GroupId == g.GroupId)), cancellationToken)
+            : await (from grant in db.Set<TeacherAssignmentScope>().AsNoTracking()
+                join legacy in db.TeacherGrants.AsNoTracking() on grant.GrantId equals legacy.Id
+                join membership in db.Set<OrganizationMembership>().AsNoTracking()
+                    on new { grant.OrganizationId, ActorId = grant.TeacherId }
+                    equals new { membership.OrganizationId, membership.ActorId }
+                join course in db.Set<CourseRegistration>().AsNoTracking() on grant.CourseId equals course.CourseId
+                where grant.TeacherId == actor.Id && grant.CourseId == scoped.CourseId &&
+                    grant.OrganizationId == scoped.OrganizationId && grant.State == "Active" &&
+                    grant.RevocationRequestedAt == null && grant.AccessValidUntil == null &&
+                    grant.MembershipGeneration == membership.Generation && membership.State == "Active" &&
+                    membership.RevocationRequestedAt == null && membership.AccessValidUntil == null &&
+                    legacy.TeacherId == actor.Id && legacy.CourseId == scoped.CourseId && legacy.GroupId == grant.GroupId &&
+                    course.OrganizationId == scoped.OrganizationId && course.MappingState == "Verified" &&
+                    (grant.GroupId == null || grant.GroupId == scoped.GroupId)
+                select grant).AnyAsync(cancellationToken);
+        if (!allowed)
             throw new UseCaseException("Forbidden");
     }
 

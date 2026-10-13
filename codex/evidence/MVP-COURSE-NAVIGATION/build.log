@@ -1,0 +1,3 @@
+$ tsc --noEmit && vite build
+src/features/course/CoursesPage.tsx(33,11): error TS2741: Property 'context' is missing in type '{ preview: false; role: null; children: Element[]; }' but required in type '{ role: NavigationRole | null; children: ReactNode; context: ReactNode; preview?: boolean | undefined; }'.
+[ELIFECYCLE] Command failed with exit code 1.

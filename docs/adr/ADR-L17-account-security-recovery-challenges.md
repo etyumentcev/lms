@@ -1,5 +1,13 @@
 # ADR-L17 — SecurityBlocked, independent recovery и AccessChallenge
 
+> **2026-10-12 — CURRENT OWNER OVERRIDE.** [Teacher Revocation logical-deadline decision](../../codex/TEACHER-REVOCATION-OWNER-DECISION.md) removes physical completion of an already admitted operation from the SecurityBlocked/ordinary-revoke acceptance criteria. Block still stops new login/issue/refresh and revokes refresh sessions; access JWT remains ≤15m; operation deadline remains ≤30m; cancellation is requested and late success is forbidden. A late physical effect is accepted residual risk, not continued authority, a successful old response, or permission to replay. Recovery, audit, tenant isolation, and personal-data controls below remain unchanged.
+
+> **2026-10-12 — bounded teacher revocation.** [Действующий scoped contract](../architecture/TEACHER-REVOCATION.md): fresh issue/refresh, JWT≤15m, immutable operation≤30m, revoke≤60m в выбранном bounded execution envelope. Для ordinary revoke двухчасовой D и D−10m superseded; неограниченный late COMMIT/egress не удовлетворяет новому контракту. История ниже сохранена. Processing/file safety, PRS1 и release gates не сняты; общий HTTP/physical bound NOT PROVEN.
+
+> **NR1 effective notice — 2026-10-11.** D5 заменяет только completion-абзац «JWT, выпущенный до block…» на N4 для NR1 paths. Первый абзац SecurityBlocked E03, E04/E05, issuance/consume/block/session/audit не изменены. Полное прекращение effects/egress через 23m больше не обещается для NR1 scope; true JWT≤900s сохранён.
+> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+
 2026-10-09. **ACCEPTED E03/E04/E05**, T01/T02 неизменны. Owner evidence: L0.4 §4; [реестр](../../codex/L03-OWNER-DECISION-REGISTER.md). SYNTHETIC DATA ONLY; implementation NOT VERIFIED. Нормативный lifecycle здесь, ADR-L02 сохраняет provisioning boundary.
 
 ## SecurityBlocked E03

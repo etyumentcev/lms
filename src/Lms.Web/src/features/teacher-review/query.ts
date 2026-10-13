@@ -9,7 +9,8 @@ export function getProblemWork(client: ApiClient, id: string, signal: AbortSigna
   }, { signal });
 }
 export function reviewSubmission(client: ApiClient, id: string, decision: 'accept' | 'needs-revision', body: ReviewRequest) {
-  return client.request(`/problem-works/${encodeURIComponent(id)}/reviews/${decision}`, () => undefined, { method: 'POST', body });
+  return client.request(`/problem-works/${encodeURIComponent(id)}/reviews/${decision}`, () => undefined,
+    { method: 'POST', body, csrf: true });
 }
 type State = { phase: 'loading' } | { phase: 'error'; error: ApiError } | { phase: 'success'; data: ProblemWorkDetails };
 export function useProblemWork(client: ApiClient, id: string) {

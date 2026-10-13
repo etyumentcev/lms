@@ -1,0 +1,114 @@
+{
+  "backend": [
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_05_14_28_net10.0.trx",
+      "total": "348",
+      "executed": "346",
+      "passed": "346",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_05_13_55_net10.0.trx",
+      "total": "258",
+      "executed": "258",
+      "passed": "258",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_05_13_53_net10.0.trx",
+      "total": "340",
+      "executed": "340",
+      "passed": "340",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-12_05_13_51_net10.0.trx",
+      "total": "43",
+      "executed": "43",
+      "passed": "43",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  ],
+  "backendPassed": 987,
+  "backendFailed": 0,
+  "backendNotExecuted": 2,
+  "targetedHttp": {
+    "passed": 42,
+    "failed": 0
+  },
+  "browserWork": {
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontendParallel": [
+    {
+      "passed": 403,
+      "failed": 0
+    },
+    {
+      "passed": 403,
+      "failed": 0
+    },
+    {
+      "passed": 402,
+      "failed": 1
+    }
+  ],
+  "frontendSerial": {
+    "passed": 403,
+    "failed": 0
+  },
+  "attachmentsFlake": "reproduced; unchanged; not fixed",
+  "photoPaths": "BLOCKED / NOT RUN",
+  "backendSkipped": 2,
+  "backendSkipExplanation": "Two opt-in browser theory definitions; total minus executed (TRX notExecuted counter is zero). Work browser data cases ran separately: 2 PASS."
+}

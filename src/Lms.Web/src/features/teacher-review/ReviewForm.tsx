@@ -21,6 +21,9 @@ export function ReviewForm({ data, client, feedback, changeFeedback, refresh, co
   const [pending, setPending] = useState<'accept' | 'needs-revision' | null>(null);
   const [failure, setFailure] = useState<{ text: string; blocked: boolean; field?: boolean } | null>(null);
   const locked = useRef(false), active = useRef(true);
+  const commands = useRef<Record<'accept' | 'needs-revision', string>>({
+    accept: crypto.randomUUID(), 'needs-revision': crypto.randomUUID(),
+  });
   const errorRef = useRef<HTMLDivElement>(null), fieldRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
   useEffect(() => { if (failure?.field) fieldRef.current?.focus(); else if (failure) errorRef.current?.focus(); }, [failure]);
@@ -34,8 +37,9 @@ export function ReviewForm({ data, client, feedback, changeFeedback, refresh, co
     busy?.(true);
     locked.current = true; setPending(decision); setFailure(null);
     try {
-      await reviewSubmission(client, data.id, decision, { submissionId: data.currentSubmission.id,
-        expectedVersion: data.version, feedbackMarkdown: feedback.trim() ? feedback : null, ...(annotations.length ? { annotations } : {}) });
+      await reviewSubmission(client, data.id, decision, { commandId: commands.current[decision],
+        submissionId: data.currentSubmission.id, expectedVersion: data.version,
+        feedback: feedback.trim() ? feedback : null, ...(annotations.length ? { annotations } : {}) });
       if (active.current) completed();
     } catch (error) {
       if (!active.current) return;

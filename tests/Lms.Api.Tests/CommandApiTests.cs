@@ -16,9 +16,11 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     private static object Solution(long? version = null, string? body = "solution", params Guid[] attachments)
         => new { bodyMarkdown = body, attachmentIds = attachments, expectedVersion = version };
     private static object Review(SubmissionResult submission, long version, string? feedback = "Explain step 2")
-        => new { submissionId = submission.SubmissionId, feedbackMarkdown = feedback, expectedVersion = version };
+        => new { commandId = Guid.NewGuid(), submissionId = submission.SubmissionId, feedback, expectedVersion = version };
     private static object Message(Guid? reply = null, params Guid[] attachments)
         => new { bodyMarkdown = "A question", replyToMessageId = reply, attachmentIds = attachments };
+    private static object TeacherMessage(Guid? reply = null, params Guid[] attachments)
+        => new { commandId = Guid.NewGuid(), intentId = Guid.NewGuid(), body = "A question", replyTo = reply, attachments };
     private static async Task<T> Success<T>(HttpResponseMessage response, HttpStatusCode status = HttpStatusCode.OK)
     {
         Assert.True(response.StatusCode == status, await response.Content.ReadAsStringAsync());
@@ -44,9 +46,9 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Full_flow_preserves_history_and_message_does_not_change_status_or_attempt_count()
     {
         await using var app = await postgres.CreateApp();
-        var assignment = await app.Seed();
+        var assignment = await app.Seed(studentGroup: "group-a", scopedTeacher: true);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         var first = await Submit(app, assignment);
         Assert.Equal(1, first.AttemptNumber);
         Assert.Equal(1, first.Version);
@@ -72,7 +74,7 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
         await Error(await teacher.PostAsJsonAsync(ReviewRoute(second.ProblemWorkId), Review(second, second.Version)), 409, "ConcurrencyConflict");
         await Error(await teacher.PostAsJsonAsync(ReviewRoute(second.ProblemWorkId), Review(second, accepted.Version)), 409, "WorkNotSubmitted");
         await Error(await student.PostAsJsonAsync(SubmitRoute(assignment.Id), Solution(accepted.Version)), 409, "WorkAlreadyAccepted");
-        await Success<MessageResult>(await teacher.PostAsJsonAsync(MessageRoute(first.ProblemWorkId), Message()));
+        await Success<MessageResult>(await teacher.PostAsJsonAsync(MessageRoute(first.ProblemWorkId), TeacherMessage()));
         var final = await app.Reload(first.ProblemWorkId);
         Assert.Equal(ProblemWorkStatus.Accepted, final.Status);
         Assert.Equal(2, final.Submissions.Count);
@@ -155,8 +157,8 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Revision_requires_feedback(string? feedback)
     {
         await using var app = await postgres.CreateApp();
-        var submitted = await Submit(app, await app.Seed());
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        var submitted = await Submit(app, await app.Seed(studentGroup: "group-a", scopedTeacher: true));
+        using var teacher = await app.SecureClient();
         await Error(await teacher.PostAsJsonAsync(ReviewRoute(submitted.ProblemWorkId), Review(submitted, 1, feedback)), 422, "FeedbackRequired");
         var work = await app.Reload(submitted.ProblemWorkId);
         Assert.Empty(work.Reviews);
@@ -173,10 +175,11 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Teacher_review_and_message_require_course_or_matching_group(bool grant, string? teacherGroup, string? studentGroup, bool allowed)
     {
         await using var app = await postgres.CreateApp();
-        var submitted = await Submit(app, await app.Seed(teacherGrant: grant, teacherGroup: teacherGroup, studentGroup: studentGroup));
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        var submitted = await Submit(app, await app.Seed(teacherGrant: grant, teacherGroup: teacherGroup,
+            studentGroup: studentGroup, scopedTeacher: true));
+        using var teacher = await app.SecureClient();
         var review = await teacher.PostAsJsonAsync(ReviewRoute(submitted.ProblemWorkId), Review(submitted, 1));
-        var message = await teacher.PostAsJsonAsync(MessageRoute(submitted.ProblemWorkId), Message());
+        var message = await teacher.PostAsJsonAsync(MessageRoute(submitted.ProblemWorkId), TeacherMessage());
         if (allowed)
         {
             await Success<ReviewResult>(review);
@@ -194,9 +197,9 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Student_cannot_message_foreign_work_or_review_own_work()
     {
         await using var app = await postgres.CreateApp();
-        var submitted = await Submit(app, await app.Seed());
+        var submitted = await Submit(app, await app.Seed(studentGroup: "group-a", scopedTeacher: true));
         using var stranger = app.Client(Guid.NewGuid());
-        using var owner = app.Client(ApiFactory.Student);
+        using var owner = await app.SecureClient("Student");
         await Error(await stranger.PostAsJsonAsync(MessageRoute(submitted.ProblemWorkId), Message()), 403, "Forbidden");
         await Error(await owner.PostAsJsonAsync(ReviewRoute(submitted.ProblemWorkId), Review(submitted, 1)), 403, "Forbidden");
     }
@@ -236,7 +239,7 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Review_required_fields_are_not_defaulted(string body)
     {
         await using var app = await postgres.CreateApp();
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         await Error(await teacher.PostAsync(ReviewRoute(Guid.NewGuid()), new StringContent(body, Encoding.UTF8, "application/json")), 400, "ValidationFailed");
     }
 
@@ -311,9 +314,9 @@ public sealed class CommandApiTests(ApiPostgresFixture postgres) : IClassFixture
     public async Task Concurrent_reviews_have_one_winner_and_no_partial_writes()
     {
         await using var app = await postgres.CreateApp();
-        var submitted = await Submit(app, await app.Seed());
-        using var a = app.Client(ApiFactory.Teacher, "Teacher");
-        using var b = app.Client(ApiFactory.Teacher, "Teacher");
+        var submitted = await Submit(app, await app.Seed(studentGroup: "group-a", scopedTeacher: true));
+        using var a = await app.SecureClient();
+        using var b = await app.SecureClient();
         app.Barrier.Armed = true;
         var responses = await Task.WhenAll(a.PostAsJsonAsync(ReviewRoute(submitted.ProblemWorkId), Review(submitted, 1)),
             b.PostAsJsonAsync(ReviewRoute(submitted.ProblemWorkId, "accept"), Review(submitted, 1, null)));

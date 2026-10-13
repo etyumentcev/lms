@@ -81,8 +81,11 @@ public sealed class ComponentJwt
             p.exp - p.nbf > 900 || p.scope?.Membership == null || p.scope.Grants == null) return false;
         var m = p.scope.Membership;
         if (m.ActorId != p.actor || m.OrganizationId == Guid.Empty || m.Generation <= 0 || m.Version <= 0 ||
-            m.Role is not (ScopeRole.Student or ScopeRole.Teacher) || m.Permissions is < 0 or > 15 ||
-            p.scope.Grants.Count is < 1 or > 256) return false;
+            m.Permissions < 0 || (m.Permissions & ~OrganizationPermissionPolicy.KnownMask) != 0 ||
+            p.scope.Grants.Count > 256) return false;
+        if (m.Role is null)
+            return OrganizationPermissionPolicy.CanManageOrganization(m) && p.scope.Grants.Count == 0;
+        if (m.Role is not (ScopeRole.Student or ScopeRole.Teacher) || m.Permissions != 0 || p.scope.Grants.Count < 1) return false;
         var identities = new HashSet<string>(); var courses = new HashSet<string>();
         foreach (var g in p.scope.Grants)
         {

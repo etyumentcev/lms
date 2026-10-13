@@ -1,6 +1,8 @@
 using Lms.Application;
 using Lms.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Lms.Api;
 
@@ -19,7 +21,7 @@ public static class ApiErrors
     public static (string Code, int Status) Map(string code) => code switch
     {
         "Unauthenticated" => (code, 401),
-        "ContentUnavailable" => (code, 503),
+        "ContentUnavailable" or "ContentImportFailed" => (code, 503),
         "AssignmentNotFound" or "ProblemWorkNotFound" or "NotFound" => ("NotFound", 404),
         "AssignmentDoesNotBelongToStudent" or "AssignmentInactive" or "StudentNotAuthorized" or
             "TeacherNotAuthorized" or "Forbidden" => ("Forbidden", 403),
@@ -27,8 +29,14 @@ public static class ApiErrors
         "UnsupportedAttachmentType" => (code, 415),
         "MalformedAttachment" => ("InvalidAttachment", 400),
         "AttachmentAlreadyAttached" => (code, 409),
+        "IdempotencyConflict" or "DuplicateIdentity" or "DuplicateMembership" or "ActivationUnavailable" or "ActivationLocked" or "RecoveryUnavailable" or "RecoveryLocked" or "ApprovalUnavailable" => (code, 409),
+        "ActivationExpired" or "RecoveryExpired" => (code, 410),
+        "ActivationUsed" or "RecoveryUsed" => (code, 409),
+        "ChallengeRateLimited" or "ChallengeCooldown" => (code, 429),
+        "IdentityAmbiguous" or "IndependentApprovalRequired" => (code, 403),
+        "InvalidActivationCode" or "ActivationInvalid" or "RecoveryInvalid" => (code, 401),
         "AttachmentNotOwned" => (code, 403),
-        "ConcurrencyConflict" or "WorkAlreadySubmitted" or "WorkAlreadyAccepted" or "WorkNotSubmitted" or
+        "OperationAlreadyAttempted" or "ConcurrencyConflict" or "WorkAlreadySubmitted" or "WorkAlreadyAccepted" or "WorkNotSubmitted" or
             "SubmissionIsNotCurrent" or "SubmissionAlreadyReviewed" => (code, 409),
         "InvalidAnnotations" or "EmptySubmission" or "FeedbackRequired" or "InvalidReplyTarget" => (code, 422),
         "InvalidId" or "EmptyValue" or "EmptyMessage" or "InvalidAttachment" or "InvalidAuthorRole" => ("ValidationFailed", 422),
@@ -56,6 +64,12 @@ public sealed class ApiExceptionMiddleware(RequestDelegate next, ILogger<ApiExce
             {
                 UseCaseException e => ApiErrors.Map(e.Code),
                 DomainException e => ApiErrors.Map(e.Code),
+                DbUpdateConcurrencyException => ApiErrors.Map("ConcurrencyConflict"),
+                DbUpdateException { InnerException: PostgresException { SqlState: "40001" or "40P01" or "23505" } } =>
+                    ApiErrors.Map("ConcurrencyConflict"),
+                InvalidOperationException { InnerException: PostgresException { SqlState: "40001" or "40P01" or "23505" } } =>
+                    ApiErrors.Map("ConcurrencyConflict"),
+                PostgresException { SqlState: "40001" or "40P01" or "23505" } => ApiErrors.Map("ConcurrencyConflict"),
                 BadHttpRequestException { StatusCode: 413 } when context.Request.Path == "/api/v1/uploads" => ("AttachmentTooLarge", 413),
                 BadHttpRequestException e => ("ValidationFailed", e.StatusCode),
                 _ => ("InternalError", 500)

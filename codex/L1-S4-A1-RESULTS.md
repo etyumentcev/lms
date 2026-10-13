@@ -10,16 +10,16 @@ Before editing, 352 tracked/untracked files, SHA-256 manifest, working/index pat
 
 ## Implemented components and changed files
 
-| File | Component |
-|---|---|
-| `src/Lms.Application/ComponentAuthorization.cs` | Explicit bounded UTC clock contract, conservative expiry calculation, redacted bearer wrapper, token authority and internal scope/processing policy |
-| `src/Lms.Infrastructure/ComponentJwt.cs` | Fixed RS256 issuer/validator profile, pinned RSA key ≥2048 bits, strict claims and scope validation |
-| `src/Lms.Infrastructure/PostgresComponentTokenIssuer.cs` | Fresh session and S3 authority issuance under existing S2/S3 locks; organization switch is a fresh issue |
-| `src/Lms.Infrastructure/PostgresIdentitySessions.cs` | Internal read-only issuance callback retaining existing account/session locks through signing |
-| `src/Lms.Infrastructure/PostgresCurrentProcessingGate.cs` | Current PostgreSQL SyntheticOnly context/binding/restriction component check |
-| `tests/Lms.Infrastructure.Tests/ComponentJwtTests.cs` | Synthetic JWT, clock and policy tests |
-| `tests/Lms.Infrastructure.Tests/ComponentIssuanceTests.cs` | Synthetic PostgreSQL issuance, revoke/regrant/block, waiting-lock and restrictions tests |
-| `codex/L1-S4-A1-RESULTS.md` | This report |
+| File                                                       | Component                                                                                                                                           |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/Lms.Application/ComponentAuthorization.cs`            | Explicit bounded UTC clock contract, conservative expiry calculation, redacted bearer wrapper, token authority and internal scope/processing policy |
+| `src/Lms.Infrastructure/ComponentJwt.cs`                   | Fixed RS256 issuer/validator profile, pinned RSA key ≥2048 bits, strict claims and scope validation                                                 |
+| `src/Lms.Infrastructure/PostgresComponentTokenIssuer.cs`   | Fresh session and S3 authority issuance under existing S2/S3 locks; organization switch is a fresh issue                                            |
+| `src/Lms.Infrastructure/PostgresIdentitySessions.cs`       | Internal read-only issuance callback retaining existing account/session locks through signing                                                       |
+| `src/Lms.Infrastructure/PostgresCurrentProcessingGate.cs`  | Current PostgreSQL SyntheticOnly context/binding/restriction component check                                                                        |
+| `tests/Lms.Infrastructure.Tests/ComponentJwtTests.cs`      | Synthetic JWT, clock and policy tests                                                                                                               |
+| `tests/Lms.Infrastructure.Tests/ComponentIssuanceTests.cs` | Synthetic PostgreSQL issuance, revoke/regrant/block, waiting-lock and restrictions tests                                                            |
+| `codex/L1-S4-A1-RESULTS.md`                                | This report                                                                                                                                         |
 
 No dependencies, migrations, schema, HTTP registration, routes, browser code or normative documents changed.
 
@@ -89,7 +89,6 @@ Next minimal stage: owner acceptance of this component slice, followed by separa
 A separate local commit contains only the eight files listed above; its SHA is reported in the task completion message. Existing dirty/untracked owner artifacts remain outside that commit.
 
 **S4-A1 READY FOR OWNER ACCEPTANCE · T04 UNCHANGED · G02 BLOCKED · S4 HTTP NOT AUTHORIZED.**
-
 
 ## Owner Decision — L1/S4-A1 — 2026-10-10
 

@@ -1,0 +1,24 @@
+{"id": "fifo-open", "pid": 131787, "wchan": "wait_for_partner", "exit": -9, "kill_reap_ms": 1.1693150008795783, "scope": "interruptible surrogate only"}
+{"id": "fifo-read", "pid": 131788, "wchan": "anon_pipe_read", "exit": -9, "kill_reap_ms": 1.1607320011535194, "scope": "interruptible surrogate only"}
+{"id": "fifo-write", "pid": 131789, "wchan": "anon_pipe_write", "exit": -9, "kill_reap_ms": 1.1439049994805828, "scope": "interruptible surrogate only"}
+{"id": "userspace-hang", "exit": -9, "kill_reap_ms": 1.120562999858521}
+{"id": "generation-toctou", "generation": 1, "new_epoch": 2, "declared_fence_ns": 21827940510109, "observed_mutation_ns": 21827947904048, "bytes": 4, "sha256": "089001a35679a33ef3db0ca350db9b9a2f0136e0e327577b04b3b98127470961", "result": "COUNTEREXAMPLE: token check is not mutation fence"}
+{"id": "retained-fd-seal", "result": "COUNTEREXAMPLE: rename/chmod does not revoke writable FD", "sha256": "18a0c098c7fb0098093fc0fd619c8032ae193215c5f695d7f5eaafa28aa64d70"}
+{"id": "tcp-close-buffer", "close_ns": 21827949835969, "last_receive_ns": 21828050375535, "bytes_received_after_close": 65536, "result": "COUNTEREXAMPLE to close == client receive completion; NIC boundary unobserved"}
+{"id": "pg-config", "settings": [["PostgreSQL 17.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit", "on", "on", "on", "fdatasync", "f", "7694710359065034793", "1"]]}
+{"id": "pg-lost-ack", "commit_sent_ns": 21829092809913, "outcome_observed_ns": 21829094287384, "client_commit_response_read": false, "false_absence_before_commit": [["0"]], "serialized_resolve_twice": [["lost", "1", "Committed"], ["1"]], "result": "Committed exactly one effect; no replay"}
+{"id": "pg-rollback", "result": "confirmed ROLLBACK, fresh primary sees zero effects"}
+{"id": "pg-terminate-signal", "pid": 155, "signal_result": [["t"]], "backend_still_present": [["1"]], "elapsed_ms": 2.8718739995383658, "result": "COUNTEREXAMPLE: signal acknowledgement is not process exit; SIGSTOP surrogate, not WAL fault"}
+{"id": "cleanup", "removed_containers": ["c17c5ee782f66d5d90fe96b3d457b716868d2b07e7be2689921845c1319d65a6"]}
+Traceback (most recent call last):
+  File "/tmp/lms-g02-a03/probe.py", line 112, in <module>
+    o=Conn(port);history=o.q('select * from effects');assert history==[['lost']];record('pg-clean-restart',effects=history,result='history survived clean container restart; not power-loss or failover proof');o.close()
+  File "/tmp/lms-g02-a03/probe.py", line 62, in __init__
+    self.s=socket.create_connection(('127.0.0.1',port),timeout=5)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/socket.py", line 870, in create_connection
+    raise exceptions[0]
+  File "/usr/lib/python3.14/socket.py", line 855, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [Errno 111] Connection refused

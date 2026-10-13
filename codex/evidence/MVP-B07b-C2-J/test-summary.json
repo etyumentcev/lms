@@ -1,0 +1,224 @@
+{
+  "runs": [
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-11_22_02_05_net10.0.trx",
+      "counters": {
+        "total": "43",
+        "executed": "43",
+        "passed": "43",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-11_22_02_06_net10.0.trx",
+      "counters": {
+        "total": "272",
+        "executed": "272",
+        "passed": "272",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-11_22_02_08_net10.0.trx",
+      "counters": {
+        "total": "198",
+        "executed": "198",
+        "passed": "198",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    },
+    {
+      "file": "_tea-Swift-SFG16-74_2026-10-11_22_02_42_net10.0.trx",
+      "counters": {
+        "total": "219",
+        "executed": "219",
+        "passed": "219",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      }
+    }
+  ],
+  "total": 732,
+  "isolatedCount": 33,
+  "isolated": [
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Direct_processing_DML_DDL_EF_and_function_replacement_are_denied",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_S2_rehash_preserves_password_and_atomic_session_audit_without_UPDATE_grant",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_S3_move_revoke_stale_generation_and_conflict_preserve_current_authority",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_audit_rejects_forged_action_old_source_and_mapping_actor",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_replay_and_expiry_retirement_audit_paths_preserve_S2",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_concurrent_creation_has_one_winner(conflict: \"name\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_existing_unmapped_actor_keeps_stable_identity",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Existing_C2H_logins_cannot_invoke_Ready_composition_helpers",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_concurrent_creation_has_one_winner(conflict: \"actor\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_issuer_holds_S2_locks_before_waiting_for_Organization",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_duplicate_user_actor_and_normalized_name_never_rebind_or_duplicate",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_forged_action_is_denied_even_with_current_transaction_session_source",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.S2_audit_writer_blocks_cutover_and_granting_insert_fails_C2G_preflight",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_audit_failure_rolls_back_new_session_and_verifier",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_issuer_lost_commit_ACK_never_returns_JWT",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_lost_COMMIT_ACK_is_unknown_outcome_and_duplicate_retry_conflicts",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_concurrent_creation_has_one_winner(conflict: \"same\")",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_LOGIN_creates_inactive_identity_and_only_mapping_audit",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Ownership_membership_defaults_and_callable_capabilities_are_closed",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_S2_authenticate_rotate_revoke_revoke_all_and_audit",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_session_and_audit_rollback_atomically_after_capability_succeeds",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_mapping_creation_is_blocked_by_non_audit_privileges_without_partial_effects",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_principal_and_runtime_have_no_direct_identity_DML_or_privilege_escalation",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Provisioning_audit_failure_and_precommit_failure_roll_back_all_four_rows",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Runtime_cannot_forge_mapping_creation_by_updating_existing_identity_rows",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_serialization_failure_rolls_back_session_and_capability_audit",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_issuer_S3_membership_and_delayed_JWT_revocation",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Existing_application_starts_and_Submit_Review_Revise_Accept_uses_runtime_login",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_S2_lost_commit_ACK_commits_session_and_audit_but_returns_no_secret",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_deadlock_victim_rolls_back_session_and_audit_without_replay",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_organization_lock_is_FOR_UPDATE_until_rollback_and_denies_invalid_org",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Restricted_S3_whole_course_teacher_Student_group_only_admin_and_foreign_scope_matrix",
+      "outcome": "Passed"
+    },
+    {
+      "name": "Lms.Api.Tests.IsolatedProcessingDeploymentTests.Guard_backfill_new_org_adapter_commands_and_repeat_migration",
+      "outcome": "Passed"
+    }
+  ]
+}

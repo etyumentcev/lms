@@ -14,7 +14,7 @@ export type LessonWorkspace = {
     availability: CourseLessonRow['availability'];
     work: { problemWorkId: string | null; status: ProblemWorkStatus; attemptCount: number; version: number | null;
       latestSubmission: Submission | null; latestReview: Review | null; latestTeacherFeedback: Message | null };
-    permissions: { canSubmit: boolean; canPostMessage: boolean; canAccept: boolean; canRequestRevision: boolean };
+    permissions: { canSubmit: boolean; canPostMessage: boolean; canAccept: boolean; canRequestRevision: boolean; canViewAsTeacher?: boolean };
   }[]; materials: CourseWorkspace['materials'];
 };
 export const oneOf = (...values: string[]) => (value: unknown) => typeof value === 'string' && values.includes(value);
@@ -28,7 +28,7 @@ export const review = object({ id: string, submissionId: string, teacherId: stri
 export const message = object({ id: string, author: user, authorRole: oneOf('Student', 'Teacher'), bodyMarkdown: string, replyToMessageId: nullable(string), createdAt: timestamp, attachmentIds: array(string) });
 export const work = object({ problemWorkId: nullable(string), status: oneOf('NotStarted', 'Submitted', 'NeedsRevision', 'Accepted'), attemptCount: count, version: nullable(value => count(value) && Number.isSafeInteger(value)),
   latestSubmission: nullable(submission), latestReview: nullable(review), latestTeacherFeedback: nullable(message) });
-export const permissions = object({ canSubmit: boolean, canPostMessage: boolean, canAccept: boolean, canRequestRevision: boolean });
+export const permissions = object({ canSubmit: boolean, canPostMessage: boolean, canAccept: boolean, canRequestRevision: boolean, canViewAsTeacher: value => value === undefined || boolean(value) });
 export const material = object({ id: string, title: string, kind: string, description: nullable(string), url: string });
 const workspace = object({ course, lesson, contentVersions: array(lesson), availability,
   progress: object({ status: oneOf('NotStarted', 'InProgress', 'Completed'), acceptedProblems: count, totalAssignedProblems: count, percent }),

@@ -21,7 +21,8 @@ public sealed class QualifiedAuthorityClock(IQualifiedClockSource source, TimeSp
         {
             var sample = Sample();
             if (sample == null || budget <= TimeSpan.Zero || sample.MonotonicEarliest > TimeSpan.MaxValue - budget) return null;
-            return new Deadline(this, sample.QualificationId, sample.MonotonicEarliest + budget);
+            if (sample.Utc.Earliest > DateTimeOffset.MaxValue - budget) return null;
+            return new Deadline(this, sample.QualificationId, sample.MonotonicEarliest + budget, sample.Utc.Earliest + budget);
         }
     }
     private QualifiedClockReading? Sample()
@@ -48,8 +49,9 @@ public sealed class QualifiedAuthorityClock(IQualifiedClockSource source, TimeSp
         private readonly QualifiedAuthorityClock owner;
         private readonly string epoch;
         private readonly TimeSpan cutoff;
-        internal Deadline(QualifiedAuthorityClock owner, string epoch, TimeSpan cutoff)
-        { this.owner = owner; this.epoch = epoch; this.cutoff = cutoff; }
+        public DateTimeOffset UtcCutoff { get; }
+        internal Deadline(QualifiedAuthorityClock owner, string epoch, TimeSpan cutoff, DateTimeOffset utcCutoff)
+        { this.owner = owner; this.epoch = epoch; this.cutoff = cutoff; UtcCutoff = utcCutoff; }
         // No budget reset and no UTC subtraction: queue/wait time consumes this same deadline.
         public TimeSpan? Remaining()
         {

@@ -1,0 +1,33 @@
+  Determining projects to restore...
+  Restored /tmp/b07c2h/repo/tests/Lms.Application.Tests/Lms.Application.Tests.csproj (in 459 ms).
+  Restored /tmp/b07c2h/repo/tests/Lms.Domain.Tests/Lms.Domain.Tests.csproj (in 459 ms).
+  Restored /tmp/b07c2h/repo/tests/Lms.Infrastructure.Tests/Lms.Infrastructure.Tests.csproj (in 459 ms).
+  5 of 8 projects are up-to-date for restore.
+  Lms.Domain -> /tmp/b07c2h/repo/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Domain.Tests -> /tmp/b07c2h/repo/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll
+Test run for /tmp/b07c2h/repo/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/b07c2h/final-results/_tea-Swift-SFG16-74_2026-10-11_21_14_25_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    43, Skipped:     0, Total:    43, Duration: 61 ms - Lms.Domain.Tests.dll (net10.0)
+  Lms.Application -> /tmp/b07c2h/repo/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Application.Tests -> /tmp/b07c2h/repo/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll
+Test run for /tmp/b07c2h/repo/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/b07c2h/final-results/_tea-Swift-SFG16-74_2026-10-11_21_14_28_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   272, Skipped:     0, Total:   272, Duration: 145 ms - Lms.Application.Tests.dll (net10.0)
+  Lms.Infrastructure -> /tmp/b07c2h/repo/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /tmp/b07c2h/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /tmp/b07c2h/repo/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/b07c2h/final-results/_tea-Swift-SFG16-74_2026-10-11_21_14_32_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   198, Skipped:     0, Total:   198, Duration: 1 m 1 s - Lms.Infrastructure.Tests.dll (net10.0)
+  Lms.Api -> /tmp/b07c2h/repo/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /tmp/b07c2h/repo/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /tmp/b07c2h/repo/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/b07c2h/final-results/_tea-Swift-SFG16-74_2026-10-11_21_15_38_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   191, Skipped:     0, Total:   191, Duration: 56 s - Lms.Api.Tests.dll (net10.0)

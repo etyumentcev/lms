@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ApiError } from '../../api/client';
+import { createSessionObjectUrl, revokeSessionObjectUrl } from '../../api/sessionResources';
 import type { AttachmentApi } from './api';
 import { Button, LoadingSkeleton } from '../primitives';
 
@@ -17,11 +18,11 @@ export function AttachmentPreview({ api, id, page, annotation = false }: { api: 
     setResult({});
     void api.content(id, controller.signal).then(blob => {
       if (controller.signal.aborted) return;
-      url = URL.createObjectURL(blob); setResult({ url });
+      url = createSessionObjectUrl(blob); setResult({ url });
     }).catch((error: unknown) => { if (!controller.signal.aborted) setResult({ failed: error instanceof ApiError && [401, 403].includes(error.status)
       ? 'Нет доступа к изображению.' : error instanceof ApiError && error.status === 404
         ? 'Изображение не найдено или недоступно.' : 'Не удалось загрузить изображение.' }); });
-    return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
+    return () => { controller.abort(); if (url) revokeSessionObjectUrl(url); };
   }, [api, id, retry]);
   return result.url ? annotation ? <><img src={result.url} alt={`Страница ${page} — фото решения`} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /><a className="annotation-original" href={result.url} target="_blank" rel="noopener noreferrer" aria-label={`Открыть страницу ${page} в полном размере (новая вкладка)`}>Открыть оригинал</a></> : <AttachmentImage url={result.url} page={page} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /> : result.failed
     ? <><p role="alert">Не удалось загрузить страницу {page}. {result.failed}</p><Button variant="secondary" onClick={() => setRetry(x => x + 1)}>Повторить предпросмотр страницы {page}</Button></>

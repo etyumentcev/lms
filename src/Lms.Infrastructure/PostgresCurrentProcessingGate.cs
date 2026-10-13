@@ -12,6 +12,14 @@ public sealed class PostgresCurrentProcessingGate(LmsDbContext db, IAuthorityClo
         if (!Enum.IsDefined(action) || clock.Read() is not { Valid: true } time ||
             db.Database.CurrentTransaction != null || db.ChangeTracker.Entries().Any()) return false;
         await using var tx = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.RepeatableRead, cancellationToken);
+        return await AllowsInTransaction(resource, actorId, action, cancellationToken);
+    }
+
+    // Caller holds processing_lock(org) throughout mutation and commit. Never use this
+    // entry point with an unrelated transaction or detached authorization decision.
+    internal async Task<bool> AllowsInTransaction(ResourceOwnership resource, Guid actorId, ScopeAction action, CancellationToken cancellationToken)
+    {
+        if (!Enum.IsDefined(action) || clock.Read() is not { Valid: true } time || db.Database.CurrentTransaction == null) return false;
         if (!await db.Set<Organization>().AsNoTracking().AnyAsync(o => o.OrganizationId == resource.OrganizationId &&
                 o.State == "Enabled" && o.SyntheticOnly, cancellationToken)) return false;
         var bindings = await (from b in db.Set<CourseContextBinding>().AsNoTracking()

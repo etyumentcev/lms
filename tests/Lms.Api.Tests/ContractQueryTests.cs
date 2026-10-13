@@ -19,7 +19,7 @@ public sealed partial class ContractApiTests
         // Earlier nonmatching rows make page-first filtering observably wrong.
         foreach (var title in new[] { "Other", "Needle", "Needle", "Needle", "Needle", "Needle", "Needle" })
         {
-            var a = await app.Seed();
+            var a = await app.Seed(studentGroup: "A", scopedTeacher: true);
             await Publish(app, a, title);
             var id = await Submit(student, a);
             if (title == "Other") continue;
@@ -27,7 +27,8 @@ public sealed partial class ContractApiTests
             if (expectedFirst.Count < 2) expectedFirst.Add(id);
             else if (expectedRevision.Count < 2)
             {
-                var revision = await Json(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/needs-revision", ReviewBody(work)));
+                using var command = await app.SecureClient();
+                var revision = await Json(await command.PostAsJsonAsync(WorkPath(id) + "/reviews/needs-revision", ReviewBody(work)));
                 await Json(await student.PostAsJsonAsync(SubmitPath(a.Id), Solution(revision.GetProperty("version").GetInt64())), 201);
                 expectedRevision.Add(id);
             }
@@ -35,7 +36,8 @@ public sealed partial class ContractApiTests
             {
                 // Both Accepted and NeedsRevision must be absent even though search matches.
                 var decision = reviewed++ == 0 ? "accept" : "needs-revision";
-                await Json(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/" + decision, ReviewBody(work)));
+                using var command = await app.SecureClient();
+                await Json(await command.PostAsJsonAsync(WorkPath(id) + "/reviews/" + decision, ReviewBody(work)));
             }
         }
         // Explicitly verify the expected current submissions on both filtered pages.
@@ -69,12 +71,12 @@ public sealed partial class ContractApiTests
     public async Task Progress_counts_only_accepted_active_assignments_through_revision_and_withdrawal()
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "A", scopedTeacher: true);
         await Publish(app, a);
         var second = new ProblemAssignment(Guid.NewGuid(), a.StudentId, a.CourseId, a.Content);
         await using (var db = app.Open()) { db.Assignments.Add(second); await db.SaveChangesAsync(); }
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         var firstId = await Submit(student, a);
         var first = await Get(teacher, WorkPath(firstId));
         await Json(await teacher.PostAsJsonAsync(WorkPath(firstId) + "/reviews/accept", ReviewBody(first, null)));
@@ -108,10 +110,10 @@ public sealed partial class ContractApiTests
     public async Task Teacher_capability_matches_review_authorization_including_historical_access(string decision, string scenario)
     {
         await using var app = await postgres.CreateApp();
-        var a = await app.Seed(teacherGroup: scenario == "matching-group" ? "A" : null, studentGroup: "A");
+        var a = await app.Seed(teacherGroup: scenario == "matching-group" ? "A" : null, studentGroup: "A", scopedTeacher: true);
         await Publish(app, a);
         using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         var id = await Submit(student, a);
         await using (var db = app.Open())
         {

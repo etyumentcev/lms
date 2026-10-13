@@ -15,11 +15,13 @@ public sealed class RefreshSecret(string value)
 
 public enum SessionOutcome { Success, Denied, RefreshAlreadyRotated }
 public sealed class SessionResult(SessionOutcome outcome, SessionIdentity? identity = null,
-    RefreshSecret? refreshToken = null)
+    RefreshSecret? refreshToken = null, AccessToken? accessToken = null)
 {
     public SessionOutcome Outcome { get; } = outcome;
     public SessionIdentity? Identity { get; } = identity;
     public RefreshSecret? RefreshToken { get; } = refreshToken;
+    public AccessToken? AccessToken { get; } = accessToken;
+    public bool HasEducationalScope => AccessToken != null;
     // S4 contract: conflict maps to 409 refresh_already_rotated, no JWT/Set-Cookie.
     public string? ErrorCode => Outcome switch
     {
@@ -42,6 +44,9 @@ public interface IIdentitySessions
     // Credential verification and session creation are one security transaction.
     Task<SessionResult> Authenticate(string userName, string password, CancellationToken cancellationToken = default);
     Task<SessionResult> Rotate(RefreshSecret token, CancellationToken cancellationToken = default);
+    // Cookie-authenticated logout. The opaque verifier is resolved and locked by the
+    // implementation; callers never derive trusted user/session IDs from request data.
+    Task<bool> Revoke(RefreshSecret token, CancellationToken cancellationToken = default);
     Task<SessionIdentity?> Read(Guid userId, Guid sessionId, CancellationToken cancellationToken = default);
     // IDs here must come from a trusted host adapter, never an unauthenticated request.
     Task Revoke(Guid userId, Guid sessionId, CancellationToken cancellationToken = default);

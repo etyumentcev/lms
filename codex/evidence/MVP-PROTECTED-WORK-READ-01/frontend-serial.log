@@ -1,0 +1,29 @@
+$ vitest run --no-file-parallelism
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/attachments.test.tsx (19 tests) 290ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 3349ms
+ ✓ src/test/problem.test.tsx (53 tests) 2106ms
+ ✓ src/test/history.test.tsx (37 tests) 1539ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 1385ms
+ ✓ src/test/lesson.test.tsx (40 tests) 974ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 659ms
+ ✓ src/test/course.test.tsx (34 tests) 802ms
+ ✓ src/test/shell.test.tsx (14 tests) 381ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 341ms
+ ✓ src/test/annotations.test.tsx (28 tests) 317ms
+ ✓ src/test/primitives.test.tsx (15 tests) 231ms
+stderr | src/test/protectedWork.test.tsx > isolated protected work > selects old attempt and its feedback without issuing writes or loading blocked files
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/protectedWork.test.tsx (5 tests) 222ms
+ ✓ src/test/api.test.ts (20 tests) 10ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 8ms
+
+ Test Files  15 passed (15)
+      Tests  403 passed (403)
+   Start at  05:10:35
+   Duration  20.73s (transform 497ms, setup 908ms, import 1.73s, tests 12.61s, environment 4.32s)
+

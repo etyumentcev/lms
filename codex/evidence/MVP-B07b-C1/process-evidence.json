@@ -1,0 +1,837 @@
+[
+  {
+    "test": "test_import.ComponentTests.test_cancel_inflight_no_partial_artifacts",
+    "unit": "b07c1-d02147b6afcd496fac8cb36de87358c2.service",
+    "returncode": 255,
+    "elapsedSeconds": 0.4727,
+    "managerResult": "signal",
+    "cpuUsec": 14903,
+    "memoryPeak": 5447680,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145262,
+      145263,
+      145264,
+      145265
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_changed_source_after_snapshot_uses_retained_bytes",
+    "unit": "b07c1-d1605d4c8ea74de48bd7c3586afeb47e.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2385,
+    "managerResult": "success",
+    "cpuUsec": 164514,
+    "memoryPeak": 40370176,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145312,
+      145313,
+      145314,
+      145316,
+      145323
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_cleanup_failure_no_ready",
+    "unit": "b07c1-93e5d982c0f34e9eae8a7383f86c2878.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2723,
+    "managerResult": "success",
+    "cpuUsec": 202539,
+    "memoryPeak": 40742912,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145346,
+      145347,
+      145348,
+      145349,
+      145356
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true,
+    "quarantined": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_full_ready_private_hashes_and_cleanup",
+    "unit": "b07c1-d15d915a3c21480584e592c936241c67.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2373,
+    "managerResult": "success",
+    "cpuUsec": 170339,
+    "memoryPeak": 41041920,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145375,
+      145376,
+      145377,
+      145378,
+      145385
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_invalid_zip_atomic",
+    "unit": "b07c1-50ea62f63b7741a393176685bbe15256.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.1053,
+    "managerResult": "success",
+    "cpuUsec": 69946,
+    "memoryPeak": 17891328,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145403,
+      145404,
+      145405
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_output_limit_atomic",
+    "unit": "b07c1-e6ddcd3c2b864483a36e6892a11b03d3.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2479,
+    "managerResult": "success",
+    "cpuUsec": 180878,
+    "memoryPeak": 40783872,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145448,
+      145449,
+      145450,
+      145451,
+      145458
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_private_compile_error_atomic",
+    "unit": "b07c1-4fde685df56443428f3a2bcca0eda39b.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2144,
+    "managerResult": "success",
+    "cpuUsec": 176416,
+    "memoryPeak": 40689664,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145476,
+      145477,
+      145478,
+      145479,
+      145486
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_repeated_input_receipt_reproducible",
+    "unit": "b07c1-0d423cb1ab7446ad8b4236bee6aee370.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2223,
+    "managerResult": "success",
+    "cpuUsec": 175397,
+    "memoryPeak": 41058304,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145505,
+      145506,
+      145507,
+      145508,
+      145515
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_repeated_input_receipt_reproducible",
+    "unit": "b07c1-52c522eacbc3479a81c0fb68eb2aefd4.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2047,
+    "managerResult": "success",
+    "cpuUsec": 169046,
+    "memoryPeak": 40361984,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145533,
+      145534,
+      145535,
+      145536,
+      145543
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_tampered_artifact_rejected",
+    "unit": "b07c1-fe4a1abed0004f3a9a9ca9988c3bd54d.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2432,
+    "managerResult": "success",
+    "cpuUsec": 210839,
+    "memoryPeak": 40779776,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145561,
+      145562,
+      145563,
+      145565,
+      145573
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_teacher_only_change_noninterference",
+    "unit": "b07c1-217e25831bda455fa5bebf8fcc74f591.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2482,
+    "managerResult": "success",
+    "cpuUsec": 183842,
+    "memoryPeak": 40497152,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145592,
+      145593,
+      145594,
+      145595,
+      145602
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.ComponentTests.test_teacher_only_change_noninterference",
+    "unit": "b07c1-7061f232e83c420f8c435a8ec559c222.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2619,
+    "managerResult": "success",
+    "cpuUsec": 188570,
+    "memoryPeak": 40361984,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145620,
+      145621,
+      145622,
+      145623,
+      145630
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_aggregate_cpu_budget_across_children",
+    "reason": "I_CPU_LIMIT",
+    "unit": "b07c1-b007aaf2337b427e8569d07bdc9db0a0.service",
+    "returncode": 255,
+    "elapsedSeconds": 0.9931,
+    "managerResult": "signal",
+    "cpuUsec": 1029876,
+    "memoryPeak": 5689344,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145647,
+      145648,
+      145650,
+      145651,
+      145652,
+      145653
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_cancellation_kills_tree",
+    "reason": "I_CANCELLED",
+    "unit": "b07c1-4507624e0a364e798b9d268c9c9c19bd.service",
+    "returncode": 255,
+    "elapsedSeconds": 0.3624,
+    "managerResult": "signal",
+    "cpuUsec": 24502,
+    "memoryPeak": 5443584,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145668,
+      145669,
+      145670,
+      145671
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_cpu_limit",
+    "reason": "I_WORKER_EXIT",
+    "unit": "b07c1-c25c8496e37f42d6b3da9c4059cbffc0.service",
+    "returncode": 137,
+    "elapsedSeconds": 1.0506,
+    "managerResult": "exit-code",
+    "cpuUsec": 997957,
+    "memoryPeak": 4845568,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145684,
+      145685,
+      145687
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_hung_detached_child_timeout",
+    "reason": "I_TIMEOUT",
+    "unit": "b07c1-d16917661c8b4bbe9ab8c4a012d31141.service",
+    "returncode": 1,
+    "elapsedSeconds": 2.0608,
+    "managerResult": "timeout",
+    "cpuUsec": 24908,
+    "memoryPeak": 5398528,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145700,
+      145701,
+      145702,
+      145704
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_memory_limit",
+    "reason": "I_WORKER_EXIT",
+    "unit": "b07c1-ccd27a904d274ef0a034bc8766c2adf4.service",
+    "returncode": 1,
+    "elapsedSeconds": 0.2482,
+    "managerResult": "oom-kill",
+    "cpuUsec": 52280,
+    "memoryPeak": 32907264,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "33554432",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145718,
+      145719,
+      145720
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_namespace_no_network_secrets_db",
+    "reason": null,
+    "unit": "b07c1-03c7545a87bf49cd93b1716f97ef95f0.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.1776,
+    "managerResult": "success",
+    "cpuUsec": 26961,
+    "memoryPeak": 7786496,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145732,
+      145733,
+      145734
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_normal_exit_kills_lingering_child",
+    "reason": null,
+    "unit": "b07c1-eec47547453940d9bff90bfe18aa261d.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.3144,
+    "managerResult": "success",
+    "cpuUsec": 40718,
+    "memoryPeak": 5922816,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145745,
+      145746,
+      145747,
+      145748
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_output_pipe_limit",
+    "reason": "I_OUTPUT_LIMIT",
+    "unit": "b07c1-ea5ad05222ca4008808f406212531584.service",
+    "returncode": 255,
+    "elapsedSeconds": 0.0423,
+    "managerResult": "signal",
+    "cpuUsec": 14364,
+    "memoryPeak": 5033984,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145759,
+      145760,
+      145761
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_process_limit",
+    "reason": null,
+    "unit": "b07c1-6873e711dfa94917bbac82aea019c918.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.1708,
+    "managerResult": "success",
+    "cpuUsec": 23498,
+    "memoryPeak": 7651328,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "1"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "8",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145774,
+      145775,
+      145776,
+      145778,
+      145779,
+      145780,
+      145781,
+      145782
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  },
+  {
+    "test": "test_import.SupervisorTests.test_tmpfs_storage_limit",
+    "reason": null,
+    "unit": "b07c1-07ab55bf9a3a4fb3bbc1650743f14dee.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2094,
+    "managerResult": "success",
+    "cpuUsec": 25925,
+    "memoryPeak": 10280960,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145795,
+      145796,
+      145797
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  }
+]

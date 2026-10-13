@@ -1,0 +1,715 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="5c755572-66e2-43a3-a1ed-cf8193333c78" name="@tea-Swift-SFG16-74 2026-10-12 04:36:11" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-12T04:36:11.4363173+06:00" queuing="2026-10-12T04:36:11.4363174+06:00" start="2026-10-12T04:36:05.2484845+06:00" finish="2026-10-12T04:37:54.4340651+06:00" />
+  <TestSettings name="default" id="b058af97-4c2d-4251-a026-99b3ec1d8c42">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-12_04_36_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a400f70a-b663-4c79-b6ad-8ced9c8ed86a" testId="05aab866-c298-fa48-0b51-154dd8237827" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3247413" startTime="2026-10-12T04:37:27.5820255+06:00" endTime="2026-10-12T04:37:29.7491365+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a400f70a-b663-4c79-b6ad-8ced9c8ed86a" />
+    <UnitTestResult executionId="ad9c283b-4cc2-49f8-a6bb-a694b27e7350" testId="1b115b5d-4547-1cda-d7fa-83f396d7a051" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_navigation_real_content_and_delayed_revoke(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3661107" startTime="2026-10-12T04:37:46.2275467+06:00" endTime="2026-10-12T04:37:48.2698791+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ad9c283b-4cc2-49f8-a6bb-a694b27e7350" />
+    <UnitTestResult executionId="2e1674bf-e5b9-43f6-ad30-e7d2671c9072" testId="994957ea-a3b6-f5af-a2d8-afa425be7fa1" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2772887" startTime="2026-10-12T04:37:23.5661586+06:00" endTime="2026-10-12T04:37:25.5528625+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e1674bf-e5b9-43f6-ad30-e7d2671c9072" />
+    <UnitTestResult executionId="40c8d8c3-b417-4230-945d-52ee749c8702" testId="3c9b7a06-9e52-bd24-be9c-08ec2c100b30" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2821513" startTime="2026-10-12T04:36:49.7933184+06:00" endTime="2026-10-12T04:36:51.7395881+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40c8d8c3-b417-4230-945d-52ee749c8702" />
+    <UnitTestResult executionId="73233324-ee30-4d9e-a251-a22c1972423b" testId="f3baa383-432c-aebe-c6fe-450e54a1a537" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3389378" startTime="2026-10-12T04:37:19.5629291+06:00" endTime="2026-10-12T04:37:21.5724629+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73233324-ee30-4d9e-a251-a22c1972423b" />
+    <UnitTestResult executionId="1ecdcede-b552-4e02-ba8f-2676c8eeec65" testId="9c9271a3-bc42-8ba3-bf3e-c9f5eea0ab3d" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3079578" startTime="2026-10-12T04:37:29.7493926+06:00" endTime="2026-10-12T04:37:31.9465872+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ecdcede-b552-4e02-ba8f-2676c8eeec65" />
+    <UnitTestResult executionId="357d1a70-5328-4a08-a12c-aa1d7723b87f" testId="33682231-2e28-d5b5-6493-5f4701395bb0" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3231868" startTime="2026-10-12T04:36:30.0406343+06:00" endTime="2026-10-12T04:36:32.0561771+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="357d1a70-5328-4a08-a12c-aa1d7723b87f" />
+    <UnitTestResult executionId="f398962f-f052-4c86-b649-95201b3b661b" testId="f97460d0-e510-8a39-45b4-bdc253c31060" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3172540" startTime="2026-10-12T04:36:41.9715561+06:00" endTime="2026-10-12T04:36:43.9506733+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f398962f-f052-4c86-b649-95201b3b661b" />
+    <UnitTestResult executionId="23fe72ee-1d82-45a2-9f03-e16ddee16582" testId="fc864af1-f085-cc04-b0aa-597416fe6da7" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2813841" startTime="2026-10-12T04:36:45.8608328+06:00" endTime="2026-10-12T04:36:47.8303642+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23fe72ee-1d82-45a2-9f03-e16ddee16582" />
+    <UnitTestResult executionId="5bccfd48-137d-43fb-92c7-0a3de8b174c7" testId="b3cbf40e-8b59-707b-b17b-194d0fb66933" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3072963" startTime="2026-10-12T04:37:31.9469374+06:00" endTime="2026-10-12T04:37:34.0885592+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5bccfd48-137d-43fb-92c7-0a3de8b174c7" />
+    <UnitTestResult executionId="a8e32654-c460-49c9-ae6b-d042bc831677" testId="0eb0d3cb-47c4-2c25-225d-2d5c48c418e8" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3595465" startTime="2026-10-12T04:37:52.3479764+06:00" endTime="2026-10-12T04:37:54.3645561+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8e32654-c460-49c9-ae6b-d042bc831677" />
+    <UnitTestResult executionId="67518941-4041-4638-8f1c-cc04acc3a678" testId="48e3b99d-8b1c-3b4b-fc04-0ff019f7b179" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3263535" startTime="2026-10-12T04:36:34.0152939+06:00" endTime="2026-10-12T04:36:35.9634391+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="67518941-4041-4638-8f1c-cc04acc3a678" />
+    <UnitTestResult executionId="0e357781-b5da-41a4-832d-88743c3be0e4" testId="77e8f044-a8f4-274e-88aa-043640da8594" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2536804" startTime="2026-10-12T04:37:01.6561335+06:00" endTime="2026-10-12T04:37:03.5386399+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e357781-b5da-41a4-832d-88743c3be0e4" />
+    <UnitTestResult executionId="980dda45-5e9b-47e8-8f9a-5de0f88935e2" testId="902a0b45-5bd6-511d-d74b-30bfd9d92565" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3301796" startTime="2026-10-12T04:36:53.7862918+06:00" endTime="2026-10-12T04:36:55.7907855+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="980dda45-5e9b-47e8-8f9a-5de0f88935e2" />
+    <UnitTestResult executionId="e7c5aadd-94cd-444c-9df2-b9b6fd6c6d48" testId="53489aea-63ee-4393-774b-7072a3680ae5" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2789651" startTime="2026-10-12T04:37:15.5280647+06:00" endTime="2026-10-12T04:37:17.5099140+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7c5aadd-94cd-444c-9df2-b9b6fd6c6d48" />
+    <UnitTestResult executionId="fb43f186-543c-4bad-b5eb-93b59e0c706a" testId="01588acc-981c-dbb1-9e61-84a7a4ab55b8" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3576866" startTime="2026-10-12T04:36:13.8944292+06:00" endTime="2026-10-12T04:36:16.1048187+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb43f186-543c-4bad-b5eb-93b59e0c706a" />
+    <UnitTestResult executionId="ab1b4c62-fdc1-4209-a446-a80ff4b4c532" testId="106798ef-9b8f-d025-07f9-c1fa602a4b49" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3138763" startTime="2026-10-12T04:37:21.5752236+06:00" endTime="2026-10-12T04:37:23.5659321+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab1b4c62-fdc1-4209-a446-a80ff4b4c532" />
+    <UnitTestResult executionId="fa9492dd-cb65-4f1f-97fe-2e6d4d68c7ba" testId="43bb66b8-de8d-e14b-619c-94c5e0c21051" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_foreign_selectors_parent_substitution_and_locked_content(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.5379568" startTime="2026-10-12T04:36:11.4215599+06:00" endTime="2026-10-12T04:36:13.8922521+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa9492dd-cb65-4f1f-97fe-2e6d4d68c7ba" />
+    <UnitTestResult executionId="e1bc724a-8fdc-48e7-b87f-94790c4b3473" testId="94808fb6-4aa1-7611-7495-059c0dd8a0f9" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_each_navigation_request_has_fresh_original_deadline" computerName="tea-Swift-SFG16-74" duration="00:00:00.2708520" startTime="2026-10-12T04:37:38.2749664+06:00" endTime="2026-10-12T04:37:40.2099931+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e1bc724a-8fdc-48e7-b87f-94790c4b3473" />
+    <UnitTestResult executionId="02ee1f27-d53b-43ab-8405-1d35891c52a7" testId="01541018-e13b-ce60-7f1f-2b704d22f4a5" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3291484" startTime="2026-10-12T04:36:35.9637340+06:00" endTime="2026-10-12T04:36:37.9884512+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02ee1f27-d53b-43ab-8405-1d35891c52a7" />
+    <UnitTestResult executionId="5882f5c2-6f58-4e4e-a589-e1e14f1e88ae" testId="cbf68c22-39b6-309a-0b52-64f70cc366ea" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3219685" startTime="2026-10-12T04:36:22.1387515+06:00" endTime="2026-10-12T04:36:24.1460395+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5882f5c2-6f58-4e4e-a589-e1e14f1e88ae" />
+    <UnitTestResult executionId="8ff0632f-7825-4647-be27-4a820348d22f" testId="7fd50e9b-e4b6-a040-ea5a-65dbf5a8dcb3" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2908155" startTime="2026-10-12T04:37:07.5348852+06:00" endTime="2026-10-12T04:37:09.5270550+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ff0632f-7825-4647-be27-4a820348d22f" />
+    <UnitTestResult executionId="f3c70305-b006-4e95-ace8-e271fe3e56f8" testId="44a26600-791e-6231-2005-81e27d0fc500" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2832869" startTime="2026-10-12T04:36:39.9738539+06:00" endTime="2026-10-12T04:36:41.9712620+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f3c70305-b006-4e95-ace8-e271fe3e56f8" />
+    <UnitTestResult executionId="e4a3757f-2135-4cf4-adcc-472a66aab5c4" testId="c1844a21-530a-4f10-bf7f-571bc40cd638" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3209946" startTime="2026-10-12T04:36:18.1252635+06:00" endTime="2026-10-12T04:36:20.1395620+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e4a3757f-2135-4cf4-adcc-472a66aab5c4" />
+    <UnitTestResult executionId="185d3575-32f1-4494-9387-eb5b74d8d2d7" testId="022d9497-577c-5283-9b7f-645b70fb0aa2" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2701355" startTime="2026-10-12T04:36:55.7910353+06:00" endTime="2026-10-12T04:36:57.7238536+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="185d3575-32f1-4494-9387-eb5b74d8d2d7" />
+    <UnitTestResult executionId="a043a15f-fd73-4dbb-8187-70569bab61b8" testId="1814b756-ed8c-8a46-4a37-ce59309d4317" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2603882" startTime="2026-10-12T04:36:43.9510158+06:00" endTime="2026-10-12T04:36:45.8605304+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a043a15f-fd73-4dbb-8187-70569bab61b8" />
+    <UnitTestResult executionId="1fca0c77-f567-4f10-8f17-e858c5854125" testId="e5f6db30-d0a4-0502-9466-71996e6a2d62" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3426282" startTime="2026-10-12T04:37:36.2489744+06:00" endTime="2026-10-12T04:37:38.2744426+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fca0c77-f567-4f10-8f17-e858c5854125" />
+    <UnitTestResult executionId="09246379-ec91-47fa-87ab-a03640425522" testId="80c56205-5ba6-f42d-7764-4ae3033a43c8" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3014304" startTime="2026-10-12T04:37:13.5818345+06:00" endTime="2026-10-12T04:37:15.5278207+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="09246379-ec91-47fa-87ab-a03640425522" />
+    <UnitTestResult executionId="a1618d0f-1aa3-4990-b806-d117bb0bc61d" testId="8b5e4e0b-e06e-3ddb-1b30-00cc41019afe" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3534729" startTime="2026-10-12T04:37:50.3569028+06:00" endTime="2026-10-12T04:37:52.3476535+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1618d0f-1aa3-4990-b806-d117bb0bc61d" />
+    <UnitTestResult executionId="36bdaf01-2771-45bc-bfd3-e1c528df31f1" testId="7ad39ff8-412c-227d-6eff-c9ef634960fd" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 2)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3325737" startTime="2026-10-12T04:37:40.2104210+06:00" endTime="2026-10-12T04:37:42.1835863+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36bdaf01-2771-45bc-bfd3-e1c528df31f1" />
+    <UnitTestResult executionId="1e43314f-681b-4cba-bc70-c9302e1ca292" testId="4fa56be3-1c1f-d61c-bbdf-b74e4c506cfe" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3040258" startTime="2026-10-12T04:37:03.5389191+06:00" endTime="2026-10-12T04:37:05.5998181+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e43314f-681b-4cba-bc70-c9302e1ca292" />
+    <UnitTestResult executionId="c849833b-5479-42f0-84fa-9b404e682d8e" testId="3bfa4cbf-7394-d4dd-7c80-78a09bae50fc" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3383239" startTime="2026-10-12T04:37:17.5101392+06:00" endTime="2026-10-12T04:37:19.5626923+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c849833b-5479-42f0-84fa-9b404e682d8e" />
+    <UnitTestResult executionId="db926cec-41ce-4923-ac39-bc40b4b3157d" testId="5b908f16-9c2e-4978-ad9a-314c51afc053" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3469350" startTime="2026-10-12T04:37:11.5223642+06:00" endTime="2026-10-12T04:37:13.5815564+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db926cec-41ce-4923-ac39-bc40b4b3157d" />
+    <UnitTestResult executionId="46be8db3-c800-4cc5-8b57-092472027eea" testId="8a7f3475-8c78-5783-02b8-85509dd4f7ec" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2649759" startTime="2026-10-12T04:36:24.1463693+06:00" endTime="2026-10-12T04:36:26.0905148+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46be8db3-c800-4cc5-8b57-092472027eea" />
+    <UnitTestResult executionId="96fe3d85-e247-4e63-9356-80192fbb8ead" testId="e1402d0a-8e5c-3e4c-14f4-93ee6d635567" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2558221" startTime="2026-10-12T04:37:05.6000975+06:00" endTime="2026-10-12T04:37:07.5345975+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96fe3d85-e247-4e63-9356-80192fbb8ead" />
+    <UnitTestResult executionId="c2144dfd-f521-459f-a50c-42218c761dc2" testId="07bee283-15bd-c2a8-7794-5c5575e9e0d8" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 1)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3204842" startTime="2026-10-12T04:37:42.1843207+06:00" endTime="2026-10-12T04:37:44.1945967+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2144dfd-f521-459f-a50c-42218c761dc2" />
+    <UnitTestResult executionId="9c558018-35b4-4519-9c99-46a6ef8eaea5" testId="2261cd36-aaaf-3cc4-068b-d96475a0b4a8" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_foreign_selectors_parent_substitution_and_locked_content(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:01.3522941" startTime="2026-10-12T04:36:05.8465786+06:00" endTime="2026-10-12T04:36:11.3975602+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c558018-35b4-4519-9c99-46a6ef8eaea5" />
+    <UnitTestResult executionId="c778bac5-21b9-4871-a5ca-245d9aac4dd8" testId="9cac83b0-03a4-0cdd-fdbb-ed2c9b2df747" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3567562" startTime="2026-10-12T04:36:51.7398506+06:00" endTime="2026-10-12T04:36:53.7860322+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c778bac5-21b9-4871-a5ca-245d9aac4dd8" />
+    <UnitTestResult executionId="a2e0e8fe-2d83-4939-a735-a0aa5c7ff1fb" testId="c2ce328e-aa00-4ad2-bb74-713bdc2b1ce7" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 0)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3022396" startTime="2026-10-12T04:37:44.1949777+06:00" endTime="2026-10-12T04:37:46.2271189+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2e0e8fe-2d83-4939-a735-a0aa5c7ff1fb" />
+    <UnitTestResult executionId="e172cdb1-a117-4e57-9482-76a5bf6ffe51" testId="b93d6ed1-d61f-5fef-dfea-6936decd0425" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;deadline&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3152608" startTime="2026-10-12T04:36:37.9887591+06:00" endTime="2026-10-12T04:36:39.9735625+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e172cdb1-a117-4e57-9482-76a5bf6ffe51" />
+    <UnitTestResult executionId="0130e470-1849-4c15-bbd5-12d8dbea1ca4" testId="29a6ed80-11c5-e7d7-f0e3-ac07da08a539" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3045873" startTime="2026-10-12T04:36:59.6739733+06:00" endTime="2026-10-12T04:37:01.6558568+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0130e470-1849-4c15-bbd5-12d8dbea1ca4" />
+    <UnitTestResult executionId="74468c4c-9988-408c-9f0b-7cc6e712c198" testId="81779f92-af43-5e8e-95e0-7eb0dc07b16a" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2787091" startTime="2026-10-12T04:37:34.0893931+06:00" endTime="2026-10-12T04:37:36.2485682+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74468c4c-9988-408c-9f0b-7cc6e712c198" />
+    <UnitTestResult executionId="dbbfbab5-3f14-4c7b-90b2-30ee416c4ce4" testId="b99559a0-a215-d2e9-46fd-79f69c37ca75" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;closed&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2830663" startTime="2026-10-12T04:36:26.0908713+06:00" endTime="2026-10-12T04:36:28.0230328+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbbfbab5-3f14-4c7b-90b2-30ee416c4ce4" />
+    <UnitTestResult executionId="cddf0f2e-a019-411a-adfc-a8410f916f67" testId="9746db2b-aa27-33df-89f0-2a5f697b58f5" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;context-wide&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3570757" startTime="2026-10-12T04:36:28.0235028+06:00" endTime="2026-10-12T04:36:30.0399770+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cddf0f2e-a019-411a-adfc-a8410f916f67" />
+    <UnitTestResult executionId="a7bf5ce8-bb11-4388-8493-5b19c3167f4d" testId="6edf8c98-ad03-21c6-576f-d975c66efcdc" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3002156" startTime="2026-10-12T04:37:25.5531052+06:00" endTime="2026-10-12T04:37:27.5817875+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7bf5ce8-bb11-4388-8493-5b19c3167f4d" />
+    <UnitTestResult executionId="63e12571-d3ba-49ba-9aef-13d56f10f666" testId="0188e83d-3a92-8d31-e64f-d7cb279d9f47" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3460022" startTime="2026-10-12T04:36:16.1051577+06:00" endTime="2026-10-12T04:36:18.1248942+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63e12571-d3ba-49ba-9aef-13d56f10f666" />
+    <UnitTestResult executionId="8b64c435-93b7-498c-98ad-fcbfca9417cf" testId="71cad662-7255-14ce-5c1d-7f2b1c683064" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;unknown&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2764914" startTime="2026-10-12T04:36:20.1400494+06:00" endTime="2026-10-12T04:36:22.1383705+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b64c435-93b7-498c-98ad-fcbfca9417cf" />
+    <UnitTestResult executionId="eba09cc2-9067-48da-9e95-25ba6b87a7d6" testId="01d9d59f-18e9-dff9-9afa-a7e449ad926e" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;subject&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2869488" startTime="2026-10-12T04:36:47.8306536+06:00" endTime="2026-10-12T04:36:49.7929166+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eba09cc2-9067-48da-9e95-25ba6b87a7d6" />
+    <UnitTestResult executionId="c08a7140-4352-410f-9a1f-94582ed9f340" testId="60bb5a06-dd8d-0e54-af4c-f153085d005b" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3012106" startTime="2026-10-12T04:37:09.5274069+06:00" endTime="2026-10-12T04:37:11.5220416+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c08a7140-4352-410f-9a1f-94582ed9f340" />
+    <UnitTestResult executionId="fedea51c-4c72-4ec5-8efb-2d3ea58ce4c0" testId="ef854778-d623-bb1b-e78e-d95abfca90e7" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;expiry&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2735706" startTime="2026-10-12T04:36:57.7241083+06:00" endTime="2026-10-12T04:36:59.6737097+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fedea51c-4c72-4ec5-8efb-2d3ea58ce4c0" />
+    <UnitTestResult executionId="1b07d1e3-56f9-4420-9602-36af133147b1" testId="bbe22873-c45d-d6c7-2f54-b401ec377777" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_navigation_real_content_and_delayed_revoke(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3782725" startTime="2026-10-12T04:37:48.2702183+06:00" endTime="2026-10-12T04:37:50.3565319+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b07d1e3-56f9-4420-9602-36af133147b1" />
+    <UnitTestResult executionId="a4463a33-8f81-4549-805d-95a052dbc8d0" testId="cd7dc021-789a-da47-d631-e0ec13f1e05a" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;suspended&quot;)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2997528" startTime="2026-10-12T04:36:32.0565120+06:00" endTime="2026-10-12T04:36:34.0150197+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a4463a33-8f81-4549-805d-95a052dbc8d0" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="e1402d0a-8e5c-3e4c-14f4-93ee6d635567">
+      <Execution id="96fe3d85-e247-4e63-9356-80192fbb8ead" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="81779f92-af43-5e8e-95e0-7eb0dc07b16a">
+      <Execution id="74468c4c-9988-408c-9f0b-7cc6e712c198" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="0188e83d-3a92-8d31-e64f-d7cb279d9f47">
+      <Execution id="63e12571-d3ba-49ba-9aef-13d56f10f666" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="f97460d0-e510-8a39-45b4-bdc253c31060">
+      <Execution id="f398962f-f052-4c86-b649-95201b3b661b" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="ef854778-d623-bb1b-e78e-d95abfca90e7">
+      <Execution id="fedea51c-4c72-4ec5-8efb-2d3ea58ce4c0" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="5b908f16-9c2e-4978-ad9a-314c51afc053">
+      <Execution id="db926cec-41ce-4923-ac39-bc40b4b3157d" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="8b5e4e0b-e06e-3ddb-1b30-00cc41019afe">
+      <Execution id="a1618d0f-1aa3-4990-b806-d117bb0bc61d" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="902a0b45-5bd6-511d-d74b-30bfd9d92565">
+      <Execution id="980dda45-5e9b-47e8-8f9a-5de0f88935e2" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="8a7f3475-8c78-5783-02b8-85509dd4f7ec">
+      <Execution id="46be8db3-c800-4cc5-8b57-092472027eea" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_each_navigation_request_has_fresh_original_deadline" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="94808fb6-4aa1-7611-7495-059c0dd8a0f9">
+      <Execution id="e1bc724a-8fdc-48e7-b87f-94790c4b3473" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_each_navigation_request_has_fresh_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_navigation_real_content_and_delayed_revoke(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="1b115b5d-4547-1cda-d7fa-83f396d7a051">
+      <Execution id="ad9c283b-4cc2-49f8-a6bb-a694b27e7350" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_navigation_real_content_and_delayed_revoke" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="44a26600-791e-6231-2005-81e27d0fc500">
+      <Execution id="f3c70305-b006-4e95-ace8-e271fe3e56f8" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="53489aea-63ee-4393-774b-7072a3680ae5">
+      <Execution id="e7c5aadd-94cd-444c-9df2-b9b6fd6c6d48" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9c9271a3-bc42-8ba3-bf3e-c9f5eea0ab3d">
+      <Execution id="1ecdcede-b552-4e02-ba8f-2676c8eeec65" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b93d6ed1-d61f-5fef-dfea-6936decd0425">
+      <Execution id="e172cdb1-a117-4e57-9482-76a5bf6ffe51" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="cd7dc021-789a-da47-d631-e0ec13f1e05a">
+      <Execution id="a4463a33-8f81-4549-805d-95a052dbc8d0" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 0)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="c2ce328e-aa00-4ad2-bb74-713bdc2b1ce7">
+      <Execution id="a2e0e8fe-2d83-4939-a735-a0aa5c7ff1fb" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_missing_processing_and_late_publication_withdrawal" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="fc864af1-f085-cc04-b0aa-597416fe6da7">
+      <Execution id="23fe72ee-1d82-45a2-9f03-e16ddee16582" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="48e3b99d-8b1c-3b4b-fc04-0ff019f7b179">
+      <Execution id="67518941-4041-4638-8f1c-cc04acc3a678" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_foreign_selectors_parent_substitution_and_locked_content(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="43bb66b8-de8d-e14b-619c-94c5e0c21051">
+      <Execution id="fa9492dd-cb65-4f1f-97fe-2e6d4d68c7ba" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_foreign_selectors_parent_substitution_and_locked_content" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="80c56205-5ba6-f42d-7764-4ae3033a43c8">
+      <Execution id="09246379-ec91-47fa-87ab-a03640425522" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="1814b756-ed8c-8a46-4a37-ce59309d4317">
+      <Execution id="a043a15f-fd73-4dbb-8187-70569bab61b8" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 2)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="7ad39ff8-412c-227d-6eff-c9ef634960fd">
+      <Execution id="36bdaf01-2771-45bc-bfd3-e1c528df31f1" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_missing_processing_and_late_publication_withdrawal" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="01588acc-981c-dbb1-9e61-84a7a4ab55b8">
+      <Execution id="fb43f186-543c-4bad-b5eb-93b59e0c706a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="6edf8c98-ad03-21c6-576f-d975c66efcdc">
+      <Execution id="a7bf5ce8-bb11-4388-8493-5b19c3167f4d" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="c1844a21-530a-4f10-bf7f-571bc40cd638">
+      <Execution id="e4a3757f-2135-4cf4-adcc-472a66aab5c4" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="7fd50e9b-e4b6-a040-ea5a-65dbf5a8dcb3">
+      <Execution id="8ff0632f-7825-4647-be27-4a820348d22f" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="01541018-e13b-ce60-7f1f-2b704d22f4a5">
+      <Execution id="02ee1f27-d53b-43ab-8405-1d35891c52a7" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_navigation_real_content_and_delayed_revoke(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="bbe22873-c45d-d6c7-2f54-b401ec377777">
+      <Execution id="1b07d1e3-56f9-4420-9602-36af133147b1" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_navigation_real_content_and_delayed_revoke" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="0eb0d3cb-47c4-2c25-225d-2d5c48c418e8">
+      <Execution id="a8e32654-c460-49c9-ae6b-d042bc831677" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_never_reads_private_tables_and_invalid_group_cannot_issue" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="3bfa4cbf-7394-d4dd-7c80-78a09bae50fc">
+      <Execution id="c849833b-5479-42f0-84fa-9b404e682d8e" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="f3baa383-432c-aebe-c6fe-450e54a1a537">
+      <Execution id="73233324-ee30-4d9e-a251-a22c1972423b" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b99559a0-a215-d2e9-46fd-79f69c37ca75">
+      <Execution id="dbbfbab5-3f14-4c7b-90b2-30ee416c4ce4" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="e5f6db30-d0a4-0502-9466-71996e6a2d62">
+      <Execution id="1fca0c77-f567-4f10-8f17-e858c5854125" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="60bb5a06-dd8d-0e54-af4c-f153085d005b">
+      <Execution id="c08a7140-4352-410f-9a1f-94582ed9f340" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="106798ef-9b8f-d025-07f9-c1fa602a4b49">
+      <Execution id="ab1b4c62-fdc1-4209-a446-a80ff4b4c532" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9cac83b0-03a4-0cdd-fdbb-ed2c9b2df747">
+      <Execution id="c778bac5-21b9-4871-a5ca-245d9aac4dd8" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="3c9b7a06-9e52-bd24-be9c-08ec2c100b30">
+      <Execution id="40c8d8c3-b417-4230-945d-52ee749c8702" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="77e8f044-a8f4-274e-88aa-043640da8594">
+      <Execution id="0e357781-b5da-41a4-832d-88743c3be0e4" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="29a6ed80-11c5-e7d7-f0e3-ac07da08a539">
+      <Execution id="0130e470-1849-4c15-bbd5-12d8dbea1ca4" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="01d9d59f-18e9-dff9-9afa-a7e449ad926e">
+      <Execution id="eba09cc2-9067-48da-9e95-25ba6b87a7d6" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: True, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="33682231-2e28-d5b5-6493-5f4701395bb0">
+      <Execution id="357d1a70-5328-4a08-a12c-aa1d7723b87f" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: True, fault: &quot;subject&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="cbf68c22-39b6-309a-0b52-64f70cc366ea">
+      <Execution id="5882f5c2-6f58-4e4e-a589-e1e14f1e88ae" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;unknown&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="71cad662-7255-14ce-5c1d-7f2b1c683064">
+      <Execution id="8b64c435-93b7-498c-98ad-fcbfca9417cf" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="4fa56be3-1c1f-d61c-bbdf-b74e4c506cfe">
+      <Execution id="1e43314f-681b-4cba-bc70-c9302e1ca292" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;deadline&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="05aab866-c298-fa48-0b51-154dd8237827">
+      <Execution id="a400f70a-b663-4c79-b6ad-8ced9c8ed86a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: False, fault: &quot;closed&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b3cbf40e-8b59-707b-b17b-194d0fb66933">
+      <Execution id="5bccfd48-137d-43fb-92c7-0a3de8b174c7" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_foreign_selectors_parent_substitution_and_locked_content(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="2261cd36-aaaf-3cc4-068b-d96475a0b4a8">
+      <Execution id="9c558018-35b4-4519-9c99-46a6ef8eaea5" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_foreign_selectors_parent_substitution_and_locked_content" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 1)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="07bee283-15bd-c2a8-7794-5c5575e9e0d8">
+      <Execution id="c2144dfd-f521-459f-a50c-42218c761dc2" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_missing_processing_and_late_publication_withdrawal" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 1, late: True, fault: &quot;expiry&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="994957ea-a3b6-f5af-a2d8-afa425be7fa1">
+      <Execution id="2e1674bf-e5b9-43f6-ad30-e7d2671c9072" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 2, late: False, fault: &quot;suspended&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="022d9497-577c-5283-9b7f-645b70fb0aa2">
+      <Execution id="185d3575-32f1-4494-9387-eb5b74d8d2d7" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_fresh_processing_time_and_original_deadline(level: 0, late: False, fault: &quot;context-wide&quot;)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9746db2b-aa27-33df-89f0-2a5f697b58f5">
+      <Execution id="cddf0f2e-a019-411a-adfc-a8410f916f67" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Http_workspace_fresh_processing_time_and_original_deadline" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="05aab866-c298-fa48-0b51-154dd8237827" executionId="a400f70a-b663-4c79-b6ad-8ced9c8ed86a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b115b5d-4547-1cda-d7fa-83f396d7a051" executionId="ad9c283b-4cc2-49f8-a6bb-a694b27e7350" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="994957ea-a3b6-f5af-a2d8-afa425be7fa1" executionId="2e1674bf-e5b9-43f6-ad30-e7d2671c9072" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c9b7a06-9e52-bd24-be9c-08ec2c100b30" executionId="40c8d8c3-b417-4230-945d-52ee749c8702" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3baa383-432c-aebe-c6fe-450e54a1a537" executionId="73233324-ee30-4d9e-a251-a22c1972423b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9c9271a3-bc42-8ba3-bf3e-c9f5eea0ab3d" executionId="1ecdcede-b552-4e02-ba8f-2676c8eeec65" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="33682231-2e28-d5b5-6493-5f4701395bb0" executionId="357d1a70-5328-4a08-a12c-aa1d7723b87f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f97460d0-e510-8a39-45b4-bdc253c31060" executionId="f398962f-f052-4c86-b649-95201b3b661b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fc864af1-f085-cc04-b0aa-597416fe6da7" executionId="23fe72ee-1d82-45a2-9f03-e16ddee16582" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3cbf40e-8b59-707b-b17b-194d0fb66933" executionId="5bccfd48-137d-43fb-92c7-0a3de8b174c7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0eb0d3cb-47c4-2c25-225d-2d5c48c418e8" executionId="a8e32654-c460-49c9-ae6b-d042bc831677" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="48e3b99d-8b1c-3b4b-fc04-0ff019f7b179" executionId="67518941-4041-4638-8f1c-cc04acc3a678" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77e8f044-a8f4-274e-88aa-043640da8594" executionId="0e357781-b5da-41a4-832d-88743c3be0e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="902a0b45-5bd6-511d-d74b-30bfd9d92565" executionId="980dda45-5e9b-47e8-8f9a-5de0f88935e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53489aea-63ee-4393-774b-7072a3680ae5" executionId="e7c5aadd-94cd-444c-9df2-b9b6fd6c6d48" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="01588acc-981c-dbb1-9e61-84a7a4ab55b8" executionId="fb43f186-543c-4bad-b5eb-93b59e0c706a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="106798ef-9b8f-d025-07f9-c1fa602a4b49" executionId="ab1b4c62-fdc1-4209-a446-a80ff4b4c532" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="43bb66b8-de8d-e14b-619c-94c5e0c21051" executionId="fa9492dd-cb65-4f1f-97fe-2e6d4d68c7ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="94808fb6-4aa1-7611-7495-059c0dd8a0f9" executionId="e1bc724a-8fdc-48e7-b87f-94790c4b3473" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="01541018-e13b-ce60-7f1f-2b704d22f4a5" executionId="02ee1f27-d53b-43ab-8405-1d35891c52a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cbf68c22-39b6-309a-0b52-64f70cc366ea" executionId="5882f5c2-6f58-4e4e-a589-e1e14f1e88ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7fd50e9b-e4b6-a040-ea5a-65dbf5a8dcb3" executionId="8ff0632f-7825-4647-be27-4a820348d22f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="44a26600-791e-6231-2005-81e27d0fc500" executionId="f3c70305-b006-4e95-ace8-e271fe3e56f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c1844a21-530a-4f10-bf7f-571bc40cd638" executionId="e4a3757f-2135-4cf4-adcc-472a66aab5c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="022d9497-577c-5283-9b7f-645b70fb0aa2" executionId="185d3575-32f1-4494-9387-eb5b74d8d2d7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1814b756-ed8c-8a46-4a37-ce59309d4317" executionId="a043a15f-fd73-4dbb-8187-70569bab61b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e5f6db30-d0a4-0502-9466-71996e6a2d62" executionId="1fca0c77-f567-4f10-8f17-e858c5854125" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="80c56205-5ba6-f42d-7764-4ae3033a43c8" executionId="09246379-ec91-47fa-87ab-a03640425522" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b5e4e0b-e06e-3ddb-1b30-00cc41019afe" executionId="a1618d0f-1aa3-4990-b806-d117bb0bc61d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7ad39ff8-412c-227d-6eff-c9ef634960fd" executionId="36bdaf01-2771-45bc-bfd3-e1c528df31f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4fa56be3-1c1f-d61c-bbdf-b74e4c506cfe" executionId="1e43314f-681b-4cba-bc70-c9302e1ca292" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bfa4cbf-7394-d4dd-7c80-78a09bae50fc" executionId="c849833b-5479-42f0-84fa-9b404e682d8e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5b908f16-9c2e-4978-ad9a-314c51afc053" executionId="db926cec-41ce-4923-ac39-bc40b4b3157d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a7f3475-8c78-5783-02b8-85509dd4f7ec" executionId="46be8db3-c800-4cc5-8b57-092472027eea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1402d0a-8e5c-3e4c-14f4-93ee6d635567" executionId="96fe3d85-e247-4e63-9356-80192fbb8ead" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07bee283-15bd-c2a8-7794-5c5575e9e0d8" executionId="c2144dfd-f521-459f-a50c-42218c761dc2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2261cd36-aaaf-3cc4-068b-d96475a0b4a8" executionId="9c558018-35b4-4519-9c99-46a6ef8eaea5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9cac83b0-03a4-0cdd-fdbb-ed2c9b2df747" executionId="c778bac5-21b9-4871-a5ca-245d9aac4dd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c2ce328e-aa00-4ad2-bb74-713bdc2b1ce7" executionId="a2e0e8fe-2d83-4939-a735-a0aa5c7ff1fb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b93d6ed1-d61f-5fef-dfea-6936decd0425" executionId="e172cdb1-a117-4e57-9482-76a5bf6ffe51" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="29a6ed80-11c5-e7d7-f0e3-ac07da08a539" executionId="0130e470-1849-4c15-bbd5-12d8dbea1ca4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="81779f92-af43-5e8e-95e0-7eb0dc07b16a" executionId="74468c4c-9988-408c-9f0b-7cc6e712c198" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b99559a0-a215-d2e9-46fd-79f69c37ca75" executionId="dbbfbab5-3f14-4c7b-90b2-30ee416c4ce4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9746db2b-aa27-33df-89f0-2a5f697b58f5" executionId="cddf0f2e-a019-411a-adfc-a8410f916f67" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6edf8c98-ad03-21c6-576f-d975c66efcdc" executionId="a7bf5ce8-bb11-4388-8493-5b19c3167f4d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0188e83d-3a92-8d31-e64f-d7cb279d9f47" executionId="63e12571-d3ba-49ba-9aef-13d56f10f666" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="71cad662-7255-14ce-5c1d-7f2b1c683064" executionId="8b64c435-93b7-498c-98ad-fcbfca9417cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="01d9d59f-18e9-dff9-9afa-a7e449ad926e" executionId="eba09cc2-9067-48da-9e95-25ba6b87a7d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60bb5a06-dd8d-0e54-af4c-f153085d005b" executionId="c08a7140-4352-410f-9a1f-94582ed9f340" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef854778-d623-bb1b-e78e-d95abfca90e7" executionId="fedea51c-4c72-4ec5-8efb-2d3ea58ce4c0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bbe22873-c45d-d6c7-2f54-b401ec377777" executionId="1b07d1e3-56f9-4420-9602-36af133147b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cd7dc021-789a-da47-d631-e0ec13f1e05a" executionId="a4463a33-8f81-4549-805d-95a052dbc8d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="52" executed="52" passed="52" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.22]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.08] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.23] Docker container 30a4250e97da created
+[testcontainers.org 00:00:00.26] Start Docker container 30a4250e97da
+[testcontainers.org 00:00:00.38] Wait for Docker container 30a4250e97da to complete readiness checks
+[testcontainers.org 00:00:01.40] Docker container 30a4250e97da ready
+[testcontainers.org 00:00:01.50] Docker container e5df7005337d created
+[testcontainers.org 00:00:01.51] Start Docker container e5df7005337d
+[testcontainers.org 00:00:01.60] Wait for Docker container e5df7005337d to complete readiness checks
+[testcontainers.org 00:00:01.61] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e5df7005337d
+[testcontainers.org 00:00:02.66] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e5df7005337d
+[testcontainers.org 00:00:02.70] Docker container e5df7005337d ready
+[testcontainers.org 00:00:05.31] Delete Docker container e5df7005337d
+[testcontainers.org 00:00:05.53] Docker container aecd0356a297 created
+[testcontainers.org 00:00:05.53] Start Docker container aecd0356a297
+[testcontainers.org 00:00:05.62] Wait for Docker container aecd0356a297 to complete readiness checks
+[testcontainers.org 00:00:05.62] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container aecd0356a297
+[testcontainers.org 00:00:06.66] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container aecd0356a297
+[testcontainers.org 00:00:06.69] Docker container aecd0356a297 ready
+[testcontainers.org 00:00:07.79] Delete Docker container aecd0356a297
+[testcontainers.org 00:00:08.02] Docker container d10c326544ef created
+[testcontainers.org 00:00:08.03] Start Docker container d10c326544ef
+[testcontainers.org 00:00:08.13] Wait for Docker container d10c326544ef to complete readiness checks
+[testcontainers.org 00:00:08.13] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d10c326544ef
+[testcontainers.org 00:00:09.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d10c326544ef
+[testcontainers.org 00:00:09.22] Docker container d10c326544ef ready
+[testcontainers.org 00:00:10.04] Delete Docker container d10c326544ef
+[testcontainers.org 00:00:10.22] Docker container 5c564f425f54 created
+[testcontainers.org 00:00:10.22] Start Docker container 5c564f425f54
+[testcontainers.org 00:00:10.31] Wait for Docker container 5c564f425f54 to complete readiness checks
+[testcontainers.org 00:00:10.31] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5c564f425f54
+[testcontainers.org 00:00:11.34] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5c564f425f54
+[testcontainers.org 00:00:11.38] Docker container 5c564f425f54 ready
+[testcontainers.org 00:00:12.07] Delete Docker container 5c564f425f54
+[testcontainers.org 00:00:12.24] Docker container 90c24132aa78 created
+[testcontainers.org 00:00:12.24] Start Docker container 90c24132aa78
+[testcontainers.org 00:00:12.34] Wait for Docker container 90c24132aa78 to complete readiness checks
+[testcontainers.org 00:00:12.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 90c24132aa78
+[testcontainers.org 00:00:13.38] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 90c24132aa78
+[testcontainers.org 00:00:13.42] Docker container 90c24132aa78 ready
+[testcontainers.org 00:00:14.08] Delete Docker container 90c24132aa78
+[testcontainers.org 00:00:14.26] Docker container ccc6c588dac7 created
+[testcontainers.org 00:00:14.26] Start Docker container ccc6c588dac7
+[testcontainers.org 00:00:14.35] Wait for Docker container ccc6c588dac7 to complete readiness checks
+[testcontainers.org 00:00:14.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ccc6c588dac7
+[testcontainers.org 00:00:15.39] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ccc6c588dac7
+[testcontainers.org 00:00:15.43] Docker container ccc6c588dac7 ready
+[testcontainers.org 00:00:16.04] Delete Docker container ccc6c588dac7
+[testcontainers.org 00:00:16.25] Docker container 5d84ee805a15 created
+[testcontainers.org 00:00:16.26] Start Docker container 5d84ee805a15
+[testcontainers.org 00:00:16.35] Wait for Docker container 5d84ee805a15 to complete readiness checks
+[testcontainers.org 00:00:16.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5d84ee805a15
+[testcontainers.org 00:00:17.39] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 5d84ee805a15
+[testcontainers.org 00:00:17.42] Docker container 5d84ee805a15 ready
+[testcontainers.org 00:00:18.05] Delete Docker container 5d84ee805a15
+[testcontainers.org 00:00:18.26] Docker container 346410c5042e created
+[testcontainers.org 00:00:18.26] Start Docker container 346410c5042e
+[testcontainers.org 00:00:18.35] Wait for Docker container 346410c5042e to complete readiness checks
+[testcontainers.org 00:00:18.35] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 346410c5042e
+[testcontainers.org 00:00:19.38] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 346410c5042e
+[testcontainers.org 00:00:19.43] Docker container 346410c5042e ready
+[testcontainers.org 00:00:20.01] Delete Docker container 346410c5042e
+[testcontainers.org 00:00:20.21] Docker container e08a449ef00a created
+[testcontainers.org 00:00:20.21] Start Docker container e08a449ef00a
+[testcontainers.org 00:00:20.30] Wait for Docker container e08a449ef00a to complete readiness checks
+[testcontainers.org 00:00:20.30] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e08a449ef00a
+[testcontainers.org 00:00:21.34] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e08a449ef00a
+[testcontainers.org 00:00:21.37] Docker container e08a449ef00a ready
+[testcontainers.org 00:00:21.96] Delete Docker container e08a449ef00a
+[testcontainers.org 00:00:22.13] Docker container b84b50f38bae created
+[testcontainers.org 00:00:22.14] Start Docker container b84b50f38bae
+[testcontainers.org 00:00:22.22] Wait for Docker container b84b50f38bae to complete readiness checks
+[testcontainers.org 00:00:22.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b84b50f38bae
+[testcontainers.org 00:00:23.24] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b84b50f38bae
+[testcontainers.org 00:00:23.30] Docker container b84b50f38bae ready
+[testcontainers.org 00:00:23.97] Delete Docker container b84b50f38bae
+[testcontainers.org 00:00:24.15] Docker container 2da4c6974bea created
+[testcontainers.org 00:00:24.15] Start Docker container 2da4c6974bea
+[testcontainers.org 00:00:24.25] Wait for Docker container 2da4c6974bea to complete readiness checks
+[testcontainers.org 00:00:24.26] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2da4c6974bea
+[testcontainers.org 00:00:25.29] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2da4c6974bea
+[testcontainers.org 00:00:25.33] Docker container 2da4c6974bea ready
+[testcontainers.org 00:00:25.98] Delete Docker container 2da4c6974bea
+[testcontainers.org 00:00:26.17] Docker container 0c3871701d91 created
+[testcontainers.org 00:00:26.17] Start Docker container 0c3871701d91
+[testcontainers.org 00:00:26.28] Wait for Docker container 0c3871701d91 to complete readiness checks
+[testcontainers.org 00:00:26.28] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0c3871701d91
+[testcontainers.org 00:00:27.31] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0c3871701d91
+[testcontainers.org 00:00:27.35] Docker container 0c3871701d91 ready
+[testcontainers.org 00:00:27.96] Delete Docker container 0c3871701d91
+[testcontainers.org 00:00:28.12] Docker container eee40aa9e3e5 created
+[testcontainers.org 00:00:28.12] Start Docker container eee40aa9e3e5
+[testcontainers.org 00:00:28.22] Wait for Docker container eee40aa9e3e5 to complete readiness checks
+[testcontainers.org 00:00:28.22] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container eee40aa9e3e5
+[testcontainers.org 00:00:29.25] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container eee40aa9e3e5
+[testcontainers.org 00:00:29.28] Docker container eee40aa9e3e5 ready
+[testcontainers.org 00:00:29.91] Delete Docker container eee40aa9e3e5
+[testcontainers.org 00:00:30.07] Docker container f7e34460a657 created
+[testcontainers.org 00:00:30.07] Start Docker container f7e34460a657
+[testcontainers.org 00:00:30.18] Wait for Docker container f7e34460a657 to complete readiness checks
+[testcontainers.org 00:00:30.18] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f7e34460a657
+[testcontainers.org 00:00:31.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f7e34460a657
+[testcontainers.org 00:00:31.25] Docker container f7e34460a657 ready
+[testcontainers.org 00:00:31.89] Delete Docker container f7e34460a657
+[testcontainers.org 00:00:32.11] Docker container c3cf5f84d1ee created
+[testcontainers.org 00:00:32.11] Start Docker container c3cf5f84d1ee
+[testcontainers.org 00:00:32.20] Wait for Docker container c3cf5f84d1ee to complete readiness checks
+[testcontainers.org 00:00:32.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c3cf5f84d1ee
+[testcontainers.org 00:00:33.23] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c3cf5f84d1ee
+[testcontainers.org 00:00:33.27] Docker container c3cf5f84d1ee ready
+[testcontainers.org 00:00:33.90] Delete Docker container c3cf5f84d1ee
+[testcontainers.org 00:00:34.10] Docker container 882fef5b3a15 created
+[testcontainers.org 00:00:34.10] Start Docker container 882fef5b3a15
+[testcontainers.org 00:00:34.19] Wait for Docker container 882fef5b3a15 to complete readiness checks
+[testcontainers.org 00:00:34.20] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 882fef5b3a15
+[testcontainers.org 00:00:35.23] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 882fef5b3a15
+[testcontainers.org 00:00:35.28] Docker container 882fef5b3a15 ready
+[testcontainers.org 00:00:35.89] Delete Docker container 882fef5b3a15
+[testcontainers.org 00:00:36.08] Docker container 168af329c70d created
+[testcontainers.org 00:00:36.08] Start Docker container 168af329c70d
+[testcontainers.org 00:00:36.17] Wait for Docker container 168af329c70d to complete readiness checks
+[testcontainers.org 00:00:36.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 168af329c70d
+[testcontainers.org 00:00:37.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 168af329c70d
+[testcontainers.org 00:00:37.24] Docker container 168af329c70d ready
+[testcontainers.org 00:00:37.88] Delete Docker container 168af329c70d
+[testcontainers.org 00:00:38.06] Docker container 037f1edca21c created
+[testcontainers.org 00:00:38.06] Start Docker container 037f1edca21c
+[testcontainers.org 00:00:38.16] Wait for Docker container 037f1edca21c to complete readiness checks
+[testcontainers.org 00:00:38.16] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 037f1edca21c
+[testcontainers.org 00:00:39.19] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 037f1edca21c
+[testcontainers.org 00:00:39.23] Docker container 037f1edca21c ready
+[testcontainers.org 00:00:39.78] Delete Docker container 037f1edca21c
+[testcontainers.org 00:00:39.97] Docker container 971f99856657 created
+[testcontainers.org 00:00:39.97] Start Docker container 971f99856657
+[testcontainers.org 00:00:40.07] Wait for Docker container 971f99856657 to complete readiness checks
+[testcontainers.org 00:00:40.07] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 971f99856657
+[testcontainers.org 00:00:41.11] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 971f99856657
+[testcontainers.org 00:00:41.17] Docker container 971f99856657 ready
+[testcontainers.org 00:00:41.75] Delete Docker container 971f99856657
+[testcontainers.org 00:00:41.94] Docker container f13a47dff31f created
+[testcontainers.org 00:00:41.95] Start Docker container f13a47dff31f
+[testcontainers.org 00:00:42.05] Wait for Docker container f13a47dff31f to complete readiness checks
+[testcontainers.org 00:00:42.05] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f13a47dff31f
+[testcontainers.org 00:00:43.08] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f13a47dff31f
+[testcontainers.org 00:00:43.11] Docker container f13a47dff31f ready
+[testcontainers.org 00:00:43.71] Delete Docker container f13a47dff31f
+[testcontainers.org 00:00:43.91] Docker container b61ad3e03d21 created
+[testcontainers.org 00:00:43.91] Start Docker container b61ad3e03d21
+[testcontainers.org 00:00:44.00] Wait for Docker container b61ad3e03d21 to complete readiness checks
+[testcontainers.org 00:00:44.00] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b61ad3e03d21
+[testcontainers.org 00:00:45.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b61ad3e03d21
+[testcontainers.org 00:00:45.07] Docker container b61ad3e03d21 ready
+[testcontainers.org 00:00:45.65] Delete Docker container b61ad3e03d21
+[testcontainers.org 00:00:45.86] Docker container 750a6d98a790 created
+[testcontainers.org 00:00:45.86] Start Docker container 750a6d98a790
+[testcontainers.org 00:00:45.94] Wait for Docker container 750a6d98a790 to complete readiness checks
+[testcontainers.org 00:00:45.94] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 750a6d98a790
+[testcontainers.org 00:00:46.97] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 750a6d98a790
+[testcontainers.org 00:00:47.00] Docker container 750a6d98a790 ready
+[testcontainers.org 00:00:47.69] Delete Docker container 750a6d98a790
+[testcontainers.org 00:00:47.90] Docker container 86cbec626603 created
+[testcontainers.org 00:00:47.90] Start Docker container 86cbec626603
+[testcontainers.org 00:00:48.01] Wait for Docker container 86cbec626603 to complete readiness checks
+[testcontainers.org 00:00:48.01] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 86cbec626603
+[testcontainers.org 00:00:49.03] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 86cbec626603
+[testcontainers.org 00:00:49.07] Docker container 86cbec626603 ready
+[testcontainers.org 00:00:49.69] Delete Docker container 86cbec626603
+[testcontainers.org 00:00:49.91] Docker container da09cbd32734 created
+[testcontainers.org 00:00:49.91] Start Docker container da09cbd32734
+[testcontainers.org 00:00:50.01] Wait for Docker container da09cbd32734 to complete readiness checks
+[testcontainers.org 00:00:50.02] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container da09cbd32734
+[testcontainers.org 00:00:51.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container da09cbd32734
+[testcontainers.org 00:00:51.08] Docker container da09cbd32734 ready
+[testcontainers.org 00:00:51.65] Delete Docker container da09cbd32734
+[testcontainers.org 00:00:51.84] Docker container 2055a905317b created
+[testcontainers.org 00:00:51.84] Start Docker container 2055a905317b
+[testcontainers.org 00:00:51.93] Wait for Docker container 2055a905317b to complete readiness checks
+[testcontainers.org 00:00:51.93] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2055a905317b
+[testcontainers.org 00:00:52.97] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2055a905317b
+[testcontainers.org 00:00:53.02] Docker container 2055a905317b ready
+[testcontainers.org 00:00:53.61] Delete Docker container 2055a905317b
+[testcontainers.org 00:00:53.79] Docker container 22cee4c2ea54 created
+[testcontainers.org 00:00:53.79] Start Docker container 22cee4c2ea54
+[testcontainers.org 00:00:53.88] Wait for Docker container 22cee4c2ea54 to complete readiness checks
+[testcontainers.org 00:00:53.88] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 22cee4c2ea54
+[testcontainers.org 00:00:54.91] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 22cee4c2ea54
+[testcontainers.org 00:00:54.95] Docker container 22cee4c2ea54 ready
+[testcontainers.org 00:00:55.58] Delete Docker container 22cee4c2ea54
+[testcontainers.org 00:00:55.77] Docker container e548aedd2b3c created
+[testcontainers.org 00:00:55.77] Start Docker container e548aedd2b3c
+[testcontainers.org 00:00:55.86] Wait for Docker container e548aedd2b3c to complete readiness checks
+[testcontainers.org 00:00:55.86] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e548aedd2b3c
+[testcontainers.org 00:00:56.90] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e548aedd2b3c
+[testcontainers.org 00:00:56.95] Docker container e548aedd2b3c ready
+[testcontainers.org 00:00:57.50] Delete Docker container e548aedd2b3c
+[testcontainers.org 00:00:57.66] Docker container 14db9ff181a0 created
+[testcontainers.org 00:00:57.66] Start Docker container 14db9ff181a0
+[testcontainers.org 00:00:57.76] Wait for Docker container 14db9ff181a0 to complete readiness checks
+[testcontainers.org 00:00:57.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 14db9ff181a0
+[testcontainers.org 00:00:58.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 14db9ff181a0
+[testcontainers.org 00:00:58.84] Docker container 14db9ff181a0 ready
+[testcontainers.org 00:00:59.52] Delete Docker container 14db9ff181a0
+[testcontainers.org 00:00:59.71] Docker container 38ab4d0479d4 created
+[testcontainers.org 00:00:59.72] Start Docker container 38ab4d0479d4
+[testcontainers.org 00:00:59.81] Wait for Docker container 38ab4d0479d4 to complete readiness checks
+[testcontainers.org 00:00:59.81] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 38ab4d0479d4
+[testcontainers.org 00:01:00.84] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 38ab4d0479d4
+[testcontainers.org 00:01:00.90] Docker container 38ab4d0479d4 ready
+[testcontainers.org 00:01:01.47] Delete Docker container 38ab4d0479d4
+[testcontainers.org 00:01:01.65] Docker container 1f1b68bae736 created
+[testcontainers.org 00:01:01.65] Start Docker container 1f1b68bae736
+[testcontainers.org 00:01:01.73] Wait for Docker container 1f1b68bae736 to complete readiness checks
+[testcontainers.org 00:01:01.73] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1f1b68bae736
+[testcontainers.org 00:01:02.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1f1b68bae736
+[testcontainers.org 00:01:02.80] Docker container 1f1b68bae736 ready
+[testcontainers.org 00:01:03.46] Delete Docker container 1f1b68bae736
+[testcontainers.org 00:01:03.65] Docker container 8b5fa28082ef created
+[testcontainers.org 00:01:03.65] Start Docker container 8b5fa28082ef
+[testcontainers.org 00:01:03.75] Wait for Docker container 8b5fa28082ef to complete readiness checks
+[testcontainers.org 00:01:03.75] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8b5fa28082ef
+[testcontainers.org 00:01:04.77] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8b5fa28082ef
+[testcontainers.org 00:01:04.81] Docker container 8b5fa28082ef ready
+[testcontainers.org 00:01:05.46] Delete Docker container 8b5fa28082ef
+[testcontainers.org 00:01:05.65] Docker container 50e64d224489 created
+[testcontainers.org 00:01:05.65] Start Docker container 50e64d224489
+[testcontainers.org 00:01:05.74] Wait for Docker container 50e64d224489 to complete readiness checks
+[testcontainers.org 00:01:05.74] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 50e64d224489
+[testcontainers.org 00:01:06.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 50e64d224489
+[testcontainers.org 00:01:06.82] Docker container 50e64d224489 ready
+[testcontainers.org 00:01:07.52] Delete Docker container 50e64d224489
+[testcontainers.org 00:01:07.70] Docker container ff8e44ba64a2 created
+[testcontainers.org 00:01:07.70] Start Docker container ff8e44ba64a2
+[testcontainers.org 00:01:07.78] Wait for Docker container ff8e44ba64a2 to complete readiness checks
+[testcontainers.org 00:01:07.78] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ff8e44ba64a2
+[testcontainers.org 00:01:08.81] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ff8e44ba64a2
+[testcontainers.org 00:01:08.85] Docker container ff8e44ba64a2 ready
+[testcontainers.org 00:01:09.46] Delete Docker container ff8e44ba64a2
+[testcontainers.org 00:01:09.64] Docker container c96b1ff05373 created
+[testcontainers.org 00:01:09.65] Start Docker container c96b1ff05373
+[testcontainers.org 00:01:09.74] Wait for Docker container c96b1ff05373 to complete readiness checks
+[testcontainers.org 00:01:09.74] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c96b1ff05373
+[testcontainers.org 00:01:10.77] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c96b1ff05373
+[testcontainers.org 00:01:10.81] Docker container c96b1ff05373 ready
+[testcontainers.org 00:01:11.44] Delete Docker container c96b1ff05373
+[testcontainers.org 00:01:11.62] Docker container 9822ad4ff0f1 created
+[testcontainers.org 00:01:11.63] Start Docker container 9822ad4ff0f1
+[testcontainers.org 00:01:11.72] Wait for Docker container 9822ad4ff0f1 to complete readiness checks
+[testcontainers.org 00:01:11.72] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9822ad4ff0f1
+[testcontainers.org 00:01:12.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9822ad4ff0f1
+[testcontainers.org 00:01:12.81] Docker container 9822ad4ff0f1 ready
+[testcontainers.org 00:01:13.49] Delete Docker container 9822ad4ff0f1
+[testcontainers.org 00:01:13.67] Docker container c9880ffb3ebb created
+[testcontainers.org 00:01:13.67] Start Docker container c9880ffb3ebb
+[testcontainers.org 00:01:13.76] Wait for Docker container c9880ffb3ebb to complete readiness checks
+[testcontainers.org 00:01:13.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c9880ffb3ebb
+[testcontainers.org 00:01:14.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c9880ffb3ebb
+[testcontainers.org 00:01:14.83] Docker container c9880ffb3ebb ready
+[testcontainers.org 00:01:15.50] Delete Docker container c9880ffb3ebb
+[testcontainers.org 00:01:15.69] Docker container 74801956aad3 created
+[testcontainers.org 00:01:15.69] Start Docker container 74801956aad3
+[testcontainers.org 00:01:15.79] Wait for Docker container 74801956aad3 to complete readiness checks
+[testcontainers.org 00:01:15.80] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 74801956aad3
+[testcontainers.org 00:01:16.82] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 74801956aad3
+[testcontainers.org 00:01:16.86] Docker container 74801956aad3 ready
+[testcontainers.org 00:01:17.49] Delete Docker container 74801956aad3
+[testcontainers.org 00:01:17.68] Docker container 0f447079bc22 created
+[testcontainers.org 00:01:17.68] Start Docker container 0f447079bc22
+[testcontainers.org 00:01:17.79] Wait for Docker container 0f447079bc22 to complete readiness checks
+[testcontainers.org 00:01:17.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0f447079bc22
+[testcontainers.org 00:01:18.82] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0f447079bc22
+[testcontainers.org 00:01:18.87] Docker container 0f447079bc22 ready
+[testcontainers.org 00:01:19.46] Delete Docker container 0f447079bc22
+[testcontainers.org 00:01:19.67] Docker container 2c430606fc40 created
+[testcontainers.org 00:01:19.67] Start Docker container 2c430606fc40
+[testcontainers.org 00:01:19.75] Wait for Docker container 2c430606fc40 to complete readiness checks
+[testcontainers.org 00:01:19.75] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2c430606fc40
+[testcontainers.org 00:01:20.79] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2c430606fc40
+[testcontainers.org 00:01:20.83] Docker container 2c430606fc40 ready
+[testcontainers.org 00:01:21.48] Delete Docker container 2c430606fc40
+[testcontainers.org 00:01:21.71] Docker container 964ea4109e70 created
+[testcontainers.org 00:01:21.72] Start Docker container 964ea4109e70
+[testcontainers.org 00:01:21.80] Wait for Docker container 964ea4109e70 to complete readiness checks
+[testcontainers.org 00:01:21.80] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 964ea4109e70
+[testcontainers.org 00:01:22.83] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 964ea4109e70
+[testcontainers.org 00:01:22.88] Docker container 964ea4109e70 ready
+[testcontainers.org 00:01:23.51] Delete Docker container 964ea4109e70
+[testcontainers.org 00:01:23.89] Docker container 62783f618dbb created
+[testcontainers.org 00:01:23.89] Start Docker container 62783f618dbb
+[testcontainers.org 00:01:24.00] Wait for Docker container 62783f618dbb to complete readiness checks
+[testcontainers.org 00:01:24.01] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 62783f618dbb
+[testcontainers.org 00:01:25.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 62783f618dbb
+[testcontainers.org 00:01:25.11] Docker container 62783f618dbb ready
+[testcontainers.org 00:01:25.72] Delete Docker container 62783f618dbb
+[testcontainers.org 00:01:26.07] Docker container 8f470c6be83b created
+[testcontainers.org 00:01:26.07] Start Docker container 8f470c6be83b
+[testcontainers.org 00:01:26.17] Wait for Docker container 8f470c6be83b to complete readiness checks
+[testcontainers.org 00:01:26.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8f470c6be83b
+[testcontainers.org 00:01:27.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8f470c6be83b
+[testcontainers.org 00:01:27.25] Docker container 8f470c6be83b ready
+[testcontainers.org 00:01:27.88] Delete Docker container 8f470c6be83b
+[testcontainers.org 00:01:28.24] Docker container 70d300677112 created
+[testcontainers.org 00:01:28.24] Start Docker container 70d300677112
+[testcontainers.org 00:01:28.34] Wait for Docker container 70d300677112 to complete readiness checks
+[testcontainers.org 00:01:28.34] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 70d300677112
+[testcontainers.org 00:01:29.38] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 70d300677112
+[testcontainers.org 00:01:29.44] Docker container 70d300677112 ready
+[testcontainers.org 00:01:30.09] Delete Docker container 70d300677112
+[testcontainers.org 00:01:30.41] Docker container 20d69fae5c99 created
+[testcontainers.org 00:01:30.42] Start Docker container 20d69fae5c99
+[testcontainers.org 00:01:30.50] Wait for Docker container 20d69fae5c99 to complete readiness checks
+[testcontainers.org 00:01:30.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 20d69fae5c99
+[testcontainers.org 00:01:31.53] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 20d69fae5c99
+[testcontainers.org 00:01:31.56] Docker container 20d69fae5c99 ready
+[testcontainers.org 00:01:32.19] Delete Docker container 20d69fae5c99
+[testcontainers.org 00:01:32.39] Docker container 9b62d4dc4f03 created
+[testcontainers.org 00:01:32.39] Start Docker container 9b62d4dc4f03
+[testcontainers.org 00:01:32.48] Wait for Docker container 9b62d4dc4f03 to complete readiness checks
+[testcontainers.org 00:01:32.48] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9b62d4dc4f03
+[testcontainers.org 00:01:33.52] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 9b62d4dc4f03
+[testcontainers.org 00:01:33.56] Docker container 9b62d4dc4f03 ready
+[testcontainers.org 00:01:34.12] Delete Docker container 9b62d4dc4f03
+[testcontainers.org 00:01:34.32] Docker container 3d96da613030 created
+[testcontainers.org 00:01:34.33] Start Docker container 3d96da613030
+[testcontainers.org 00:01:34.42] Wait for Docker container 3d96da613030 to complete readiness checks
+[testcontainers.org 00:01:34.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3d96da613030
+[testcontainers.org 00:01:35.46] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3d96da613030
+[testcontainers.org 00:01:35.49] Docker container 3d96da613030 ready
+[testcontainers.org 00:01:36.11] Delete Docker container 3d96da613030
+[testcontainers.org 00:01:36.29] Docker container 3097b95de9e1 created
+[testcontainers.org 00:01:36.30] Start Docker container 3097b95de9e1
+[testcontainers.org 00:01:36.40] Wait for Docker container 3097b95de9e1 to complete readiness checks
+[testcontainers.org 00:01:36.40] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3097b95de9e1
+[testcontainers.org 00:01:37.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3097b95de9e1
+[testcontainers.org 00:01:37.45] Docker container 3097b95de9e1 ready
+[testcontainers.org 00:01:38.10] Delete Docker container 3097b95de9e1
+[testcontainers.org 00:01:38.35] Docker container bfb58b2e4ef1 created
+[testcontainers.org 00:01:38.35] Start Docker container bfb58b2e4ef1
+[testcontainers.org 00:01:38.44] Wait for Docker container bfb58b2e4ef1 to complete readiness checks
+[testcontainers.org 00:01:38.44] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container bfb58b2e4ef1
+[testcontainers.org 00:01:39.48] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container bfb58b2e4ef1
+[testcontainers.org 00:01:39.52] Docker container bfb58b2e4ef1 ready
+[testcontainers.org 00:01:40.17] Delete Docker container bfb58b2e4ef1
+[testcontainers.org 00:01:40.35] Docker container c8decc5e55ba created
+[testcontainers.org 00:01:40.35] Start Docker container c8decc5e55ba
+[testcontainers.org 00:01:40.45] Wait for Docker container c8decc5e55ba to complete readiness checks
+[testcontainers.org 00:01:40.45] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c8decc5e55ba
+[testcontainers.org 00:01:41.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container c8decc5e55ba
+[testcontainers.org 00:01:41.52] Docker container c8decc5e55ba ready
+[testcontainers.org 00:01:42.20] Delete Docker container c8decc5e55ba
+[testcontainers.org 00:01:42.39] Docker container 1cc5069de8af created
+[testcontainers.org 00:01:42.39] Start Docker container 1cc5069de8af
+[testcontainers.org 00:01:42.49] Wait for Docker container 1cc5069de8af to complete readiness checks
+[testcontainers.org 00:01:42.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1cc5069de8af
+[testcontainers.org 00:01:43.52] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 1cc5069de8af
+[testcontainers.org 00:01:43.56] Docker container 1cc5069de8af ready
+[testcontainers.org 00:01:44.25] Delete Docker container 1cc5069de8af
+[testcontainers.org 00:01:44.47] Docker container 7f90a6c00a64 created
+[testcontainers.org 00:01:44.47] Start Docker container 7f90a6c00a64
+[testcontainers.org 00:01:44.56] Wait for Docker container 7f90a6c00a64 to complete readiness checks
+[testcontainers.org 00:01:44.56] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 7f90a6c00a64
+[testcontainers.org 00:01:45.58] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 7f90a6c00a64
+[testcontainers.org 00:01:45.61] Docker container 7f90a6c00a64 ready
+[testcontainers.org 00:01:46.25] Delete Docker container 7f90a6c00a64
+[testcontainers.org 00:01:46.47] Docker container 51e932f79e7b created
+[testcontainers.org 00:01:46.47] Start Docker container 51e932f79e7b
+[testcontainers.org 00:01:46.56] Wait for Docker container 51e932f79e7b to complete readiness checks
+[testcontainers.org 00:01:46.56] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 51e932f79e7b
+[testcontainers.org 00:01:47.58] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 51e932f79e7b
+[testcontainers.org 00:01:47.62] Docker container 51e932f79e7b ready
+[testcontainers.org 00:01:48.31] Delete Docker container 51e932f79e7b
+[xUnit.net 00:01:48.77]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

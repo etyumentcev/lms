@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using Lms.Application;
 using Lms.Domain;
 using Lms.Infrastructure;
@@ -22,6 +23,21 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     {
         var response = await Upload(client, bytes, type);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        return (await response.Content.ReadFromJsonAsync<AttachmentResult>())!;
+    }
+    private static async Task<AttachmentResult> ProtectedUploaded(HttpClient client, Guid workId,
+        byte[]? bytes = null, string type = "image/png", string name = "teacher-note.png")
+    {
+        bytes ??= AttachmentImages.Png;
+        using var content = new ByteArrayContent(bytes);
+        content.Headers.ContentType = new MediaTypeHeaderValue(type);
+        using var request = new HttpRequestMessage(HttpMethod.Post,
+            $"/api/v1/problem-works/{workId}/uploads/{Guid.NewGuid()}") { Content = content };
+        request.Headers.Add("X-Command-Id", Guid.NewGuid().ToString());
+        request.Headers.TryAddWithoutValidation("X-File-Name", Uri.EscapeDataString(name));
+        request.Headers.Add("X-Content-SHA256", Convert.ToHexString(SHA256.HashData(bytes)));
+        using var response = await client.SendAsync(request);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return (await response.Content.ReadFromJsonAsync<AttachmentResult>())!;
     }
     private static async Task Error(HttpResponseMessage response, int status, string code)
@@ -94,12 +110,17 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     {
         await using var app = await fixture.CreateApp(); using var owner = app.Client(ApiFactory.Student);
         var item = await Uploaded(owner);
-        foreach (var client in new[] { app.Client(Guid.NewGuid()), app.Client(ApiFactory.Teacher, "Teacher") })
-        using (client)
+        using (var client = app.Client(Guid.NewGuid()))
         foreach (var id in new[] { item.AttachmentId, Guid.NewGuid() })
         {
             await Error(await client.GetAsync($"/api/v1/attachments/{id}/content"), 404, "NotFound");
             await Error(await client.DeleteAsync($"/api/v1/attachments/{id}"), 404, "NotFound");
+        }
+        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        foreach (var id in new[] { item.AttachmentId, Guid.NewGuid() })
+        {
+            await Error(await teacher.GetAsync($"/api/v1/attachments/{id}/content"), 403, "Forbidden");
+            await Error(await teacher.DeleteAsync($"/api/v1/attachments/{id}"), 403, "Forbidden");
         }
     }
 
@@ -119,7 +140,8 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     public async Task Successful_submission_claims_all_pages_in_request_order_and_history_remains_readable()
     {
         await using var app = await fixture.CreateApp(); using var owner = app.Client(ApiFactory.Student);
-        var a = await app.Seed(); var first = await Uploaded(owner); var second = await Uploaded(owner);
+        var a = await app.Seed(studentGroup: "group", teacherGroup: "group", scopedTeacher: true);
+        var first = await Uploaded(owner); var second = await Uploaded(owner);
         var response = await Submit(owner, a.Id, second.AttachmentId, first.AttachmentId);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         var result = (await response.Content.ReadFromJsonAsync<SubmissionResult>(ApiFactory.Json))!;
@@ -128,13 +150,13 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
         await using var db = app.Open(); Assert.All(await db.StoredAttachments.ToListAsync(), x => Assert.Equal(result.SubmissionId, x.SubmissionId));
         await Error(await owner.DeleteAsync($"/api/v1/attachments/{first.AttachmentId}"), 409, "AttachmentAlreadyAttached");
         var another = await app.Seed(); await Error(await Submit(owner, another.Id, first.AttachmentId), 409, "AttachmentAlreadyAttached");
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        using var teacher = await app.SecureClient();
         Assert.Equal(AttachmentImages.Png, await teacher.GetByteArrayAsync(first.PreviewUrl));
         Assert.Equal(AttachmentImages.Png, await owner.GetByteArrayAsync(first.PreviewUrl));
         using var outsider = app.Client(Guid.NewGuid(), "Teacher");
-        await Error(await outsider.GetAsync(first.PreviewUrl), 404, "NotFound");
+        await Error(await outsider.GetAsync(first.PreviewUrl), 403, "Forbidden");
         Assert.Equal(HttpStatusCode.OK, (await teacher.PostAsJsonAsync($"/api/v1/problem-works/{work.Id}/reviews/accept",
-            new { submissionId = result.SubmissionId, expectedVersion = 1 })).StatusCode);
+            new { commandId = Guid.NewGuid(), submissionId = result.SubmissionId, expectedVersion = 1, feedback = (string?)null })).StatusCode);
         Assert.Equal(AttachmentImages.Png, await teacher.GetByteArrayAsync(first.PreviewUrl));
     }
 
@@ -206,10 +228,10 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     public async Task Submitted_content_honors_teacher_group_access(bool matching)
     {
         await using var app = await fixture.CreateApp(); using var owner = app.Client(ApiFactory.Student);
-        var a = await app.Seed(teacherGroup: matching ? "group" : "other", studentGroup: "group");
+        var a = await app.Seed(teacherGroup: matching ? "group" : "other", studentGroup: "group", scopedTeacher: true);
         var item = await Uploaded(owner); Assert.Equal(HttpStatusCode.Created, (await Submit(owner, a.Id, item.AttachmentId)).StatusCode);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
-        Assert.Equal(matching ? HttpStatusCode.OK : HttpStatusCode.NotFound, (await teacher.GetAsync(item.PreviewUrl)).StatusCode);
+        using var teacher = await app.SecureClient();
+        Assert.Equal(matching ? HttpStatusCode.OK : HttpStatusCode.Forbidden, (await teacher.GetAsync(item.PreviewUrl)).StatusCode);
     }
 
     [Fact]
@@ -225,11 +247,11 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     public async Task Teacher_group_scope_and_message_history_are_protected()
     {
         await using var app = await fixture.CreateApp(); using var owner = app.Client(ApiFactory.Student);
-        var a = await app.Seed(teacherGroup: "other", studentGroup: "group"); var item = await Uploaded(owner);
+        var a = await app.Seed(teacherGroup: "other", studentGroup: "group", scopedTeacher: true); var item = await Uploaded(owner);
         var submitted = (await (await owner.PostAsJsonAsync($"/api/v1/problem-assignments/{a.Id}/submissions", new { bodyMarkdown = "text", attachmentIds = Array.Empty<Guid>() })).Content.ReadFromJsonAsync<SubmissionResult>(ApiFactory.Json))!;
         Assert.Equal(HttpStatusCode.OK, (await owner.PostAsJsonAsync($"/api/v1/problem-works/{submitted.ProblemWorkId}/messages", new { bodyMarkdown = "photo", attachmentIds = new[] { item.AttachmentId } })).StatusCode);
         await Error(await owner.DeleteAsync($"/api/v1/attachments/{item.AttachmentId}"), 409, "AttachmentAlreadyAttached");
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher"); await Error(await teacher.GetAsync(item.PreviewUrl), 404, "NotFound");
+        using var teacher = await app.SecureClient(); await Error(await teacher.GetAsync(item.PreviewUrl), 403, "Forbidden");
     }
     [Theory]
     [InlineData("enrollment")]
@@ -255,16 +277,25 @@ public sealed class AttachmentApiTests(ApiPostgresFixture fixture) : IClassFixtu
     public async Task Teacher_owned_message_original_rechecks_revoked_grant()
     {
         await using var app = await fixture.CreateApp(); using var student = app.Client(ApiFactory.Student);
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher"); var a = await app.Seed();
+        var a = await app.Seed(studentGroup: "group", teacherGroup: "group", scopedTeacher: true);
+        using var teacher = await app.SecureClient();
         var submitted = (await (await student.PostAsJsonAsync($"/api/v1/problem-assignments/{a.Id}/submissions",
             new { bodyMarkdown = "text", attachmentIds = Array.Empty<Guid>() })).Content.ReadFromJsonAsync<SubmissionResult>(ApiFactory.Json))!;
-        var item = await Uploaded(teacher);
+        var item = await ProtectedUploaded(teacher, submitted.ProblemWorkId);
         (await teacher.PostAsJsonAsync($"/api/v1/problem-works/{submitted.ProblemWorkId}/messages",
-            new { bodyMarkdown = "feedback photo", attachmentIds = new[] { item.AttachmentId } })).EnsureSuccessStatusCode();
+            new { commandId = Guid.NewGuid(), intentId = Guid.NewGuid(), body = "feedback photo",
+                replyTo = (Guid?)null, attachments = new[] { item.AttachmentId } })).EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.OK, (await student.GetAsync(item.PreviewUrl)).StatusCode);
         using var other = app.Client(Guid.NewGuid()); await Error(await other.GetAsync(item.PreviewUrl), 404, "NotFound");
-        await using (var db = app.Open()) { db.TeacherGrants.Remove(await db.TeacherGrants.SingleAsync()); await db.SaveChangesAsync(); }
-        await Error(await teacher.GetAsync(item.PreviewUrl), 404, "NotFound");
+        TeacherAssignmentScope grant;
+        await using (var db = app.Open())
+            grant = await db.Set<TeacherAssignmentScope>().SingleAsync(x => x.CourseId == a.CourseId && x.TeacherId == ApiFactory.Teacher);
+        await using (var administration = app.Open())
+            await new PostgresScopedAuthorityAdministration(administration).Change(new(AuthorityKind.Teacher,
+                AuthorityOperation.Revoke, app.OrganizationId, ApiFactory.Teacher, grant.Version,
+                grant.MembershipGeneration, a.CourseId, grant.GroupId, grant.GrantId));
+        using var fresh = await app.SecureClient();
+        await Error(await fresh.GetAsync(item.PreviewUrl), 403, "Forbidden");
     }
 
 }

@@ -16,6 +16,24 @@ public sealed class Organization
     public bool SyntheticOnly { get; set; }
 }
 
+public sealed class OrganizationProfile
+{
+    public Guid OrganizationId { get; set; }
+    public string Name { get; set; } = null!;
+}
+
+public sealed class OrganizationBootstrapReceipt
+{
+    public Guid CommandId { get; set; }
+    public string PayloadDigest { get; set; } = null!;
+    public string OperatorSubjectHash { get; set; } = null!;
+    public Guid OrganizationId { get; set; }
+    public Guid AdminUserId { get; set; }
+    public Guid AdminActorId { get; set; }
+    public Guid ChallengeId { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
 public sealed class ActorIdentity
 {
     public Guid UserId { get; set; }
@@ -48,6 +66,38 @@ public sealed class CourseGroup
 {
     public string CourseId { get; set; } = null!;
     public string GroupId { get; set; } = null!;
+}
+
+public sealed class CourseCatalogRecord
+{
+    public string CourseId { get; set; } = null!;
+    public Guid OrganizationId { get; set; }
+    public string Title { get; set; } = null!;
+    public string Description { get; set; } = null!;
+    public string State { get; set; } = null!;
+    public long Version { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public sealed class CourseGroupCatalogRecord
+{
+    public string CourseId { get; set; } = null!;
+    public string GroupId { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
+    public long Version { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public sealed class CourseRosterCommandReceipt
+{
+    public Guid AdministratorActorId { get; set; }
+    public string IdempotencyKey { get; set; } = null!;
+    public Guid OrganizationId { get; set; }
+    public string Kind { get; set; } = null!;
+    public string PayloadDigest { get; set; } = null!;
+    public string ResultRef { get; set; } = null!;
+    public DateTimeOffset CreatedAt { get; set; }
 }
 
 public sealed class EnrollmentScope
@@ -135,6 +185,33 @@ public sealed class ProvisioningRequest
     public string State { get; set; } = null!;
 }
 
+public sealed class OrganizationParticipantProfile
+{
+    public Guid OrganizationId { get; set; }
+    public Guid ActorId { get; set; }
+    public string ExternalRosterKey { get; set; } = null!;
+    public string DisplayName { get; set; } = null!;
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public sealed class AccountLinkRequest
+{
+    public Guid RequestId { get; set; }
+    public Guid OrganizationId { get; set; }
+    public Guid TargetUserId { get; set; }
+    public Guid TargetActorId { get; set; }
+    public Guid InitiatorActorId { get; set; }
+    public string ExternalRosterKey { get; set; } = null!;
+    public string DisplayName { get; set; } = null!;
+    public string EducationalRole { get; set; } = null!;
+    public string State { get; set; } = null!;
+    public long Version { get; set; }
+    public string? VerificationRef { get; set; }
+    public Guid? ApproverActorId { get; set; }
+    public DateTimeOffset RequestedAt { get; set; }
+    public DateTimeOffset? DecidedAt { get; set; }
+}
+
 public sealed class AccountSecurityState
 {
     public Guid UserId { get; set; }
@@ -179,6 +256,7 @@ public sealed class RecoveryRequest
     public long Version { get; set; }
     public string? VerificationRef { get; set; }
     public DateTimeOffset? ApprovedAt { get; set; }
+    public DateTimeOffset RequestedAt { get; set; }
 }
 
 public sealed class AccessChallenge

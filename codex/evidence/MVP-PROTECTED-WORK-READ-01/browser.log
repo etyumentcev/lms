@@ -1,0 +1,16 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:01:16.66]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher) [1 m 12 s]
+  Stack Trace:
+     at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 53
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 56
+--- End of stack trace from previous location ---
+Results File: /tmp/protected-work-read/browser/_tea-Swift-SFG16-74_2026-10-12_05_09_32_net10.0.trx
+
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 1 m 23 s - Lms.Api.Tests.dll (net10.0)

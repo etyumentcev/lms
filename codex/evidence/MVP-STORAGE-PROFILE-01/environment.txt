@@ -1,0 +1,44 @@
+Linux tea-Swift-SFG16-74 7.0.0-38-generic #38-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 09:10:14 UTC 2026 x86_64 GNU/Linux
+uid=1000(tea) gid=1000(tea) groups=1000(tea),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),111(lpadmin),114(lxd),973(docker)
+CONFIG_EXT4_FS=y
+CONFIG_EXT4_FS_POSIX_ACL=y
+CONFIG_EXT4_FS_SECURITY=y
+CONFIG_FS_VERITY=y
+CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y
+supported
+0
+TARGET SOURCE         FSTYPE OPTIONS
+/      /dev/nvme0n1p2 ext4   rw,relatime,stripe=128
+rw
+bsddf
+nogrpid
+block_validity
+dioread_nolock
+nodiscard
+delalloc
+nowarn_on_error
+journal_checksum
+barrier
+auto_da_alloc
+user_xattr
+acl
+noquota
+resuid=0
+resgid=0
+errors=continue
+commit=5
+min_batch_time=0
+max_batch_time=15000
+i_version
+stripe=128
+data=ordered
+inode_readahead_blks=32
+init_itable=10
+max_dir_size_kb=0
+prefetch_block_bitmaps
+crw-rw---- 1 root disk  10, 237 Oct 11 20:22 /dev/loop-control
+brw-rw---- 1 root disk 259,   2 Oct 11 21:00 /dev/nvme0n1p2
+/usr/sbin/mkfs.ext4
+/usr/bin/unshare
+mke2fs 1.47.2 (1-Jan-2025)
+	Using EXT2FS Library version 1.47.2

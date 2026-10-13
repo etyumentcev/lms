@@ -1,5 +1,16 @@
 # ADR-L15 — JWT и ограниченный по времени обычный отзыв
 
+> **2026-10-12 — CURRENT OWNER OVERRIDE.** [Teacher Revocation logical-deadline decision](../../codex/TEACHER-REVOCATION-OWNER-DECISION.md) replaces every clause below that requires physical completion/quiescence of PostgreSQL `COMMIT`, filesystem/kernel I/O, HTTP egress, cleanup, or executors within 30 minutes. Current acceptance is JWT≤15m, fresh authority on issue/refresh, immutable logical operation deadline≤30m, cancellation requested at deadline, and no success acknowledgement after deadline. Late physical effects are an accepted residual risk and remain subject to unknown-outcome/replay/access-control protections. Historical 2h/10m and physical-completion text is retained below for traceability, not as the current algorithm or readiness gate.
+
+> **2026-10-12 — bounded teacher revocation.** [Действующий scoped contract](../architecture/TEACHER-REVOCATION.md): fresh issue/refresh, JWT≤15m, immutable operation≤30m, revoke≤60m в выбранном bounded execution envelope. Для ordinary revoke двухчасовой D и D−10m superseded; неограниченный late COMMIT/egress не удовлетворяет новому контракту. История ниже сохранена. Processing/file safety, PRS1 и release gates не сняты; общий HTTP/physical bound NOT PROVEN.
+
+> **MVP photo storage override — 2026-10-12.** [Owner-authorized exact diff](../../codex/MVP-STORAGE-RISK-ACCEPTANCE.md): physical original tampering risk accepted; fs-verity/kernel seal, retained FD/mmap exclusion proofs and developer filesystem qualification removed only for Sapientum solution photos. Completed private upload, parent/S2/S3/current processing/deadline and all other NR1 guarantees remain required. STORAGE-PROFILE-02 CANCELLED; G02 production BLOCKED. Historical clauses/results below are preserved.
+
+
+> **NR1 effective notice — 2026-10-11.** Только в NR1 scope: D1 заменяет абзац «Deadline измеряется…» на N1/N4; D2 — «Engineering requirement…» на N2/N3; D3 — два file/stream абзаца на N3/N5; D4 — весь формальный completion proof §L0.4 на N1/N2/N4/N6; D8 — производный вывод 23m в §Решение. Числа таблицы 60/480s означают application budget N1, не physical completion. JWT/admission/revoke serialization сохранены. Ordinary jobs paragraph и исключённые paths не ослаблены.
+> Нормативный источник: [N1–N7 / точный D1–D8](../../codex/MVP-B01-G02-NORMATIVE-REVIEW.md), [принятое решение](../../codex/L03-OWNER-DECISION-REGISTER.md), [sync results](../../codex/MVP-B01-G02-NR1-SYNC-RESULTS.md). Только controlled SyntheticOnly и отдельно принимаемые routes; неопределённый scope → blocked. Credential issuance, grants, B08 publication, general jobs и внешние irreversible effects не получают автоматического исключения. CLOCK NOT PROVEN; технически NR1 NOT IMPLEMENTED / NOT ACCEPTED.
+> Исторический текст ниже сохранён; старые failure results не превращены в PASS.
+
 2026-10-09. **ACCEPTED T04**, owner: владелец; evidence: окончательная редакция T04 в задании консолидации L0.3. Реализация NOT VERIFIED, L1 не разрешён. Supersedes cookie/per-request session и PostgreSQL revoke barrier в прежних ADR-L01, ADR-L14 и ORG-G04. Остальные принципы изоляции сохранены.
 
 ## Решение

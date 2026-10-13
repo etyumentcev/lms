@@ -21,4 +21,5 @@ export function decodeProblemWork(value: unknown): ProblemWorkDetails {
   if (!details(value)) throw Error('Invalid ProblemWorkDetails');
   return value as ProblemWorkDetails;
 }
-export type ReviewRequest = { submissionId: string; feedbackMarkdown: string | null; expectedVersion: number; annotations?: AnnotatedAttachment[] };
+export type ReviewRequest = { commandId: string; submissionId: string; feedback: string | null;
+  expectedVersion: number; annotations?: AnnotatedAttachment[] };

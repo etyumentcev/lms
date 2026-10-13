@@ -1,0 +1,94 @@
+{
+  "status": "Ready",
+  "receipt": {
+    "receiptRevision": "b07b-c1/v1",
+    "zipDigest": "04cbe0c5b5a993fc1d5e87d26f6bb0ff6553f90bb329a9935ee98a2b75811584",
+    "packageHash": "a1f45d3e931d128f7cf7725eb1c19b61e9d89aa368692c502b9b91a27be8958f",
+    "studentProjectionHash": "3caf281a564d8d33fc553bfd9cb74e8b8552685119c57820c509a460e9bf5c20",
+    "teacherArtifactHash": "179b71d75a00126680d0761afac9cd99a9814c2ba313944604d34d02e7afa19a",
+    "sourceRevision": "synthetic-example-1",
+    "compilerRevision": "sapientum-python-2",
+    "contractRevision": "1.1",
+    "runtimeFingerprint": "e8810e52f13dec2bec960d228dd833419f77430c4701f1782a61efa79607290a",
+    "limits": [
+      [
+        "cpu_seconds",
+        20
+      ],
+      [
+        "entries",
+        2000
+      ],
+      [
+        "expanded_bytes",
+        100000000
+      ],
+      [
+        "memory_bytes",
+        536870912
+      ],
+      [
+        "output_bytes",
+        200000000
+      ],
+      [
+        "tasks",
+        32
+      ],
+      [
+        "wall_seconds",
+        30
+      ],
+      [
+        "zip_bytes",
+        100000000
+      ]
+    ]
+  },
+  "studentAssets": [
+    "assets/shared-table.txt"
+  ],
+  "teacherAssets": [
+    "assets/shared-table.txt",
+    "assets/solution-notes.txt"
+  ],
+  "studentJsonBytes": 1108,
+  "teacherJsonBytes": 3149,
+  "execution": {
+    "unit": "b07c1-f5ad713801b74eaeb845626250169879.service",
+    "returncode": 0,
+    "elapsedSeconds": 0.2274,
+    "managerResult": "success",
+    "cpuUsec": 170434,
+    "memoryPeak": 40648704,
+    "events": {
+      "memory.events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0",
+        "sock_throttled": "0"
+      },
+      "pids.events": {
+        "max": "0"
+      }
+    },
+    "effectiveLimits": {
+      "memory.max": "536870912",
+      "memory.swap.max": "0",
+      "pids.max": "32",
+      "cpu.max": "100000 100000"
+    },
+    "observedPids": [
+      145963,
+      145964,
+      145965,
+      145966,
+      145975
+    ],
+    "cgroupEmpty": true,
+    "observedProcessesGone": true
+  }
+}

@@ -83,7 +83,11 @@ public sealed partial class ScopedAuthorityTests(PostgresFixture fixture) : ICla
         var work = new ProblemWork(Guid.NewGuid(), assignment);
         if (submit) work.SubmitSolution(assignment, S, "synthetic work", attachment.HasValue ? [attachment.Value] : [], At);
         if (review) work.Accept(T, work.Submissions[0].Id, "synthetic review", At.AddMinutes(1));
-        await new PostgresWorkStore(db).Save(work, null, CancellationToken.None); return (assignment, work);
+        // Reader-policy fixtures may include historical teacher decisions. Seed those
+        // explicitly; executing a new teacher command must use the trusted executor.
+        if (review) { db.Add(work); await db.SaveChangesAsync(); db.ChangeTracker.Clear(); }
+        else await new PostgresWorkStore(db).Save(work, null, CancellationToken.None);
+        return (assignment, work);
     }
     private async Task<Guid> Upload(string cs, bool scoped = true)
     {
@@ -146,7 +150,7 @@ public sealed partial class ScopedAuthorityTests(PostgresFixture fixture) : ICla
     [Fact]
     public async Task Membership_revoke_regrant_does_not_revive_old_scopes_or_move_stale_generation()
     {
-        var cs = await Seed(); var revoke = await Change(cs, new(AuthorityKind.Membership, AuthorityOperation.Revoke, A, S, 1)); Assert.InRange(revoke.AccessValidUntil!.Value, DateTimeOffset.UtcNow.AddHours(2).AddMinutes(-1), DateTimeOffset.UtcNow.AddHours(2));
+        var cs = await Seed(); var revoke = await Change(cs, new(AuthorityKind.Membership, AuthorityOperation.Revoke, A, S, 1)); Assert.InRange(revoke.AccessValidUntil!.Value, DateTimeOffset.UtcNow.AddMinutes(-1), DateTimeOffset.UtcNow);
         await Assert.ThrowsAsync<UseCaseException>(() => Change(cs, Move())); Assert.True(await Can(cs, S, new(ResourceKind.Course, CourseId: "b"), org: B));
         await Change(cs, new(AuthorityKind.Membership, AuthorityOperation.Grant, A, S, revoke.Version, Role: ScopeRole.Student)); Assert.Empty((await Current(cs))!.Grants);
         await Assert.ThrowsAsync<UseCaseException>(() => Change(cs, Move() with { MembershipGeneration = 2 }));

@@ -1,0 +1,19 @@
+{
+  "baselineFiles": 656,
+  "unchangedFiles": 648,
+  "intentionalChangedFiles": [
+    "src/Lms.Web/.gitignore",
+    "src/Lms.Web/src/App.tsx",
+    "src/Lms.Web/src/api/client.ts",
+    "src/Lms.Web/src/features/course/CoursePage.tsx",
+    "src/Lms.Web/src/features/course/CoursesPage.tsx",
+    "src/Lms.Web/src/features/lesson/LessonPage.tsx",
+    "src/Lms.Web/src/features/problem-workspace/ProblemPage.tsx",
+    "tests/Lms.Api.Tests/ProtectedCoursesHttpTests.cs"
+  ],
+  "unrelatedChanges": [],
+  "branch": "codex/l1-s4-jwt-api-authorization",
+  "head": "492e30aef65bbddd24f107903bfaa54a563abe39",
+  "indexSha256": "5c27349c41d3d0a3031e38310f7aa5ba3590cd09ec03ec8e064eef5a2ee31d93",
+  "branchHeadIndexPreserved": true
+}

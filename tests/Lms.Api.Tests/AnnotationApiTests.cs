@@ -7,17 +7,19 @@ public sealed partial class ContractApiTests
     [Theory] [InlineData("accept")] [InlineData("needs-revision")]
     public async Task Annotation_commands_are_authorized_atomic_and_readable_in_history(string decision)
     {
-        await using var app = await postgres.CreateApp(); var assignment = await app.Seed(); await Publish(app, assignment);
-        using var student = app.Client(ApiFactory.Student); using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        await using var app = await postgres.CreateApp(); var assignment = await app.Seed(studentGroup: "A", scopedTeacher: true); await Publish(app, assignment);
+        using var student = app.Client(ApiFactory.Student); using var teacher = await app.SecureClient();
+        using var scopedStudent = await app.SecureClient("Student");
         var attachment = await app.Attachment(ApiFactory.Student);
         var submitted = await Json(await student.PostAsJsonAsync(SubmitPath(assignment.Id), new { attachmentIds = new[] { attachment } }), 201);
         var workId = submitted.GetProperty("problemWorkId").GetGuid(); var submissionId = submitted.GetProperty("submissionId").GetGuid();
         var annotations = new[] { new AnnotatedAttachment(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3, .6), new(.8, .9)])]) };
-        object Body(Guid sub, long version, AnnotatedAttachment[] pages) => new { submissionId = sub, expectedVersion = version, feedbackMarkdown = "Fix this", annotations = pages };
+        object Body(Guid sub, long version, AnnotatedAttachment[] pages) => new { commandId = Guid.NewGuid(),
+            submissionId = sub, expectedVersion = version, feedback = "Fix this", annotations = pages };
         var path = WorkPath(workId) + "/reviews/" + decision;
-        await Error(await student.PostAsJsonAsync(path, Body(submissionId, 1, annotations)), 403, "Forbidden");
+        await Error(await scopedStudent.PostAsJsonAsync(path, Body(submissionId, 1, annotations)), 403, "Forbidden");
         using var other = app.Client(Guid.NewGuid(), "Teacher");
-        await Error(await other.PostAsJsonAsync(path, Body(submissionId, 1, annotations)), 403, "Forbidden");
+        await Error(await other.PostAsJsonAsync(path, Body(submissionId, 1, annotations)), 401, "Unauthenticated");
         await Error(await teacher.PostAsJsonAsync(path, Body(Guid.NewGuid(), 1, annotations)), 409, "SubmissionIsNotCurrent");
         await Error(await teacher.PostAsJsonAsync(path, Body(submissionId, 0, annotations)), 409, "ConcurrencyConflict");
         await Error(await teacher.PostAsJsonAsync(path, Body(submissionId, 1, [annotations[0] with { AttachmentId = Guid.NewGuid() }])), 422, "InvalidAnnotations");
@@ -40,8 +42,8 @@ public sealed partial class ContractApiTests
     [InlineData(true)]
     public async Task Teacher_screen_endpoint_requires_role_and_scope_including_terminal_state(bool accepted)
     {
-        await using var app = await postgres.CreateApp(); var a = await app.Seed(); await Publish(app, a);
-        using var student = app.Client(ApiFactory.Student); using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
+        await using var app = await postgres.CreateApp(); var a = await app.Seed(studentGroup: "A", scopedTeacher: true); await Publish(app, a);
+        using var student = app.Client(ApiFactory.Student); using var teacher = await app.SecureClient();
         var id = await Submit(student, a); var original = await Get(teacher, WorkPath(id));
         if (accepted) await Json(await teacher.PostAsJsonAsync(WorkPath(id) + "/reviews/accept", ReviewBody(original, null)));
         var path = $"/api/v1/teacher/problem-works/{id}";

@@ -8,12 +8,40 @@ namespace Lms.Infrastructure;
 public sealed partial class PostgresWorkspaceQueries(LmsDbContext db, IAccessPolicy access,
     IImmutableContentResolver content, TimeProvider time) : IWorkspaceQueries
 {
+    private IQueryable<TeacherAssignmentScope> ActiveTeacherScopes(Guid teacherId, string courseId) =>
+        from grant in db.Set<TeacherAssignmentScope>().AsNoTracking()
+        join legacy in db.TeacherGrants.AsNoTracking() on grant.GrantId equals legacy.Id
+        join membership in db.Set<OrganizationMembership>().AsNoTracking()
+            on new { grant.OrganizationId, ActorId = grant.TeacherId }
+            equals new { membership.OrganizationId, membership.ActorId }
+        join course in db.Set<CourseRegistration>().AsNoTracking() on grant.CourseId equals course.CourseId
+        where grant.TeacherId == teacherId && grant.CourseId == courseId && grant.State == "Active" &&
+            grant.RevocationRequestedAt == null && grant.AccessValidUntil == null &&
+            grant.MembershipGeneration == membership.Generation && membership.State == "Active" &&
+            membership.RevocationRequestedAt == null && membership.AccessValidUntil == null &&
+            legacy.TeacherId == teacherId && legacy.CourseId == courseId && legacy.GroupId == grant.GroupId &&
+            course.OrganizationId == grant.OrganizationId && course.MappingState == "Verified"
+        select grant;
+
     private IQueryable<ProblemAssignment> VisibleAssignments(Actor actor, string courseId)
     {
         var query = db.Assignments.AsNoTracking().Where(a => a.CourseId == courseId && a.Status == AssignmentStatus.Active);
         return actor.Role == AuthorRole.Student ? query.Where(a => a.StudentId == actor.Id) : query.Where(a =>
-            db.TeacherGrants.Any(g => g.TeacherId == actor.Id && g.CourseId == a.CourseId &&
-                (g.GroupId == null || db.Enrollments.Any(e => e.StudentId == a.StudentId && e.CourseId == a.CourseId && e.IsActive && e.GroupId == g.GroupId))));
+            db.Set<AssignmentScope>().Any(s => s.AssignmentId == a.Id)
+                ? db.Set<AssignmentScope>().Any(scope => scope.AssignmentId == a.Id &&
+                    db.Set<TeacherAssignmentScope>().Any(grant => grant.TeacherId == actor.Id &&
+                        grant.CourseId == a.CourseId && grant.OrganizationId == scope.OrganizationId &&
+                        grant.State == "Active" && grant.RevocationRequestedAt == null && grant.AccessValidUntil == null &&
+                        (grant.GroupId == null || grant.GroupId == scope.GroupId) &&
+                        db.TeacherGrants.Any(legacy => legacy.Id == grant.GrantId && legacy.TeacherId == actor.Id &&
+                            legacy.CourseId == grant.CourseId && legacy.GroupId == grant.GroupId) &&
+                        db.Set<OrganizationMembership>().Any(membership => membership.OrganizationId == grant.OrganizationId &&
+                            membership.ActorId == actor.Id && membership.Generation == grant.MembershipGeneration &&
+                            membership.State == "Active" && membership.RevocationRequestedAt == null && membership.AccessValidUntil == null) &&
+                        db.Set<CourseRegistration>().Any(registry => registry.CourseId == grant.CourseId &&
+                            registry.OrganizationId == grant.OrganizationId && registry.MappingState == "Verified")))
+                : db.TeacherGrants.Any(g => g.TeacherId == actor.Id && g.CourseId == a.CourseId &&
+                    (g.GroupId == null || db.Enrollments.Any(e => e.StudentId == a.StudentId && e.CourseId == a.CourseId && e.IsActive && e.GroupId == g.GroupId))));
     }
 
     private async Task<EnrollmentAccess?> CourseAccess(Actor actor, string courseId, CancellationToken ct)
@@ -21,7 +49,12 @@ public sealed partial class PostgresWorkspaceQueries(LmsDbContext db, IAccessPol
         if (actor.Role == AuthorRole.Student)
             return await db.Enrollments.AsNoTracking().SingleOrDefaultAsync(e => e.StudentId == actor.Id && e.CourseId == courseId && e.IsActive, ct)
                 ?? throw new UseCaseException("Forbidden");
-        if (actor.Role != AuthorRole.Teacher || !await db.TeacherGrants.AnyAsync(g => g.TeacherId == actor.Id && g.CourseId == courseId, ct))
+        if (actor.Role != AuthorRole.Teacher) throw new UseCaseException("Forbidden");
+        var scoped = await db.Set<CourseRegistration>().AsNoTracking().AnyAsync(x => x.CourseId == courseId &&
+            x.MappingState == "Verified" && x.OrganizationId != null, ct);
+        var allowed = scoped ? await ActiveTeacherScopes(actor.Id, courseId).AnyAsync(ct)
+            : await db.TeacherGrants.AnyAsync(g => g.TeacherId == actor.Id && g.CourseId == courseId, ct);
+        if (!allowed)
             throw new UseCaseException("Forbidden");
         return null;
     }
@@ -60,9 +93,9 @@ public sealed partial class PostgresWorkspaceQueries(LmsDbContext db, IAccessPol
     private static PermissionsDto Permissions(Actor actor, ProblemWork? work, bool available = true)
     {
         var student = actor.Role == AuthorRole.Student;
-        var review = !student && work?.Status == ProblemWorkStatus.Submitted;
+        var review = actor.Role == AuthorRole.Teacher && work?.Status == ProblemWorkStatus.Submitted;
         return new(student && available && (work is null || work.Status is ProblemWorkStatus.NotStarted or ProblemWorkStatus.NeedsRevision),
-            work is not null && (!student || available), review, review);
+            work is not null && (!student || available), review, review, actor.Role == AuthorRole.Teacher);
     }
 
     public async Task<StudentProblemWorkspaceDto> StudentProblem(Actor actor, Guid assignmentId, CancellationToken ct)

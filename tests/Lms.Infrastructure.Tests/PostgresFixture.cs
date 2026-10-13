@@ -20,7 +20,7 @@ public sealed class PostgresFixture : IAsyncLifetime
         await connection.OpenAsync();
         await using var command = new NpgsqlCommand($"CREATE DATABASE {name}", connection);
         await command.ExecuteNonQueryAsync();
-        var connectionString = new NpgsqlConnectionStringBuilder(container.GetConnectionString()) { Database = name }.ConnectionString;
+        var connectionString = new NpgsqlConnectionStringBuilder(container.GetConnectionString()) { Database = name, Pooling = false }.ConnectionString;
         await using var db = Open(connectionString);
         await db.GetService<IMigrator>().MigrateAsync(migration);
         if (migration is null) Assert.False(db.Database.HasPendingModelChanges());
@@ -43,7 +43,7 @@ public sealed class PostgresFixture : IAsyncLifetime
         Assert.True(created.ExitCode == 0, created.Stderr);
         var restored = await container.ExecAsync(["pg_restore", "-U", "postgres", "--exit-on-error", "-d", name, backupPath]);
         Assert.True(restored.ExitCode == 0, restored.Stderr);
-        return new NpgsqlConnectionStringBuilder(container.GetConnectionString()) { Database = name }.ConnectionString;
+        return new NpgsqlConnectionStringBuilder(container.GetConnectionString()) { Database = name, Pooling = false }.ConnectionString;
     }
     public static LmsDbContext Open(string connectionString, params IInterceptor[] interceptors)
         => new(new DbContextOptionsBuilder<LmsDbContext>().UseNpgsql(connectionString).AddInterceptors(interceptors).Options);

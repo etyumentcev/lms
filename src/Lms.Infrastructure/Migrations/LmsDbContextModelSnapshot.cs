@@ -264,6 +264,74 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.AccountLinkRequest", b =>
+                {
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ApproverActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DecidedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EducationalRole")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExternalRosterKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("InitiatorActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("RequestedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TargetActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("VerificationRef")
+                        .HasColumnType("text");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RequestId");
+
+                    b.HasIndex("ApproverActorId");
+
+                    b.HasIndex("InitiatorActorId");
+
+                    b.HasIndex("TargetActorId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.HasIndex("OrganizationId", "ExternalRosterKey")
+                        .IsUnique();
+
+                    b.ToTable("AccountLinkRequests", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_AccountLink_State", "\"State\" IN ('Requested','Approved','Rejected','Suspended') AND \"EducationalRole\" IN ('Student','Teacher') AND \"Version\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.AccountSecurityState", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -487,6 +555,206 @@ namespace Lms.Infrastructure.Migrations
                     b.ToTable("ChallengeReceipts", (string)null);
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.ContentImportAsset", b =>
+                {
+                    b.Property<Guid>("ImportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Audience")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AssetPath")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Bytes")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sha256")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ImportId", "Audience", "AssetPath");
+
+                    b.ToTable("ContentImportAssets", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ContentImportAsset_Audience", "\"Audience\" IN ('student','teacher')");
+
+                            t.HasCheckConstraint("CK_ContentImportAsset_Hash", "char_length(\"Sha256\") = 64 AND octet_length(\"Bytes\") > 0");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.ContentImportAttempt", b =>
+                {
+                    b.Property<Guid>("ImportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DiagnosticsJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IdempotencyKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OwnerActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PackageHash")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PublishedVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ReceiptJson")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("RequestDigest")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceRevision")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StudentArtifactJson")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("StudentProjectionHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TeacherArtifactHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TeacherArtifactJson")
+                        .HasColumnType("jsonb");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ImportId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("OwnerActorId", "IdempotencyKey")
+                        .IsUnique();
+
+                    b.ToTable("ContentImportAttempts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ContentImport_Digests", "char_length(\"RequestDigest\") = 64 AND (\"State\" <> 'Ready' OR (char_length(\"StudentProjectionHash\") = 64 AND char_length(\"PackageHash\") = 64 AND char_length(\"TeacherArtifactHash\") = 64))");
+
+                            t.HasCheckConstraint("CK_ContentImport_Result", "(\"State\" = 'Ready' AND \"StudentArtifactJson\" IS NOT NULL AND \"TeacherArtifactJson\" IS NOT NULL AND \"ReceiptJson\" IS NOT NULL) OR (\"State\" <> 'Ready' AND \"StudentArtifactJson\" IS NULL AND \"TeacherArtifactJson\" IS NULL AND \"ReceiptJson\" IS NULL AND \"PublishedVersionId\" IS NULL)");
+
+                            t.HasCheckConstraint("CK_ContentImport_State", "\"State\" IN ('Validating','Ready','Invalid','Failed')");
+
+                            t.HasCheckConstraint("CK_ContentImport_Version", "\"Version\" > 0 AND \"ExpiresAt\" > \"CreatedAt\"");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.ContentOperationReceipt", b =>
+                {
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PayloadDigest")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResultJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("ActorId", "IdempotencyKey");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("ContentOperationReceipts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ContentOperationReceipt_Digest", "char_length(\"PayloadDigest\") = 64");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseCatalogRecord", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CourseId");
+
+                    b.HasIndex("OrganizationId", "CreatedAt");
+
+                    b.ToTable("CourseCatalog", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseCatalog_State", "\"State\" IN ('Draft','Published') AND \"Version\" > 0");
+
+                            t.HasCheckConstraint("CK_CourseCatalog_Title", "char_length(btrim(\"Title\")) BETWEEN 2 AND 160");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.CourseContextBinding", b =>
                 {
                     b.Property<string>("CourseId")
@@ -530,6 +798,42 @@ namespace Lms.Infrastructure.Migrations
                     b.ToTable("CourseGroups", (string)null);
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.CourseGroupCatalogRecord", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CourseId", "GroupId");
+
+                    b.HasIndex("CourseId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("CourseGroupCatalog", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseGroupCatalog_Name", "char_length(btrim(\"Name\")) BETWEEN 2 AND 120");
+
+                            t.HasCheckConstraint("CK_CourseGroupCatalog_Version", "\"Version\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.CourseRegistration", b =>
                 {
                     b.Property<string>("CourseId")
@@ -552,6 +856,42 @@ namespace Lms.Infrastructure.Migrations
                     b.ToTable("CourseRegistry", null, t =>
                         {
                             t.HasCheckConstraint("CK_Course_Mapping", "(\"MappingState\" = 'Verified' AND \"OrganizationId\" IS NOT NULL) OR (\"MappingState\" = 'Unknown' AND \"OrganizationId\" IS NULL)");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseRosterCommandReceipt", b =>
+                {
+                    b.Property<Guid>("AdministratorActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PayloadDigest")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResultRef")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("AdministratorActorId", "IdempotencyKey");
+
+                    b.HasIndex("OrganizationId", "AdministratorActorId");
+
+                    b.ToTable("CourseRosterCommandReceipts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseRosterReceipt_Digest", "char_length(\"PayloadDigest\") = 64");
                         });
                 });
 
@@ -688,6 +1028,40 @@ namespace Lms.Infrastructure.Migrations
                     b.ToTable("AccessLessons", (string)null);
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.LessonGroupOpening", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ContentVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LessonId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("OpenedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OpenedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CourseId", "GroupId", "ContentVersionId", "LessonId");
+
+                    b.HasIndex("ContentVersionId");
+
+                    b.HasIndex("OpenedBy");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("LessonGroupOpenings", (string)null);
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.Organization", b =>
                 {
                     b.Property<Guid>("OrganizationId")
@@ -707,6 +1081,54 @@ namespace Lms.Infrastructure.Migrations
                             t.HasCheckConstraint("CK_Organization_State", "\"State\" IN ('Enabled','Suspended')");
 
                             t.HasCheckConstraint("CK_Organization_Synthetic", "\"SyntheticOnly\"");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationBootstrapReceipt", b =>
+                {
+                    b.Property<Guid>("CommandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AdminActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AdminUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChallengeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OperatorSubjectHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PayloadDigest")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("CommandId");
+
+                    b.HasIndex("AdminActorId")
+                        .IsUnique();
+
+                    b.HasIndex("AdminUserId")
+                        .IsUnique();
+
+                    b.HasIndex("ChallengeId")
+                        .IsUnique();
+
+                    b.HasIndex("OrganizationId")
+                        .IsUnique();
+
+                    b.ToTable("OrganizationBootstrapReceipts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_BootstrapReceipt_Digests", "char_length(\"PayloadDigest\") = 64 AND char_length(\"OperatorSubjectHash\") = 64");
                         });
                 });
 
@@ -756,6 +1178,55 @@ namespace Lms.Infrastructure.Migrations
                             t.HasCheckConstraint("CK_OrganizationMembership_Generation", "\"Generation\" > 0 AND \"Version\" > 0");
 
                             t.HasCheckConstraint("CK_OrganizationMembership_State", "\"State\" IN ('Active','Revoked')");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationParticipantProfile", b =>
+                {
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExternalRosterKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("OrganizationId", "ActorId");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("OrganizationId", "ExternalRosterKey")
+                        .IsUnique();
+
+                    b.ToTable("OrganizationParticipantProfiles", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_Participant_Profile", "char_length(btrim(\"ExternalRosterKey\")) BETWEEN 3 AND 128 AND char_length(btrim(\"DisplayName\")) BETWEEN 2 AND 160");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationProfile", b =>
+                {
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("OrganizationId");
+
+                    b.ToTable("OrganizationProfiles", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_OrganizationProfile_Name", "char_length(btrim(\"Name\")) BETWEEN 2 AND 160");
                         });
                 });
 
@@ -877,6 +1348,78 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.PublishedContentArtifact", b =>
+                {
+                    b.Property<Guid>("ContentVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ImportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PackageHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StudentArtifactJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("StudentProjectionHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TeacherArtifactHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TeacherArtifactJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("ContentVersionId");
+
+                    b.HasIndex("ImportId")
+                        .IsUnique();
+
+                    b.ToTable("PublishedContentArtifacts", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_PublishedContentArtifact_Hashes", "char_length(\"StudentProjectionHash\") = 64 AND char_length(\"PackageHash\") = 64 AND char_length(\"TeacherArtifactHash\") = 64");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.PublishedContentAsset", b =>
+                {
+                    b.Property<Guid>("ContentVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Audience")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AssetPath")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Bytes")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sha256")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ContentVersionId", "Audience", "AssetPath");
+
+                    b.ToTable("PublishedContentAssets", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_PublishedContentAsset_Audience", "\"Audience\" IN ('student','teacher')");
+
+                            t.HasCheckConstraint("CK_PublishedContentAsset_Hash", "char_length(\"Sha256\") = 64 AND octet_length(\"Bytes\") > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.PublishedContentVersion", b =>
                 {
                     b.Property<Guid>("Id")
@@ -927,6 +1470,9 @@ namespace Lms.Infrastructure.Migrations
 
                     b.Property<Guid>("InitiatorActorId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("RequestedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -1524,6 +2070,38 @@ namespace Lms.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.AccountLinkRequest", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("ApproverActorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("InitiatorActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("TargetActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.AccountSecurityState", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
@@ -1622,6 +2200,72 @@ namespace Lms.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.ContentImportAsset", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ContentImportAttempt", null)
+                        .WithMany()
+                        .HasForeignKey("ImportId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.ContentImportAttempt", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.CourseRegistration", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("OwnerActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.ContentOperationReceipt", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseRegistration", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseCatalogRecord", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.CourseRegistration", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.CourseCatalogRecord", "CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.CourseContextBinding", b =>
                 {
                     b.HasOne("Lms.Infrastructure.ProcessingContextVersion", null)
@@ -1641,12 +2285,30 @@ namespace Lms.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.CourseGroupCatalogRecord", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.CourseGroup", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.CourseGroupCatalogRecord", "CourseId", "GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.CourseRegistration", b =>
                 {
                     b.HasOne("Lms.Infrastructure.Organization", null)
                         .WithMany()
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseRosterCommandReceipt", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId", "AdministratorActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lms.Infrastructure.EnrollmentScope", b =>
@@ -1678,6 +2340,60 @@ namespace Lms.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.LessonGroupOpening", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.PublishedContentVersion", null)
+                        .WithMany()
+                        .HasForeignKey("ContentVersionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("OpenedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseGroup", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationBootstrapReceipt", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("AdminActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("AdminUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.AccessChallenge", null)
+                        .WithMany()
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.OrganizationMembership", b =>
                 {
                     b.HasOne("Lms.Infrastructure.ActorRecord", null)
@@ -1689,6 +2405,30 @@ namespace Lms.Infrastructure.Migrations
                     b.HasOne("Lms.Infrastructure.Organization", null)
                         .WithMany()
                         .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationParticipantProfile", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.OrganizationProfile", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.OrganizationProfile", "OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -1729,6 +2469,30 @@ namespace Lms.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.PublishedContentArtifact", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.PublishedContentVersion", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.PublishedContentArtifact", "ContentVersionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ContentImportAttempt", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.PublishedContentArtifact", "ImportId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.PublishedContentAsset", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.PublishedContentVersion", null)
+                        .WithMany()
+                        .HasForeignKey("ContentVersionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lms.Infrastructure.RecoveryRequest", b =>

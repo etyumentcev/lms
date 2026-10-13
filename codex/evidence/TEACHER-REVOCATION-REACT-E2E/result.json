@@ -1,0 +1,223 @@
+{
+  "passed": true,
+  "scope": "Production React bundle over real Chromium, HTTPS API and disposable PostgreSQL",
+  "authentication": "Pre-issued scoped access tokens supplied through the documented window.lmsAuth host adapter; browser login/refresh/logout not covered",
+  "fixture": "Course, group and assignment are pre-seeded; they are not created by a user in the browser",
+  "stages": [
+    {
+      "action": "student-submit",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-message",
+      "ui": "React",
+      "photo": true
+    },
+    {
+      "action": "teacher-needs-revision",
+      "ui": "React",
+      "annotationStrokes": 1,
+      "state": "NeedsRevision"
+    },
+    {
+      "action": "student-revise",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-accept",
+      "ui": "React",
+      "state": "Accepted",
+      "repeatedCommandButton": false
+    },
+    {
+      "action": "student-observes-accepted",
+      "ui": "React"
+    },
+    {
+      "action": "teacher-revoked",
+      "ui": "React",
+      "state": "Forbidden"
+    },
+    {
+      "action": "cross-organization-isolation",
+      "ui": "React",
+      "state": "Forbidden"
+    }
+  ],
+  "apiEvents": [
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/workspace",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb/uploads/b02ebb58-3bb4-4754-a463-6be946a11ee1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e97faa2d-edb9-43ca-88de-38218ceaba5c/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb/messages",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb/reviews/needs-revision",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/f9805f5c-a804-49f0-921f-ae57e50f8910/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/8b894af3-c085-48a0-aeb5-e6cac88e99a3/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/8b894af3-c085-48a0-aeb5-e6cac88e99a3/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/8b894af3-c085-48a0-aeb5-e6cac88e99a3/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb/reviews/accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/8b894af3-c085-48a0-aeb5-e6cac88e99a3/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/c29e40bf-6324-4cef-8ef7-ddb228721147/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/8b894af3-c085-48a0-aeb5-e6cac88e99a3/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/f476a7de-63d3-4e25-b1f0-0ace8d7b0ecb",
+      "status": 403
+    }
+  ]
+}

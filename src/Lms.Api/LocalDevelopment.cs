@@ -30,9 +30,10 @@ internal static class LocalDevelopment
     {
         var id = role switch { "Student" => Student, "Teacher" => Teacher,
             _ => throw new ArgumentException("Use Student or Teacher.") };
+        var now = DateTime.UtcNow;
         var token = new JwtSecurityToken(Issuer, Audience,
             [new Claim("sub", id.ToString()), new Claim("role", role)],
-            DateTime.UtcNow.AddSeconds(-5), DateTime.UtcNow.AddHours(8),
+            now, now.Add(SessionPolicy.MaximumAccessLifetime),
             new SigningCredentials(Key(configuration), SecurityAlgorithms.HmacSha256));
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

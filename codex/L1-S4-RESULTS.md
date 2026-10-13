@@ -2,6 +2,81 @@
 
 2026-10-09. **S4 BLOCKED** at the G02 file-completion boundary. This is a blocker checkpoint, not an implemented JWT/API cutover or an acceptance request.
 
+## G02/A02 — bounded execution architecture package — 2026-10-09
+
+**G02 ARCHITECTURE READY FOR OWNER DECISION. S4 remains BLOCKED; T04 NOT PROVEN.** The owner authorized DESIGN only and explicitly approved keeping this package on the current `codex/l1-s4-jwt-api-authorization` branch in canonical `/home/tea/github/lms`. Baseline HEAD `a60ee6c`; pre-existing uncommitted changes in this report and `AttachmentDeadlineBoundaryTests.cs` were preserved. No new worktree or runtime implementation.
+
+This A02 section supersedes the request to authorize architecture investigation in the older continuation below; it does not supersede its blocker evidence or convert historical tests into acceptance. Architecture readiness means the options, recommendation and verification obligations are ready for review, not that a supported T04 deployment has been demonstrated.
+
+- [Architecture and invariants](../docs/architecture/L1-G02-BOUNDED-EXECUTION.md)
+- [Failure model and guarantee limits](../docs/architecture/L1-G02-FAILURE-MODEL.md)
+- [Options and recommendation](L1-G02-OPTIONS.md)
+- [Verification plan](L1-G02-VERIFICATION-PLAN.md)
+- [Concrete owner decision](L1-G02-OWNER-DECISION.md)
+
+Recommendation: a restricted storage gateway with immutable versions, isolated I/O workers, durable operation identity, storage-side fencing/quiescence, atomic PostgreSQL result state and independent supervisor/controlled edge. A process/container kill or PG generation alone cannot fence issued filesystem writes. Unknown commit preserves potentially committed bytes, prohibits replay/premature purge and requires authoritative serialized reconciliation. Recovery cannot extend an expired user operation.
+
+T04 remains 60s / 8m / 10m reserve / access JWT up to 15m / ordinary revoke no later than 2h. Stage budgets are proposed research envelopes, not established bounds. No bounded termination contract for native I/O, PostgreSQL WAL/commit, scheduling or final edge egress exists on the current baseline; full T04 cannot presently be proved. Fail-closed publication is not proof of physical completion. The proposed failure model explicitly excludes arbitrary correlated OS/hardware/network failures and does not claim a universal guarantee.
+
+A02 validation: documentation links, required coverage, diff and preservation of the existing test file; no new runtime tests or fault injections. Prior 355/355 evidence below belongs to the earlier continuation. No runtime/config/schema/test changes by A02. Separate explicit owner approval is required before implementation; S5–S8/full S7 lifecycle, M2/M3, production migration, real personal data and push/merge/deploy remain prohibited. Stop after this package; G02 acceptance and S4 completion remain pending.
+
+## G02 authorized continuation — 2026-10-09
+
+**Owner continuation AUTHORIZED; G02 NOT RESOLVED; S4 remains BLOCKED.** This section supersedes the historical request for G02 authorization below. Baseline verified: clean canonical `/home/tea/github/lms`, branch `codex/l1-s4-jwt-api-authorization`, HEAD `a60ee6c`. No new worktree. T04 is unchanged. This continuation performed design research, a candidate process-isolation fault probe and backend regression; it did not implement or certify a bounded production storage adapter.
+
+### Deployment / failure model assessment
+
+Inspected ADR-L03, ADR-L06, ADR-L15, L1 Security Spec, owner T04/G02 register, S4/S7 plan and execution stop conditions, actual storage/service/controller and Compose/nginx configuration. Existing deployment is ordinary Linux + Docker Compose + local persistent attachment volume + PostgreSQL 17 + nginx. No verified filesystem, device, hypervisor scheduling, clock-error, watchdog/fencing or recovery latency contract exists. The local development stack is not a certified deployment.
+
+A **candidate restricted model**, not an accepted supported deployment, would require: synthetic data only; a pinned Linux/kernel/filesystem/device stack; no NFS/FUSE or arbitrary devices in attachment storage; bounded CPU scheduling and monotonic clock drift; bounded local filesystem and PostgreSQL/WAL completion or independently enforced fencing; a single controlled ingress with an absolute last-byte deadline; no uncontrolled proxy hop; no operation restart/replay after timeout. Multiple API instances would each have to satisfy the same contract. None of the missing numerical bounds can be inferred from a successful local test. Excluding every stalled filesystem/commit from the model would evade this task rather than resolve G02. Consequently **no deployment model satisfying T04 is certified by this continuation**.
+
+### Alternatives and minimal candidate
+
+| Mechanism | Assessment |
+|---|---|
+| CancellationToken, Task.Run + WaitAsync, HTTP 504 | Reject: stops waiting or requests cancellation while native work may continue. |
+| Dedicated thread, close stream from another thread | Reject: no safe forced managed-thread termination; native open has no returned handle to close; close/flush may themselves wait. |
+| One child process per storage operation; private IPC; kill then reap | Smallest useful isolation candidate. Parent must never run native attachment I/O, including stat/cleanup, and must retain admission slot until exit is observed. It can terminate the interruptible FIFO surrogate. It supplies no upper bound for arbitrary uninterruptible kernel I/O or already issued device writes. Not selected as a sufficient T04 mechanism. |
+| Container stop/kill or cgroup kill | Same kernel/device boundary; signal dispatch is not observed completion. Moving the same worker into a container does not close the proof. |
+| External storage service with request timeout | Client timeout does not fence server mutation. Requires a server-side completion/fencing contract and evidence; adds a dependency, not justified as a silent fix. |
+| Independent watchdog/fencing for the execution and persistence boundary | Candidate architecture extension requiring separate owner authorization and concrete infrastructure latency evidence. Power-off alone does not prove cancellation of issued writes or safe restart; edge egress and stale writers must also be fenced. Not implemented or deployed. |
+
+Primary references checked on 2026-10-09: [Linux completion waits](https://docs.kernel.org/scheduler/completion.html) document default uninterruptible waits without a timeout; [Linux scheduler timeout semantics](https://www.kernel.org/doc/html/v5.10/driver-api/basics.html) distinguish interruptible waits and potentially unbounded scheduling waits; [PostgreSQL 17 transaction/statement timeouts](https://www.postgresql.org/docs/17/runtime-config-client.html) define useful session/query limits, not a device-failure termination SLA; [nginx proxy timeouts](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout) apply between reads, not to the whole response. The conclusion that these primitives do not supply the combined required bound is an architectural inference, not a claim that every Linux I/O wait ignores SIGKILL.
+
+### Full-operation proof obligations and compensation audit
+
+Let admission start an immutable monotonic budget B (60s ordinary, at most 480s explicitly long upload/download). A sufficient implementation must prove `execution cutoff + worst-case termination/rollback/edge-drain tail <= B`, counting queue, body, validation, storage, database, disposal and final edge send. Overlapping stages may share a budget; sequential compensation cannot receive a fresh one. Timer dispatch/scheduling error must also fit B. No numeric termination tail is established here, so assigning e.g. a 450s timeout would be an invented proof. The separate 120s T04 clock margin cannot pay for execution beyond 480s. Conservative issuer/admission clock bounds remain unverified.
+
+- **Storage:** kill must be followed by observed process exit and a contract for outstanding I/O. Timed-out worker cannot be detached, replaced while still active, or publish a late result. Marking storage unhealthy blocks future admission but does not finish an existing writer.
+- **API/body/edge:** an admission deadline must cover active trickle traffic, slow response consumers and every Range request. Current nginx buffering and inactivity timeouts do not establish an absolute last-byte cutoff. Disabling buffering alone is insufficient. No edge integration proof was run here.
+- **Database:** statement/lock/transaction timeouts and provider cancellation are necessary controls, not evidence that commit/WAL/rollback/recovery always finish in the remaining budget. Killing the API does not terminate an independently executing PostgreSQL backend. Lost commit acknowledgement may mean committed data; never automatically replay a command or claim rollback of committed history.
+- **Upload compensation:** current `CancellationToken.None` database lookup and delete have no shared budget. An absence read while the original commit is unresolved is not proof that it will never commit. Before unlink, prove the original transaction has ended and metadata is absent in an authoritative fresh view. Unknown outcome must preserve bytes and deny publication/claim, with no detached deletion. A failed Store can also leave temporary data before the service's compensation try block.
+- **Delete:** existing tombstone-before-unlink protects eligibility when physical delete fails, but neither unlink nor transaction disposal has a proven completion bound. Never compensate by deleting an attached original.
+- **Fail closed:** required for unavailable/unknown storage, unknown clock bounds, unresolved worker exit and ambiguous publication. Existing runtime is **not certified fail-closed for G02**. No flag that disables required attachment use cases is offered as acceptance. A quarantine/reconciliation/restart protocol beyond the existing S4 boundary would require the owner's separate S7-scope decision.
+
+### Security and architecture review outcome
+
+Self-review, no independent reviewer or delegated agent: **NOT APPROVED for G02 acceptance**. Critical unresolved findings are native I/O termination, DB commit/rollback termination, edge final-byte cutoff, unknown clock/scheduling bounds, and safe compensation after unresolved commit. A process worker solves only one fault class. Adding it to the public runtime now would leave the required guarantees unproved. No runtime/schema/auth cutover changes were made; existing file endpoints retain their pre-S4 limitations.
+
+The explicit owner stop condition applies: a complete candidate would need a separately approved execution/persistence fencing boundary (or a concrete bounded platform contract), and potentially a narrowly scoped quarantine/restart recovery contract overlapping S7. This is not a request to approve timeout values or to repeat G02 authorization. Stop before implementing that architecture extension. Owner decision requested: authorize investigation/design of this boundary, retaining T04 and keeping deployment, M2/M3 and S5–S8 implementation prohibited. Such authorization alone would not constitute technical proof.
+
+### Continuation evidence and completion matrix
+
+New `Isolated_FIFO_reader_can_be_killed_and_reaped_without_releasing_IO` test launches only a synthetic FIFO reader, observes its kernel FIFO-open wait through `/proc/<pid>/wchan`, kills it, observes exit within a 5s test limit, verifies no output, and joins/cleans up in finally. No shell command string or user input is executed by the child. This is an OS isolation feasibility probe, **not the .NET storage adapter**, not a D-state device fault, not DB rollback, and not an eight-minute integration proof. The pre-existing actual-adapter cancellation reproducer remains intact. `/proc` wait-channel visibility is required on this Linux test host; no hidden passing fallback.
+
+Regression command: `/tmp/lms-s1-dotnet/dotnet test Lms.sln --no-restore -m:1 -p:UseSharedCompilation=false --logger trx --results-directory /tmp/lms-g02-results/regression`. Results: Domain **43/43**, Application **24/24**, Infrastructure/PostgreSQL **102/102**, API/HTTP **186/186**; total **355 passed, 0 failed, 0 skipped**. Build output reported no warnings/errors. This regression checks existing behavior plus the new probe; it does not certify the unimplemented G02 boundary. TRX evidence is in the results directory above.
+
+| G02 criterion | Result |
+|---|---|
+| Document supported failure model | Candidate and missing bounds documented; supported T04 deployment NOT ESTABLISHED |
+| Implement bounded completion mechanism | NOT IMPLEMENTED; no sufficient mechanism selected within verified boundary |
+| Blocking I/O / cancellation | Existing adapter gap reproduced; interruptible child-process termination probe added |
+| Rollback / commit / edge fault integration | NOT RUN for proposed boundary; stop condition reached |
+| Full <=480s proof | NOT ESTABLISHED; passing short probe is not proof |
+| Full backend regression | PASS: 355/355, 0 failed, 0 skipped |
+| Positive security review | NOT APPROVED |
+| Continue S4 / final S4 acceptance | NO; S4 BLOCKED, S5 not started |
+
 ## Authorization and Git baseline
 
 The explicit S4 owner task accepts S1, S2, S3, B01 and O01 and authorizes only S4, on synthetic data. Earlier documents' S4-not-authorized statements remain historical. S5–S8, M2/M3, production migration, real personal data and push/merge/deploy remain prohibited.
@@ -113,6 +188,19 @@ TRX evidence: `/tmp/lms-s4-results/regression/` and `/tmp/lms-s4-results/final-p
 S5 remains NOT AUTHORIZED and cannot rely on this checkpoint as an S4 acceptance. No JWT/API authorization readiness claim, push, merge or deploy. The only code change is the synthetic test. The owner must resolve G02 before continuation; **S4 BLOCKED**.
 
 
+## G02/A03 — Infrastructure Evidence Package — 2026-10-09
+
+**INFRASTRUCTURE EVIDENCE BLOCKED. T04 NOT PROVEN. S4 remains BLOCKED.** Owner accepted G02/A02 option C as the architectural direction and explicitly authorized A03 infrastructure research and isolated synthetic experiments. This supersedes A02's historical pending decision only for that direction/research scope; runtime implementation remains unauthorized.
+
+Canonical `/home/tea/github/lms`, existing branch `codex/l1-s4-jwt-api-authorization`, HEAD `a60ee6c73c4400bd1bdf6c6df434358372745c41`. Existing S4 text, modified synthetic C# test, A02 documents and other working-tree content preserved; no branch switch/worktree created. A03 adds seven documents and a standalone evidence harness/results under `codex/evidence/L1-G02-A03`, outside LMS runtime/build/test integration.
+
+[Implementation readiness / owner report](L1-G02-IMPLEMENTATION-READINESS.md) is the current A03 conclusion, with links to all seven mandatory artifacts. [Experiments](L1-G02-EXPERIMENT-RESULTS.md) distinguish contracts, measurements, assumptions and unverified claims. Real isolated probes covered FIFO open/read/write kill/reap, user-space hang, epoch TOCTOU, writable FD after surrogate seal, PostgreSQL lost application ACK/false absence/rollback/backend termination/clean restart, TCP buffered delivery, nginx trickle and buffering/cutoff. Final harness completed successfully and removed its containers/anonymous volumes. Two earlier harness setup failures and their fixes are recorded; no hidden PASS.
+
+P03 Linux/ext4/NVMe/Docker/PG17.6/nginx1.28.3 has no established hard bounds for storage quiescence, WAL/rollback termination, controlled-egress queues or clock/scheduler dispatch; independent cross-kernel supervisor is absent. Successful finite probes do not supply these contracts. Device/WAL/failover faults, physical NIC cutoff, real-time 60/480s full LMS paths and V2/V3 integration remain NOT RUN/NOT ESTABLISHED. V0 covers A03 only; V1 FAIL, V2/V3 not satisfied. I1–I7/V0–V3 retain their A02 definitions; T04 is unchanged, including prohibition on spending the 120s clock reserve as execution time.
+
+A03 validation: standalone fault probes, evidence JSON/log/checksum and local documentation-link checks, preservation of all pre-existing files except this append. No LMS runtime/config/schema/test-source changes; backend regression not rerun, historical 355/355 remains earlier evidence. No independent security review or T04 acceptance claimed. Proposed next owner decision is infrastructure contract investigation with a concrete alternative/device fault boundary, or rejection of P03; no further work auto-authorized. Work stopped after package, with S5–S8/full S7 lifecycle, M2/M3, production migrations, real personal data and push/merge/deploy excluded.
+
+
 ## G02/A04 — Infrastructure Contract Investigation — 2026-10-09
 
 **V1 CONTRACT EVIDENCE BLOCKED. T04 NOT PROVEN. S4 remains BLOCKED.** Owner authorized A04 research only. A02 option C remains DESIGN BASELINE ACCEPTED; V0 covers this investigation, V1 FAIL / NOT ESTABLISHED, V2/V3 NOT SATISFIED. S5–S8 remain NOT AUTHORIZED.
@@ -124,7 +212,6 @@ Deliverables: [candidates and source register](L1-G02-A04-CANDIDATES.md), [contr
 T04 60s / 480s / 600s / 900s / 7200s unchanged. The 120s reserve is not execution time. Option A is unavailable for C04-1; B/C require separate owner decisions, and D has not been selected by the agent. A04 search stops here: no new candidate cycle or implementation auto-authorized.
 
 Documentation-only validation: local links/source references and timing/status consistency checked; existing files preserved, with this checkpoint append only. Backend regression not rerun; historical tests are not AWS/V1 evidence. No runtime, test-source, schema/config changes, gateway implementation, full S7 lifecycle, S5–S8, M2/M3, production migrations, personal data, push, merge or deploy. No independent security review.
-
 
 ## Owner Decision — L1/S4-A1 — 2026-10-10
 

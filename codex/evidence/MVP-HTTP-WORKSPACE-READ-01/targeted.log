@@ -1,0 +1,64 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:02:28.67]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 2) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 2) [270 ms]
+  Error Message:
+   Npgsql.PostgresException : 23514: L1 binding history retained; only open interval closure is allowed
+  Stack Trace:
+     at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 146
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 148
+--- End of stack trace from previous location ---
+[xUnit.net 00:02:30.71]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 1) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 1) [296 ms]
+  Error Message:
+   Npgsql.PostgresException : 23514: L1 binding history retained; only open interval closure is allowed
+  Stack Trace:
+     at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 146
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 148
+--- End of stack trace from previous location ---
+[xUnit.net 00:02:32.75]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 0) [FAIL]
+  Failed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(level: 0) [301 ms]
+  Error Message:
+   Npgsql.PostgresException : 23514: L1 binding history retained; only open interval closure is allowed
+  Stack Trace:
+     at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Sql(String cs, String sql) in /home/tea/github/lms/tests/Lms.Api.Tests/IsolatedProcessingDeploymentTests.cs:line 24
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 146
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Http_workspace_missing_processing_and_late_publication_withdrawal(Int32 level) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkspaceHttpTests.cs:line 148
+--- End of stack trace from previous location ---
+Results File: /tmp/workspace-read/targeted/_tea-Swift-SFG16-74_2026-10-12_04_32_03_net10.0.trx
+
+Failed!  - Failed:     3, Passed:    77, Skipped:     0, Total:    80, Duration: 2 m 48 s - Lms.Api.Tests.dll (net10.0)

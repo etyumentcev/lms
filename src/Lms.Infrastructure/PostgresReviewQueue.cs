@@ -46,9 +46,22 @@ public sealed partial class PostgresWorkspaceQueries
             LEFT JOIN "PublishedContentVersions" v ON v."Id" = a."CourseVersionId" AND v."CourseId" = a."CourseId"
             LEFT JOIN LATERAL jsonb_array_elements(v."ContentJson"->'lessons') lesson(data) ON lesson.data->>'id' = a."LessonId"
             LEFT JOIN LATERAL jsonb_array_elements(lesson.data->'problems') problem(data) ON problem.data->>'id' = a."ProblemId"
-            WHERE w."Status" = 'Submitted' AND EXISTS (
-                SELECT 1 FROM "AccessTeachers" g WHERE g."TeacherId" = {actor.Id} AND g."CourseId" = a."CourseId"
-                AND (g."GroupId" IS NULL OR (e."IsActive" AND e."GroupId" = g."GroupId")))
+            WHERE w."Status" = 'Submitted' AND (
+                (NOT EXISTS (SELECT 1 FROM "AssignmentScopes" scoped WHERE scoped."AssignmentId"=a."Id") AND EXISTS (
+                    SELECT 1 FROM "AccessTeachers" g WHERE g."TeacherId" = {actor.Id} AND g."CourseId" = a."CourseId"
+                    AND (g."GroupId" IS NULL OR (e."IsActive" AND e."GroupId" = g."GroupId"))))
+                OR EXISTS (
+                    SELECT 1 FROM "AssignmentScopes" scoped
+                    JOIN "TeacherAssignmentScopes" teacher ON teacher."CourseId"=scoped."CourseId" AND teacher."OrganizationId"=scoped."OrganizationId"
+                    JOIN "AccessTeachers" g ON g."Id"=teacher."GrantId" AND g."TeacherId"=teacher."TeacherId" AND g."CourseId"=teacher."CourseId"
+                        AND g."GroupId" IS NOT DISTINCT FROM teacher."GroupId"
+                    JOIN "OrganizationMemberships" membership ON membership."OrganizationId"=teacher."OrganizationId"
+                        AND membership."ActorId"=teacher."TeacherId" AND membership."Generation"=teacher."MembershipGeneration"
+                    JOIN "CourseRegistry" course ON course."CourseId"=teacher."CourseId" AND course."OrganizationId"=teacher."OrganizationId"
+                    WHERE scoped."AssignmentId"=a."Id" AND teacher."TeacherId"={actor.Id} AND teacher."State"='Active'
+                        AND teacher."RevocationRequestedAt" IS NULL AND teacher."AccessValidUntil" IS NULL
+                        AND membership."State"='Active' AND membership."RevocationRequestedAt" IS NULL AND membership."AccessValidUntil" IS NULL
+                        AND course."MappingState"='Verified' AND (teacher."GroupId" IS NULL OR teacher."GroupId"=scoped."GroupId")))
             """);
         if (query.CourseId is not null) rows = rows.Where(r => r.CourseId == query.CourseId);
         if (query.GroupId is not null) rows = rows.Where(r => r.GroupId == query.GroupId);

@@ -1,0 +1,25 @@
+schema: content-package/v1
+courseId: counting
+documents:
+  - course.md
+  - lessons/one/lesson.md
+  - lessons/one/problems/pairs.md
+  - materials/hints/pairs-first.md
+  - materials/hints/pairs-second.md
+  - materials/teacher/course-notes.md
+  - materials/teacher/lesson-notes.md
+  - materials/teacher/pairs-solution.md
+  - materials/teacher/pairs-rubric.md
+assets:
+  - id: shared-table
+    path: assets/student/files/table.txt
+    ownerKind: course
+    ownerId: counting
+    visibility: student
+    mediaType: text/plain
+  - id: solution-notes
+    path: assets/teacher/files/solution.txt
+    ownerKind: problem
+    ownerId: pairs
+    visibility: teacher
+    mediaType: text/plain

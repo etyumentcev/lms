@@ -45,11 +45,19 @@ public sealed class ReadApiTests(ApiPostgresFixture postgres) : IClassFixture<Ap
     }
     private static async Task<ReviewResult> Review(ApiFactory app, SubmissionResult s, bool accept = false)
     {
-        using var teacher = app.Client(ApiFactory.Teacher, "Teacher");
-        var response = await teacher.PostAsJsonAsync($"/api/v1/problem-works/{s.ProblemWorkId}/reviews/{(accept ? "accept" : "needs-revision")}",
-            new { submissionId = s.SubmissionId, expectedVersion = s.Version, feedbackMarkdown = accept ? null : "Explain this step" });
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        return (await response.Content.ReadFromJsonAsync<ReviewResult>(ApiFactory.Json))!;
+        // Read-model fixture: teacher execution is covered by the trusted HTTP suite.
+        // Legacy endpoints are intentionally fail-closed and cannot seed historical state.
+        await using var db = app.Open();
+        await using var tx = await db.Database.BeginTransactionAsync();
+        var work = (await new PostgresWorkStore(db).FindWork(s.ProblemWorkId, default))!;
+        var messageIds = work.Messages.Select(m => m.Id).ToHashSet();
+        var review = accept ? work.Accept(ApiFactory.Teacher, s.SubmissionId, null, DateTimeOffset.UtcNow)
+            : work.RequestRevision(ApiFactory.Teacher, s.SubmissionId, "Explain this step", DateTimeOffset.UtcNow);
+        await db.Works.Where(w => w.Id == work.Id && w.Version == s.Version).ExecuteUpdateAsync(set =>
+            set.SetProperty(w => w.Version, work.Version).SetProperty(w => w.Status, work.Status).SetProperty(w => w.AcceptedAt, work.AcceptedAt));
+        db.Add(review); db.AddRange(work.Messages.Where(m => !messageIds.Contains(m.Id)));
+        await db.SaveChangesAsync(); await tx.CommitAsync();
+        return new(review.Id, review.MessageId, work.Status, work.Version);
     }
 
     [Fact]

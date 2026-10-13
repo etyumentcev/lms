@@ -76,7 +76,8 @@ public sealed class SchemaFoundationTests(PostgresFixture fixture) : IClassFixtu
         foreach (var table in new[] { "AspNetUsers", "AspNetRoles", "AspNetUserRoles", "AspNetUserClaims", "AspNetUserLogins", "AspNetUserTokens", "AspNetRoleClaims",
                      "Actors", "ActorIdentities", "Organizations", "OrganizationMemberships", "CourseRegistry", "CourseGroups", "EnrollmentScopes", "TeacherAssignmentScopes",
                      "AttachmentScopes", "ProcessingContextVersions", "CourseContextBindings", "ProcessingRestrictions", "IdentitySessions", "RefreshVerifiers",
-                     "AccountSecurityState", "AccessChallenges", "RecoveryRequests", "ChallengeReceipts", "ProvisioningRequests", "SecurityAudit" })
+                     "AccountSecurityState", "AccessChallenges", "RecoveryRequests", "ChallengeReceipts", "ProvisioningRequests", "SecurityAudit",
+                     "OrganizationProfiles", "OrganizationBootstrapReceipts" })
         {
             Assert.Equal(0L, await Scalar<long>(cs, $"SELECT count(*) FROM \"{table}\""));
             Assert.True(await Scalar<bool>(cs, $"SELECT EXISTS(SELECT 1 FROM pg_constraint WHERE conrelid='\"{table}\"'::regclass AND contype='p')"));
@@ -303,7 +304,7 @@ public sealed class SchemaFoundationTests(PostgresFixture fixture) : IClassFixtu
             var store = new PostgresWorkStore(db); await store.Save(work, null, CancellationToken.None);
             work.Accept(Teacher, work.Submissions[0].Id, "synthetic review", At.AddMinutes(1),
                 [new(attachment, [new(Guid.NewGuid(), "pen", "#dc2626", .003, [new(.2, .3)])])]);
-            await store.Save(work, 1, CancellationToken.None);
+            await TeacherPersistenceFixture.Save(db, work, 1, CancellationToken.None);
         }
         string[] tables = ["PublishedContentVersions", "ProblemAssignments", "ProblemWorks", "Submissions", "Messages", "Reviews", "DomainEvents", "AccessAttachments", "StoredAttachments"];
         async Task<string> Digest(string connectionString)

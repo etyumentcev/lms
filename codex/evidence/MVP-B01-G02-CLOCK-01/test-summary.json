@@ -1,0 +1,123 @@
+{
+  "composition": {
+    "runs": [
+      {
+        "file": "_tea-Swift-SFG16-74_2026-10-11_23_04_27_net10.0.trx",
+        "counters": {
+          "total": "53",
+          "executed": "53",
+          "passed": "53",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        }
+      }
+    ],
+    "total": 53,
+    "passed": 53,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "regression": {
+    "runs": [
+      {
+        "file": "_tea-Swift-SFG16-74_2026-10-11_23_04_52_net10.0.trx",
+        "counters": {
+          "total": "43",
+          "executed": "43",
+          "passed": "43",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        }
+      },
+      {
+        "file": "_tea-Swift-SFG16-74_2026-10-11_23_04_53_net10.0.trx",
+        "counters": {
+          "total": "272",
+          "executed": "272",
+          "passed": "272",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        }
+      },
+      {
+        "file": "_tea-Swift-SFG16-74_2026-10-11_23_04_54_net10.0.trx",
+        "counters": {
+          "total": "251",
+          "executed": "251",
+          "passed": "251",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        }
+      },
+      {
+        "file": "_tea-Swift-SFG16-74_2026-10-11_23_05_29_net10.0.trx",
+        "counters": {
+          "total": "219",
+          "executed": "219",
+          "passed": "219",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        }
+      }
+    ],
+    "total": 785,
+    "passed": 785,
+    "failed": 0,
+    "notExecuted": 0
+  }
+}

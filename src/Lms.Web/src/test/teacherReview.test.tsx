@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -42,7 +42,7 @@ describe('J1 teacher read workspace', () => {
   it('keeps shell and separate main/context loading representations', () => { mount(fixture(), () => new Promise(() => {})); expect(screen.getByRole('status', { name: 'Загрузка решения' })).toBeVisible(); expect(screen.getByRole('status', { name: 'Загрузка контекста проверки' })).toBeVisible(); expect(screen.getByRole('main')).toBeVisible(); });
   it('reads exact ProblemWorkId, decodes real DTO and keeps immutable statement visible', async () => { const { request } = mount(); await loaded(); expect(request.mock.calls[0]![0]).toBe(`/teacher/problem-works/${id}`); expect(request.mock.calls[0]![2]!.signal).toBeInstanceOf(AbortSignal); expect(screen.getByRole('region', { name: 'Условие задачи' })).toHaveTextContent('Историческое условие A'); expect(decodeProblemWork(fixture()).id).toBe(id); });
   it('shows server current submission, attempt number, timestamp and multiline body', async () => { const data = fixture(); data.currentSubmission!.bodyMarkdown = 'Первый абзац\n\nВторой абзац'; mount(data); await loaded(); const view = screen.getByRole('article', { name: 'Просмотр попытки №2' }); expect(view).toHaveTextContent('Первый абзац'); expect(view).toHaveTextContent('Второй абзац'); expect(view.querySelector('time')).toHaveAttribute('datetime', data.currentSubmission!.submittedAt); });
-  it('does not reconstruct currentSubmission from submissions array', async () => { const data = fixture(); data.currentSubmission = null; mount(data); await screen.findByText('Отправленных попыток нет'); expect(screen.queryByRole('textbox')).toBeNull(); });
+  it('does not reconstruct currentSubmission from submissions array', async () => { const data = fixture(); data.currentSubmission = null; mount(data); await screen.findByText('Отправленных попыток нет'); expect(screen.queryByRole('textbox', { name: 'Комментарий преподавателя' })).toBeNull(); });
   it('shows a single attachment and disables paging at both boundaries', async () => { const data = fixture(); data.currentSubmission!.attachmentIds = [uuid(20)]; mount(data); await loaded(); await screen.findByRole('img'); expect(screen.getByText('Страница 1 из 1')).toBeVisible(); expect(screen.getByRole('button', { name: 'Предыдущая' })).toBeDisabled(); expect(screen.getByRole('button', { name: 'Следующая' })).toBeDisabled(); });
   it('loads only current page in original attachment order', async () => { const { request } = mount(); await screen.findByRole('img'); await userEvent.click(screen.getByRole('button', { name: 'Следующая' })); await screen.findByAltText('Страница 2 — фото решения'); expect(request.mock.calls.filter(([url]) => url.endsWith('/content')).map(([url]) => url)).toEqual([`/attachments/${uuid(20)}/content`, `/attachments/${uuid(21)}/content`]); expect(screen.getByText('Страница 2 из 2')).toBeVisible(); });
   it('uses protected blob original links without public filesystem URLs', async () => { mount(); const link = await screen.findByRole('link', { name: 'Открыть страницу 1 в полном размере (новая вкладка)' }); expect(link).toHaveAttribute('href', 'blob:protected-original'); expect(link).toHaveAttribute('rel', 'noopener noreferrer'); });
@@ -55,9 +55,9 @@ describe('J1 teacher read workspace', () => {
   it('cannot display undeclared teacher-only fields injected outside C4 contract', async () => { mount({ ...fixture(), referenceSolution: 'SECRET SOLUTION', criteria: 'SECRET CRITERIA' } as ProblemWorkDetails); await loaded(); expect(screen.queryByText(/SECRET/)).toBeNull(); });
   it('uses supplied student name and real course/lesson data in ContextPanel', async () => { const data = fixture(); data.student.displayName = 'Анна'; mount(data); await loaded(); const context = screen.getByRole('complementary'); expect(context).toHaveTextContent('Анна'); expect(context).toHaveTextContent(data.course.title!); expect(context).toHaveTextContent('Всего попыток: 2'); });
   it('preserves mobile DOM order, semantic landmarks and labelled actions', async () => { mount(); await loaded(); expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1); expect(screen.getByRole('main').compareDocumentPosition(screen.getByRole('complementary')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy(); expect(editor()).toHaveAccessibleDescription(/Для доработки/); expect(screen.getByRole('navigation', { name: 'Страницы решения' })).toBeVisible(); });
-  it.each(['Accepted', 'NeedsRevision'] as const)('%s is read-only even with inconsistent enabled capabilities', async status => { const data = decided(status); data.permissions.canAccept = data.permissions.canRequestRevision = true; mount(data); await loaded(); expect(screen.queryByRole('textbox')).toBeNull(); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull(); expect(screen.getByRole('region', { name: 'Результат проверки' })).toHaveTextContent(status === 'Accepted' ? 'Принята' : 'Нужна доработка'); });
+  it.each(['Accepted', 'NeedsRevision'] as const)('%s review is read-only even with inconsistent enabled capabilities', async status => { const data = decided(status); data.permissions.canAccept = data.permissions.canRequestRevision = true; mount(data); await loaded(); expect(screen.queryByRole('textbox', { name: 'Комментарий преподавателя' })).toBeNull(); expect(screen.getByRole('textbox', { name: 'Текст сообщения' })).toBeVisible(); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull(); expect(screen.getByRole('region', { name: 'Результат проверки' })).toHaveTextContent(status === 'Accepted' ? 'Принята' : 'Нужна доработка'); });
   it('uses distinct server capabilities independently', async () => { const data = fixture(); data.permissions.canAccept = false; mount(data); await loaded(); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull(); expect(revise()).toBeEnabled(); });
-  it('work with no review capabilities has no editor', async () => { const data = fixture(); data.permissions.canAccept = data.permissions.canRequestRevision = false; mount(data); await loaded(); expect(screen.queryByRole('textbox')).toBeNull(); expect(screen.queryByRole('link', { name: 'Проверка' })).toBeNull(); });
+  it('work with no review capabilities has no review editor', async () => { const data = fixture(); data.permissions.canAccept = data.permissions.canRequestRevision = false; mount(data); await loaded(); expect(screen.queryByRole('textbox', { name: 'Комментарий преподавателя' })).toBeNull(); expect(screen.getByRole('textbox', { name: 'Текст сообщения' })).toBeVisible(); expect(screen.queryByRole('link', { name: 'Проверка' })).toBeNull(); });
   it('keeps unsafe Markdown inert', async () => { const data = fixture(); data.problem.statementMarkdown = '<script>alert(1)</script>\n[bad](javascript:alert%281%29)'; mount(data); await loaded(); expect(document.querySelector('script,a[href^="javascript:"]')).toBeNull(); });
 });
 
@@ -66,10 +66,15 @@ describe('J1 command invariants', () => {
   it.each([['accept', 'Accepted'], ['needs-revision', 'NeedsRevision']] as const)('sends exact %s payload, waits for authoritative GET and removes review actions', async (action, status) => {
     let sent = false; const { request } = mount(fixture(), (url, options) => { if (options.method === 'POST') { sent = true; return {}; } return content(url, sent ? decided(status, action === 'accept' ? null : 'Первая строка\nВторая строка') : fixture()); });
     await loaded(); if (action === 'needs-revision') fireEvent.change(editor(), { target: { value: 'Первая строка\nВторая строка' } }); await userEvent.click(action === 'accept' ? accept() : revise()); await screen.findByText('Проверка сохранена. Состояние работы обновлено.');
-    expect(posts(request)).toHaveLength(1); expect(posts(request)[0]![0]).toBe(`/problem-works/${id}/reviews/${action}`); expect(posts(request)[0]![2]!.body).toEqual({ submissionId: uuid(2), expectedVersion: 3, feedbackMarkdown: action === 'accept' ? null : 'Первая строка\nВторая строка' }); expect(request.mock.calls.filter(([url]) => url === `/teacher/problem-works/${id}`)).toHaveLength(2); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull();
+    expect(posts(request)).toHaveLength(1); expect(posts(request)[0]![0]).toBe(`/problem-works/${id}/reviews/${action}`);
+    expect(posts(request)[0]![2]!.body).toMatchObject({ submissionId: uuid(2), expectedVersion: 3,
+      feedback: action === 'accept' ? null : 'Первая строка\nВторая строка' });
+    expect((posts(request)[0]![2]!.body as { commandId: string }).commandId).toMatch(/^[\da-f-]{36}$/i);
+    expect(posts(request)[0]![2]!.csrf).toBe(true);
+    expect(request.mock.calls.filter(([url]) => url === `/teacher/problem-works/${id}`)).toHaveLength(2); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull();
   });
-  it('preserves nonblank optional acceptance feedback', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); await userEvent.type(editor(), 'Верно'); await userEvent.click(accept()); expect(posts(request)[0]![2]!.body).toMatchObject({ feedbackMarkdown: 'Верно' }); });
-  it('normalizes whitespace acceptance feedback to null', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); fireEvent.change(editor(), { target: { value: ' \n ' } }); await userEvent.click(accept()); expect(posts(request)[0]![2]!.body).toMatchObject({ feedbackMarkdown: null }); });
+  it('preserves nonblank optional acceptance feedback', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); await userEvent.type(editor(), 'Верно'); await userEvent.click(accept()); expect(posts(request)[0]![2]!.body).toMatchObject({ feedback: 'Верно' }); });
+  it('normalizes whitespace acceptance feedback to null', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); fireEvent.change(editor(), { target: { value: ' \n ' } }); await userEvent.click(accept()); expect(posts(request)[0]![2]!.body).toMatchObject({ feedback: null }); });
   it('blocks double click and both decisions during pending without optimistic success', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); const yes = accept(), no = revise(); fireEvent.click(yes); fireEvent.click(yes); fireEvent.click(no); await waitFor(() => expect(posts(request)).toHaveLength(1)); expect(yes).toBeDisabled(); expect(no).toBeDisabled(); expect(editor()).toBeDisabled(); expect(screen.queryByText(/Проверка сохранена/)).toBeNull(); expect(screen.getByText('Сохранение проверки. Дождитесь ответа сервера.')).toBeVisible(); });
   it('pending lock survives opening and closing historical attempt', async () => { const { request } = mount(fixture(), (url, options) => options?.method === 'POST' ? new Promise(() => {}) : content(url, fixture())); await loaded(); fireEvent.click(accept()); await archive(); await userEvent.click(screen.getByRole('button', { name: 'К текущей попытке' })); expect(screen.getByRole('button', { name: 'Сохранение…' })).toBeDisabled(); expect(posts(request)).toHaveLength(1); });
   it('keeps draft through explicit concurrency refresh and reads new version', async () => { let conflict = true; const { request } = mount(fixture(), (url, options) => { if (options.method === 'POST') throw new ApiError(409, 'ConcurrencyConflict'); const data = fixture(); if (!conflict) data.version = 5; return content(url, data); }); await loaded(); await userEvent.type(editor(), 'Мой комментарий'); await userEvent.click(revise()); expect(await screen.findByRole('alert')).toHaveTextContent('Работа уже изменилась'); expect(accept()).toBeDisabled(); expect(editor()).toHaveValue('Мой комментарий'); expect(posts(request)).toHaveLength(1); conflict = false; await userEvent.click(screen.getByRole('button', { name: 'Обновить работу' })); await loaded(); expect(editor()).toHaveValue('Мой комментарий'); expect(screen.getByRole('main')).toHaveFocus(); await userEvent.click(revise()); expect(posts(request)[1]![2]!.body).toMatchObject({ expectedVersion: 5 }); });
@@ -132,5 +137,65 @@ describe('J2 annotation integration', () => {
   it('completed review renders only strokes matching its attachment', async () => {
     const data = decided('Accepted'); data.reviews[0]!.annotations = [{ attachmentId: uuid(999), strokes: [{ id: uuid(90), tool: 'pen', color: '#dc2626', width: .003, points: [{ x: .2, y: .3 }] }] }];
     mount(data); await loaded(); expect(screen.getByText(/Графические пометки: 0/)).toBeVisible(); expect(screen.queryByText('Перо')).toBeNull();
+  });
+});
+
+
+describe('MVP selected attempt feedback', () => {
+  it('shows historical feedback with its photo and restores only the current outcome', async () => {
+    const data = decided('Accepted', 'Исправление принято');
+    data.messages.find(m => m.id === uuid(30))!.attachmentIds = [uuid(300)];
+    const { request } = mount(data);
+    await loaded();
+    expect(screen.getByRole('region', { name: 'Результат проверки' })).toHaveTextContent('Исправление принято');
+    await archive();
+    const outcome = screen.getByRole('region', { name: 'Результат проверки' });
+    expect(outcome).toHaveTextContent('Результат проверки попытки №1');
+    expect(outcome).toHaveTextContent('Исправьте второй переход.');
+    expect(outcome).not.toHaveTextContent('Исправление принято');
+    await within(outcome).findByRole('img');
+    expect(request.mock.calls.some(([url]) => url === `/attachments/${uuid(300)}/content`)).toBe(true);
+    expect(screen.queryByRole('textbox')).toBeNull();
+    await userEvent.click(screen.getByRole('button', { name: 'К текущей попытке' }));
+    expect(screen.getByRole('region', { name: 'Результат проверки' })).toHaveTextContent('Исправление принято');
+    expect(screen.queryByRole('region', { name: 'Фотографии замечания' })).toBeNull();
+    expect(posts(request)).toHaveLength(0);
+  });
+  it('keeps historical feedback visible when its protected photo is denied', async () => {
+    const data = fixture(); data.messages[0]!.attachmentIds = [uuid(300)];
+    mount(data, (url) => { if (url === `/attachments/${uuid(300)}/content`) throw new ApiError(404, 'NotFound'); return content(url, data); });
+    await loaded(); await archive();
+    const outcome = screen.getByRole('region', { name: 'Результат проверки' });
+    expect(await within(outcome).findByRole('alert')).toHaveTextContent('Изображение не найдено или недоступно');
+    expect(outcome).toHaveTextContent('Исправьте второй переход.');
+    expect(within(outcome).queryByRole('img')).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull();
+  });
+});
+
+describe('Course navigation history context', () => {
+  it('opens explicit history for accepted work, selects attempt and returns with course breadcrumbs', async () => {
+    const data = decided('Accepted'); data.permissions.canViewAsTeacher = true; mount(data); await loaded();
+    await userEvent.click(screen.getByRole('link', { name: 'История работы' }));
+    const history = screen.getByRole('region', { name: 'История работы' });
+    await userEvent.click(within(history).getByRole('link', { name: 'Попытка №1' }));
+    expect(screen.getByLabelText('URL')).toHaveTextContent(`?attempt=${uuid(1)}`);
+    expect(screen.getByRole('heading', { name: 'Попытка №1' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'К текущей попытке' }));
+    await loaded(); expect(screen.queryByRole('button', { name: 'Принять решение' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Назад к занятию' })).toHaveAttribute('href', `/courses/${data.course.id}/lessons/${data.lesson.id}`);
+    const crumbs = screen.getByRole('navigation', { name: 'Хлебные крошки' });
+    expect(within(crumbs).getByRole('link', { name: data.course.title! })).toHaveAttribute('href', `/courses/${data.course.id}`);
+  });
+  it('restores selected historical attempt with browser back and forward', async () => {
+    function BrowserButtons() { const nav = useNavigate(); return <><button onClick={() => nav(-1)}>Browser back</button><button onClick={() => nav(1)}>Browser forward</button></>; }
+    const data = fixture();
+    const request = vi.fn(async (_url: string, decode: (v: unknown) => unknown) => decode(data));
+    data.submissions.forEach(s => { s.attachmentIds = []; });
+    render(<MemoryRouter initialEntries={[path]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><BrowserButtons /><App client={{ request } as ApiClient} /></MemoryRouter>);
+    await loaded(); await archive(); expect(screen.getByRole('heading', { name: 'Попытка №1' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Browser back' })); await loaded();
+    await userEvent.click(screen.getByRole('button', { name: 'Browser forward' }));
+    expect(screen.getByRole('heading', { name: 'Попытка №1' })).toBeInTheDocument();
   });
 });

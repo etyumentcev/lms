@@ -1,0 +1,68 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/course.test.tsx (34 tests) 1313ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 1577ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  608ms
+ ✓ src/test/lesson.test.tsx (40 tests) 1802ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 2564ms
+ ✓ src/test/history.test.tsx (37 tests) 2745ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 637ms
+   ✓ follows exact API links through existing page modes without legacy permissions or write UI  336ms
+ ✓ src/test/shell.test.tsx (14 tests) 684ms
+ ❯ src/test/attachments.test.tsx (19 tests | 1 failed) 539ms
+     ✓ starts empty and ready without server requests 92ms
+     ✓ offers gallery/camera-compatible multiple image input with accessible help 10ms
+     × selects one image and returns only confirmed attachment IDs 22ms
+     ✓ retrieves protected content for a preview 10ms
+     ✓ keeps multiple pages in selection order despite reversed upload completion 25ms
+     ✓ reorders pages and returned attachment array 47ms
+     ✓ deletes pending server resource before removing page 32ms
+     ✓ retains page if server deletion fails 35ms
+     ✓ shows upload failure without reporting a confirmed attachment 17ms
+     ✓ retries only the failed page and preserves successful pages 42ms
+     ✓ displays server validation AttachmentTooLarge 21ms
+     ✓ displays server validation UnsupportedAttachmentType 19ms
+     ✓ displays server validation InvalidAttachment 14ms
+     ✓ displays real progress and does not treat 100 percent transport as success 13ms
+     ✓ supports keyboard page reordering 38ms
+     ✓ can remove a failed page without issuing server delete 26ms
+     ✓ retries preview without uploading duplicate resources 57ms
+     ✓ aborts active requests when unmounted 8ms
+   ✓ attachment adapter uses only upload/content/delete routes, same auth and Problem Details 10ms
+ ✓ src/test/api.test.ts (20 tests) 12ms
+stderr | src/test/protectedWork.test.tsx > isolated protected work > selects old attempt and its feedback without issuing writes or loading blocked files
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 11ms
+ ✓ src/test/annotations.test.tsx (28 tests) 570ms
+ ✓ src/test/primitives.test.tsx (15 tests) 419ms
+     ✓ supports arrows, wrapping, Home/End, disabled skipping and one tab stop  324ms
+ ✓ src/test/problem.test.tsx (53 tests) 4025ms
+ ✓ src/test/protectedWork.test.tsx (5 tests) 257ms
+ ✓ src/test/teacherReview.test.tsx (66 tests) 5619ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  348ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/attachments.test.tsx > photo uploader foundation > selects one image and returns only confirmed attachment IDs
+TypeError: Cannot read properties of undefined (reading 'attachmentId')
+ ❯ src/test/attachments.test.tsx:35:86
+     33|   it('selects one image and returns only confirmed attachment IDs', as…
+     34|     const { input, api, onChange } = setup(); await select(input, file…
+     35|     expect(api.upload).toHaveBeenCalledTimes(1); expect(onChange.mock.…
+       |                                                                                      ^
+     36|     expect(screen.getByRole('heading', { name: 'Страница 1' })).toBeVi…
+     37|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 14 passed (15)
+      Tests  1 failed | 402 passed (403)
+   Start at  05:09:40
+   Duration  6.80s (transform 1.80s, setup 1.58s, import 4.30s, tests 22.77s, environment 7.24s)
+
+[ELIFECYCLE] Test failed. See above for more details.

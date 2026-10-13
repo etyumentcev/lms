@@ -1,0 +1,35 @@
+$ vitest run --no-file-parallelism
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/teacherReview.test.tsx (66 tests) 6306ms
+     ✓ keyboard page navigation preserves feedback and uses bounded pages  311ms
+     ✓ handles command 401 with explicit refresh, preserved draft and no retry  324ms
+ ✓ src/test/problem.test.tsx (53 tests) 4099ms
+ ✓ src/test/reviewQueue.test.tsx (43 tests) 2546ms
+ ✓ src/test/history.test.tsx (37 tests) 2287ms
+ ✓ src/test/lesson.test.tsx (40 tests) 1334ms
+ ✓ src/test/course.test.tsx (34 tests) 1176ms
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 1068ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  323ms
+ ✓ src/test/attachments.test.tsx (19 tests) 558ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 577ms
+   ✓ follows exact API links through existing page modes without legacy permissions or write UI  306ms
+ ✓ src/test/shell.test.tsx (14 tests) 541ms
+ ✓ src/test/annotations.test.tsx (28 tests) 464ms
+ ✓ src/test/primitives.test.tsx (15 tests) 760ms
+     ✓ supports arrows, wrapping, Home/End, disabled skipping and one tab stop  498ms
+stderr | src/test/protectedWork.test.tsx > isolated protected work > selects old attempt and its feedback without issuing writes or loading blocked files
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/protectedWork.test.tsx (5 tests) 333ms
+ ✓ src/test/protectedPhotos.test.tsx (5 tests) 197ms
+ ✓ src/test/api.test.ts (20 tests) 27ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 12ms
+
+ Test Files  16 passed (16)
+      Tests  408 passed (408)
+   Start at  06:15:06
+   Duration  37.12s (transform 822ms, setup 1.51s, import 3.51s, tests 22.29s, environment 7.56s)
+

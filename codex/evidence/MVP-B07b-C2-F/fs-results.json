@@ -1,0 +1,107 @@
+{
+  "results": [
+    {
+      "name": "filesystem profile",
+      "detail": "ext2/ext3; private directory mode 0700; Linux renameat2"
+    },
+    {
+      "name": "process crash mid-write",
+      "detail": "actual fork/_exit; DB Receiving; no partial Ready"
+    },
+    {
+      "name": "process crash before-seal",
+      "detail": "actual fork/_exit; DB Receiving; no partial Ready"
+    },
+    {
+      "name": "process crash after-seal",
+      "detail": "actual fork/_exit; DB Receiving; no partial Ready"
+    },
+    {
+      "name": "failure before-rename",
+      "detail": "injected EIO; seal unacknowledged; DB Receiving"
+    },
+    {
+      "name": "failure after-rename",
+      "detail": "injected EIO; seal unacknowledged; DB Receiving"
+    },
+    {
+      "name": "sealed generation -> atomic Ready",
+      "detail": "all four synthetic artifacts, manifest, actual lengths/digests, file + directory fsync, metadata commit"
+    },
+    {
+      "name": "crash between result seal and metadata commit",
+      "detail": "actual child exit 93; source already sealed, DB Validating; result orphan has no Ready reference"
+    },
+    {
+      "name": "atomic rename no-replace",
+      "detail": "EEXIST=17; target and source unchanged"
+    },
+    {
+      "name": "no-follow open",
+      "detail": "ELOOP=40"
+    },
+    {
+      "name": "known DB abort orphan quarantine",
+      "detail": "Ready rollback; no committed generation; quiescent writer; rename+parent fsync; bytes retained"
+    },
+    {
+      "name": "cleanup at unknown outcome",
+      "detail": "Quarantined-logically; preserve path and bytes; no replay, rename or unlink"
+    },
+    {
+      "name": "unknown commit reconciliation",
+      "detail": "application ACK suppression; committed journal found; bytes retained; not a network-loss simulation"
+    },
+    {
+      "name": "corrupt required artifact",
+      "detail": "storage digest mismatch detected; no delivery implemented; DB predicate alone does not check FS"
+    },
+    {
+      "name": "fsync calls executed",
+      "detail": "36 successful calls in parent; children also fsynced before designated crash"
+    },
+    {
+      "name": "power-loss durability",
+      "detail": "NOT PROVEN: process exits and successful fsync syscalls do not prove device/WAL/failover durability"
+    }
+  ],
+  "sync_calls": [
+    "file:stage-before-rename/source",
+    "file:stage-before-rename/student",
+    "file:stage-before-rename/teacher",
+    "file:stage-before-rename/receipt",
+    "file:stage-before-rename/manifest.json",
+    "dir:stage-before-rename",
+    "file:stage-after-rename/source",
+    "file:stage-after-rename/student",
+    "file:stage-after-rename/teacher",
+    "file:stage-after-rename/receipt",
+    "file:stage-after-rename/manifest.json",
+    "dir:stage-after-rename",
+    "file:stage-success/source",
+    "file:stage-success/student",
+    "file:stage-success/teacher",
+    "file:stage-success/receipt",
+    "file:stage-success/manifest.json",
+    "dir:stage-success",
+    "dir:.",
+    "file:stage-abort/source",
+    "file:stage-abort/student",
+    "file:stage-abort/teacher",
+    "file:stage-abort/receipt",
+    "file:stage-abort/manifest.json",
+    "dir:stage-abort",
+    "dir:.",
+    "dir:.",
+    "file:stage-unknown/source",
+    "file:stage-unknown/student",
+    "file:stage-unknown/teacher",
+    "file:stage-unknown/receipt",
+    "file:stage-unknown/manifest.json",
+    "dir:stage-unknown",
+    "dir:.",
+    "file:unknown-outcome.json",
+    "dir:."
+  ],
+  "private_root_removed": true
+}

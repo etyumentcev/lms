@@ -6,10 +6,14 @@ using Microsoft.Extensions.Logging;
 namespace Lms.Infrastructure;
 
 public sealed class AttachmentService(LmsDbContext db, IAttachmentStorage storage, IAccessPolicy access,
-    AttachmentOptions options, TimeProvider time, ILogger<AttachmentService> logger)
+    AttachmentOptions options, TimeProvider time, ILogger<AttachmentService> logger, ApplicationDeadline? deadline = null)
 {
     public async Task<AttachmentResult> Upload(Actor actor, string name, string mediaType, Stream source, CancellationToken ct)
     {
+        EnsureStudent(actor);
+        EnsureDeadline();
+        using var timeout = deadline == null ? null : new DeadlineCancellation(deadline, time, ct);
+        ct = timeout?.Token ?? ct;
         using var content = new MemoryStream();
         var buffer = new byte[81920];
         int read;
@@ -28,21 +32,20 @@ public sealed class AttachmentService(LmsDbContext db, IAttachmentStorage storag
         await storage.Store(record.StorageKey, content, ct);
         try
         {
+            ct.ThrowIfCancellationRequested();
+            EnsureDeadline();
             db.AttachmentMetadata.Add(new AttachmentAccess { Id = record.Id, OwnerId = actor.Id,
                 IsEligible = true, ExpiresAt = DateTimeOffset.MaxValue });
             db.StoredAttachments.Add(record);
             await db.SaveChangesAsync(ct);
+            ct.ThrowIfCancellationRequested();
+            EnsureDeadline();
         }
         catch
         {
-            try
-            {
-                // A commit acknowledgement can be lost. Never remove a potentially committed file
-                // if the database cannot confirm that its metadata is absent.
-                if (!await db.StoredAttachments.AsNoTracking().AnyAsync(x => x.Id == record.Id, CancellationToken.None))
-                    await storage.Delete(record.StorageKey, CancellationToken.None);
-            }
-            catch (Exception e) { logger.LogWarning(e, "Attachment compensation failed for {Id}", record.Id); }
+            // SELECT-not-found is not proof that an in-flight commit cannot finish later.
+            // Keep the unique private original for explicit reconciliation; never replay here.
+            logger.LogWarning("Attachment metadata outcome requires reconciliation for {Id}; original retained", record.Id);
             throw;
         }
         return new(record.Id, name, mediaType, record.Size, record.CreatedAt, $"/api/v1/attachments/{record.Id}/content");
@@ -50,6 +53,8 @@ public sealed class AttachmentService(LmsDbContext db, IAttachmentStorage storag
 
     public async Task<(Stream Content, string MediaType)> Open(Actor actor, Guid id, CancellationToken ct)
     {
+        EnsureStudent(actor);
+        EnsureDeadline();
         var item = await db.StoredAttachments.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id && !x.Deleted, ct)
             ?? throw new UseCaseException("NotFound");
         if (item.SubmissionId is null && item.MessageId is null)
@@ -74,24 +79,52 @@ public sealed class AttachmentService(LmsDbContext db, IAttachmentStorage storag
             catch (Exception e) when (e is UseCaseException or DomainException)
             { throw new UseCaseException("NotFound"); }
         }
-        try { return (await storage.Open(item.StorageKey, ct), item.MediaType); }
+        EnsureDeadline();
+        try
+        {
+            var stream = await storage.Open(item.StorageKey, ct);
+            try { ct.ThrowIfCancellationRequested(); EnsureDeadline(); return (stream, item.MediaType); }
+            catch { await stream.DisposeAsync(); throw; }
+        }
         catch (FileNotFoundException) { throw new UseCaseException("ContentUnavailable"); }
     }
 
     public async Task Delete(Actor actor, Guid id, CancellationToken ct)
     {
+        EnsureStudent(actor);
+        EnsureDeadline();
+        using var timeout = deadline == null ? null : new DeadlineCancellation(deadline, time, ct);
+        ct = timeout?.Token ?? ct;
         // Row lock serializes delete against transactionally claiming this upload.
         await using (var tx = await db.Database.BeginTransactionAsync(ct))
         {
             var item = await db.StoredAttachments.FromSqlInterpolated($"SELECT * FROM \"StoredAttachments\" WHERE \"Id\" = {id} FOR UPDATE").SingleOrDefaultAsync(ct);
             if (item is null || item.OwnerId != actor.Id) throw new UseCaseException("NotFound");
             if (item.SubmissionId != null || item.MessageId != null) throw new UseCaseException("AttachmentAlreadyAttached");
+            EnsureDeadline();
             item.Deleted = true;
             await db.AttachmentMetadata.Where(x => x.Id == id).ExecuteUpdateAsync(s => s.SetProperty(x => x.IsEligible, false), ct);
             await db.SaveChangesAsync(ct);
+            EnsureDeadline();
             await tx.CommitAsync(ct);
+            ct.ThrowIfCancellationRequested();
+            EnsureDeadline();
             // A tombstone remains even when physical deletion fails; retry DELETE is safe.
             await storage.Delete(item.StorageKey, ct);
+            ct.ThrowIfCancellationRequested();
+            EnsureDeadline();
         }
     }
+    // Legacy files have no parent-bound durable intent or trusted teacher admission.
+    // Teachers must use PostgresTeacherCommands; a deadline alone is not authority.
+    private static void EnsureStudent(Actor actor)
+    {
+        if (actor.Id == Guid.Empty || actor.Role != AuthorRole.Student) throw new UseCaseException("Forbidden");
+    }
+    private void EnsureDeadline()
+    {
+        if (deadline != null && !deadline.Check(ApplicationAction.StartStage).Allowed)
+            throw new OperationCanceledException("Original attachment deadline expired.");
+    }
+
 }

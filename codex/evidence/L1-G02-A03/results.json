@@ -1,0 +1,141 @@
+[
+  {
+    "id": "fifo-open",
+    "pid": 134277,
+    "wchan": "wait_for_partner",
+    "exit": -9,
+    "kill_reap_ms": 1.15549299880513,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "fifo-read",
+    "pid": 134278,
+    "wchan": "anon_pipe_read",
+    "exit": -9,
+    "kill_reap_ms": 1.1638849973678589,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "fifo-write",
+    "pid": 134279,
+    "wchan": "anon_pipe_write",
+    "exit": -9,
+    "kill_reap_ms": 1.1344289996486623,
+    "scope": "interruptible surrogate only"
+  },
+  {
+    "id": "userspace-hang",
+    "exit": -9,
+    "kill_reap_ms": 1.1147559998789802
+  },
+  {
+    "id": "generation-toctou",
+    "generation": 1,
+    "new_epoch": 2,
+    "declared_fence_ns": 21896759204716,
+    "observed_mutation_ns": 21896766525279,
+    "bytes": 4,
+    "sha256": "089001a35679a33ef3db0ca350db9b9a2f0136e0e327577b04b3b98127470961",
+    "result": "COUNTEREXAMPLE: token check is not mutation fence"
+  },
+  {
+    "id": "retained-fd-seal",
+    "result": "COUNTEREXAMPLE: rename/chmod does not revoke writable FD",
+    "sha256": "18a0c098c7fb0098093fc0fd619c8032ae193215c5f695d7f5eaafa28aa64d70"
+  },
+  {
+    "id": "tcp-close-buffer",
+    "close_ns": 21896768517114,
+    "last_receive_ns": 21896869075173,
+    "bytes_received_after_close": 65536,
+    "result": "COUNTEREXAMPLE to close == client receive completion; NIC boundary unobserved"
+  },
+  {
+    "id": "pg-config",
+    "settings": [
+      [
+        "PostgreSQL 17.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit",
+        "on",
+        "on",
+        "on",
+        "fdatasync",
+        "f",
+        "7694710654892347433",
+        "1"
+      ]
+    ]
+  },
+  {
+    "id": "pg-lost-ack",
+    "commit_sent_ns": 21897942450502,
+    "outcome_observed_ns": 21897943897674,
+    "client_commit_response_read": false,
+    "false_absence_before_commit": [
+      [
+        "0"
+      ]
+    ],
+    "serialized_resolve_twice": [
+      [
+        "lost",
+        "1",
+        "Committed"
+      ],
+      [
+        "1"
+      ]
+    ],
+    "result": "Committed exactly one effect; no replay"
+  },
+  {
+    "id": "pg-rollback",
+    "result": "confirmed ROLLBACK, fresh primary sees zero effects"
+  },
+  {
+    "id": "pg-terminate-signal",
+    "pid": 149,
+    "signal_result": [
+      [
+        "t"
+      ]
+    ],
+    "backend_still_present": [
+      [
+        "1"
+      ]
+    ],
+    "elapsed_ms": 1.946108000993263,
+    "result": "COUNTEREXAMPLE: signal acknowledgement is not process exit; SIGSTOP surrogate, not WAL fault"
+  },
+  {
+    "id": "pg-clean-restart",
+    "effects": [
+      [
+        "lost"
+      ]
+    ],
+    "result": "history survived clean container restart; not power-loss or failover proof"
+  },
+  {
+    "id": "nginx-trickle",
+    "duration_seconds": 1.6505871700028365,
+    "proxy_read_timeout_seconds": 1,
+    "body_bytes": 10,
+    "result": "COUNTEREXAMPLE: ongoing traffic exceeds inactivity timeout total"
+  },
+  {
+    "id": "nginx-buffered-cutoff",
+    "cutoff_observed_ns": 21901696214924,
+    "last_receive_ns": 21901697702564,
+    "bytes_received_after_container_kill": 131193,
+    "socket_end": "eof",
+    "result": "queued bytes received after nginx stop; physical NIC last-send NOT instrumented"
+  },
+  {
+    "id": "cleanup",
+    "removed_containers": [
+      "dc2d63d7cf464d24c8390f396e0fbd3a09e0831683cd1a29e38612307dee1949",
+      "c33919d73b4e6d5b22667d0167b56a037953d3b28dab458093bd2e6c89de5f43"
+    ]
+  }
+]

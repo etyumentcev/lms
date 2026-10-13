@@ -133,3 +133,17 @@ describe('Lesson C4 workspace', () => {
     await act(async () => resolveOld(response(fixture()))); expect(result.current.state.phase === 'success' && result.current.state.data.lesson.id).toBe('new');
   });
 });
+
+
+it.each(['canAccept', 'canRequestRevision'] as const)('opens review from lesson using server %s capability', async capability => {
+  const data = fixture(); const row = data.problems[1]!;
+  row.permissions.canSubmit = false; row.permissions.canAccept = false; row.permissions.canRequestRevision = false;
+  row.permissions[capability] = true;
+  mount(data); await loaded();
+  expect(screen.getByRole('link', { name: `Проверить решение: ${row.problem.title}` })).toHaveAttribute('href', `/teacher/reviews/${row.work.problemWorkId}`);
+});
+it('student submitted work still opens the student workspace', async () => {
+  const data = fixture(); const row = data.problems[1]!;
+  mount(data); await loaded();
+  expect(screen.getByRole('link', { name: `Посмотреть решение: ${row.problem.title}` })).toHaveAttribute('href', `/problem-assignments/${row.problemAssignmentId}`);
+});

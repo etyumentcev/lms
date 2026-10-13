@@ -45,7 +45,7 @@ public sealed class LocalDevelopmentTests(ApiPostgresFixture postgres) : IClassF
         {
             var token = new JwtSecurityToken("lms-local-development", "lms-local",
                 [new Claim("sub", (scenario == "foreign" ? Guid.NewGuid() : ApiFactory.Student).ToString()), new Claim("role", "Student")],
-                DateTime.UtcNow.AddHours(-2), scenario == "expired" ? DateTime.UtcNow.AddHours(-1) : DateTime.UtcNow.AddHours(1),
+                DateTime.UtcNow.AddMinutes(-10), scenario == "expired" ? DateTime.UtcNow.AddMinutes(-1) : DateTime.UtcNow.AddMinutes(4),
                 new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(scenario == "signature" ? Key + "wrong" : Key)), SecurityAlgorithms.HmacSha256));
             client.DefaultRequestHeaders.Authorization = new("Bearer", new JwtSecurityTokenHandler().WriteToken(token));
         }

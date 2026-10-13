@@ -1,0 +1,6 @@
+{
+  "name": "sapientum-offline-content-math",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": { "katex": "0.16.47" }
+}

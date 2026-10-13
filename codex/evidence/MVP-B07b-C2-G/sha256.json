@@ -1,0 +1,15 @@
+{
+  "src/Lms.Application/ProcessingStateAdministration.cs": "8acf374f2f2685c60fd91781bfd2fd8ae80f64d0204fd309fa804c342397e395",
+  "src/Lms.Infrastructure/PostgresProcessingStateAdministration.cs": "9eb0d4446ad9335bcec6a8627922cdd49286962a8443fc71f0e4f3ba6fbfa3bb",
+  "src/Lms.Infrastructure/PostgresProcessingWriteBoundary.cs": "412ef6e8ebd68deef538b9ca60963a2f94fceafd7d4f0eb184dc7db9173698b0",
+  "src/Lms.Infrastructure/Migrations/20261011120000_ProcessingWriterGuardC2G.cs": "841cf0afdb5ef8b14c90e1fb086a8b5cfc49c4b0a055f13774a9a4c74c81dd08",
+  "tests/Lms.Infrastructure.Tests/ProcessingWriterCompatibilityTests.cs": "4750229ef46e58bebe8f6b03dbd1bbdb7234469ec1b50d81ba18f8206c587b60",
+  "codex/MVP-B07b-C2-G-RESULTS.md": "4b08d37f6fa423965937d49220ca204b08927cdffebb02051578239c9016a56e",
+  "codex/evidence/MVP-B07b-C2-G/candidate-down.sql": "1ca366302297caa3cee4e2ee029afe387643d8b8589cc15780626e145c7d8513",
+  "codex/evidence/MVP-B07b-C2-G/candidate-up.sql": "1d05c1fd36eee5c4cd8ca95ea29c4647d6b39294e29f34caf8972a7e0bac2005",
+  "codex/evidence/MVP-B07b-C2-G/infrastructure.log": "dbfcba49f425a14bfe9dcd653f0fa041f31d93cea5455e59de764cd89e809c8b",
+  "codex/evidence/MVP-B07b-C2-G/infrastructure.trx": "093f362e8141840e5ee4c60df9b3f5d561337bfb3a4973266790dfd9adb893c4",
+  "codex/evidence/MVP-B07b-C2-G/preservation.json": "1682b8d378595187679e0003744c884e8f5c31a155b510bf72ae6c75a7a388c9",
+  "codex/evidence/MVP-B07b-C2-G/test-summary.json": "19ab35490b48082801ad611249f4dd1d06df6f6762bd57adf1989c7a0285dbda",
+  "codex/evidence/MVP-B07b-C2-G/writer-inventory.txt": "8cbc7bac6ab356358c064fdcb7511df1f753b4be77789587682cc2b166ee1bc0"
+}
