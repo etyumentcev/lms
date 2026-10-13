@@ -47,6 +47,14 @@ public sealed class PostgresScopedAuthorityReader(LmsDbContext db, TimeProvider 
                     c.OrganizationId == org && c.MappingState == "Verified"
                 select s).ToListAsync(ct);
             grants.AddRange(rows.Select(x => new EducationalGrant(AuthorityKind.Teacher, x.GrantId, x.CourseId, x.GroupId, x.MembershipGeneration, x.Generation, x.Version)));
+            var editorRows = await (from s in db.Set<CourseEditorScope>().AsNoTracking()
+                join c in db.Set<CourseRegistration>().AsNoTracking() on s.CourseId equals c.CourseId
+                where s.EditorId == actor && s.OrganizationId == org && s.State == "Active" &&
+                    s.MembershipGeneration == m.Generation && s.RevocationRequestedAt == null &&
+                    s.AccessValidUntil == null && c.OrganizationId == org && c.MappingState == "Verified"
+                select s).ToListAsync(ct);
+            grants.AddRange(editorRows.Select(x => new EducationalGrant(AuthorityKind.CourseEditor, x.GrantId,
+                x.CourseId, null, x.MembershipGeneration, x.Generation, x.Version)));
         }
         return new(membership, grants.AsReadOnly());
     }

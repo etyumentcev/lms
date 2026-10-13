@@ -190,3 +190,14 @@ Owner: владелец проекта. Основание: явное сооб�
 Исключение из `S4 HTTP NOT AUTHORIZED` действует только для перечисленных GET routes. Новые роли, permissions, grants, schema и write endpoints не разрешены. Production/public cutover, реальные ПД, push и deploy запрещены; G02 остаётся BLOCKED. M1-11 не разрешён этим решением.
 
 **M1-10 SYNTHETIC-ONLY GET PROJECTIONS AUTHORIZED · EXACT THREE ROUTES · S2/S3/S4 + PROCESSING PRESERVED · NO SCHEMA/WRITES/NEW GRANTS · G02/PRODUCTION BLOCKED · NO M1-11/PUSH/DEPLOY.**
+
+
+## 2026-10-13 — M1-11-FIX-01 Course Editor Authority
+
+Owner: владелец проекта. Основание: явное решение «OWNER DECISION — M1-11-FIX-01», статус **APPROVED**, выбран вариант C.
+
+Для конкретного курса вводится независимое назначение `CourseEditor`. Оно разрешает импорт ZIP/Markdown, чтение результатов компиляции и diagnostics, student/teacher projections и публикацию новых неизменяемых версий содержания курса. Оно не предоставляет доступ к ученикам, группам, решениям, фотографиям, проверкам или истории попыток. `TeacherAssignmentScope(GroupId=G1)` сохраняет group-scoped семантику и не расширяется до whole-course; публикация не открывает занятия и не назначает задачи другим группам.
+
+Разрешены минимальные аддитивные изменения PostgreSQL, Domain/Application/API и React для course-scoped capability, административной выдачи/отзыва и перевода ZIP import/preview/publish на `CourseEditor`. Существующие S2/S3/S4, ProcessingRestrictions, session model, idempotency, CAS, immutable history и audit сохраняются. Production/public cutover, реальные ПД, PRS1 exact и ослабление G02 не разрешены. Для этого задания явно разрешён scoped commit `fix(m1): separate course editing from group teaching authority`; push и deploy запрещены. После FIX-01 полный M1-11 самостоятельно не перезапускается.
+
+**M1-11-FIX-01 AUTHORIZED · COURSEEDITOR INDEPENDENT FROM GROUP TEACHING · CONTENT OPERATIONS ONLY · GROUP/LEARNER/WORK ACCESS NOT GRANTED · SYNTHETIC HTTPS E2E REQUIRED · PRS1 EXACT OFF · G02 BLOCKED · NO PUSH/DEPLOY.**

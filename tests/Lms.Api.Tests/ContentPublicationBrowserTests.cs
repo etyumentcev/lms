@@ -68,8 +68,14 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
             await seed.SaveChangesAsync();
         }
         await using (var grants = database.Open())
+        {
             await new PostgresScopedAuthorityAdministration(grants).Change(new(AuthorityKind.Teacher,
-                AuthorityOperation.Grant, database.OrganizationId, ApiFactory.Teacher, 0, 1, courseId, null, Guid.NewGuid()));
+                AuthorityOperation.Grant, database.OrganizationId, ApiFactory.Teacher, 0, 1, courseId, groupId, Guid.NewGuid()));
+            grants.Add(new CourseEditorScope { GrantId = Guid.NewGuid(), EditorId = ApiFactory.Teacher,
+                CourseId = courseId, OrganizationId = database.OrganizationId, MembershipGeneration = 1,
+                Generation = 1, State = "Active", Version = 1 });
+            await grants.SaveChangesAsync();
+        }
         await using (var grants = database.Open())
             await new PostgresScopedAuthorityAdministration(grants).Change(new(AuthorityKind.Enrollment,
                 AuthorityOperation.Grant, database.OrganizationId, ApiFactory.Student, 0, 1, courseId, groupId));

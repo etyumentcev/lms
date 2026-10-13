@@ -129,6 +129,20 @@ public sealed class TeacherAssignmentScope
     public DateTimeOffset? AccessValidUntil { get; set; }
 }
 
+public sealed class CourseEditorScope
+{
+    public Guid GrantId { get; set; }
+    public Guid EditorId { get; set; }
+    public string CourseId { get; set; } = null!;
+    public Guid OrganizationId { get; set; }
+    public long MembershipGeneration { get; set; }
+    public long Generation { get; set; }
+    public string State { get; set; } = null!;
+    public long Version { get; set; }
+    public DateTimeOffset? RevocationRequestedAt { get; set; }
+    public DateTimeOffset? AccessValidUntil { get; set; }
+}
+
 public sealed class ProcessingContextVersion
 {
     public Guid ContextId { get; set; }

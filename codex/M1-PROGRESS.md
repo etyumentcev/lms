@@ -19,4 +19,10 @@
 
 `LearningCatalog/publication v1` → 12 synthetic students × 5 assignments = 60 immutable G1 scopes → teacher `/progress` with server rows/counts/filter → Submitted snapshot → lost-response authoritative GET without replay → NeedsRevision snapshot and review history → student photos/feedback/annotations → attempt 2 → Accepted snapshot/filter → historical Accepted deep link → student `/progress` and two-attempt history. Focused API test additionally moves student G1→G2 and publishes v2: G1 teacher retains only original v1 scope, current student sees own v1+v2 history.
 
-M1-11 не начат. Push и deploy не выполнялись.
+Предыдущий M1-11 acceptance остановлен с FAIL на E04: group-scoped преподаватель получил 403 от publication boundary; полный M1-11 rerun требует отдельного разрешения. Push и deploy не выполнялись.
+
+## M1-11-FIX-01 — Course Editor Authority
+
+**DONE (scoped implementation and verification, synthetic-only).** Введено отдельное course-scoped назначение `CourseEditor`: администратор организации выдаёт/отзывает его через React UI; ZIP import, diagnostics, обе preview projections и publish требуют exact-course editor grant. Group-scoped `TeacherAssignmentScope` не расширен. Open lesson / assign остаются преподавательскими операциями для G1.
+
+Отдельный Chromium HTTPS E2E прошёл по цепочке `Org Admin → CourseEditor → Teacher Login → Import ZIP → Publish v1 → Open Lesson G1 → Assign Five Problems → Student G1`; UI/API/PostgreSQL согласованы, G2 не появился в teacher projection. Evidence: `M1-11-FIX-01-RESULTS.md`, `evidence/M1-11-FIX-01/`. Полный M1-11 acceptance не перезапускался; `SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены.

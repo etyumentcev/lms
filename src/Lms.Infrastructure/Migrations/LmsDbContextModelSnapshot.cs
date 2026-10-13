@@ -785,6 +785,62 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.CourseEditorScope", b =>
+                {
+                    b.Property<Guid>("GrantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("AccessValidUntil")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("EditorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Generation")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MembershipGeneration")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("RevocationRequestedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("GrantId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("EditorId", "CourseId")
+                        .IsUnique();
+
+                    b.HasIndex("OrganizationId", "EditorId");
+
+                    b.HasIndex("OrganizationId", "CourseId", "State");
+
+                    b.ToTable("CourseEditorScopes", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseEditorScope_Deadline", "(\"RevocationRequestedAt\" IS NULL AND \"AccessValidUntil\" IS NULL AND \"State\" = 'Active') OR (\"RevocationRequestedAt\" IS NOT NULL AND \"AccessValidUntil\" IS NOT NULL AND \"State\" = 'Revoked' AND \"AccessValidUntil\" <= \"RevocationRequestedAt\" + interval '2 hours')");
+
+                            t.HasCheckConstraint("CK_CourseEditorScope_Generation", "\"Generation\" > 0 AND \"Version\" > 0 AND \"MembershipGeneration\" > 0");
+
+                            t.HasCheckConstraint("CK_CourseEditorScope_State", "\"State\" IN ('Active','Revoked')");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.CourseGroup", b =>
                 {
                     b.Property<string>("CourseId")
@@ -2272,6 +2328,21 @@ namespace Lms.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ContextId", "ContextVersion", "OrganizationId")
                         .HasPrincipalKey("ContextId", "Version", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseEditorScope", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.CourseRegistration", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId", "EditorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

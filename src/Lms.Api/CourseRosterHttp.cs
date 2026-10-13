@@ -12,6 +12,8 @@ internal sealed record MoveStudentBody(string TargetGroupId, long ExpectedVersio
 internal sealed record RemoveStudentBody(long ExpectedVersion, string IdempotencyKey);
 internal sealed record AssignTeacherBody(Guid TeacherId, string IdempotencyKey);
 internal sealed record RemoveTeacherBody(Guid GrantId, long ExpectedVersion, string IdempotencyKey);
+internal sealed record AssignCourseEditorBody(Guid EditorId, string IdempotencyKey);
+internal sealed record RemoveCourseEditorBody(Guid GrantId, long ExpectedVersion, string IdempotencyKey);
 
 public static class CourseRosterHttp
 {
@@ -119,6 +121,28 @@ public static class CourseRosterHttp
                 var result = await courses.Unassign(new(token.Authority.Membership.OrganizationId,
                     token.Identity.ActorId, courseId, groupId, teacherId, body.GrantId,
                     body.ExpectedVersion, body.IdempotencyKey, context.TraceIdentifier), context.RequestAborted);
+                await context.Response.WriteAsJsonAsync(result, Json, context.RequestAborted);
+            }));
+
+        protectedApi.MapPost("/admin/courses/{courseId}/editors", (HttpContext context,
+            string courseId, IAntiforgery csrf, ICourseRosterAdministration courses) =>
+            Write(context, csrf, allowedOrigin, async token =>
+            {
+                var body = await Read<AssignCourseEditorBody>(context);
+                var result = await courses.AssignEditor(new(token.Authority.Membership.OrganizationId,
+                    token.Identity.ActorId, courseId, body.EditorId, body.IdempotencyKey,
+                    context.TraceIdentifier), context.RequestAborted);
+                await context.Response.WriteAsJsonAsync(result, Json, context.RequestAborted);
+            }));
+
+        protectedApi.MapPost("/admin/courses/{courseId}/editors/{editorId:guid}/remove",
+            (HttpContext context, string courseId, Guid editorId, IAntiforgery csrf,
+                ICourseRosterAdministration courses) => Write(context, csrf, allowedOrigin, async token =>
+            {
+                var body = await Read<RemoveCourseEditorBody>(context);
+                var result = await courses.UnassignEditor(new(token.Authority.Membership.OrganizationId,
+                    token.Identity.ActorId, courseId, editorId, body.GrantId, body.ExpectedVersion,
+                    body.IdempotencyKey, context.TraceIdentifier), context.RequestAborted);
                 await context.Response.WriteAsJsonAsync(result, Json, context.RequestAborted);
             }));
 

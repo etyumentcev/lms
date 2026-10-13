@@ -60,7 +60,11 @@ public sealed class ContentPublicationHttpTests(ApiPostgresFixture fixture) : IC
         {
             var admin = new PostgresScopedAuthorityAdministration(scopes);
             await admin.Change(new(AuthorityKind.Teacher, AuthorityOperation.Grant, app.OrganizationId,
-                ApiFactory.Teacher, 0, 1, courseId, null, Guid.NewGuid()));
+                ApiFactory.Teacher, 0, 1, courseId, groupId, Guid.NewGuid()));
+            scopes.Add(new CourseEditorScope { GrantId = Guid.NewGuid(), EditorId = ApiFactory.Teacher,
+                CourseId = courseId, OrganizationId = app.OrganizationId, MembershipGeneration = 1,
+                Generation = 1, State = "Active", Version = 1 });
+            await scopes.SaveChangesAsync();
         }
         await using (var scopes = app.Open())
         {
@@ -213,8 +217,24 @@ public sealed class ContentPublicationHttpTests(ApiPostgresFixture fixture) : IC
         Assert.Equal(HttpStatusCode.Forbidden, forbiddenTeacherAsset.StatusCode);
         Assert.DoesNotContain("M1_TEACHER_ONLY", await forbiddenTeacherAsset.Content.ReadAsStringAsync());
 
+        await using (var revoke = app.Open())
+        {
+            var grant = await revoke.Set<TeacherAssignmentScope>().AsNoTracking().SingleAsync(x =>
+                x.OrganizationId == app.OrganizationId && x.TeacherId == ApiFactory.Teacher &&
+                x.CourseId == setup.CourseId && x.GroupId == setup.GroupId);
+            await new PostgresScopedAuthorityAdministration(revoke).Change(new(AuthorityKind.Teacher,
+                AuthorityOperation.Revoke, app.OrganizationId, ApiFactory.Teacher, grant.Version,
+                grant.MembershipGeneration, setup.CourseId, setup.GroupId, grant.GrantId));
+        }
+        using var editorOnly = await app.SecureClient();
+        using var forbiddenEditorReference = await editorOnly.GetAsync(
+            $"/api/v1/teacher/problem-works/{workId}/reference");
+        Assert.Equal(HttpStatusCode.Forbidden, forbiddenEditorReference.StatusCode);
+        Assert.DoesNotContain("M1_TEACHER_ONLY", await forbiddenEditorReference.Content.ReadAsStringAsync());
+
         using var invalidBody = ImportBody(invalid, Guid.NewGuid().ToString(), "synthetic-m1-06-invalid");
-        using var invalidResponse = await teacher.PostAsync($"/api/v1/teacher/courses/{setup.CourseId}/imports", invalidBody);
+        using var invalidResponse = await editorOnly.PostAsync(
+            $"/api/v1/teacher/courses/{setup.CourseId}/imports", invalidBody);
         var invalidResult = await Json(invalidResponse);
         Assert.Equal("Invalid", invalidResult.GetProperty("state").GetString());
         var diagnostic = Assert.Single(invalidResult.GetProperty("diagnostics").EnumerateArray().ToArray());
@@ -236,7 +256,7 @@ public sealed class ContentPublicationHttpTests(ApiPostgresFixture fixture) : IC
     }
 
     [Fact]
-    public async Task Import_requires_whole_course_scope_and_active_processing_context()
+    public async Task Import_requires_course_editor_and_active_processing_context()
     {
         await using var app = await fixture.CreateApp(organizationBootstrap: true);
         await app.InitializeTeacherSecurity();
@@ -268,6 +288,102 @@ public sealed class ContentPublicationHttpTests(ApiPostgresFixture fixture) : IC
         using var restrictedBody = ImportBody(fixturePath, Guid.NewGuid().ToString(), "restriction-proof");
         using var restricted = await restrictedTeacher.PostAsync($"/api/v1/teacher/courses/{setup.CourseId}/imports", restrictedBody);
         Assert.Equal(HttpStatusCode.Forbidden, restricted.StatusCode);
+    }
+
+    [Fact]
+    public async Task Course_editor_and_group_teacher_revocations_are_independent_and_course_scoped()
+    {
+        await using var app = await fixture.CreateApp(organizationBootstrap: true);
+        var setup = await SeedM105Draft(app);
+        var otherCourseId = "editor-other-" + Guid.NewGuid().ToString("N");
+        var now = DateTimeOffset.UtcNow;
+        await using (var db = app.Open())
+        {
+            db.AddRange(
+                new CourseRegistration { CourseId = otherCourseId, OrganizationId = app.OrganizationId, MappingState = "Verified" },
+                new CourseCatalogRecord { CourseId = otherCourseId, OrganizationId = app.OrganizationId,
+                    Title = "Other course", Description = "Isolation proof", State = "Draft", Version = 1, CreatedAt = now });
+            await db.SaveChangesAsync();
+            db.Add(new CourseContextBinding { CourseId = otherCourseId, OrganizationId = app.OrganizationId,
+                ContextId = app.ProcessingContextId, ContextVersion = 1, EffectiveFrom = now.AddMinutes(-1) });
+            await db.SaveChangesAsync();
+        }
+
+        var fixturePath = Path.Combine(RepositoryRoot(), "tests/fixtures/content/m1-06-olympiad.zip");
+        Guid importId;
+        using (var both = await app.SecureClient())
+        {
+            using var otherBody = ImportBody(fixturePath, Guid.NewGuid().ToString(), "wrong-course");
+            using var other = await both.PostAsync($"/api/v1/teacher/courses/{otherCourseId}/imports", otherBody);
+            Assert.Equal(HttpStatusCode.Forbidden, other.StatusCode);
+            Assert.DoesNotContain("Other course", await other.Content.ReadAsStringAsync());
+
+            using var importBody = ImportBody(fixturePath, Guid.NewGuid().ToString(), "before-editor-revoke");
+            using var imported = await both.PostAsync($"/api/v1/teacher/courses/{setup.CourseId}/imports", importBody);
+            importId = (await Json(imported)).GetProperty("importId").GetGuid();
+        }
+
+        await using (var db = app.Open())
+        {
+            var editor = await db.Set<CourseEditorScope>().SingleAsync(x =>
+                x.OrganizationId == app.OrganizationId && x.EditorId == ApiFactory.Teacher &&
+                x.CourseId == setup.CourseId);
+            editor.State = "Revoked";
+            editor.Version++;
+            editor.RevocationRequestedAt = now;
+            editor.AccessValidUntil = now;
+            await db.SaveChangesAsync();
+        }
+
+        using (var teachingOnly = await app.SecureClient())
+        {
+            using var deniedImportBody = ImportBody(fixturePath, Guid.NewGuid().ToString(), "after-editor-revoke");
+            using var deniedImport = await teachingOnly.PostAsync(
+                $"/api/v1/teacher/courses/{setup.CourseId}/imports", deniedImportBody);
+            Assert.Equal(HttpStatusCode.Forbidden, deniedImport.StatusCode);
+            using var deniedPublish = await teachingOnly.PostAsJsonAsync(
+                $"/api/v1/teacher/courses/{setup.CourseId}/imports/{importId}/publish",
+                new { expectedImportVersion = 2, expectedCourseVersion = 1, idempotencyKey = Guid.NewGuid().ToString() });
+            Assert.Equal(HttpStatusCode.Forbidden, deniedPublish.StatusCode);
+            var teachingView = await teachingOnly.GetFromJsonAsync<JsonElement>(
+                $"/api/v1/teacher/courses/{setup.CourseId}");
+            Assert.Single(teachingView.GetProperty("groups").EnumerateArray());
+            Assert.False(teachingView.GetProperty("canEditContent").GetBoolean());
+        }
+
+        await using (var db = app.Open())
+        {
+            var editor = await db.Set<CourseEditorScope>().SingleAsync(x =>
+                x.OrganizationId == app.OrganizationId && x.EditorId == ApiFactory.Teacher &&
+                x.CourseId == setup.CourseId);
+            editor.State = "Active";
+            editor.Generation++;
+            editor.Version++;
+            editor.RevocationRequestedAt = null;
+            editor.AccessValidUntil = null;
+            await db.SaveChangesAsync();
+        }
+        await using (var db = app.Open())
+        {
+            var teacher = await db.Set<TeacherAssignmentScope>().AsNoTracking().SingleAsync(x =>
+                x.OrganizationId == app.OrganizationId && x.TeacherId == ApiFactory.Teacher &&
+                x.CourseId == setup.CourseId && x.GroupId == setup.GroupId);
+            var administration = new PostgresScopedAuthorityAdministration(db);
+            await administration.Change(new(AuthorityKind.Teacher, AuthorityOperation.Revoke,
+                app.OrganizationId, ApiFactory.Teacher, teacher.Version, teacher.MembershipGeneration,
+                setup.CourseId, setup.GroupId, teacher.GrantId));
+        }
+
+        using var editorOnly = await app.SecureClient();
+        var editorOnlyView = await editorOnly.GetFromJsonAsync<JsonElement>(
+            $"/api/v1/teacher/courses/{setup.CourseId}");
+        Assert.Empty(editorOnlyView.GetProperty("groups").EnumerateArray());
+        Assert.Empty(editorOnlyView.GetProperty("students").EnumerateArray());
+        Assert.True(editorOnlyView.GetProperty("canEditContent").GetBoolean());
+        using var allowedImportBody = ImportBody(fixturePath, Guid.NewGuid().ToString(), "editor-only");
+        using var allowedImport = await editorOnly.PostAsync(
+            $"/api/v1/teacher/courses/{setup.CourseId}/imports", allowedImportBody);
+        Assert.Equal(HttpStatusCode.Created, allowedImport.StatusCode);
     }
 
     [Fact]

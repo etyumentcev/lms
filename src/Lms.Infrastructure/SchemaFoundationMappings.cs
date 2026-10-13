@@ -90,6 +90,13 @@ internal static class SchemaFoundationMappings
             e.Property(x => x.GrantId).ValueGeneratedNever();
             e.Property(x => x.Version).IsConcurrencyToken();
         });
+        model.Entity<CourseEditorScope>(e =>
+        {
+            e.ToTable("CourseEditorScopes");
+            e.HasKey(x => x.GrantId);
+            e.Property(x => x.GrantId).ValueGeneratedNever();
+            e.Property(x => x.Version).IsConcurrencyToken();
+        });
         model.Entity<ProcessingContextVersion>(e =>
         {
             e.ToTable("ProcessingContextVersions");
@@ -216,6 +223,10 @@ internal static class SchemaFoundationMappings
         model.Entity<TeacherAssignmentScope>().HasOne<CourseGroup>().WithMany().HasForeignKey("CourseId","GroupId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<TeacherAssignmentScope>().HasIndex("TeacherId","CourseId","GroupId").IsUnique().HasFilter("\"State\" = 'Active' AND \"GroupId\" IS NOT NULL");
         model.Entity<TeacherAssignmentScope>().HasIndex("TeacherId","CourseId").IsUnique().HasFilter("\"State\" = 'Active' AND \"GroupId\" IS NULL");
+        model.Entity<CourseEditorScope>().HasOne<OrganizationMembership>().WithMany().HasForeignKey("OrganizationId","EditorId").HasPrincipalKey("OrganizationId","ActorId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseEditorScope>().HasOne<CourseRegistration>().WithMany().HasForeignKey("CourseId").OnDelete(DeleteBehavior.Restrict);
+        model.Entity<CourseEditorScope>().HasIndex("EditorId","CourseId").IsUnique();
+        model.Entity<CourseEditorScope>().HasIndex("OrganizationId","CourseId","State");
         model.Entity<ProcessingContextVersion>().HasOne<Organization>().WithMany().HasForeignKey("OrganizationId").OnDelete(DeleteBehavior.Restrict);
         model.Entity<ProcessingContextVersion>().HasAlternateKey(x => new { x.ContextId, x.Version, x.OrganizationId });
         model.Entity<CourseContextBinding>().HasOne<ProcessingContextVersion>().WithMany().HasForeignKey("ContextId","ContextVersion","OrganizationId").HasPrincipalKey("ContextId","Version","OrganizationId").OnDelete(DeleteBehavior.Restrict);
@@ -274,6 +285,9 @@ internal static class SchemaFoundationMappings
         model.Entity<TeacherAssignmentScope>().ToTable(t => t.HasCheckConstraint("CK_TeacherAssignmentScope_State", "\"State\" IN ('Active','Revoked')"));
         model.Entity<TeacherAssignmentScope>().ToTable(t => t.HasCheckConstraint("CK_TeacherAssignmentScope_Generation", "\"Generation\" > 0 AND \"Version\" > 0 AND \"MembershipGeneration\" > 0"));
         model.Entity<TeacherAssignmentScope>().ToTable(t => t.HasCheckConstraint("CK_TeacherAssignmentScope_Deadline", "(\"RevocationRequestedAt\" IS NULL AND \"AccessValidUntil\" IS NULL AND \"State\" = 'Active') OR (\"RevocationRequestedAt\" IS NOT NULL AND \"AccessValidUntil\" IS NOT NULL AND \"State\" = 'Revoked' AND \"AccessValidUntil\" <= \"RevocationRequestedAt\" + interval '2 hours')"));
+        model.Entity<CourseEditorScope>().ToTable(t => t.HasCheckConstraint("CK_CourseEditorScope_State", "\"State\" IN ('Active','Revoked')"));
+        model.Entity<CourseEditorScope>().ToTable(t => t.HasCheckConstraint("CK_CourseEditorScope_Generation", "\"Generation\" > 0 AND \"Version\" > 0 AND \"MembershipGeneration\" > 0"));
+        model.Entity<CourseEditorScope>().ToTable(t => t.HasCheckConstraint("CK_CourseEditorScope_Deadline", "(\"RevocationRequestedAt\" IS NULL AND \"AccessValidUntil\" IS NULL AND \"State\" = 'Active') OR (\"RevocationRequestedAt\" IS NOT NULL AND \"AccessValidUntil\" IS NOT NULL AND \"State\" = 'Revoked' AND \"AccessValidUntil\" <= \"RevocationRequestedAt\" + interval '2 hours')"));
         model.Entity<CourseRegistration>().ToTable(t => t.HasCheckConstraint("CK_Course_Mapping", "(\"MappingState\" = 'Verified' AND \"OrganizationId\" IS NOT NULL) OR (\"MappingState\" = 'Unknown' AND \"OrganizationId\" IS NULL)"));
         model.Entity<CourseCatalogRecord>().ToTable(t =>
         {

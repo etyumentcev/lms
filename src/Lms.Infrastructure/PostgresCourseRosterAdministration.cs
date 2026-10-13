@@ -100,7 +100,7 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
         await Admin(organizationId, administratorActorId, false, ct);
         var course = await db.Set<CourseCatalogRecord>().AsNoTracking().SingleOrDefaultAsync(x =>
             x.OrganizationId == organizationId && x.CourseId == courseId, ct);
-        return course == null ? null : await Detail(course, null, ct);
+        return course == null ? null : await Detail(course, null, includeEditors: true, canEditContent: false, ct);
     }
 
     public Task<RosterMutationResult> Enroll(EnrollmentBatchCommand command, CancellationToken ct = default)
@@ -195,18 +195,68 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
                 return new(true, 1, result.Version, result.Generation, result.GrantId);
             }, ct);
 
+    public Task<RosterMutationResult> AssignEditor(AssignCourseEditorCommand command, CancellationToken ct = default)
+        => Mutation(command.OrganizationId, command.AdministratorActorId, command.IdempotencyKey, "AssignCourseEditor",
+            $"{command.CourseId}\n{command.EditorId}", command.TraceId, async token =>
+            {
+                await Course(command.OrganizationId, command.CourseId, token);
+                var membership = await Participant(command.OrganizationId, command.EditorId, "Teacher", token);
+                var current = await db.Set<CourseEditorScope>().FromSqlInterpolated(
+                    $"SELECT * FROM \"CourseEditorScopes\" WHERE \"OrganizationId\"={command.OrganizationId} AND \"CourseId\"={command.CourseId} AND \"EditorId\"={command.EditorId} FOR UPDATE")
+                    .SingleOrDefaultAsync(token);
+                if (current is { State: "Active" } && current.MembershipGeneration == membership.Generation)
+                    return new(false, 0, current.Version, current.Generation, current.GrantId);
+                if (current == null)
+                {
+                    current = new CourseEditorScope { GrantId = Guid.NewGuid(), EditorId = command.EditorId,
+                        CourseId = command.CourseId, OrganizationId = command.OrganizationId,
+                        MembershipGeneration = membership.Generation, Generation = 1, State = "Active", Version = 1 };
+                    db.Add(current);
+                }
+                else
+                {
+                    current.MembershipGeneration = membership.Generation; current.Generation++; current.Version++;
+                    current.State = "Active"; current.RevocationRequestedAt = null; current.AccessValidUntil = null;
+                }
+                return new(true, 1, current.Version, current.Generation, current.GrantId);
+            }, ct);
+
+    public Task<RosterMutationResult> UnassignEditor(RemoveCourseEditorCommand command, CancellationToken ct = default)
+        => Mutation(command.OrganizationId, command.AdministratorActorId, command.IdempotencyKey, "RemoveCourseEditor",
+            $"{command.CourseId}\n{command.EditorId}\n{command.GrantId}\n{command.ExpectedVersion}", command.TraceId,
+            async token =>
+            {
+                await Course(command.OrganizationId, command.CourseId, token);
+                var current = await db.Set<CourseEditorScope>().FromSqlInterpolated(
+                    $"SELECT * FROM \"CourseEditorScopes\" WHERE \"GrantId\"={command.GrantId} AND \"OrganizationId\"={command.OrganizationId} AND \"CourseId\"={command.CourseId} AND \"EditorId\"={command.EditorId} FOR UPDATE")
+                    .SingleOrDefaultAsync(token) ?? throw new UseCaseException("NotFound");
+                if (current.Version != command.ExpectedVersion) throw new UseCaseException("ConcurrencyConflict");
+                if (current.State == "Revoked") return new(false, 0, current.Version, current.Generation, current.GrantId);
+                var now = clock.GetUtcNow(); current.State = "Revoked"; current.Version++;
+                current.RevocationRequestedAt = now; current.AccessValidUntil = now;
+                return new(true, 1, current.Version, current.Generation, current.GrantId);
+            }, ct);
+
     public async Task<IReadOnlyList<LearningCourseItem>> LearningCatalog(TokenAuthority token, CancellationToken ct = default)
     {
         var membership = token.Authority.Membership;
         if (membership.Role is null || membership.OrganizationId == Guid.Empty) throw new UseCaseException("Forbidden");
-        var kind = membership.Role == ScopeRole.Student ? AuthorityKind.Enrollment : AuthorityKind.Teacher;
-        var grants = token.Authority.Grants.Where(x => x.Kind == kind && x.MembershipGeneration == membership.Generation)
-            .GroupBy(x => x.CourseId).ToDictionary(x => x.Key, x => (
-                WholeCourse: kind == AuthorityKind.Teacher && x.Any(g => g.GroupId == null),
-                Groups: x.Select(g => g.GroupId).Where(g => g != null).Cast<string>().Distinct().ToArray()));
+        var current = token.Authority.Grants.Where(x => x.MembershipGeneration == membership.Generation &&
+            (membership.Role == ScopeRole.Student ? x.Kind == AuthorityKind.Enrollment :
+                x.Kind is AuthorityKind.Teacher or AuthorityKind.CourseEditor));
+        var grants = current.GroupBy(x => x.CourseId).ToDictionary(x => x.Key, x =>
+        {
+            var teaching = x.Where(g => g.Kind == AuthorityKind.Teacher).ToArray();
+            return (WholeCourse: teaching.Any(g => g.GroupId == null),
+                Groups: teaching.Select(g => g.GroupId).Where(g => g != null).Cast<string>().Distinct().ToArray(),
+                StudentGroups: x.Where(g => g.Kind == AuthorityKind.Enrollment).Select(g => g.GroupId)
+                    .Where(g => g != null).Cast<string>().Distinct().ToArray(),
+                CanEditContent: x.Any(g => g.Kind == AuthorityKind.CourseEditor));
+        });
         if (grants.Count == 0) return [];
         var ids = grants.Keys.ToArray();
-        var courses = await db.Set<CourseCatalogRecord>().AsNoTracking().Where(x => x.OrganizationId == membership.OrganizationId && ids.Contains(x.CourseId))
+        var courses = await db.Set<CourseCatalogRecord>().AsNoTracking().Where(x =>
+            x.OrganizationId == membership.OrganizationId && ids.Contains(x.CourseId))
             .OrderBy(x => x.Title).ToListAsync(ct);
         var groups = await db.Set<CourseGroupCatalogRecord>().AsNoTracking().Where(x => ids.Contains(x.CourseId)).ToListAsync(ct);
         var result = new List<LearningCourseItem>();
@@ -214,7 +264,8 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
         {
             var allowed = grants[course.CourseId];
             var visible = groups.Where(x => x.CourseId == course.CourseId &&
-                (allowed.WholeCourse || allowed.Groups.Contains(x.GroupId))).OrderBy(x => x.Name).ToList();
+                (allowed.WholeCourse || allowed.Groups.Contains(x.GroupId) || allowed.StudentGroups.Contains(x.GroupId)))
+                .OrderBy(x => x.Name).ToList();
             var items = new List<LearningGroupItem>();
             foreach (var group in visible)
             {
@@ -223,7 +274,8 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
                         x.CourseId == course.CourseId && x.GroupId == group.GroupId && x.State == "Active", ct) : 0;
                 items.Add(new(group.GroupId, group.Name, count));
             }
-            result.Add(new(course.CourseId, course.Title, course.Description, course.State, membership.Role.Value, items));
+            result.Add(new(course.CourseId, course.Title, course.Description, course.State,
+                membership.Role.Value, items, allowed.CanEditContent));
         }
         return result;
     }
@@ -232,16 +284,20 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
     {
         var membership = token.Authority.Membership;
         if (membership.Role != ScopeRole.Teacher) throw new UseCaseException("Forbidden");
-        var grants = token.Authority.Grants.Where(x => x.Kind == AuthorityKind.Teacher && x.CourseId == courseId &&
+        var grants = token.Authority.Grants.Where(x => x.CourseId == courseId &&
             x.MembershipGeneration == membership.Generation).ToArray();
-        if (grants.Length == 0) return null;
+        var teaching = grants.Where(x => x.Kind == AuthorityKind.Teacher).ToArray();
+        var canEdit = grants.Any(x => x.Kind == AuthorityKind.CourseEditor);
+        if (teaching.Length == 0 && !canEdit) return null;
         var course = await db.Set<CourseCatalogRecord>().AsNoTracking().SingleOrDefaultAsync(x =>
             x.OrganizationId == membership.OrganizationId && x.CourseId == courseId, ct);
-        var groups = grants.Any(x => x.GroupId == null) ? null : grants.Select(x => x.GroupId!).Distinct().ToArray();
-        return course == null ? null : await Detail(course, groups, ct);
+        var groups = teaching.Any(x => x.GroupId == null) ? null :
+            teaching.Select(x => x.GroupId!).Where(x => x != null).Distinct().ToArray();
+        return course == null ? null : await Detail(course, groups, includeEditors: false, canEditContent: canEdit, ct);
     }
 
-    private async Task<CourseRosterDetail> Detail(CourseCatalogRecord course, string[]? groupFilter, CancellationToken ct)
+    private async Task<CourseRosterDetail> Detail(CourseCatalogRecord course, string[]? groupFilter,
+        bool includeEditors, bool canEditContent, CancellationToken ct)
     {
         var groupRows = db.Set<CourseGroupCatalogRecord>().AsNoTracking().Where(x => x.CourseId == course.CourseId);
         if (groupFilter != null) groupRows = groupRows.Where(x => groupFilter.Contains(x.GroupId));
@@ -267,11 +323,21 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
             orderby profile.DisplayName
             select new TeacherRosterItem(profile.ActorId, profile.DisplayName, profile.ExternalRosterKey,
                 scope.GrantId, groupRow.GroupId, groupRow.Name, scope.Generation, scope.Version)).ToListAsync(ct);
-        var groupItems = groups.Select(groupRow => new GroupCatalogItem(groupRow.GroupId, groupRow.Name, groupRow.Description, groupRow.Version,
-            students.Count(x => x.GroupId == groupRow.GroupId), teachers.Count(x => x.GroupId == groupRow.GroupId))).ToList();
+        var editors = includeEditors
+            ? await (from scope in db.Set<CourseEditorScope>().AsNoTracking()
+                join profile in db.Set<OrganizationParticipantProfile>().AsNoTracking()
+                    on new { scope.OrganizationId, ActorId = scope.EditorId } equals new { profile.OrganizationId, profile.ActorId }
+                where scope.OrganizationId == course.OrganizationId && scope.CourseId == course.CourseId && scope.State == "Active"
+                orderby profile.DisplayName
+                select new CourseEditorRosterItem(profile.ActorId, profile.DisplayName, profile.ExternalRosterKey,
+                    scope.GrantId, scope.Generation, scope.Version)).ToListAsync(ct)
+            : [];
+        var groupItems = groups.Select(groupRow => new GroupCatalogItem(groupRow.GroupId, groupRow.Name,
+            groupRow.Description, groupRow.Version, students.Count(x => x.GroupId == groupRow.GroupId),
+            teachers.Count(x => x.GroupId == groupRow.GroupId))).ToList();
         var item = new CourseCatalogItem(course.CourseId, course.Title, course.Description, course.State, course.Version,
             groupItems.Count, students.Count, teachers.Count);
-        return new(item, groupItems, students, teachers);
+        return new(item, groupItems, students, teachers, editors, canEditContent);
     }
 
     private async Task<RosterMutationResult> Mutation(Guid organizationId, Guid administratorActorId,
@@ -323,6 +389,13 @@ public sealed class PostgresCourseRosterAdministration(LmsDbContext db, TimeProv
         if (membership is not { State: "Active" } || membership.EducationalRole != role)
             throw new UseCaseException("Forbidden");
         return membership;
+    }
+
+    private async Task Course(Guid organizationId, string courseId, CancellationToken ct)
+    {
+        var course = await db.Set<CourseCatalogRecord>().FromSqlInterpolated(
+            $"SELECT * FROM \"CourseCatalog\" WHERE \"CourseId\"={courseId} FOR UPDATE").SingleOrDefaultAsync(ct);
+        if (course == null || course.OrganizationId != organizationId) throw new UseCaseException("NotFound");
     }
 
     private async Task Group(Guid organizationId, string courseId, string groupId, CancellationToken ct)

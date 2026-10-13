@@ -15,7 +15,7 @@ GRANT SELECT ON "AccessEnrollments","AccessLessons","AccessTeachers","AccessAtta
  "Submissions","Messages","Reviews","DomainEvents",
  "Organizations","Actors","ActorIdentities","AccountSecurityState","AspNetUsers",
  "IdentitySessions","RefreshVerifiers","OrganizationMemberships","EnrollmentScopes",
- "TeacherAssignmentScopes","CourseRegistry","CourseGroups","AssignmentScopes","AuthorityHistory","AttachmentScopes",
+ "TeacherAssignmentScopes","CourseEditorScopes","CourseRegistry","CourseGroups","AssignmentScopes","AuthorityHistory","AttachmentScopes",
  "ProcessingContextVersions","CourseContextBindings","ProcessingRestrictions"
  TO c2h_runtime;
 GRANT INSERT ON "ProblemWorks","Submissions","Messages","Reviews","DomainEvents",

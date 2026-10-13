@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "scope": "M1-11-FIX-01",
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "productionReact": true,
+  "uiApiPostgresConsistent": true,
+  "courseEditorAssignedByAdminUi": true,
+  "teacherGroups": ["G1"],
+  "g2AccessExpanded": false,
+  "publishedVersion": 1,
+  "assignedProblems": 5,
+  "student": "P01",
+  "screenshots": 3,
+  "tests": {
+    "dotnetFull": { "passed": 1138, "failed": 0, "skippedOptInBrowser": 12 },
+    "contentPublicationHttp": { "passed": 4, "failed": 0 },
+    "courseRosterHttp": { "passed": 1, "failed": 0 },
+    "componentJwt": { "passed": 27, "failed": 0 },
+    "restrictedRuntimeFocused": { "passed": 4, "failed": 0 },
+    "frontend": { "filesPassed": 19, "testsPassed": 421, "failed": 0 },
+    "chromiumFix01": { "passed": 1, "failed": 0, "skipped": 0 },
+    "productionBuild": { "passed": true, "modules": 300 }
+  },
+  "fullM111Rerun": false,
+  "syntheticMvpAccepted": false,
+  "pilotAuthorized": false
+}

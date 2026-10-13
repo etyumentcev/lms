@@ -74,6 +74,35 @@ public sealed class ComponentJwtTests
         Assert.Null(new ComponentJwt(key, "synthetic-issuer", "synthetic-audience", clock).Validate(Signed(key, p.ToJsonString())));
     }
     [Fact]
+    public void Course_editor_only_teacher_token_is_valid_but_group_bound_editor_claim_denies()
+    {
+        using var key = RSA.Create(2048);
+        var clock = new ComponentClock();
+        var authority = new CurrentAuthority(
+            Authority.Membership with { Role = ScopeRole.Teacher },
+            [new EducationalGrant(AuthorityKind.CourseEditor, Guid.NewGuid(), "course-a", null, 1, 1, 1)]);
+        var payload = JsonSerializer.Serialize(new
+        {
+            iss = "synthetic-issuer",
+            aud = "synthetic-audience",
+            sub = Guid.NewGuid(),
+            actor = Actor,
+            sid = Guid.NewGuid(),
+            scope = authority,
+            nbf = clock.Time!.Earliest.ToUnixTimeSeconds(),
+            exp = clock.Time.Latest.AddMinutes(15).ToUnixTimeSeconds()
+        });
+        var jwt = new ComponentJwt(key, "synthetic-issuer", "synthetic-audience", clock);
+        Assert.NotNull(jwt.Validate(Signed(key, payload)));
+
+        var invalid = JsonNode.Parse(payload)!.AsObject();
+        invalid["scope"]!["Grants"]![0]!["GroupId"] = "g1";
+        Assert.Null(jwt.Validate(Signed(key, invalid.ToJsonString())));
+        Assert.False(ScopePolicy.Allows(authority, new(Org, "course-a", "g1", Guid.NewGuid()),
+            ScopeAction.Review, Actor));
+    }
+
+    [Fact]
     public void Signature_algorithm_duplicate_properties_and_malformed_encoding_deny()
     {
         using var key = RSA.Create(2048); using var wrong = RSA.Create(2048); var clock = new ComponentClock();

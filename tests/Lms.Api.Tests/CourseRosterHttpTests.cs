@@ -101,6 +101,14 @@ public sealed class CourseRosterHttpTests(ApiPostgresFixture fixture) : IClassFi
         { studentIds = new[] { student.Actor }, idempotencyKey = Guid.NewGuid().ToString() })).EnsureSuccessStatusCode();
         (await own.Admin.PostAsJsonAsync($"/api/v1/admin/courses/{courseId}/groups/{first}/teachers", new
         { teacherId = teacher.Actor, idempotencyKey = Guid.NewGuid().ToString() })).EnsureSuccessStatusCode();
+        var assignEditorKey = Guid.NewGuid().ToString();
+        var assignEditorBody = new { editorId = teacher.Actor, idempotencyKey = assignEditorKey };
+        var assignedEditor = await own.Admin.PostAsJsonAsync($"/api/v1/admin/courses/{courseId}/editors", assignEditorBody);
+        assignedEditor.EnsureSuccessStatusCode();
+        Assert.True((await assignedEditor.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("changed").GetBoolean());
+        var replayedEditor = await own.Admin.PostAsJsonAsync($"/api/v1/admin/courses/{courseId}/editors", assignEditorBody);
+        replayedEditor.EnsureSuccessStatusCode();
+        Assert.False((await replayedEditor.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("changed").GetBoolean());
 
         using var studentClient = await Login(app, own.Org, student.User, student.Password);
         var studentCourses = await studentClient.GetFromJsonAsync<JsonElement>("/api/v1/my/courses");
@@ -108,10 +116,48 @@ public sealed class CourseRosterHttpTests(ApiPostgresFixture fixture) : IClassFi
         Assert.Equal("Draft", studentCourses.GetProperty("items")[0].GetProperty("state").GetString());
 
         using var teacherClient = await Login(app, own.Org, teacher.User, teacher.Password);
-        Assert.Single((await teacherClient.GetFromJsonAsync<JsonElement>("/api/v1/my/courses")).GetProperty("items").EnumerateArray());
+        var teacherCatalogItem = Assert.Single((await teacherClient.GetFromJsonAsync<JsonElement>("/api/v1/my/courses"))
+            .GetProperty("items").EnumerateArray());
+        Assert.True(teacherCatalogItem.GetProperty("canEditContent").GetBoolean());
         var teacherView = await teacherClient.GetFromJsonAsync<JsonElement>($"/api/v1/teacher/courses/{courseId}");
         Assert.Single(teacherView.GetProperty("students").EnumerateArray());
         Assert.Equal(first, teacherView.GetProperty("groups")[0].GetProperty("groupId").GetString());
+        Assert.True(teacherView.GetProperty("canEditContent").GetBoolean());
+
+        var editorAssignment = (await own.Admin.GetFromJsonAsync<JsonElement>($"/api/v1/admin/courses/{courseId}"))
+            .GetProperty("editors")[0];
+        var removeEditorBody = new
+        {
+            grantId = editorAssignment.GetProperty("grantId").GetGuid(),
+            expectedVersion = editorAssignment.GetProperty("version").GetInt64(),
+            idempotencyKey = Guid.NewGuid().ToString()
+        };
+        var removedEditor = await own.Admin.PostAsJsonAsync(
+            $"/api/v1/admin/courses/{courseId}/editors/{teacher.Actor}/remove", removeEditorBody);
+        removedEditor.EnsureSuccessStatusCode();
+        Assert.True((await removedEditor.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("changed").GetBoolean());
+
+        using (var teachingOnly = await Login(app, own.Org, teacher.User, teacher.Password))
+        {
+            var teachingOnlyItem = Assert.Single((await teachingOnly.GetFromJsonAsync<JsonElement>("/api/v1/my/courses"))
+                .GetProperty("items").EnumerateArray());
+            Assert.False(teachingOnlyItem.GetProperty("canEditContent").GetBoolean());
+            var teachingOnlyView = await teachingOnly.GetFromJsonAsync<JsonElement>($"/api/v1/teacher/courses/{courseId}");
+            Assert.Single(teachingOnlyView.GetProperty("groups").EnumerateArray());
+        }
+
+        var reassignedEditor = await own.Admin.PostAsJsonAsync($"/api/v1/admin/courses/{courseId}/editors", new
+        { editorId = teacher.Actor, idempotencyKey = Guid.NewGuid().ToString() });
+        reassignedEditor.EnsureSuccessStatusCode();
+        Assert.True((await reassignedEditor.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("changed").GetBoolean());
+        var staleEditorRemoval = await own.Admin.PostAsJsonAsync(
+            $"/api/v1/admin/courses/{courseId}/editors/{teacher.Actor}/remove", new
+            {
+                grantId = removeEditorBody.grantId,
+                expectedVersion = removeEditorBody.expectedVersion,
+                idempotencyKey = Guid.NewGuid().ToString()
+            });
+        Assert.Equal(HttpStatusCode.Conflict, staleEditorRemoval.StatusCode);
 
         using var unassignedClient = await Login(app, own.Org, unassigned.User, unassigned.Password);
         Assert.Null(unassignedClient.DefaultRequestHeaders.Authorization);
@@ -142,6 +188,34 @@ public sealed class CourseRosterHttpTests(ApiPostgresFixture fixture) : IClassFi
             $"/api/v1/admin/courses/{courseId}/groups/{first}/teachers/{teacher.Actor}/remove", removeTeacherBody);
         replayedRemoval.EnsureSuccessStatusCode();
         Assert.False((await replayedRemoval.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("changed").GetBoolean());
+        using (var editorOnly = await Login(app, own.Org, teacher.User, teacher.Password))
+        {
+            Assert.NotNull(editorOnly.DefaultRequestHeaders.Authorization);
+            var editorOnlyItem = Assert.Single((await editorOnly.GetFromJsonAsync<JsonElement>("/api/v1/my/courses"))
+                .GetProperty("items").EnumerateArray());
+            Assert.True(editorOnlyItem.GetProperty("canEditContent").GetBoolean());
+            var editorOnlyView = await editorOnly.GetFromJsonAsync<JsonElement>($"/api/v1/teacher/courses/{courseId}");
+            Assert.Empty(editorOnlyView.GetProperty("groups").EnumerateArray());
+            Assert.Empty(editorOnlyView.GetProperty("students").EnumerateArray());
+        }
+
+        var foreignEditor = await foreign.Admin.PostAsJsonAsync($"/api/v1/admin/courses/{courseId}/editors", new
+        { editorId = teacher.Actor, idempotencyKey = Guid.NewGuid().ToString() });
+        Assert.Equal(HttpStatusCode.NotFound, foreignEditor.StatusCode);
+        var foreignEditorBody = await foreignEditor.Content.ReadAsStringAsync();
+        Assert.DoesNotContain("studentCount", foreignEditorBody);
+        Assert.DoesNotContain("editorCount", foreignEditorBody);
+
+        var currentEditor = (await own.Admin.GetFromJsonAsync<JsonElement>($"/api/v1/admin/courses/{courseId}"))
+            .GetProperty("editors")[0];
+        var finalEditorRemoval = await own.Admin.PostAsJsonAsync(
+            $"/api/v1/admin/courses/{courseId}/editors/{teacher.Actor}/remove", new
+            {
+                grantId = currentEditor.GetProperty("grantId").GetGuid(),
+                expectedVersion = currentEditor.GetProperty("version").GetInt64(),
+                idempotencyKey = Guid.NewGuid().ToString()
+            });
+        finalEditorRemoval.EnsureSuccessStatusCode();
         using var teacherAfterRemoval = await Login(app, own.Org, teacher.User, teacher.Password);
         Assert.Null(teacherAfterRemoval.DefaultRequestHeaders.Authorization);
         Assert.Equal(HttpStatusCode.Unauthorized, (await teacherAfterRemoval.GetAsync("/api/v1/my/courses")).StatusCode);

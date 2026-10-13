@@ -86,7 +86,7 @@ public sealed class ComponentJwt
         if (m.Role is null)
             return OrganizationPermissionPolicy.CanManageOrganization(m) && p.scope.Grants.Count == 0;
         if (m.Role is not (ScopeRole.Student or ScopeRole.Teacher) || m.Permissions != 0 || p.scope.Grants.Count < 1) return false;
-        var identities = new HashSet<string>(); var courses = new HashSet<string>();
+        var identities = new HashSet<Guid>(); var courses = new HashSet<string>();
         foreach (var g in p.scope.Grants)
         {
             if (g == null || string.IsNullOrWhiteSpace(g.CourseId) || g.CourseId.Length > 256 ||
@@ -96,11 +96,20 @@ public sealed class ComponentJwt
             {
                 if (g.Kind != AuthorityKind.Enrollment || g.GrantId != null || g.GroupId == null || !courses.Add(g.CourseId)) return false;
             }
-            else if (g.Kind != AuthorityKind.Teacher || g.GrantId is null || g.GrantId == Guid.Empty || !identities.Add(g.GrantId.Value.ToString())) return false;
+            else
+            {
+                if (g.Kind is not (AuthorityKind.Teacher or AuthorityKind.CourseEditor) ||
+                    g.GrantId is null || g.GrantId == Guid.Empty || !identities.Add(g.GrantId.Value) ||
+                    g.Kind == AuthorityKind.CourseEditor && g.GroupId != null) return false;
+            }
         }
-        // Reject overlapping teacher scopes instead of choosing one interpretation.
-        return m.Role != ScopeRole.Teacher || p.scope.Grants.GroupBy(g => g.CourseId).All(gs =>
-            gs.Select(g => g.GroupId).Distinct().Count() == gs.Count() && (gs.Count() == 1 || gs.All(g => g.GroupId != null)));
+        // Reject overlapping teaching scopes. CourseEditor is independently course-scoped.
+        var teaching = p.scope.Grants.Where(g => g.Kind == AuthorityKind.Teacher);
+        return m.Role != ScopeRole.Teacher || teaching.GroupBy(g => g.CourseId).All(gs =>
+            gs.Select(g => g.GroupId).Distinct().Count() == gs.Count() && (gs.Count() == 1 || gs.All(g => g.GroupId != null))) &&
+            p.scope.Grants.Where(g => g.Kind == AuthorityKind.CourseEditor)
+                .Select(g => g.CourseId).Distinct(StringComparer.Ordinal).Count() ==
+            p.scope.Grants.Count(g => g.Kind == AuthorityKind.CourseEditor);
     }
     private static bool Fields(JsonElement node, params string[] fields) => node.ValueKind == JsonValueKind.Object &&
         node.EnumerateObject().Select(p => p.Name).Order().SequenceEqual(fields.Order());

@@ -1,7 +1,7 @@
 namespace Lms.Application;
 
 public enum ScopeRole { Student, Teacher }
-public enum AuthorityKind { Membership, Enrollment, Teacher }
+public enum AuthorityKind { Membership, Enrollment, Teacher, CourseEditor }
 public enum AuthorityOperation { Grant, Revoke, Move }
 public enum ResourceKind { Course, Group, Assignment, Work, Submission, Review, Attachment }
 public enum ScopeAction { Read, Submit, Review }

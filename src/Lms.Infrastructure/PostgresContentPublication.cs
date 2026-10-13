@@ -22,7 +22,7 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
         sourceRevision = Required(sourceRevision, 1, 128);
         if (mediaType is not ("application/zip" or "application/x-zip-compressed") || length <= 0 ||
             length > options.MaxZipBytes) throw new UseCaseException("ValidationFailed");
-        var resource = TeacherResource(token, courseId, null, wholeCourse: true);
+        var resource = CourseEditorResource(token, courseId);
         await EnsureRead(resource, token, ct);
 
         if (!OperatingSystem.IsLinux()) throw new UseCaseException("ContentUnavailable");
@@ -102,7 +102,7 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
     public async Task<ContentImportResult?> ImportStatus(TokenAuthority token, string courseId, Guid importId,
         CancellationToken ct = default)
     {
-        var resource = TeacherResource(token, Required(courseId, 1, 80), null, true); await EnsureRead(resource, token, ct);
+        var resource = CourseEditorResource(token, Required(courseId, 1, 80)); await EnsureRead(resource, token, ct);
         var row = await db.ContentImports.AsNoTracking().SingleOrDefaultAsync(x => x.ImportId == importId &&
             x.CourseId == courseId && x.OrganizationId == resource.OrganizationId && x.OwnerActorId == token.Identity.ActorId, ct);
         return row == null ? null : Result(row);
@@ -111,7 +111,7 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
     public async Task<ContentPreview> PreviewImport(TokenAuthority token, string courseId, Guid importId,
         string audience, CancellationToken ct = default)
     {
-        audience = Audience(audience); var resource = TeacherResource(token, Required(courseId, 1, 80), null, true);
+        audience = Audience(audience); var resource = CourseEditorResource(token, Required(courseId, 1, 80));
         await EnsureRead(resource, token, ct);
         var row = await db.ContentImports.AsNoTracking().SingleOrDefaultAsync(x => x.ImportId == importId &&
             x.CourseId == courseId && x.OrganizationId == resource.OrganizationId && x.OwnerActorId == token.Identity.ActorId, ct)
@@ -124,7 +124,7 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
         string audience, string assetPath, CancellationToken ct = default)
     {
         audience = Audience(audience); assetPath = AssetPath(assetPath);
-        var resource = TeacherResource(token, Required(courseId, 1, 80), null, true); await EnsureRead(resource, token, ct);
+        var resource = CourseEditorResource(token, Required(courseId, 1, 80)); await EnsureRead(resource, token, ct);
         var valid = await db.ContentImports.AsNoTracking().AnyAsync(x => x.ImportId == importId && x.CourseId == courseId &&
             x.OrganizationId == resource.OrganizationId && x.OwnerActorId == token.Identity.ActorId && x.State == "Ready" && x.ExpiresAt > Now(), ct);
         if (!valid) throw new UseCaseException("NotFound");
@@ -137,7 +137,7 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
         long expectedImportVersion, long expectedCourseVersion, string idempotencyKey, CancellationToken ct = default)
     {
         courseId = Required(courseId, 1, 80); idempotencyKey = Required(idempotencyKey, 1, 128);
-        var resource = TeacherResource(token, courseId, null, true);
+        var resource = CourseEditorResource(token, courseId);
         var digest = Digest($"{courseId}\n{importId}\n{expectedImportVersion}\n{expectedCourseVersion}");
         await using var tx = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable, ct);
         await Processing(resource, token, ct); await Advisory(token.Identity.ActorId, idempotencyKey, ct);
@@ -387,6 +387,16 @@ public sealed class PostgresContentPublication(LmsDbContext db, IAuthorityClock 
         if (!await new PostgresCurrentProcessingGate(db, clock).AllowsInTransaction(resource, token.Identity.ActorId, ScopeAction.Read, ct))
             throw new UseCaseException("Forbidden");
         EnsureTime(token);
+    }
+
+    private ResourceOwnership CourseEditorResource(TokenAuthority token, string courseId)
+    {
+        EnsureTime(token); var member = token.Authority.Membership;
+        var allowed = member.Role == ScopeRole.Teacher && member.ActorId == token.Identity.ActorId &&
+            token.Authority.Grants.Any(x => x.Kind == AuthorityKind.CourseEditor && x.CourseId == courseId &&
+                x.GroupId == null && x.MembershipGeneration == member.Generation);
+        if (!allowed) throw new UseCaseException("Forbidden");
+        return new(member.OrganizationId, courseId);
     }
 
     private ResourceOwnership TeacherResource(TokenAuthority token, string courseId, string? groupId, bool wholeCourse)
