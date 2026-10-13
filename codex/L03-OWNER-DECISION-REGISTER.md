@@ -201,3 +201,16 @@ Owner: владелец проекта. Основание: явное реше�
 Разрешены минимальные аддитивные изменения PostgreSQL, Domain/Application/API и React для course-scoped capability, административной выдачи/отзыва и перевода ZIP import/preview/publish на `CourseEditor`. Существующие S2/S3/S4, ProcessingRestrictions, session model, idempotency, CAS, immutable history и audit сохраняются. Production/public cutover, реальные ПД, PRS1 exact и ослабление G02 не разрешены. Для этого задания явно разрешён scoped commit `fix(m1): separate course editing from group teaching authority`; push и deploy запрещены. После FIX-01 полный M1-11 самостоятельно не перезапускается.
 
 **M1-11-FIX-01 AUTHORIZED · COURSEEDITOR INDEPENDENT FROM GROUP TEACHING · CONTENT OPERATIONS ONLY · GROUP/LEARNER/WORK ACCESS NOT GRANTED · SYNTHETIC HTTPS E2E REQUIRED · PRS1 EXACT OFF · G02 BLOCKED · NO PUSH/DEPLOY.**
+
+
+## 2026-10-14 — M1-11-FIX-02 Processing Context Bootstrap
+
+Owner: владелец проекта. Основание: явное решение «OWNER DECISION — M1-11-FIX-02», статус **APPROVED**.
+
+Только для controlled SyntheticOnly разрешён штатный путь Organization → ProcessingContextVersion → CourseContextBinding → CourseEditor → ZIP Import → Publish через минимальный административный React UI и защищённый HTTP API. Переиспользуются существующие Organization, immutable ProcessingContextVersion, CourseContextBinding, ProcessingRestrictions и административная S2/S3/S4 авторизация. Организация и actor берутся только из валидированного component token; привязка ограничена verified-курсом той же организации; отсутствие актуального контекста/привязки и действующие ограничения сохраняют fail-closed поведение.
+
+Разрешены минимальные Application/Domain/persistence/API/UI/test/documentation изменения и только действительно необходимые аддитивные миграции. Новая роль, альтернативная авторизация, consent/legal-documents модуль, реальные ПД и представление synthetic значений как юридического основания запрещены. CourseEditor не получает доступ к другим группам, ученикам, проверкам, фотографиям или истории. Разрешение на S4 HTTP действует только в пределах FIX-02; policy checks не отключаются.
+
+Обязательны positive clean-bootstrap Chromium HTTPS E2E до Student G1, отрицательные org/role/context/binding/restriction/concurrency/history/G2 проверки, API/PostgreSQL consistency, причины четырёх прежних browser failures, screenshots и machine-readable summary. Разрешён scoped commit «fix(m1): enable processing context bootstrap through admin UI»; push/deploy и автоматический полный M1-11 запрещены.
+
+**M1-11-FIX-02 AUTHORIZED · SYNTHETIC PROCESSING CONTEXT/UI/API ONLY · IMMUTABLE VERSIONS + SAME-ORG BINDING · RESTRICTIONS/FAIL-CLOSED BEHAVIOR PRESERVED · COURSEEDITOR NOT EXPANDED · PRS1 EXACT OFF · G02 BLOCKED · NO FULL M1-11/PUSH/DEPLOY.**

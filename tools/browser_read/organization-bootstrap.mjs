@@ -24,7 +24,7 @@ page.on('response', response => {
 
 try {
   await page.goto(origin, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Первый запуск организации' }).click();
+  await page.getByRole('button', { name: 'Первый запуск', exact: true }).click();
   await page.getByLabel('Название организации').fill(organizationName);
   await page.getByLabel('Логин первого администратора').fill(adminUserName);
   await page.getByLabel('Токен системного администратора').fill(platformToken);

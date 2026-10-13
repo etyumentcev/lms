@@ -46,6 +46,7 @@ internal static class TeacherRevocationComposition
             builder.Services.AddSingleton(bootstrapOptions);
             builder.Services.AddScoped<IOrganizationBootstrap, PostgresOrganizationBootstrap>();
             builder.Services.AddScoped<IOrganizationAdministrationQueries, PostgresOrganizationAdministrationQueries>();
+            builder.Services.AddScoped<IProcessingContextAdministration, PostgresProcessingContextAdministration>();
             builder.Services.AddScoped<PostgresAccountAdministration>();
             builder.Services.AddScoped<IAccountAdministration>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
             builder.Services.AddScoped<IAccountSecurityOperations>(sp => sp.GetRequiredService<PostgresAccountAdministration>());

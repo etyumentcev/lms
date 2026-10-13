@@ -1,6 +1,6 @@
 # M1 progress
 
-Актуально: 13.10.2026.
+Актуально: 14.10.2026.
 
 | Этап | Статус | Фактическая цепочка / evidence | Следующая граница |
 |---|---|---|---|
@@ -14,15 +14,32 @@
 | M1-08 — protected multi-photo submission | **DONE (component acceptance, synthetic-only)** | production React normal login → two original A4 pages → preview/reorder/delete/re-add → one CAS submission → unknown-outcome authoritative GET → reload `На проверке` → protected teacher read; exact bytes/SHA/order; `M1-08-RESULTS.md` и 6 Chromium HTTPS screenshots at 390/768/1440 | не переходить к M1-09; production DB capability/cutover и G02 остаются blocked |
 | M1-09 — teacher review, annotation & full cycle | **DONE (component acceptance, synthetic-only)** | scoped queue with student/page count → protected exact-version teacher workspace → two-page pen/mouse annotations + fullscreen → lost-ACK authoritative GET without replay → NeedsRevision → student sees feedback/overlays → two-page resubmit → Accept; immutable attempts/reviews, original SHA and no teacher leak; `M1-09-RESULTS.md` и 9 Chromium HTTPS screenshots at 1440/768/390 | не переходить к M1-10; production DB capability/cutover и G02 остаются blocked |
 | M1-10 — group progress, review history & failure reconciliation | **DONE (component acceptance, synthetic-only)** | protected server projections → 12 students/60 assignments/status counters → server filters → NeedsRevision/Accepted teacher history → deep link to immutable review → student own attempts/photos/feedback/annotations; move preserves G1/v1 and current student v1+v2; lost submit/review responses reconcile by GET without replay; `M1-10-RESULTS.md` and 9 Chromium HTTPS screenshots | не переходить к M1-11; production DB capability/cutover и G02 остаются blocked |
+| M1-11 — Synthetic MVP End-to-End Acceptance | **FAIL / OWNER DECISION REQUIRED** | repeat on `8298add`: clean PostgreSQL+migrations/private storage+HTTPS API+production React+Chromium; E01–E03 PASS; separate CourseEditor and G1 teacher scopes confirmed; E04 import 403 because clean bootstrap has no ProcessingContextVersion/CourseContextBinding; 27 TC PASS / 7 FAIL / 41 BLOCKED / 2 NOT RUN; 1138 .NET + 421 React + 74 compiler + 49 importer PASS, opt-in browsers 10/14 PASS | owner decision/authorized provisioning path for synthetic ProcessingContext binding, browser regression fixes, then full E01–E15 with restart and coordinated restore; acceptance/commit/push/deploy not performed |
+| M1-11-FIX-02 — processing context bootstrap | **DONE (scoped implementation + target E2E, synthetic-only)** | clean React bootstrap → org/admin → synthetic immutable context v1 → same-org course binding → CourseEditor → ZIP import → publish v1 → G1 five problems → Student G1; UI/API/PostgreSQL consistency; 4 Chromium screenshots + JSON summary; negative role/org/CAS/history/restriction/G2 coverage | готово к отдельному полному M1-11 rerun; сам rerun не запускался; G02/PRS1/real-data/pilot gates unchanged |
 
 ## Последняя проверенная цепочка M1-10
 
 `LearningCatalog/publication v1` → 12 synthetic students × 5 assignments = 60 immutable G1 scopes → teacher `/progress` with server rows/counts/filter → Submitted snapshot → lost-response authoritative GET without replay → NeedsRevision snapshot and review history → student photos/feedback/annotations → attempt 2 → Accepted snapshot/filter → historical Accepted deep link → student `/progress` and two-attempt history. Focused API test additionally moves student G1→G2 and publishes v2: G1 teacher retains only original v1 scope, current student sees own v1+v2 history.
 
-Предыдущий M1-11 acceptance остановлен с FAIL на E04: group-scoped преподаватель получил 403 от publication boundary; полный M1-11 rerun требует отдельного разрешения. Push и deploy не выполнялись.
+## Результат M1-11
+
+Повторный clean synthetic journey на `8298add` подтвердил FIX-01: T-A отдельно получает CourseEditor и G1 teacher scope, G2 не получает. E01–E03 PASS. E04 воспроизводимо возвращает `403`, потому что clean bootstrap не создаёт обязательные ProcessingContextVersion/CourseContextBinding, а утверждённого UI/API пути их provision нет. Direct DB seed не применялся. E05–E14 не продолжались; restart/backup-restore не засчитаны.
+
+Матрица: **27 PASS / 7 FAIL / 41 BLOCKED / 2 NOT RUN**. Full non-browser regression green; все 12 opt-in methods раскрыты: 14 browser cases = 10 PASS / 4 FAIL, плюс mandatory M1-11 = 1 FAIL. U01–U03 исправлены; остальные visual rows частично blocked/reference unavailable.
+
+Подробности: `M1-11-RESULTS.md`, `M1-ACCEPTANCE-MATRIX.md`, `../docs/ops/M1-SYNTHETIC-RUNBOOK.md`, `evidence/M1-11/rerun2-8298add/`.
+
+`SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены. Условие успешной приёмки для commit не выполнено; commit, push и deploy не выполнялись.
+
 
 ## M1-11-FIX-01 — Course Editor Authority
 
 **DONE (scoped implementation and verification, synthetic-only).** Введено отдельное course-scoped назначение `CourseEditor`: администратор организации выдаёт/отзывает его через React UI; ZIP import, diagnostics, обе preview projections и publish требуют exact-course editor grant. Group-scoped `TeacherAssignmentScope` не расширен. Open lesson / assign остаются преподавательскими операциями для G1.
 
-Отдельный Chromium HTTPS E2E прошёл по цепочке `Org Admin → CourseEditor → Teacher Login → Import ZIP → Publish v1 → Open Lesson G1 → Assign Five Problems → Student G1`; UI/API/PostgreSQL согласованы, G2 не появился в teacher projection. Evidence: `M1-11-FIX-01-RESULTS.md`, `evidence/M1-11-FIX-01/`. Полный M1-11 acceptance не перезапускался; `SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены.
+Отдельный Chromium HTTPS E2E прошёл по цепочке `Org Admin → CourseEditor → Teacher Login → Import ZIP → Publish v1 → Open Lesson G1 → Assign Five Problems → Student G1`; UI/API/PostgreSQL согласованы, G2 не появился в teacher projection. Evidence: `M1-11-FIX-01-RESULTS.md`, `evidence/M1-11-FIX-01/`. Повторный полный M1-11 acceptance выполнен 14.10.2026: прежний CourseEditor blocker закрыт, но обнаружен новый clean-environment blocker ProcessingContext/CourseContextBinding. `SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены; push/deploy не выполнялись.
+
+## M1-11-FIX-02 — Processing Context Bootstrap
+
+**DONE (scoped implementation and verification, synthetic-only).** Добавлен минимальный org-admin UI/API для создания immutable synthetic processing context, просмотра текущей версии и same-org CAS-привязки курса через существующий processing writer. Миграция не потребовалась. Целевой clean PostgreSQL + production React + HTTPS Chromium E2E завершил цепочку до опубликованной v1 и Student G1; CourseEditor сохранил только G1 teacher projection, G2 не раскрылся.
+
+Evidence: `M1-11-FIX-02-RESULTS.md`, `evidence/M1-11-FIX-02/`. Четыре прежних browser failure разобраны отдельно: два fixture/locator drift исправлены и PASS, два не относятся к D05 и остаются harness/profile gaps вне FIX-02. Система **готова к следующему отдельно запущенному полному M1-11 прогону**, но он здесь не запускался. `SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены; push/deploy не выполнялись.

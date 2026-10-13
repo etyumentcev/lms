@@ -38,7 +38,7 @@ public sealed class PostgresProcessingStateAdministration(LmsDbContext db) : IPr
         return revision;
     }
 
-    private static (string Action, string Payload) Describe(ProcessingStateCommand command)
+    internal static (string Action, string Payload) Describe(ProcessingStateCommand command)
     {
         ArgumentNullException.ThrowIfNull(command);
         if (command.OrganizationId == Guid.Empty || command.OperationId == Guid.Empty || command.ExpectedRevision < 0)

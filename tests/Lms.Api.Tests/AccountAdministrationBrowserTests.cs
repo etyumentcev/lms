@@ -65,6 +65,7 @@ public sealed class AccountAdministrationBrowserTests(ApiPostgresFixture fixture
         builder.Services.AddScoped<PostgresAccountAdministration>();
         builder.Services.AddScoped<IAccountAdministration>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
         builder.Services.AddScoped<IAccountSecurityOperations>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
+        builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
         builder.Services.AddScoped<PostgresTeacherCommands>(); builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
         builder.Services.AddTeacherRevocationBrowserProtection();
         builder.Services.AddRateLimiter(options => options.AddPolicy(OrganizationBootstrapHttp.ActivationRatePolicy,
@@ -82,7 +83,7 @@ public sealed class AccountAdministrationBrowserTests(ApiPostgresFixture fixture
 
         await using var app = builder.Build(); app.UseMiddleware<ApiExceptionMiddleware>(); app.UseMiddleware<CourseRequestIngress>();
         app.UseAuthentication(); app.UseAuthorization(); app.UseRateLimiter(); app.MapTeacherRevocation(origin);
-        app.MapOrganizationBootstrap(origin); app.MapAccountAdministration(origin);
+        app.MapOrganizationBootstrap(origin); app.MapAccountAdministration(origin); app.MapCourseRoster(origin);
         app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(web) });
         app.MapFallback(async context =>
         {

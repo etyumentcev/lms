@@ -77,6 +77,7 @@ public sealed class OrganizationBootstrapBrowserTests(ApiPostgresFixture fixture
         });
         builder.Services.AddScoped<IOrganizationBootstrap, PostgresOrganizationBootstrap>();
         builder.Services.AddScoped<IOrganizationAdministrationQueries, PostgresOrganizationAdministrationQueries>();
+        builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
         builder.Services.AddScoped<PostgresTeacherCommands>();
         builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
         builder.Services.AddTeacherRevocationBrowserProtection();
@@ -101,7 +102,7 @@ public sealed class OrganizationBootstrapBrowserTests(ApiPostgresFixture fixture
         await using var app = builder.Build();
         app.UseMiddleware<ApiExceptionMiddleware>(); app.UseMiddleware<CourseRequestIngress>();
         app.UseAuthentication(); app.UseAuthorization(); app.UseRateLimiter();
-        app.MapTeacherRevocation(origin); app.MapOrganizationBootstrap(origin);
+        app.MapTeacherRevocation(origin); app.MapOrganizationBootstrap(origin); app.MapCourseRoster(origin);
         app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(web) });
         app.MapFallback(async context =>
         {
