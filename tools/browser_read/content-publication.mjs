@@ -13,6 +13,7 @@ const browser = await chromium.launch({ headless: true,
   args: ['--ignore-certificate-errors'] });
 const context = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width: 1440, height: 1050 }, locale: 'ru-RU' });
 const page = await context.newPage(); page.setDefaultTimeout(30000);
+const cdp = await context.newCDPSession(page);
 const failures = []; const studentPayloads = []; let expectedNetworkAbort = false; let captureStudentPayloads = false;
 page.on('console', message => { if (message.type() === 'error' && !(expectedNetworkAbort && message.text().includes('ERR_CONNECTION_FAILED'))) failures.push(`console:${message.text()}`); });
 page.on('pageerror', error => failures.push(`page:${error.message}`));
@@ -38,7 +39,7 @@ async function login(userName) {
 }
 async function logout() {
   const path = new URL(page.url()).pathname;
-  if (path.startsWith('/problem-assignments/') || path.startsWith('/teacher/reviews/')) {
+  if (path.startsWith('/problem-assignments/') || path.startsWith('/teacher/')) {
     await page.getByRole('link', { name: 'Мои курсы' }).first().click();
     await page.getByRole('heading', { name: 'Мои курсы' }).waitFor();
   }
@@ -66,6 +67,31 @@ async function protectedSha256(url) {
     const digest = await crypto.subtle.digest('SHA-256', await response.arrayBuffer());
     return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
   }, url);
+}
+async function protectedJson(path) {
+  return page.evaluate(async resource => {
+    const token = await window.lmsAuth?.getAccessToken();
+    if (!token) throw new Error('missing browser access token');
+    const response = await fetch(`/api/v1${resource}`, { credentials: 'same-origin', cache: 'no-store',
+      headers: { Authorization: `Bearer ${token}` } });
+    if (!response.ok) throw new Error(`protected JSON returned ${response.status}`);
+    return response.json();
+  }, path);
+}
+async function drawOnCurrentPage(pointerType = 'mouse') {
+  const canvas = page.locator('canvas[aria-label^="Слой пометок страницы"]').first();
+  await canvas.scrollIntoViewIfNeeded(); const box = await canvas.boundingBox();
+  if (!box) throw new Error('annotation canvas has no geometry');
+  const start = { x: box.x + box.width * .2, y: box.y + box.height * .3 };
+  const end = { x: box.x + box.width * .48, y: box.y + box.height * .42 };
+  if (pointerType === 'pen') {
+    await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...start, button: 'left', buttons: 1, pointerType: 'pen', force: .7 });
+    await cdp.send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...end, button: 'left', buttons: 1, pointerType: 'pen', force: .8 });
+    await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...end, button: 'left', buttons: 0, pointerType: 'pen', force: 0 });
+  } else {
+    await page.mouse.move(start.x, start.y); await page.mouse.down(); await page.mouse.move(end.x, end.y, { steps: 12 }); await page.mouse.up();
+  }
+  await page.getByText(/Графические пометки: 1 штр/).waitFor();
 }
 
 try {
@@ -123,6 +149,7 @@ try {
 
   await page.locator('a[href^="/problem-assignments/"]').first().click();
   await page.getByRole('heading', { name: 'Задача 1' }).waitFor();
+  const assignmentPath = new URL(page.url()).pathname;
   await page.getByRole('region', { name: 'Условие задачи' }).getByText(/вычислите остаток/).waitFor();
   await page.screenshot({ path: `${data.materialsEvidence}/05-problem-1440.png`, fullPage: true });
   await page.getByRole('tab', { name: 'Подсказки' }).click();
@@ -190,10 +217,14 @@ try {
   await logout(); await login(data.teacherUser);
   await page.getByRole('link', { name: 'Проверка' }).click();
   await page.getByRole('heading', { name: 'Проверка работ' }).waitFor();
-  const firstPhoto = page.waitForResponse(response => /\/api\/v1\/attachments\/[0-9a-f-]+\/content$/i.test(new URL(response.url()).pathname) && response.ok());
+  await page.setViewportSize({ width: 1440, height: 1050 });
+  await page.getByText('2 страниц', { exact: true }).waitFor();
+  await page.screenshot({ path: `${data.m1Evidence}/01-review-queue-1440.png`, fullPage: true });
   await page.getByRole('link', { name: /Проверить:/ }).first().click();
-  const firstPhotoResponse = await firstPhoto;
   await page.getByRole('heading', { name: 'Задача 1' }).waitFor();
+  const workId = new URL(page.url()).pathname.split('/').at(-1);
+  const firstTeacherWork = await protectedJson(`/teacher/problem-works/${workId}`);
+  if (firstTeacherWork.currentSubmission.attachmentIds.length !== 2) throw new Error('teacher current submission lost pages');
   const reference = page.getByTestId('teacher-reference');
   await reference.getByText('Неизменяемая версия v1', { exact: true }).waitFor();
   await reference.getByText(/M1_TEACHER_ONLY_SOLUTION_v1/).waitFor();
@@ -203,20 +234,123 @@ try {
   await reference.getByText(/M1_TEACHER_ONLY_NOTES/).waitFor();
   if (await reference.getByText(/M1_TEACHER_ONLY_SOLUTION_v2/).count()) throw new Error('historical review resolved the latest v2 reference');
   await page.getByRole('img', { name: 'Страница 1 — фото решения' }).waitFor();
-  const firstPhotoHash = await protectedSha256(firstPhotoResponse.url());
+  const firstPhotoHash = await protectedSha256(`${data.origin}/api/v1/attachments/${firstTeacherWork.currentSubmission.attachmentIds[0]}/content`);
   if (firstPhotoHash !== data.photoTwoHash) throw new Error(`teacher page 1 hash mismatch: ${firstPhotoHash}`);
   await page.screenshot({ path: `${data.materialsEvidence}/07-teacher-reference-1440.png`, fullPage: true });
   await page.screenshot({ path: `${data.photoEvidence}/05-teacher-page-1-1440.png`, fullPage: true });
-  const secondPhoto = page.waitForResponse(response => /\/api\/v1\/attachments\/[0-9a-f-]+\/content$/i.test(new URL(response.url()).pathname) &&
-    response.ok() && new URL(response.url()).pathname !== new URL(firstPhotoResponse.url()).pathname);
-  await page.getByRole('button', { name: 'Следующая' }).click();
-  const secondPhotoResponse = await secondPhoto;
+  await page.screenshot({ path: `${data.m1Evidence}/02-desktop-review-1440.png`, fullPage: true });
+
+  await drawOnCurrentPage('pen');
+  await page.screenshot({ path: `${data.m1Evidence}/03-page-1-annotated-1440.png`, fullPage: true });
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.getByRole('button', { name: 'На весь экран' }).click();
+  await page.getByRole('dialog', { name: 'Фотографии решения' }).waitFor();
+  for (const name of ['Перо', 'Ластик', 'Отмена', 'Увеличить фото', 'Выйти из полного экрана'])
+    if (!await page.getByRole('button', { name }).isVisible()) throw new Error(`fullscreen control missing: ${name}`);
+  for (const name of ['Цвет пера', 'Толщина пера'])
+    if (!await page.getByLabel(name).isHidden()) throw new Error(`fullscreen secondary control visible: ${name}`);
+  const fitsViewport = await page.getByAltText('Страница 1 — фото решения').evaluate(node => {
+    const rect = node.getBoundingClientRect(); return rect.top >= 0 && rect.left >= 0 && rect.bottom <= innerHeight + 1 && rect.right <= innerWidth + 1;
+  });
+  if (!fitsViewport) throw new Error('fullscreen A4 page does not initially fit');
+  await page.screenshot({ path: `${data.m1Evidence}/04-fullscreen-768.png` });
+  await page.getByRole('button', { name: 'Выйти из полного экрана' }).click();
+  await page.setViewportSize({ width: 1440, height: 1050 });
+
+  await page.getByRole('button', { name: 'Показать страницу 2' }).click();
   await page.getByRole('img', { name: 'Страница 2 — фото решения' }).waitFor();
-  const secondPhotoHash = await protectedSha256(secondPhotoResponse.url());
+  const secondPhotoHash = await protectedSha256(`${data.origin}/api/v1/attachments/${firstTeacherWork.currentSubmission.attachmentIds[1]}/content`);
   if (secondPhotoHash !== data.photoOneHash) throw new Error(`teacher page 2 hash mismatch: ${secondPhotoHash}`);
   await page.screenshot({ path: `${data.photoEvidence}/06-teacher-page-2-1440.png`, fullPage: true });
+  await drawOnCurrentPage('mouse');
+  await page.screenshot({ path: `${data.m1Evidence}/05-page-2-annotated-1440.png`, fullPage: true });
+  await page.getByRole('button', { name: 'Показать страницу 1' }).click(); await page.getByText(/Графические пометки: 1 штр/).waitFor();
+  await page.getByRole('button', { name: 'Показать страницу 2' }).click(); await page.getByText(/Графические пометки: 1 штр/).waitFor();
 
-  await page.getByRole('link', { name: 'Мои курсы' }).first().click(); await openMaterials();
+  await page.getByRole('textbox', { name: 'Комментарий преподавателя' }).fill('Исправьте переход и сохраните вычисления.');
+  let reviewRequests = 0; expectedNetworkAbort = true;
+  await page.route('**/api/v1/problem-works/*/reviews/needs-revision', async route => {
+    reviewRequests++; const response = await route.fetch();
+    if (!response.ok()) throw new Error(`review returned ${response.status()}`);
+    await route.abort('connectionfailed');
+  });
+  await page.getByRole('button', { name: 'Вернуть на доработку' }).evaluate(button => { button.click(); button.click(); });
+  await page.getByRole('alert').getByText(/Не удалось подтвердить проверку/).waitFor();
+  await page.waitForTimeout(500); await page.unroute('**/api/v1/problem-works/*/reviews/needs-revision'); expectedNetworkAbort = false;
+  if (reviewRequests !== 1) throw new Error(`unknown review outcome replayed ${reviewRequests} times`);
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', { name: 'Обновить работу' }).click();
+  await page.getByRole('region', { name: 'Результат проверки' }).waitFor();
+  if (await page.getByText(/Есть несохранённые графические пометки/).count()) throw new Error('committed review kept a dirty draft');
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.getByRole('region', { name: 'Результат проверки' }).waitFor();
+  await page.getByText(/Графические пометки: 1 штр/).waitFor();
+  await page.getByRole('button', { name: 'Показать страницу 2' }).click(); await page.getByText(/Графические пометки: 1 штр/).waitFor();
+
+  await logout(); await login(data.studentUser);
+  await page.goto(`${data.origin}${assignmentPath}?tab=history`, { waitUntil: 'networkidle' });
+  await page.getByRole('article', { name: 'Попытка №1' }).waitFor();
+  await page.getByRole('article', { name: 'Попытка №1' }).getByText('Исправьте переход и сохраните вычисления.', { exact: true }).waitFor();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: `${data.m1Evidence}/06-student-feedback-390.png`, fullPage: true });
+  const revisionState = await protectedJson(`${assignmentPath}/workspace`);
+  if (revisionState.work.status !== 'NeedsRevision' || revisionState.history.reviews.length !== 1) throw new Error('student did not receive revision');
+  const immutableFirstReview = JSON.stringify(revisionState.history.reviews[0]);
+  const firstAnnotations = revisionState.history.reviews[0].annotations;
+  if (firstAnnotations.length !== 2 || firstAnnotations.some(item => item.strokes.length !== 1)) throw new Error('two-page annotations were not persisted');
+  if (Math.abs(firstAnnotations[0].strokes[0].points[0].x - .2) > .02 || Math.abs(firstAnnotations[0].strokes[0].points[0].y - .3) > .02)
+    throw new Error('normalized page-one coordinates changed');
+  if (!firstAnnotations[0].strokes[0].points.some(point => point.pressure > 0)) throw new Error('emulated pen pressure was not persisted');
+  const firstSubmission = revisionState.history.submissions.find(item => item.attemptNumber === 1);
+  const firstExpectedHashes = [data.photoTwoHash, data.photoOneHash];
+  for (let index = 0; index < firstSubmission.attachmentIds.length; index++)
+    if (await protectedSha256(`${data.origin}/api/v1/attachments/${firstSubmission.attachmentIds[index]}/content`) !== firstExpectedHashes[index])
+      throw new Error(`first attempt original changed at page ${index + 1}`);
+
+  await page.getByRole('tab', { name: 'Решение' }).click();
+  const revisionPicker = page.getByLabel('Сфотографировать / Выбрать фото');
+  await revisionPicker.setInputFiles([data.photoOne, data.photoTwo]);
+  await page.waitForFunction(() => document.querySelectorAll('.solution-form .attachment-pages [role="status"]').length === 2 &&
+    [...document.querySelectorAll('.solution-form .attachment-pages [role="status"]')].every(node => node.textContent === 'Фото загружено'));
+  await page.getByRole('textbox', { name: 'Пояснение к решению — необязательно' }).fill('Исправленная попытка с полным обоснованием.');
+  await page.getByRole('button', { name: 'Отправить решение' }).click();
+  await page.getByText('Решение отправлено и ожидает проверки преподавателем.', { exact: true }).waitFor();
+  const submittedRevision = await protectedJson(`${assignmentPath}/workspace`);
+  const secondSubmission = submittedRevision.history.submissions.find(item => item.attemptNumber === 2);
+  if (!secondSubmission || secondSubmission.attachmentIds.length !== 2) throw new Error('second attempt lost pages');
+
+  await page.setViewportSize({ width: 1440, height: 1050 }); await logout(); await login(data.teacherUser); await page.getByRole('link', { name: 'Проверка' }).click();
+  await page.getByRole('heading', { name: 'Проверка работ' }).waitFor();
+  await page.getByText('Попытка №2', { exact: true }).waitFor(); await page.getByText('2 страниц', { exact: true }).waitFor();
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.screenshot({ path: `${data.m1Evidence}/07-revision-queue-768.png`, fullPage: true });
+  await page.getByRole('link', { name: /Проверить:/ }).first().click();
+  await page.getByRole('heading', { name: 'Попытка №2', exact: true }).waitFor();
+  await page.getByRole('region', { name: 'Последнее замечание' }).getByText(/Исправьте переход/).waitFor();
+  await page.setViewportSize({ width: 1440, height: 1050 });
+  await page.getByRole('button', { name: 'Принять решение' }).click();
+  await page.getByText('Проверка сохранена. Состояние работы обновлено.', { exact: true }).waitFor();
+  await page.getByRole('region', { name: 'Результат проверки' }).getByLabel('Статус: Принята').waitFor();
+  await page.screenshot({ path: `${data.m1Evidence}/08-teacher-accepted-1440.png`, fullPage: true });
+  await page.getByRole('link', { name: 'К очереди проверок' }).click(); await page.getByText('Все работы проверены', { exact: true }).waitFor();
+
+  await logout(); await login(data.studentUser); await page.goto(`${data.origin}${assignmentPath}?tab=history`, { waitUntil: 'networkidle' });
+  await page.getByRole('article', { name: 'Попытка №2' }).getByLabel('Статус: Принята').waitFor();
+  await page.getByRole('article', { name: 'Попытка №2' }).waitFor();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: `${data.m1Evidence}/09-student-accepted-390.png`, fullPage: true });
+  const acceptedState = await protectedJson(`${assignmentPath}/workspace`);
+  if (acceptedState.work.status !== 'Accepted' || acceptedState.history.submissions.length !== 2 || acceptedState.history.reviews.length !== 2)
+    throw new Error('final immutable attempt chain is incomplete');
+  const preservedRevision = acceptedState.history.reviews.find(item => item.decision === 'NeedsRevision');
+  if (JSON.stringify(preservedRevision) !== immutableFirstReview) throw new Error('old review or annotations mutated');
+  const secondExpectedHashes = [data.photoOneHash, data.photoTwoHash];
+  for (let index = 0; index < secondSubmission.attachmentIds.length; index++)
+    if (await protectedSha256(`${data.origin}/api/v1/attachments/${secondSubmission.attachmentIds[index]}/content`) !== secondExpectedHashes[index])
+      throw new Error(`second attempt original changed at page ${index + 1}`);
+  if (JSON.stringify(acceptedState).includes('M1_TEACHER_ONLY')) throw new Error('teacher reference leaked into student work projection');
+
+  await logout(); await login(data.teacherUser); await openMaterials();
   let intercepted = 0;
   expectedNetworkAbort = true;
   await page.route('**/api/v1/teacher/courses/*/imports', async route => { intercepted++; await route.abort('connectionfailed'); });

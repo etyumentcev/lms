@@ -43,6 +43,12 @@ export function TeacherReviewPage({ problemWorkId, client }: { problemWorkId: st
   const title = data ? data.problem.title?.trim() || `Задача ${data.problem.order}` : 'Проверка решения';
   const reload = () => { if (dirty && !window.confirm('Пометки останутся локально. После обновления работа может оказаться уже проверенной. Обновить?')) return; focusAfterRefresh.current = true; setSelected(null); refresh(); };
   function selectAttempt(id: string | null) { focusViewer.current = true; setSelected(id); }
+  useEffect(() => {
+    if (!data || !current) return;
+    // A failed command keeps its draft while the authoritative work is still Submitted.
+    // Once the fresh version contains the final review, the server copy is authoritative.
+    if (data.status !== 'Submitted' || data.reviews.some(item => item.submissionId === current.id)) setPages({});
+  }, [data?.id, data?.version, data?.status, current?.id]);
   useEffect(() => { document.title = `${title} · Sapientum`; }, [title]);
   useEffect(() => {
     if (state.phase !== 'loading' && focusAfterRefresh.current) { document.getElementById('main-content')?.focus(); focusAfterRefresh.current = false; }

@@ -91,19 +91,19 @@ export function AnnotationPhoto({ api, id, page, state, change, editable = false
   }
   return <div className="annotation-photo">
     <div className="annotation-tools" role="group" aria-label="Инструменты фотографии">
-      {editable && <>{(['pen', 'eraser', 'hand'] as const).map(t => <button className="button button--secondary" type="button" key={t} aria-pressed={tool === t} onClick={() => setTool(t)}>{t === 'pen' ? 'Перо' : t === 'eraser' ? 'Ластик' : 'Рука'}</button>)}
-        <label>Цвет <input aria-label="Цвет пера" type="color" value={color} onChange={e => setColor(e.target.value)} /></label>
-        <label>Толщина <select aria-label="Толщина пера" value={width} onChange={e => setWidth(Number(e.target.value))}><option value={.0015}>Тонкая</option><option value={.003}>Средняя</option><option value={.006}>Толстая</option></select></label>
+      {editable && <>{(['pen', 'eraser', 'hand'] as const).map(t => <button className={`button button--secondary annotation-tool-${t}`} type="button" key={t} aria-pressed={tool === t} onClick={() => setTool(t)}>{t === 'pen' ? 'Перо' : t === 'eraser' ? 'Ластик' : 'Рука'}</button>)}
+        <label className="annotation-tool-color">Цвет <input aria-label="Цвет пера" type="color" value={color} onChange={e => setColor(e.target.value)} /></label>
+        <label className="annotation-tool-width">Толщина <select aria-label="Толщина пера" value={width} onChange={e => setWidth(Number(e.target.value))}><option value={.0015}>Тонкая</option><option value={.003}>Средняя</option><option value={.006}>Толстая</option></select></label>
         <button className="button button--secondary" type="button" disabled={!state.undo.length} onClick={() => change(undo(state))}>Отмена</button>
-        <button className="button button--secondary" type="button" disabled={!state.redo.length} onClick={() => change(redo(state))}>Повтор</button>
-        <label><input type="checkbox" checked={touchPen} onChange={e => setTouchPen(e.target.checked)} />Рисовать пальцем</label></>}
+        <button className="button button--secondary annotation-tool-redo" type="button" disabled={!state.redo.length} onClick={() => change(redo(state))}>Повтор</button>
+        <label className="annotation-tool-touch"><input type="checkbox" checked={touchPen} onChange={e => setTouchPen(e.target.checked)} />Рисовать пальцем</label></>}
       <button className="button button--secondary" type="button" aria-label="Уменьшить фото" disabled={state.zoom <= 1} onClick={() => change({ ...state, zoom: Math.max(1, state.zoom - .5) })}>−</button>
       <output aria-label="Масштаб">{Math.round(state.zoom * 100)}%</output>
       <button className="button button--secondary" type="button" aria-label="Увеличить фото" disabled={state.zoom >= 4} onClick={() => change({ ...state, zoom: Math.min(4, state.zoom + .5) })}>+</button>
       <button className="button button--secondary" type="button" onClick={() => change({ ...state, zoom: 1, x: 0, y: 0 })}>Вписать страницу</button>
-      <label><input type="checkbox" checked={visible} onChange={e => setVisible(e.target.checked)} />Показать пометки</label>
+      <label className="annotation-tool-visibility"><input type="checkbox" checked={visible} onChange={e => setVisible(e.target.checked)} />Показать пометки</label>
     </div>
-    <p className="small muted" role="status">Графические пометки: {state.strokes.length} штр. {notice}</p>
+    <p className="small muted annotation-status" role="status">Графические пометки: {state.strokes.length} штр. {notice}</p>
     <div className="annotation-viewport" tabIndex={0} aria-label="Просмотр фото" role="region" onKeyDown={e => {
       const delta = { ArrowLeft: [30, 0], ArrowRight: [-30, 0], ArrowUp: [0, 30], ArrowDown: [0, -30] }[e.key];
       if (delta && !e.altKey) { e.preventDefault(); change({ ...state, x: state.x + delta[0]!, y: state.y + delta[1]! }); }

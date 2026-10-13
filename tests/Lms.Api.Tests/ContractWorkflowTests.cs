@@ -64,7 +64,7 @@ public sealed partial class ContractApiTests
         Fields(queue.GetProperty("summary"), "total", "firstAttempts", "revisions", "averageWaitingSeconds", "byCourse");
         var item = Assert.Single(queue.GetProperty("items").EnumerateArray());
         Fields(item, "problemWorkId", "submissionId", "studentId", "studentDisplayName", "courseId", "courseTitle",
-            "lessonId", "lessonTitle", "groupId", "groupTitle", "problemId", "problemTitle", "attemptNumber", "submittedAt", "waitingDurationSeconds", "version");
+            "lessonId", "lessonTitle", "groupId", "groupTitle", "problemId", "problemTitle", "attemptNumber", "submittedAt", "attachmentCount", "waitingDurationSeconds", "version");
         Assert.Equal(first.GetProperty("submissionId").GetGuid(), item.GetProperty("submissionId").GetGuid());
         Assert.Equal(id, item.GetProperty("problemWorkId").GetGuid());
         var work = await Get(teacher, WorkPath(id));

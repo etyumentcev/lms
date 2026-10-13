@@ -156,7 +156,9 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         var evidence = Path.Combine(root.FullName, "codex/evidence/M1-06-CONTENT-PUBLICATION");
         var materialsEvidence = Path.Combine(root.FullName, "codex/evidence/M1-07-MATERIALS-REFERENCE");
         var photoEvidence = Path.Combine(root.FullName, "codex/evidence/M1-08-PROTECTED-MULTI-PHOTO");
+        var m1Evidence = Path.Combine(root.FullName, "codex/evidence/M1-09-TEACHER-REVIEW");
         Directory.CreateDirectory(evidence); Directory.CreateDirectory(materialsEvidence); Directory.CreateDirectory(photoEvidence);
+        Directory.CreateDirectory(m1Evidence);
         var photoOne = Path.Combine(root.FullName, "tests/fixtures/photos/a4-1.png");
         var photoTwo = Path.Combine(root.FullName, "tests/fixtures/photos/a4-2.png");
         var photoOneHash = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(photoOne))).ToLowerInvariant();
@@ -174,7 +176,7 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         {
             origin, organizationId = database.OrganizationId, teacherUser = database.TeacherUserName,
             studentUser = database.StudentUserName, password = ApiFactory.SecurePassword, courseTitle, evidence, materialsEvidence,
-            photoEvidence, photoOne, photoTwo, photoOneHash, photoTwoHash,
+            photoEvidence, m1Evidence, photoOne, photoTwo, photoOneHash, photoTwoHash,
             invalidZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-invalid.zip"),
             validZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad.zip"),
             versionTwoZip = Path.Combine(root.FullName, "tests/fixtures/content/m1-06-olympiad-v2.zip")
@@ -193,31 +195,45 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
         Assert.Contains("M1_TEACHER_ONLY_SOLUTION_v1", v1Artifact.TeacherArtifactJson);
         Assert.DoesNotContain("M1_TEACHER_ONLY", v1Artifact.StudentArtifactJson);
         Assert.Equal("Published", (await verify.Set<CourseCatalogRecord>().SingleAsync(x => x.CourseId == courseId)).State);
-        var submittedWork = await verify.Works.Include(x => x.Submissions).SingleAsync();
-        var submission = Assert.Single(submittedWork.Submissions);
-        Assert.Equal(ProblemWorkStatus.Submitted, submittedWork.Status);
-        Assert.Equal(2, submission.AttachmentIds.Count);
-        var submittedAttachments = await verify.StoredAttachments
-            .Where(x => submission.AttachmentIds.Contains(x.Id)).ToDictionaryAsync(x => x.Id);
-        Assert.Equal(2, submittedAttachments.Count);
-        var expectedPhotos = new[] { photoTwo, photoOne };
+        var submittedWork = await verify.Works.Include(x => x.Submissions).Include(x => x.Reviews).SingleAsync();
+        var submissions = submittedWork.Submissions.OrderBy(x => x.AttemptNumber).ToArray();
+        Assert.Equal(ProblemWorkStatus.Accepted, submittedWork.Status);
+        Assert.Equal(2, submissions.Length);
+        Assert.Equal(2, submittedWork.Reviews.Count);
+        var revision = submittedWork.Reviews.Single(x => x.Decision == ReviewDecision.NeedsRevision);
+        var accepted = submittedWork.Reviews.Single(x => x.Decision == ReviewDecision.Accepted);
+        Assert.Equal(submissions[0].Id, revision.SubmissionId);
+        Assert.Equal(submissions[1].Id, accepted.SubmissionId);
+        Assert.Equal(2, revision.Annotations.Count);
+        Assert.All(revision.Annotations, annotation => Assert.Single(annotation.Strokes));
+        Assert.Empty(accepted.Annotations);
         var privateRoot = Path.Combine(database.StorageRoot, "m1-07-attachments");
-        for (var index = 0; index < expectedPhotos.Length; index++)
+        var expectedAttempts = new[] { new[] { photoTwo, photoOne }, new[] { photoOne, photoTwo } };
+        for (var attempt = 0; attempt < submissions.Length; attempt++)
         {
-            var stored = submittedAttachments[submission.AttachmentIds[index]];
-            var expectedBytes = await File.ReadAllBytesAsync(expectedPhotos[index]);
-            var storedBytes = await File.ReadAllBytesAsync(Path.Combine(privateRoot, stored.StorageKey));
-            Assert.Equal(expectedBytes, storedBytes);
-            Assert.Equal(SHA256.HashData(expectedBytes), SHA256.HashData(storedBytes));
-            Assert.Equal(Path.GetFileName(expectedPhotos[index]), stored.FileName);
-            Assert.Equal(submission.Id, stored.SubmissionId);
+            var submission = submissions[attempt];
+            Assert.Equal(2, submission.AttachmentIds.Count);
+            var submittedAttachments = await verify.StoredAttachments
+                .Where(x => submission.AttachmentIds.Contains(x.Id)).ToDictionaryAsync(x => x.Id);
+            Assert.Equal(2, submittedAttachments.Count);
+            for (var index = 0; index < expectedAttempts[attempt].Length; index++)
+            {
+                var stored = submittedAttachments[submission.AttachmentIds[index]];
+                var expectedBytes = await File.ReadAllBytesAsync(expectedAttempts[attempt][index]);
+                var storedBytes = await File.ReadAllBytesAsync(Path.Combine(privateRoot, stored.StorageKey));
+                Assert.Equal(expectedBytes, storedBytes);
+                Assert.Equal(SHA256.HashData(expectedBytes), SHA256.HashData(storedBytes));
+                Assert.Equal(Path.GetFileName(expectedAttempts[attempt][index]), stored.FileName);
+                Assert.Equal(submission.Id, stored.SubmissionId);
+            }
         }
         var allUploads = await verify.StoredAttachments.ToListAsync();
-        Assert.Equal(3, allUploads.Count); Assert.Single(allUploads, x => x.Deleted);
-        Assert.Equal(2, allUploads.Count(x => x.SubmissionId == submission.Id));
+        Assert.Equal(5, allUploads.Count); Assert.Single(allUploads, x => x.Deleted);
+        Assert.Equal(4, allUploads.Count(x => x.SubmissionId != null));
         Assert.Equal(7, Directory.GetFiles(evidence, "*.png").Length);
         Assert.Equal(7, Directory.GetFiles(materialsEvidence, "*.png").Length);
         Assert.Equal(6, Directory.GetFiles(photoEvidence, "*.png").Length);
+        Assert.Equal(9, Directory.GetFiles(m1Evidence, "*.png").Length);
         await File.WriteAllTextAsync(Path.Combine(evidence, "test-summary.json"), JsonSerializer.Serialize(new
         {
             passed = true, transport = "HTTPS", browser = "Chromium", imports = 3, versions = 2,
@@ -239,6 +255,15 @@ public sealed class ContentPublicationBrowserTests(ApiPostgresFixture fixture) :
             sha256 = new[] { photoTwoHash, photoOneHash }, originalBytesMatch = true, teacherProtectedRead = true,
             reloadRestored = true, lostAcknowledgementCheckedByGet = true, automaticReplay = false,
             doubleClickRequests = 1, screenshots = 6
+        }, new JsonSerializerOptions { WriteIndented = true }));
+        await File.WriteAllTextAsync(Path.Combine(m1Evidence, "test-summary.json"), JsonSerializer.Serialize(new
+        {
+            passed = true, transport = "HTTPS", browser = "Chromium", productionReact = true,
+            normalLogin = true, viewports = new[] { 390, 768, 1440 }, queuePageCount = 2,
+            annotations = new[] { "pen", "mouse" }, normalizedCoordinates = true, penPressure = true,
+            fullscreenA4 = true, protectedThumbnails = true, unknownResultAutoReplay = false,
+            needsRevisionRequests = 1, submissions = 2, reviews = 2, finalStatus = "Accepted",
+            immutableReview = true, originalBytesMatch = true, studentTeacherDataLeak = false, screenshots = 9
         }, new JsonSerializerOptions { WriteIndented = true }));
     }
 }

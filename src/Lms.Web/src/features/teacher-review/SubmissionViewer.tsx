@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Submission } from '../../api/contracts/lessonWorkspace';
 import type { AttachmentApi } from '../../components/attachments/api';
+import { AttachmentPreview } from '../../components/attachments/AttachmentPreview';
 import { AnnotationPhoto } from '../../components/annotations/AnnotationPhoto';
 import { newPage, type AnnotatedAttachment, type PageState } from '../../components/annotations/model';
 import { MarkdownContent } from '../../components/MarkdownContent';
@@ -53,8 +54,13 @@ export function SubmissionViewer({ submission, api, annotations = [], editable =
         <Button variant="secondary" disabled={page === ids.length - 1} onClick={() => move(page + 1)}>Следующая</Button>
         <button className="button button--secondary" type="button" ref={fullButton} onClick={() => void fullscreen()}>{full ? 'Выйти из полного экрана' : 'На весь экран'}</button>
       </nav>
-      <AnnotationPhoto key={id} api={api} id={id} page={page + 1} state={state} editable={editable}
-        change={next => (changePages ?? setLocal)({ ...pages, [id]: next })} />
+      <div className="review-viewer-body">
+        <ol className="review-thumbnails" aria-label="Миниатюры страниц">{ids.map((attachmentId, index) => <li key={attachmentId}>
+          <AttachmentPreview api={api} id={attachmentId} page={index + 1} thumbnail selected={index === page} onSelect={() => move(index)} />
+        </li>)}</ol>
+        <AnnotationPhoto key={id} api={api} id={id} page={page + 1} state={state} editable={editable}
+          change={next => (changePages ?? setLocal)({ ...pages, [id]: next })} />
+      </div>
     </div> : <p className="muted">Фотографий в этой попытке нет.</p>}
   </article>;
 }

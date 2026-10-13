@@ -11,6 +11,7 @@ public sealed class QueueRow
     public Guid ProblemWorkId { get; set; }
     public Guid SubmissionId { get; set; }
     public Guid StudentId { get; set; }
+    public string? StudentDisplayName { get; set; }
     public string CourseId { get; set; } = null!;
     public string? CourseTitle { get; set; }
     public string LessonId { get; set; } = null!;
@@ -20,6 +21,7 @@ public sealed class QueueRow
     public string? ProblemTitle { get; set; }
     public int AttemptNumber { get; set; }
     public DateTimeOffset SubmittedAt { get; set; }
+    public int AttachmentCount { get; set; }
     public long Version { get; set; }
 }
 
@@ -34,10 +36,16 @@ public sealed partial class PostgresWorkspaceQueries
         await using var transaction = await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead, ct);
         // Exact version join only. LEFT JOIN keeps submitted work visible even if provisioning is incomplete.
         var rows = db.Database.SqlQuery<QueueRow>($"""
-            SELECT w."Id" AS "ProblemWorkId", s."Id" AS "SubmissionId", a."StudentId", a."CourseId",
+            SELECT w."Id" AS "ProblemWorkId", s."Id" AS "SubmissionId", a."StudentId",
+                (SELECT profile."DisplayName"
+                 FROM "AssignmentScopes" profile_scope
+                 JOIN "OrganizationParticipantProfiles" profile
+                   ON profile."OrganizationId"=profile_scope."OrganizationId" AND profile."ActorId"=a."StudentId"
+                 WHERE profile_scope."AssignmentId"=a."Id" LIMIT 1) AS "StudentDisplayName",
+                a."CourseId",
                 v."ContentJson"->>'title' AS "CourseTitle", a."LessonId", lesson.data->>'title' AS "LessonTitle",
                 e."GroupId", a."ProblemId", problem.data->>'title' AS "ProblemTitle",
-                s."AttemptNumber", s."SubmittedAt", w."Version"
+                s."AttemptNumber", s."SubmittedAt", cardinality(s."AttachmentIds") AS "AttachmentCount", w."Version"
             FROM "ProblemWorks" w
             JOIN "ProblemAssignments" a ON a."Id" = w."ProblemAssignmentId"
             JOIN "Submissions" s ON s."ProblemWorkId" = w."Id"
@@ -70,9 +78,10 @@ public sealed partial class PostgresWorkspaceQueries
         if (query.AttemptKind == "revision") rows = rows.Where(r => r.AttemptNumber > 1);
         if (!string.IsNullOrWhiteSpace(query.Search))
         {
-            // Literal substring search; escape wildcard syntax. Profile names are unavailable in C2.
+            // Literal substring search; escape wildcard syntax. Profile comes only from the assignment immutable organization scope.
             var search = "%" + query.Search.Trim().Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_") + "%";
             rows = rows.Where(r => EF.Functions.ILike(r.CourseId, search, "\\") ||
+                EF.Functions.ILike(r.StudentDisplayName!, search, "\\") ||
                 EF.Functions.ILike(r.CourseTitle!, search, "\\") || EF.Functions.ILike(r.LessonId, search, "\\") ||
                 EF.Functions.ILike(r.LessonTitle!, search, "\\") || EF.Functions.ILike(r.ProblemId, search, "\\") ||
                 EF.Functions.ILike(r.ProblemTitle!, search, "\\") || EF.Functions.ILike(r.StudentId.ToString(), search, "\\"));
@@ -85,9 +94,10 @@ public sealed partial class PostgresWorkspaceQueries
             .Select(g => new CourseQueueCountDto(g.Key, g.Min(r => r.CourseTitle), g.Count())).ToArrayAsync(ct);
         var page = await rows.OrderBy(r => r.SubmittedAt).ThenBy(r => r.ProblemWorkId)
             .Skip((query.Page - 1) * query.PageSize).Take(query.PageSize).ToArrayAsync(ct);
-        return new(page.Select(r => new ReviewQueueItemDto(r.ProblemWorkId, r.SubmissionId, r.StudentId, null,
+        return new(page.Select(r => new ReviewQueueItemDto(r.ProblemWorkId, r.SubmissionId, r.StudentId, r.StudentDisplayName,
                 r.CourseId, r.CourseTitle, r.LessonId, r.LessonTitle, r.GroupId, null, r.ProblemId, r.ProblemTitle,
-                r.AttemptNumber, r.SubmittedAt, Math.Max(0, (now - r.SubmittedAt).TotalSeconds), r.Version)).ToArray(),
+                r.AttemptNumber, r.SubmittedAt, r.AttachmentCount,
+                Math.Max(0, (now - r.SubmittedAt).TotalSeconds), r.Version)).ToArray(),
             query.Page, query.PageSize, total, new(total, first, total - first, average, byCourse));
     }
 }

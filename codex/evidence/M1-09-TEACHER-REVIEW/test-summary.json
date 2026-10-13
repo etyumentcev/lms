@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "productionReact": true,
+  "normalLogin": true,
+  "viewports": [
+    390,
+    768,
+    1440
+  ],
+  "queuePageCount": 2,
+  "annotations": [
+    "pen",
+    "mouse"
+  ],
+  "normalizedCoordinates": true,
+  "penPressure": true,
+  "fullscreenA4": true,
+  "protectedThumbnails": true,
+  "unknownResultAutoReplay": false,
+  "needsRevisionRequests": 1,
+  "submissions": 2,
+  "reviews": 2,
+  "finalStatus": "Accepted",
+  "immutableReview": true,
+  "originalBytesMatch": true,
+  "studentTeacherDataLeak": false,
+  "screenshots": 9
+}

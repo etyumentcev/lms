@@ -9,8 +9,10 @@
 .annotation-image canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .annotation-original { position: absolute; top: 100%; left: 0; z-index: 1; white-space: nowrap; }
 .annotation-fullscreen { position: fixed; inset: 0; z-index: 10000; background: white; padding: .6rem; overflow: auto; }
-.annotation-fullscreen { --annotation-height: calc(100dvh - 230px); }
+.annotation-fullscreen { --annotation-height: calc(100dvh - 180px); }
 .annotation-fullscreen .annotation-photo > p:last-child { display: none; }
+.annotation-fullscreen :is(.annotation-tool-hand,.annotation-tool-color,.annotation-tool-width,.annotation-tool-redo,.annotation-tool-touch,.annotation-tool-visibility,.annotation-status,.annotation-original) { display: none; }
+.annotation-fullscreen .review-thumbnails { max-height: calc(100dvh - 70px); }
 @media (max-width: 400px) { .annotation-tools { font-size: .85rem; } .annotation-fullscreen { padding: .25rem; } }
 
 .annotation-tools .button { padding: .4rem .65rem; font-size: .85rem; }

@@ -10,7 +10,7 @@ export function AttachmentImage({ url, page, onError }: { url: string; page: num
   </a>;
 }
 /** Protected original, using the U1 content adapter and revocable browser object URLs. */
-export function AttachmentPreview({ api, id, page, annotation = false }: { api: AttachmentApi; id: string; page: number; annotation?: boolean }) {
+export function AttachmentPreview({ api, id, page, annotation = false, thumbnail = false, selected = false, onSelect }: { api: AttachmentApi; id: string; page: number; annotation?: boolean; thumbnail?: boolean; selected?: boolean; onSelect?: () => void }) {
   const [result, setResult] = useState<{ url?: string; failed?: string }>({});
   const [retry, setRetry] = useState(0);
   useEffect(() => {
@@ -24,7 +24,11 @@ export function AttachmentPreview({ api, id, page, annotation = false }: { api: 
         ? 'Изображение не найдено или недоступно.' : 'Не удалось загрузить изображение.' }); });
     return () => { controller.abort(); if (url) revokeSessionObjectUrl(url); };
   }, [api, id, retry]);
-  return result.url ? annotation ? <><img src={result.url} alt={`Страница ${page} — фото решения`} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /><a className="annotation-original" href={result.url} target="_blank" rel="noopener noreferrer" aria-label={`Открыть страницу ${page} в полном размере (новая вкладка)`}>Открыть оригинал</a></> : <AttachmentImage url={result.url} page={page} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /> : result.failed
+  return result.url ? thumbnail ? <button type="button" className="review-thumbnail" aria-pressed={selected}
+    aria-label={`Показать страницу ${page}`} onClick={onSelect}>
+    <img src={result.url} alt={`Миниатюра страницы ${page}`} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} />
+    <span>Страница {page}</span>
+  </button> : annotation ? <><img src={result.url} alt={`Страница ${page} — фото решения`} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /><a className="annotation-original" href={result.url} target="_blank" rel="noopener noreferrer" aria-label={`Открыть страницу ${page} в полном размере (новая вкладка)`}>Открыть оригинал</a></> : <AttachmentImage url={result.url} page={page} onError={() => setResult({ failed: 'Не удалось открыть изображение.' })} /> : result.failed
     ? <><p role="alert">Не удалось загрузить страницу {page}. {result.failed}</p><Button variant="secondary" onClick={() => setRetry(x => x + 1)}>Повторить предпросмотр страницы {page}</Button></>
     : <LoadingSkeleton label={`Загрузка страницы ${page}`} rows={2} />;
 }

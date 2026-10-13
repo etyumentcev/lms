@@ -42,7 +42,8 @@ public sealed record ReviewQueueQuery(string? CourseId = null, string? GroupId =
     string AttemptKind = "all", string? Search = null, int Page = 1, int PageSize = 50);
 public sealed record ReviewQueueItemDto(Guid ProblemWorkId, Guid SubmissionId, Guid StudentId, string? StudentDisplayName,
     string CourseId, string? CourseTitle, string LessonId, string? LessonTitle, string? GroupId, string? GroupTitle,
-    string ProblemId, string? ProblemTitle, int AttemptNumber, DateTimeOffset SubmittedAt, double WaitingDurationSeconds, long Version);
+    string ProblemId, string? ProblemTitle, int AttemptNumber, DateTimeOffset SubmittedAt, int AttachmentCount,
+    double WaitingDurationSeconds, long Version);
 public sealed record CourseQueueCountDto(string CourseId, string? CourseTitle, int Count);
 public sealed record ReviewQueueSummaryDto(int Total, int FirstAttempts, int Revisions, double? AverageWaitingSeconds,
     IReadOnlyList<CourseQueueCountDto> ByCourse);

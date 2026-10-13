@@ -26,7 +26,7 @@ function Filters({ query, apply, reset }: { query: URLSearchParams; apply: (valu
   }}>
     <label className="queue-search">Поиск<input name="search" type="search" maxLength={200} defaultValue={query.get('search') ?? ''}
       placeholder="Задача, курс, урок или UUID ученика" aria-describedby="queue-search-help" /></label>
-    <p id="queue-search-help" className="muted small queue-search">Поиск по названиям и ID. Имена учеников пока недоступны.</p>
+    <p id="queue-search-help" className="muted small queue-search">Поиск по названиям, именам учеников и ID.</p>
     {fields.map(([key, label]) => <label key={key}>{label}<input name={key} defaultValue={query.get(key) ?? ''}
       pattern={key === 'studentId' ? uuidPattern : undefined} /></label>)}
     <label>Попытки<select aria-label="Попытки" name="attemptKind" defaultValue={query.get('attemptKind') ?? 'all'}>
@@ -98,6 +98,7 @@ export function ReviewQueuePage({ client }: { client: ApiClient }) {
                   {item.groupId && <> · {item.groupTitle?.trim() || item.groupId}</>}</p>
                 <div className="queue-metadata"><strong>Попытка №{item.attemptNumber}</strong>
                   <StatusBadge status="Submitted" />
+                  <span>{item.attachmentCount === 1 ? '1 страница' : `${item.attachmentCount} страниц`}</span>
                   <time dateTime={item.submittedAt}>{new Intl.DateTimeFormat('ru', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(item.submittedAt))}</time>
                   <span>Ожидает {waitingTime(item.waitingDurationSeconds)}</span></div>
               </div><Link className="button button--primary" aria-label={`Проверить: ${student} — ${problem}`}

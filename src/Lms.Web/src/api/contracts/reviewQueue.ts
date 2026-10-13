@@ -4,7 +4,7 @@ export type ReviewQueueItem = {
   problemWorkId: string; submissionId: string; studentId: string; studentDisplayName: string | null;
   courseId: string; courseTitle: string | null; lessonId: string; lessonTitle: string | null;
   groupId: string | null; groupTitle: string | null; problemId: string; problemTitle: string | null;
-  attemptNumber: number; submittedAt: string; waitingDurationSeconds: number; version: number;
+  attemptNumber: number; submittedAt: string; attachmentCount: number; waitingDurationSeconds: number; version: number;
 };
 export type ReviewQueue = {
   items: ReviewQueueItem[]; page: number; pageSize: number; total: number;
@@ -16,7 +16,7 @@ const seconds = (value: unknown) => typeof value === 'number' && Number.isFinite
 const item = object({ problemWorkId: string, submissionId: string, studentId: string, studentDisplayName: nullable(string),
   courseId: string, courseTitle: nullable(string), lessonId: string, lessonTitle: nullable(string),
   groupId: nullable(string), groupTitle: nullable(string), problemId: string, problemTitle: nullable(string),
-  attemptNumber: positive, submittedAt: timestamp, waitingDurationSeconds: seconds, version: positive });
+  attemptNumber: positive, submittedAt: timestamp, attachmentCount: count, waitingDurationSeconds: seconds, version: positive });
 const queue = object({ items: array(item), page: positive, pageSize: positive, total: count,
   summary: object({ total: count, firstAttempts: count, revisions: count, averageWaitingSeconds: nullable(seconds),
     byCourse: array(object({ courseId: string, courseTitle: nullable(string), count })) }) });
