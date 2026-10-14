@@ -1,7 +1,51 @@
+# Local editor and OS state
+.obsidian/
+.idea/
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET build, publish and package artifacts
 **/bin/
 **/obj/
+**/publish/
+artifacts/
 TestResults/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.nupkg
+*.snupkg
 
+# JavaScript package/build artifacts
+**/node_modules/
+**/dist/
+**/coverage/
+.pnpm-store/
+*.tsbuildinfo
+
+# Python caches and local environments
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+
+# Local configuration and secrets
 .env
 .env.*
 !.env.example
