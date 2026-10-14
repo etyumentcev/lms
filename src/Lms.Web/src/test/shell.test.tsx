@@ -25,10 +25,11 @@ describe('Shared shell', () => {
     expect(nav.getByRole('link', { name: role === 'Student' ? 'Текущие задачи' : 'Проверка' })).toBeInTheDocument();
     expect(nav.queryByRole('link', { name: role === 'Student' ? 'Проверка' : 'Текущие задачи' })).not.toBeInTheDocument();
   });
-  it('changes demo menu role without claiming authentication', async () => {
+  it('does not expose the former demo navigation fallback', () => {
     renderApp();
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Навигация' }), 'Teacher');
-    expect(within(screen.getByRole('navigation', { name: 'Основная навигация' })).getByRole('link', { name: 'Проверка' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Страница не найдена' })).toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Навигация' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Основная навигация' })).not.toBeInTheDocument();
   });
   it('keeps the same context DOM and input state when toggled', async () => {
     render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><AppShell role="Teacher" context={<label>Заметка<input defaultValue="Контекст сохранён" /></label>}>
@@ -43,7 +44,8 @@ describe('Shared shell', () => {
     expect(screen.getByRole('main').compareDocumentPosition(screen.getByRole('complementary')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
   it('closes compact navigation with Escape and restores toggle focus', async () => {
-    renderApp();
+    render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><AppShell role="Student" context={null}>
+      <h1>Workspace</h1></AppShell></MemoryRouter>);
     const menu = screen.getByRole('button', { name: 'Меню' });
     await userEvent.click(menu);
     expect(menu).toHaveAttribute('aria-expanded', 'true');
@@ -84,16 +86,14 @@ describe('Routes inside shell', () => {
     expect(screen.getByRole('status', { name: 'Загрузка задач' })).toBeInTheDocument();
     expect(screen.getByRole('complementary')).toBeInTheDocument();
   });
-  it('navigates from the demo and focuses main content', async () => {
-    renderApp();
-    await userEvent.click(screen.getByRole('link', { name: /Урок.*Задачи и контекст урока/ }));
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Занятие');
-    expect(screen.getByRole('main')).toHaveFocus();
-    expect(within(screen.getByRole('navigation', { name: 'Основная навигация' })).getByRole('link', { name: 'Мои курсы' })).toHaveAttribute('aria-current', 'page');
+  it('keeps the attachment harness on the DEV-only route', () => {
+    renderApp('/dev/attachments');
+    expect(screen.getByRole('heading', { level: 1, name: 'Тест загрузки фотографий · U1' })).toBeInTheDocument();
   });
-  it('keeps unknown routes in the shell', () => {
+  it('fails closed for unknown routes without composing the demo shell', () => {
     renderApp('/missing');
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Страница не найдена');
-    expect(screen.getByRole('complementary')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Страница не найдена' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'На главную' })).toHaveAttribute('href', '/');
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument();
   });
 });

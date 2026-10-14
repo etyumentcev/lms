@@ -1,66 +1,221 @@
-name: lms-local
+name: lms-m1-local
+
 x-api-environment: &api-environment
   ASPNETCORE_ENVIRONMENT: Development
-  ConnectionStrings__Lms: Host=postgres;Port=5432;Database=lms;Username=lms_local;Password=lms_local_only
+  ASPNETCORE_URLS: https://+:8443
+  Kestrel__Certificates__Default__Path: /run/lms-secrets/api.crt
+  Kestrel__Certificates__Default__KeyPath: /run/lms-secrets/api.key
+  SSL_CERT_FILE: /run/lms-secrets/ca.crt
   Attachments__Root: /var/lib/lms/attachments
   Attachments__MaxBytes: "10485760"
-  LocalDemo__Enabled: "true"
-  # Public local-only defaults. Never use this configuration or signing key for deployment.
-  LocalDemo__SigningKey: local-compose-only-signing-key-never-use-in-production-2026
+  TeacherRevocation__Enabled: "true"
+  TeacherRevocation__AllowedOrigin: https://localhost:8443
+  TeacherRevocation__SigningKeyPath: /run/lms-secrets/component-signing.pem
+  TeacherRevocation__Issuer: sapientum-local-component
+  TeacherRevocation__Audience: sapientum-local-component
+  TeacherRevocation__SyntheticDevelopmentClock: "true"
+  # The accepted M1 stack uses the complete owner-backed schema. A least-privilege
+  # deployment profile for every M1 administrative writer remains a separate gate.
+  TeacherRevocation__RestrictedDatabaseCapabilities: "false"
+  TeacherRevocation__DataProtectionKeysPath: /var/lib/lms/data-protection
+  OrganizationBootstrap__Enabled: "true"
+  OrganizationBootstrap__ChallengeKeyVersion: "1"
+  Authentication__Authority: https://identity:8443/realms/sapientum-local
+  Authentication__Audience: sapientum-local
+  Authentication__PlatformAudience: sapientum-platform
+  # Pinned importer dependencies are present, but B07b also requires a qualified
+  # user-systemd/cgroup-v2/bubblewrap control plane. Standard Compose fails closed;
+  # no privileged or unisolated fallback is enabled by this profile.
+  ContentImport__RepositoryRoot: /opt/lms-source
+  ContentImport__PythonPath: /opt/lms-python/bin/python
+  ContentImport__NodePath: /usr/local/bin/node
+  ContentImport__KatexPath: /opt/lms-source/src/Lms.Web/node_modules/katex
+  ContentImport__StorageRoot: /var/lib/lms/content-import
+  ContentImport__MaxZipBytes: "20000000"
+
+x-api-volumes: &api-volumes
+  - lms-secrets:/run/lms-secrets:ro
+  - lms-attachments:/var/lib/lms/attachments
+  - lms-content:/var/lib/lms/content-import
+  - lms-data-protection:/var/lib/lms/data-protection
+
 services:
+  local-init:
+    build:
+      context: .
+      dockerfile: docker/local-init/Dockerfile
+    volumes:
+      - lms-secrets:/run/lms-secrets
+    restart: "no"
+    network_mode: none
+
   postgres:
     image: postgres:17.6-alpine
     environment:
       POSTGRES_DB: lms
-      POSTGRES_USER: lms_local
-      POSTGRES_PASSWORD: lms_local_only
+      POSTGRES_USER: lms_owner
+      POSTGRES_PASSWORD_FILE: /run/lms-secrets/postgres-password
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - lms-secrets:/run/lms-secrets:ro
+    depends_on:
+      local-init:
+        condition: service_completed_successfully
     healthcheck:
-      test: [CMD-SHELL, "pg_isready -U lms_local -d lms"]
+      test: [CMD-SHELL, "pg_isready -U lms_owner -d lms"]
       interval: 3s
       timeout: 3s
       retries: 30
-  migrate:
-    build:
-      context: .
-      dockerfile: src/Lms.Api/Dockerfile
-    environment: *api-environment
-    command: ["--migrate-only"]
+    restart: unless-stopped
+    networks: [backend]
+
+  identity-db-init:
+    image: postgres:17.6-alpine
+    entrypoint: [/bin/sh, /opt/lms/init-identity-db.sh]
+    environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGUSER: lms_owner
+      PGDATABASE: postgres
+    volumes:
+      - ./docker/init-identity-db.sh:/opt/lms/init-identity-db.sh:ro
+      - lms-secrets:/run/lms-secrets:ro
     depends_on:
       postgres:
         condition: service_healthy
     restart: "no"
-  api:
+    networks: [backend]
+
+  identity:
+    image: quay.io/keycloak/keycloak:26.8.1
+    entrypoint: [/bin/bash, -ec]
+    command:
+      - |
+        export KC_DB_PASSWORD="$$(cat /run/lms-secrets/keycloak-db-password)"
+        export KC_BOOTSTRAP_ADMIN_PASSWORD="$$(cat /run/lms-secrets/keycloak-admin-password)"
+        exec /opt/keycloak/bin/kc.sh start --import-realm \
+          --hostname=https://identity:8443 \
+          --http-enabled=false \
+          --https-certificate-file=/run/lms-secrets/identity.crt \
+          --https-certificate-key-file=/run/lms-secrets/identity.key
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_BOOTSTRAP_ADMIN_USERNAME: local-admin
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "false"
     volumes:
-      - lms-attachments:/var/lib/lms/attachments
+      - lms-secrets:/run/lms-secrets:ro
+      - lms-secrets:/opt/keycloak/data/import:ro
+    depends_on:
+      identity-db-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - /bin/bash
+        - -ec
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/8443
+      start_period: 20s
+      interval: 5s
+      timeout: 3s
+      retries: 60
+    restart: unless-stopped
+    networks: [frontend, backend]
+
+  migrate:
     build:
       context: .
       dockerfile: src/Lms.Api/Dockerfile
+    entrypoint: [/bin/sh, -ec]
+    command:
+      - |
+        export ConnectionStrings__Lms="Host=postgres;Port=5432;Database=lms;Username=lms_owner;Password=$$(cat /run/lms-secrets/postgres-password);Include Error Detail=false"
+        export OrganizationBootstrap__ChallengeKey="$$(cat /run/lms-secrets/challenge-key.b64)"
+        exec dotnet Lms.Api.dll --migrate-only
     environment: *api-environment
+    volumes: *api-volumes
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    networks: [backend]
+
+  api:
+    build:
+      context: .
+      dockerfile: src/Lms.Api/Dockerfile
+    entrypoint: [/bin/sh, -ec]
+    command:
+      - |
+        export ConnectionStrings__Lms="Host=postgres;Port=5432;Database=lms;Username=lms_owner;Password=$$(cat /run/lms-secrets/postgres-password);Include Error Detail=false"
+        export OrganizationBootstrap__ChallengeKey="$$(cat /run/lms-secrets/challenge-key.b64)"
+        exec dotnet Lms.Api.dll
+    environment: *api-environment
+    volumes: *api-volumes
     depends_on:
       migrate:
         condition: service_completed_successfully
+      identity:
+        condition: service_healthy
     healthcheck:
-      test: [CMD, curl, --fail, --silent, http://localhost:8080/api/health]
-      interval: 3s
-      timeout: 3s
-      retries: 30
+      test:
+        - CMD-SHELL
+        - >-
+          curl --fail --silent --cacert /run/lms-secrets/ca.crt https://api:8443/api/health >/dev/null
+          && test -r /run/lms-secrets/component-signing.pem
+          && test -w /var/lib/lms/attachments
+          && test -w /var/lib/lms/content-import
+          && test -w /var/lib/lms/data-protection
+      interval: 5s
+      timeout: 5s
+      retries: 40
+    restart: unless-stopped
+    networks: [frontend, backend]
+
   web:
     build:
       context: .
       dockerfile: src/Lms.Web/Dockerfile
-      target: local-development
+      target: production
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:8443:443"
+    volumes:
+      - lms-secrets:/run/lms-secrets:ro
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: [CMD, wget, -q, --spider, http://127.0.0.1/health]
-      interval: 3s
+      test: [CMD, wget, --no-check-certificate, -q, --spider, https://127.0.0.1/health]
+      interval: 5s
       timeout: 3s
-      retries: 20
+      retries: 30
+    restart: unless-stopped
+    networks: [frontend]
+
+  operator-token:
+    profiles: [tools]
+    build:
+      context: .
+      dockerfile: docker/operator-token/Dockerfile
+    volumes:
+      - lms-secrets:/run/lms-secrets:ro
+    depends_on:
+      identity:
+        condition: service_healthy
+    restart: "no"
+    networks: [frontend]
+
 volumes:
   postgres-data:
   lms-attachments:
+  lms-content:
+  lms-data-protection:
+  lms-secrets:
+
+networks:
+  frontend:
+  backend:
+    internal: true

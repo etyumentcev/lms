@@ -5,6 +5,7 @@ using Lms.Application;
 using Lms.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.RateLimiting;
 
@@ -30,7 +31,15 @@ internal static class TeacherRevocationComposition
         builder.Services.AddScoped<IDbContextFactory<LmsDbContext>, RequestDbContextFactory>();
         builder.Services.AddScoped<IProgressHistoryQueries, PostgresProgressHistoryQueries>();
         builder.Services.AddScoped<PostgresTeacherCommands>();
-        builder.Services.AddDataProtection();
+        var dataProtection = builder.Services.AddDataProtection();
+        var dataProtectionPath = builder.Configuration["TeacherRevocation:DataProtectionKeysPath"];
+        if (!string.IsNullOrWhiteSpace(dataProtectionPath))
+        {
+            if (!Path.IsPathFullyQualified(dataProtectionPath))
+                throw new InvalidOperationException("TeacherRevocation:DataProtectionKeysPath must be an absolute path.");
+            dataProtection.PersistKeysToFileSystem(new DirectoryInfo(dataProtectionPath))
+                .SetApplicationName("Sapientum.Lms");
+        }
         builder.Services.AddTeacherRevocationBrowserProtection();
 
         var bootstrapEnabled = builder.Configuration.GetValue<bool>("OrganizationBootstrap:Enabled");
@@ -70,12 +79,15 @@ internal static class TeacherRevocationComposition
             builder.Services.AddAuthentication().AddJwtBearer(OrganizationBootstrapHttp.PlatformBearerScheme, options =>
             {
                 options.Authority = builder.Configuration["Authentication:Authority"];
-                options.Audience = builder.Configuration["Authentication:PlatformAudience"] ?? OrganizationBootstrapHttp.PlatformAudience;
+                var platformAudience = builder.Configuration["Authentication:PlatformAudience"]
+                    ?? OrganizationBootstrapHttp.PlatformAudience;
+                options.Audience = platformAudience;
                 options.RequireHttpsMetadata = true;
                 options.MapInboundClaims = false;
                 options.IncludeErrorDetails = false;
                 options.TokenValidationParameters.ValidateIssuer = true;
                 options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidAudience = platformAudience;
                 options.TokenValidationParameters.ValidateLifetime = true;
                 options.TokenValidationParameters.RequireSignedTokens = true;
                 options.TokenValidationParameters.ValidateIssuerSigningKey = true;

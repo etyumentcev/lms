@@ -4,91 +4,92 @@ ASP.NET + PostgreSQL + DDD target architecture. Checkpoints B through C4 impleme
 
 ## Local startup with Docker Compose
 
-Requirements: **Docker Engine + Docker Compose** only. Run from the repository root:
+This stack runs the accepted synthetic M1 slice without demo users, seeded courses,
+development bearer tokens, mock APIs or UI placeholders. It uses the production React
+build, the ASP.NET API, PostgreSQL 17.6, Keycloak 26.8.1 and private persistent file
+storage. The content-import image includes its pinned runtime dependencies, but the
+execution qualification described below remains fail-closed.
+
+Executed checks, security boundaries and the current readiness label are recorded in
+[M1 local Docker Compose results](codex/M1-LOCAL-DOCKER-COMPOSE-RESULTS.md).
+
+Requirements: **Docker Engine + Docker Compose** only. From the repository root run:
 
 ```sh
-docker compose up --build
+docker compose up --build -d
+docker compose ps -a
 ```
 
-Wait for `postgres` and `api` to become healthy and `web` to start. On first use,
-Docker downloads build/runtime images and dependencies; no host .NET SDK, Node/npm or
-PostgreSQL installation is needed. Open **http://localhost:8080/local-login.html**.
-The application is served at **http://localhost:8080**; readiness is
-**http://localhost:8080/api/health**. The web port is bound to loopback only.
+Wait until `postgres`, `identity`, `api`, and `web` are healthy. Open
+**https://localhost:8443**. Only the HTTPS web gateway is published, and it is bound to
+loopback. PostgreSQL, Keycloak and the API have no host ports.
 
-### Development authentication
-
-In another terminal, from the same repository, obtain an eight-hour Student bearer token:
+The stack creates a private local CA and service certificates on first start. A browser may
+show a certificate warning until that CA is trusted. To copy the public CA for import into
+your local trust store or browser, run:
 
 ```sh
-docker compose exec api dotnet Lms.Api.dll --dev-token
+docker compose cp local-init:/run/lms-secrets/ca.crt /tmp/sapientum-m1-local-ca.crt
 ```
 
-Paste the printed token into the local login page and choose “Открыть учебный курс”.
-This opens `/courses/local-demo`. Open “Делимость и остатки”, then any problem to
-reach the existing Problem placeholder. Nested routes support browser refresh.
-The application does not sign in anonymous visitors automatically: without a valid token,
-workspace requests return 401. API signature, issuer, audience, lifetime and resource
-permissions remain enforced. Tokens are kept in sessionStorage by the **Compose-only**
-host adapter, for the current tab; close the tab/clear sessionStorage to sign out.
-After eight hours obtain a new token and revisit the local login page.
+### First organization and administrator
 
-For the seeded Teacher, use:
+Obtain a short-lived platform-operator token from the real local Keycloak realm:
 
 ```sh
-docker compose exec api dotnet Lms.Api.dll --dev-token Teacher
+docker compose --profile tools run --rm operator-token
 ```
 
-Teacher sees the granted course and real assignment rows; Lesson has no role/profile field,
-so its shell uses neutral navigation and does not invent a student enrollment or personal progress.
-The Problem page remains a placeholder in checkpoint F.
+In the UI choose **Первый запуск**, paste the token, and create the organization and its
+first administrator. The one-time activation code is shown once; continue directly to the
+activation screen, set a password, then sign in with the administrator login and the displayed
+organization UUID. The token is not stored by the application and cannot read educational data.
 
-Compose sets both `ASPNETCORE_ENVIRONMENT=Development` and `LocalDemo__Enabled=true`.
-The local token command, signing configuration and seed are disabled outside Development.
-The checked-in database credentials and signing key are **public local-only defaults**,
-not production secrets. Do not deploy this Compose configuration or local-development
-web image. The generic web Docker target `production` contains only built static files;
-the explicit `local-development` target adds the login page and host bearer adapter.
-Production authentication still requires the existing trusted OIDC authority/audience setup.
+Use the administrator UI to configure the synthetic processing context, create accounts,
+courses and groups, enroll students, assign teachers and grant CourseEditor authority.
+Student submission, teacher review, revision, acceptance, history and private attachments use
+the persisted API and database paths.
 
-### Services, migrations and demo data
+The accepted B07b content importer additionally requires a working user-systemd manager,
+writable delegated cgroup v2 controllers and bubblewrap. A normal unprivileged Docker
+container does not provide that control plane. Import therefore fails closed in this Compose
+profile; there is no unisolated fallback. Enabling nested systemd/cgroup privileges or adding
+a separate import worker requires an explicit security/deployment decision before this profile
+can be called complete for ZIP import and publication.
 
-Startup order: PostgreSQL 17.6 healthcheck → one-shot `migrate` → API healthcheck → nginx web.
-`migrate` runs the checked-in EF migrations with `MigrateAsync` and migration history,
-including `20261007035847_InitialPersistence`; it never uses EnsureCreated or handwritten schema.
-Re-running is safe. API and migration containers use the ASP.NET runtime image, not an SDK.
-The web container proxies `/api/*` to `api:8080` before its React SPA fallback: one browser origin,
-no feature-specific API URLs or CORS configuration. API errors keep their HTTP status/body.
+There are deliberately no default application credentials or deterministic records. Do not use
+real child or production data: the current authorization is **synthetic M1 testing only**.
 
-After migration, the Development-only seed atomically provisions the immutable `local-demo`
-course, one available lesson, a Student, a Teacher grant and four active assignments via the
-existing model/access facts. It creates no ProblemWork or submissions. Its deterministic IDs
-and publication marker make subsequent startup a no-op; existing learner data is preserved.
-The other three workflow statuses are covered by feature/contract tests; this seed intentionally
-remains a NotStarted vertical slice. There is no user/profile management subsystem.
+### Services, persistence and operations
 
-PostgreSQL data lives in the named Docker volume `lms-local_postgres-data` (managed by Docker).
-Original uploaded photos live in the separate `lms-local_lms-attachments` named volume.
-PostgreSQL and API have no host ports; only nginx exposes loopback port 8080. To change that
-port, edit the web port mapping in `docker-compose.yml`.
+Startup order is generated secrets/certificates → PostgreSQL → Keycloak database → Keycloak →
+full EF migration chain → API → HTTPS nginx. The importer inside the API image contains its
+pinned Python, Node and KaTeX runtime dependencies. Generated passwords, signing material and
+certificates live only in the private `lms-m1-local_lms-secrets` volume.
+
+Application data is retained in separate named volumes for PostgreSQL, original attachments,
+content-import artifacts and ASP.NET data-protection keys. Restarting the stack does not recreate
+or reseed them. The earlier `lms-local_*` development volumes, if present, are not reused or
+deleted by this project.
 
 ```sh
 # Inspect services and logs
 docker compose ps -a
 docker compose logs -f api
+docker compose logs -f identity
 docker compose logs -f web
 docker compose logs -f postgres
 docker compose logs migrate
 
-# Stop; preserve the database and uploaded photos
+# Stop while preserving every M1 volume
 docker compose down
-# Start again; existing migrations and data are retained
-docker compose up --build
+# Start again; migrations and existing data are retained
+docker compose up --build -d
 
-# Full local reset (deletes ALL local database data AND uploaded photos)
+# DESTRUCTIVE: delete ALL local M1 data, accounts, files, keys and certificates
 docker compose down -v
-# Reapply migrations and recreate the deterministic demo
-docker compose up --build
+# Create a new empty synthetic M1 environment
+docker compose up --build -d
 ```
 
 ## Structure
@@ -97,7 +98,7 @@ docker compose up --build
 - `Lms.Application`: four use cases; access and atomic persistence ports. Depends only on Domain.
 - `Lms.Infrastructure`: EF Core/Npgsql mappings, migrations, atomic `IWorkStore`, PostgreSQL access facts/policy and transactional event journal.
 - `Lms.Api`: ASP.NET Core command host, JWT Bearer authentication, principal-to-Actor adapter and uniform Problem Details.
-- `Lms.Web`: React/TypeScript shared UI shell (D) and CourseWorkspace screen (E), responsive context panel, reusable primitives; other feature routes remain placeholders. See [frontend commands](src/Lms.Web/README.md).
+- `Lms.Web`: production React/TypeScript M1 login, administration, course/content, learning, submission/review, progress and private-attachment UI; demo fallback routes are excluded from the production bundle. See [frontend commands](src/Lms.Web/README.md).
 - `tests`: xUnit Domain/Application tests, real PostgreSQL persistence tests and WebApplicationFactory API tests with PostgreSQL.
 
 ## Build and test
@@ -302,9 +303,11 @@ remain explicit gaps; no synthetic content or URLs are returned. C4 backend stab
 ## Shared UI shell (D)
 
 Frontend setup, build/test commands and optional responsive browser smoke are in
-[src/Lms.Web/README.md](src/Lms.Web/README.md). The shell demo makes no API requests;
-Course now reads the real CourseWorkspace API; other views remain placeholders. [D results](codex/D-RESULTS.md) record the
-49 frontend tests, 187 backend regressions and desktop/tablet/mobile verification.
+[src/Lms.Web/README.md](src/Lms.Web/README.md). The following is the historical D checkpoint:
+its shell demo made no API requests, Course read the CourseWorkspace API, and other views
+were placeholders. The current production composition no longer exposes that demo fallback.
+[D results](codex/D-RESULTS.md) record the original 49 frontend tests, 187 backend regressions
+and desktop/tablet/mobile verification.
 
 
 ## Course screen (E)
