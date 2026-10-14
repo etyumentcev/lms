@@ -1,0 +1,4 @@
+2026-10-14T01:36Z first Scenario B capture attempt
+Restore verdict: PASS (validator exit 42; target database absent before/after; target private root empty).
+Evidence-capture wrapper defect: outer tee opened commands-and-console.log before the scenario directory existed and reported ENOENT; terminal output was returned to the active Codex task but the transcript file was not created.
+Disposition: preserved here; repeat below is additional evidence solely to retain a complete command transcript.

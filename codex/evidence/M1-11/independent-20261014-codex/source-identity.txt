@@ -1,0 +1,898 @@
+2026-10-14T00:49:39Z
+/home/tea/github/lms
+688d8cf3305d7739a3cb76824a60ad9d5de3596b
+main
+## main...origin/main [ahead 43]
+ M .obsidian/workspace.json
+ M codex/L-DECISION-REGISTER.md
+ M codex/M1-PROGRESS.md
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/01-create-organization.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/02-one-time-code.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/03-activate-admin.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/04-admin-dashboard.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/01-accounts-empty.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/02-create-student.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/03-student-code.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/04-accounts-list.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/05-student-activation.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/06-first-student-login.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/01-import-diagnostics-invalid.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/02-import-ready.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/03-preview-student.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/04-preview-teacher.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/05-published-v1-assigned-g1.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/06-published-v2.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/07-student-v1-assignments-after-v2.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/01-course-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/02-lesson-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/03-lesson-768.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/04-lesson-390.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/05-problem-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/06-hints-390.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/07-teacher-reference-1440.png
+ M src/Lms.Web/src/features/organization-admin/AccountAdministration.tsx
+ M src/Lms.Web/src/features/organization-admin/accounts.css
+ M tests/Lms.Api.Tests/ApiFixture.cs
+ M tests/Lms.Api.Tests/ProcessingContextAdministrationHttpTests.cs
+ M tests/Lms.Api.Tests/ReactBrowserSessionTests.cs
+ M tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs
+ M tools/browser_read/content-publication.mjs
+ M tools/browser_read/photos.mjs
+ M tools/browser_read/react-browser-session.mjs
+ M tools/browser_read/react-teacher-journey.mjs
+ M tools/browser_read/run.mjs
+ M tools/browser_read/teacher-journey.mjs
+ M tools/browser_read/work.mjs
+?? codex/M1-11-RESULTS.md
+?? codex/M1-11-TC-076-INDEPENDENT-REVIEW-PACKAGE.md
+?? codex/M1-ACCEPTANCE-MATRIX.md
+?? codex/SAPIENTUM-M1-ACCEPTANCE-TEST-CASES.md
+?? codex/SAPIENTUM-M1-PLAN.md
+?? codex/evidence/M1-11/
+?? docs/ops/
+?? tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs
+?? tools/browser_read/m1-11-readback.mjs
+?? tools/browser_read/m1-11-setup.mjs
+M	.obsidian/workspace.json
+M	codex/L-DECISION-REGISTER.md
+M	codex/M1-PROGRESS.md
+M	codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/01-create-organization.png
+M	codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/02-one-time-code.png
+M	codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/03-activate-admin.png
+M	codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/04-admin-dashboard.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/01-accounts-empty.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/02-create-student.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/03-student-code.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/04-accounts-list.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/05-student-activation.png
+M	codex/evidence/M1-04-ACCOUNTS-ACTIVATION/06-first-student-login.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/01-import-diagnostics-invalid.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/02-import-ready.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/03-preview-student.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/04-preview-teacher.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/05-published-v1-assigned-g1.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/06-published-v2.png
+M	codex/evidence/M1-06-CONTENT-PUBLICATION/07-student-v1-assignments-after-v2.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/01-course-1440.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/02-lesson-1440.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/03-lesson-768.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/04-lesson-390.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/05-problem-1440.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/06-hints-390.png
+M	codex/evidence/M1-07-MATERIALS-REFERENCE/07-teacher-reference-1440.png
+M	src/Lms.Web/src/features/organization-admin/AccountAdministration.tsx
+M	src/Lms.Web/src/features/organization-admin/accounts.css
+M	tests/Lms.Api.Tests/ApiFixture.cs
+M	tests/Lms.Api.Tests/ProcessingContextAdministrationHttpTests.cs
+M	tests/Lms.Api.Tests/ReactBrowserSessionTests.cs
+M	tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs
+M	tools/browser_read/content-publication.mjs
+M	tools/browser_read/photos.mjs
+M	tools/browser_read/react-browser-session.mjs
+M	tools/browser_read/react-teacher-journey.mjs
+M	tools/browser_read/run.mjs
+M	tools/browser_read/teacher-journey.mjs
+M	tools/browser_read/work.mjs
+codex/M1-11-RESULTS.md
+codex/M1-11-TC-076-INDEPENDENT-REVIEW-PACKAGE.md
+codex/M1-ACCEPTANCE-MATRIX.md
+codex/SAPIENTUM-M1-ACCEPTANCE-TEST-CASES.md
+codex/SAPIENTUM-M1-PLAN.md
+codex/evidence/M1-11/E03-authority-oracle.json
+codex/evidence/M1-11/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/backup-restore/api-restart.json
+codex/evidence/M1-11/backup-restore/manifest.json
+codex/evidence/M1-11/backup-restore/postgres-restart-student-history-390.png
+codex/evidence/M1-11/backup-restore/postgres-restart-teacher-progress-1440.png
+codex/evidence/M1-11/backup-restore/postgres-restart.json
+codex/evidence/M1-11/backup-restore/restore-db-only-negative-student-history-390.png
+codex/evidence/M1-11/backup-restore/restore-db-only-negative.json
+codex/evidence/M1-11/backup-restore/restore-student-history-390.png
+codex/evidence/M1-11/backup-restore/restore-teacher-progress-1440.png
+codex/evidence/M1-11/backup-restore/restore.json
+codex/evidence/M1-11/e2e-journey.json
+codex/evidence/M1-11/environment.json
+codex/evidence/M1-11/first-regression-failure.md
+codex/evidence/M1-11/independent-20261014-codex/source-identity.txt
+codex/evidence/M1-11/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/journey/02-import-ready.png
+codex/evidence/M1-11/journey/03-preview-student.png
+codex/evidence/M1-11/journey/04-preview-teacher.png
+codex/evidence/M1-11/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/journey/06-published-v2.png
+codex/evidence/M1-11/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/m1-11-failed.trx
+codex/evidence/M1-11/materials/01-course-1440.png
+codex/evidence/M1-11/materials/02-lesson-1440.png
+codex/evidence/M1-11/materials/03-lesson-768.png
+codex/evidence/M1-11/materials/04-lesson-390.png
+codex/evidence/M1-11/materials/05-problem-1440.png
+codex/evidence/M1-11/materials/06-hints-390.png
+codex/evidence/M1-11/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/photos/01-upload-preview-390.png
+codex/evidence/M1-11/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/progress/08-student-progress-390.png
+codex/evidence/M1-11/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/regression/current-final-_net10.0_20261013211949.trx
+codex/evidence/M1-11/regression/current-final-_net10.0_20261013211950.trx
+codex/evidence/M1-11/regression/current-final-_net10.0_20261013212123.trx
+codex/evidence/M1-11/regression/current-final-_net10.0_20261013212808.trx
+codex/evidence/M1-11/regression/infrastructure-original-assertion.trx
+codex/evidence/M1-11/rerun-8298add/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun-8298add/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun-8298add/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun-8298add/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun-8298add/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun-8298add/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun2-8298add/E03-authority-oracle.json
+codex/evidence/M1-11/rerun2-8298add/e2e-journey.json
+codex/evidence/M1-11/rerun2-8298add/environment.json
+codex/evidence/M1-11/rerun2-8298add/m1-11-rerun2-8298add.trx
+codex/evidence/M1-11/rerun2-8298add/progress-oracle.json
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-1.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-10.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-11.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-12.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-13.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-14.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-15.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-16.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-17.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-2.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-3.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-4.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-5.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-6.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-7.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-8.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in-9.trx
+codex/evidence/M1-11/rerun2-8298add/regression/browser-opt-in.trx
+codex/evidence/M1-11/rerun2-8298add/regression/current-final_net10.0_20261014002451.trx
+codex/evidence/M1-11/rerun2-8298add/regression/current-final_net10.0_20261014002452.trx
+codex/evidence/M1-11/rerun2-8298add/regression/current-final_net10.0_20261014002624.trx
+codex/evidence/M1-11/rerun2-8298add/regression/current-final_net10.0_20261014003316.trx
+codex/evidence/M1-11/rerun2-8298add/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun2-8298add/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun2-8298add/test-summary.json
+codex/evidence/M1-11/rerun2-8298add/ui-acceptance-matrix.md
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-2.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-2/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-2/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-2/M1-01-BROWSER-AUTH/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-3.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-3/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-3/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-3/M1-01-BROWSER-AUTH/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-4.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/03-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/04-logged-out.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/05-second-user-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5/M1-01-BROWSER-AUTH/result.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed/M1-01-BROWSER-AUTH/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses/M1-01-BROWSER-AUTH/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed-2.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed-2/TEACHER-REVOCATION-REACT-E2E/react-teacher-journey.png
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed-2/TEACHER-REVOCATION-REACT-E2E/result.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed/TEACHER-REVOCATION-REACT-E2E/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher.trx
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher/TEACHER-REVOCATION-REACT-E2E/failure.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/backup-restore/api-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/m1-11-complete-2.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-2/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/api-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/manifest.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/postgres-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/postgres-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/postgres-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/restore-db-only-negative-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/restore-db-only-negative.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/restore-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/restore-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/backup-restore/restore.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/m1-11-complete-3.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-3/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-4/m1-11-complete-4.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete-5/m1-11-complete-5.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/api-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/manifest.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/postgres-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/postgres-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/postgres-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore-db-only-negative-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore-db-only-negative.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/m1-11-complete-6.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete-6/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/complete/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/complete/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/m1-11-complete.trx
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/complete/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/m1-11-final-2.trx
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/m1-11-final.trx
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/final-journey/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/m1-11-first.trx
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/first-failure/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-all-first.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/03-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/04-logged-out.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/05-second-user-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/M1-01-BROWSER-AUTH/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-BROWSER-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PHOTO-READ/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-final/MVP-PROTECTED-WORK-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/03-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/04-logged-out.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/05-second-user-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/M1-01-BROWSER-AUTH/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-BROWSER-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PHOTO-READ/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/MVP-PROTECTED-WORK-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/TEACHER-REVOCATION-REACT-E2E/react-teacher-journey.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/TEACHER-REVOCATION-REACT-E2E/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/backup-restore/api-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/m1-11/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/mandatory-teacher-journey/journey.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-final/mandatory-teacher-journey/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/01-login.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/02-login-network-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/03-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/04-logged-out.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/05-second-user-authenticated.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/M1-01-BROWSER-AUTH/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/01-courses.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/02-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/03-lesson.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/04-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/05-empty-course.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/06-access-denied.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/07-restriction.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/08-server-error.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/09-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/10-tablet-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/11-clock-lost.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-BROWSER-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/02-history-A4-page1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/03-A4-page2-zoom.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/04-corrupt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/05-missing.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PHOTO-READ/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Student/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/01-current-attempt.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/02-history-files-blocked.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/03-statement.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/04-restricted.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/05-tablet-history.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/06-expired.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/MVP-PROTECTED-WORK-READ-01/Teacher/results.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/TEACHER-REVOCATION-REACT-E2E/react-teacher-journey.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/TEACHER-REVOCATION-REACT-E2E/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/E03-authority-oracle.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/api-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/api-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/api-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/manifest.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/postgres-restart-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/postgres-restart-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/postgres-restart.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/restore-db-only-negative-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/restore-db-only-negative.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/restore-student-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/restore-teacher-progress-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/backup-restore/restore.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/e2e-journey.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/environment.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/01-import-diagnostics-invalid.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/02-import-ready.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/03-preview-student.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/04-preview-teacher.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/05-published-v1-assigned-g1.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/06-published-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/journey/07-student-v1-assignments-after-v2.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/01-course-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/02-lesson-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/03-lesson-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/04-lesson-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/05-problem-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/06-hints-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/materials/07-teacher-reference-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/01-upload-preview-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/02-reordered-preview-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/03-delete-readd-preview-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/04-submitted-reload-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/05-teacher-page-1-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/photos/06-teacher-page-2-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/01-teacher-submitted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/02-teacher-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/03-review-history-needs-revision-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/04-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/05-teacher-accepted-filter-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/06-review-history-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/07-open-accepted-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/08-student-progress-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/progress/09-student-attempt-history-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/01-review-queue-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/02-desktop-review-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/04-fullscreen-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/06-student-feedback-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/07-revision-queue-768.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/review/09-student-accepted-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E02-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/m1-11/screenshots/E03-roster-1440.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/mandatory-teacher-journey/journey.png
+codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun/mandatory-teacher-journey/result.json
+codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-all.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-api.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-application.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-domain.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-infrastructure.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/processing-context-fixed.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/processing-context-rerun.trx
+codex/evidence/M1-11/rerun3-688d8cf/regression/vitest-attachment-rerun.json
+codex/evidence/M1-11/rerun3-688d8cf/test-summary.json
+codex/evidence/M1-11/review/01-review-queue-1440.png
+codex/evidence/M1-11/review/02-desktop-review-1440.png
+codex/evidence/M1-11/review/03-page-1-annotated-1440.png
+codex/evidence/M1-11/review/04-fullscreen-768.png
+codex/evidence/M1-11/review/05-page-2-annotated-1440.png
+codex/evidence/M1-11/review/06-student-feedback-390.png
+codex/evidence/M1-11/review/07-revision-queue-768.png
+codex/evidence/M1-11/review/08-teacher-accepted-1440.png
+codex/evidence/M1-11/review/09-student-accepted-390.png
+codex/evidence/M1-11/screenshots/E01-admin-1440.png
+codex/evidence/M1-11/screenshots/E01-bootstrap-1440.png
+codex/evidence/M1-11/screenshots/E02-accounts-1440.png
+codex/evidence/M1-11/screenshots/E02-activation-390-success.png
+codex/evidence/M1-11/screenshots/E02-activation-390.png
+codex/evidence/M1-11/screenshots/E02-teacher-activation-390-success.png
+codex/evidence/M1-11/screenshots/E02-teacher-activation-390.png
+codex/evidence/M1-11/screenshots/E03-processing-context-1440.png
+codex/evidence/M1-11/screenshots/E03-roster-1440.png
+docs/ops/M1-SYNTHETIC-RUNBOOK.md
+tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs
+tools/browser_read/m1-11-readback.mjs
+tools/browser_read/m1-11-setup.mjs

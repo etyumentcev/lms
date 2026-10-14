@@ -1,0 +1,21 @@
+Fresh synthetic backup/restore evidence run
+
+Working directory: /home/tea/github/lms
+
+env \
+  LMS_M1_11_EVIDENCE=codex/evidence/M1-11/evidence-fix-20261014-codex \
+  LMS_BROWSER_READ=1 \
+  LMS_BROWSER_NODE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
+  LMS_BROWSER_EXECUTABLE=/opt/google/chrome/chrome \
+  LMS_PLAYWRIGHT_MODULE=/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright \
+  /tmp/lms-dotnet/dotnet test tests/Lms.Api.Tests/Lms.Api.Tests.csproj \
+    --no-build --no-restore -m:1 \
+    --filter FullyQualifiedName~M1SyntheticAcceptanceBrowserTests \
+    --results-directory codex/evidence/M1-11/evidence-fix-20261014-codex/test-results \
+    --logger "console;verbosity=normal" \
+    --logger "trx;LogFileName=evidence-fix.trx"
+
+Exit code: 0
+Result: 1 PASS / 0 FAIL, total time 1.4438 minutes.
+Console log: test-console.log
+TRX: test-results/evidence-fix.trx

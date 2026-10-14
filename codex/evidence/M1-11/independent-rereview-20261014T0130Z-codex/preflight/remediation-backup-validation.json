@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "phase": "pre-restore-validation",
+  "backupId": "m1-11-evidence-fix-20261014T010547Z-78206733cef94ab295a6adb4bc48b7dd",
+  "manifest": "/home/tea/github/lms/codex/evidence/M1-11/evidence-fix-20261014-codex/backup-restore/manifest.json",
+  "manifestSha256": "f5948597568b9f3dbfbcbfa3bf27fb24faad1a6e86e9e20bdd876cee11447a60",
+  "databaseSha256": "ff0ce9507276a99b24967fa47d24577c178f015224f63b4a1af6487575b85d0e",
+  "privateFilesAggregateSha256": "6079cbc59948d44c2b63adfdc4f7a67074310cbf017f95df3897d20efbd563e7",
+  "migrations": 17,
+  "files": 4,
+  "bytes": 138148,
+  "mutationsPerformed": false
+}

@@ -1,0 +1,6 @@
+{
+  "status": "REFUSED",
+  "phase": "pre-restore-validation",
+  "reason": "private-files aggregate SHA-256 mismatch",
+  "mutationsPerformed": false
+}

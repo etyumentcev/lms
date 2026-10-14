@@ -1,0 +1,4 @@
+email-like-count=4
+russian-phone-like-count=26
+png-count=150
+png-file-types-non-png=0

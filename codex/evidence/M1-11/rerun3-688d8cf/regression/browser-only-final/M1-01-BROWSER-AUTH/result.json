@@ -1,0 +1,198 @@
+{
+  "passed": true,
+  "scope": "Production React login/session UI over HTTPS, restricted PostgreSQL runtime and real Chromium",
+  "preissuedTokens": false,
+  "credentialsTransport": "React form to protected login endpoint",
+  "stages": [
+    {
+      "action": "login",
+      "realReactForm": true,
+      "tokenStorage": "memory-only",
+      "course": "Организация А"
+    },
+    {
+      "action": "reload-refresh",
+      "restored": true
+    },
+    {
+      "action": "two-tabs",
+      "sharedCookie": true,
+      "accessTokens": "per-tab-memory"
+    },
+    {
+      "action": "refresh-replay",
+      "status": 409
+    },
+    {
+      "action": "csrf-origin",
+      "missingCsrf": 403,
+      "foreignOrigin": 403
+    },
+    {
+      "action": "access-expiry-refresh",
+      "expiredStatus": 401,
+      "recovered": true
+    },
+    {
+      "action": "switch-organization",
+      "isolated": true,
+      "course": "Организация Б"
+    },
+    {
+      "action": "foreign-organization",
+      "deniedByNoScope": true
+    },
+    {
+      "action": "revoked-authority",
+      "refreshIssuedNoScope": true
+    },
+    {
+      "action": "logout",
+      "serverRequest": true,
+      "crossTab": true
+    },
+    {
+      "action": "second-user-login-logout",
+      "realReactForm": true,
+      "independentBrowserContext": true,
+      "course": "Организация Б"
+    }
+  ],
+  "apiEvents": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 204
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    }
+  ]
+}

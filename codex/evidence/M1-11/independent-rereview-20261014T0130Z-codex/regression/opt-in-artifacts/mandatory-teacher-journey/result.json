@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "stages": [
+    {
+      "action": "submit",
+      "state": "Submitted"
+    },
+    {
+      "action": "review",
+      "state": "NeedsRevision"
+    },
+    {
+      "action": "revise",
+      "state": "Submitted"
+    },
+    {
+      "action": "accept",
+      "state": "Accepted"
+    },
+    {
+      "action": "retry",
+      "state": "HTTP 409"
+    }
+  ],
+  "scope": "Isolated HTTPS protocol harness; production UI not accepted"
+}

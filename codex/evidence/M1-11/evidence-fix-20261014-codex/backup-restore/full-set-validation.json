@@ -1,0 +1,23 @@
+{
+  "scenario": "backup-set-pre-restore-validation",
+  "input": {
+    "manifest": "manifest.json",
+    "manifestSha256": "f5948597568b9f3dbfbcbfa3bf27fb24faad1a6e86e9e20bdd876cee11447a60",
+    "databaseSha256": "ff0ce9507276a99b24967fa47d24577c178f015224f63b4a1af6487575b85d0e",
+    "privateFilesAggregateSha256": "6079cbc59948d44c2b63adfdc4f7a67074310cbf017f95df3897d20efbd563e7"
+  },
+  "expected": "The complete set validates without target mutations before restore.",
+  "command": "python3 tools/backup_restore/verify_m1_backup_set.py codex/evidence/M1-11/evidence-fix-20261014-codex/backup-restore --manifest codex/evidence/M1-11/evidence-fix-20261014-codex/backup-restore/manifest.json",
+  "firstAttempt": {
+    "exitCode": 42,
+    "log": "full-set-validation-first-failure.log",
+    "finding": "Validator implementation sorted checksum records by digest instead of relative path; the backup set itself was not changed."
+  },
+  "correction": "Validator now sorts independent checksum records by relative path, matching the documented manifest algorithm.",
+  "correctedAttempt": {
+    "exitCode": 0,
+    "log": "full-set-validation.log",
+    "status": "PASS",
+    "mutationsPerformed": false
+  }
+}

@@ -1,0 +1,43 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container b264771f8e3a created
+[testcontainers.org 00:00:00.20] Start Docker container b264771f8e3a
+[testcontainers.org 00:00:00.30] Wait for Docker container b264771f8e3a to complete readiness checks
+[testcontainers.org 00:00:01.32] Docker container b264771f8e3a ready
+[testcontainers.org 00:00:01.38] Docker container 0e30524a3cb3 created
+[testcontainers.org 00:00:01.38] Start Docker container 0e30524a3cb3
+[testcontainers.org 00:00:01.47] Wait for Docker container 0e30524a3cb3 to complete readiness checks
+[testcontainers.org 00:00:01.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:02.53] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:02.59] Docker container 0e30524a3cb3 ready
+[testcontainers.org 00:00:56.64] Stop Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.80] Start Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.92] Wait for Docker container 0e30524a3cb3 to complete readiness checks
+[testcontainers.org 00:00:56.92] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.96] Docker container 0e30524a3cb3 ready
+[testcontainers.org 00:01:07.91] Execute "pg_dump -U postgres -Fc -f /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump c2_a26639c4482b4dad81359f0b9d42a9b4" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.02] Execute "sha256sum /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.05] Execute "stat -c %s /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.07] Read "/tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" from Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.10] Execute "createdb -U postgres c2_6349bb427296462d82474f4fcc6ebf06" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.15] Execute "pg_restore -U postgres --exit-on-error -d c2_6349bb427296462d82474f4fcc6ebf06 /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:23.01] Delete Docker container 0e30524a3cb3
+[xUnit.net 00:01:23.42]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True) [1 m 20 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 1.3952 Minutes
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/test-results/tc-076-independent-rereview.trx

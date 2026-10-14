@@ -1,0 +1,98 @@
+77
+77
+docs/ops/M1-SYNTHETIC-RUNBOOK.md:105:7. Perform two negative drills: DB-only restore and files-only/incomplete manifest. Startup or the first dependent read must fail explicitly; a superficially green UI with missing originals is FAIL.
+databaseDump
+files
+head
+restoredFiles
+syntheticOnly
+verified
+8:    <UnitTestResult executionId="821a4815-6347-4e93-9f0f-e0f4309f2a1d" testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" testName="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:01:21.1317631" startTime="2026-10-14T02:45:06.0015230+06:00" endTime="2026-10-14T02:46:27.1427007+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="821a4815-6347-4e93-9f0f-e0f4309f2a1d" />
+23:  <ResultSummary outcome="Completed">
+24:    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+61:  </ResultSummary>
+{
+  "date": "2026-10-14",
+  "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+  "syntheticOnly": true,
+  "acceptance": {
+    "pass": 74,
+    "fail": 0,
+    "blocked": 3,
+    "notRun": 0,
+    "blockedCases": [
+      "TC-071",
+      "TC-076",
+      "TC-077"
+    ]
+  },
+  "integrated": {
+    "passed": true,
+    "organizations": 2,
+    "students": 12,
+    "teachers": 2,
+    "assignments": 60,
+    "accepted": 2,
+    "needsRevision": 2,
+    "submitted": 2,
+    "notStarted": 54,
+    "apiRestart": "PASS",
+    "postgresRestart": "PASS",
+    "restore": "PASS",
+    "dbOnlyRestore": "EXPECTED_FAILURE"
+  },
+  "regression": {
+    "dotnet": {
+      "domain": {
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      "application": {
+        "passed": 369,
+        "failed": 0,
+        "skipped": 0
+      },
+      "infrastructure": {
+        "passed": 343,
+        "failed": 0,
+        "skipped": 0
+      },
+      "api": {
+        "passed": 385,
+        "failed": 0,
+        "skipped": 12
+      }
+    },
+    "chromium": {
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0
+    },
+    "vitest": {
+      "passed": 421,
+      "failed": 0,
+      "firstRunTimingFailures": 1
+    },
+    "productionBuildModules": 302,
+    "compiler": {
+      "passed": 74,
+      "failed": 0
+    },
+    "importer": {
+      "passed": 49,
+      "failed": 0
+    }
+  },
+  "visual": {
+    "functionalViewports": [
+      390,
+      768,
+      1440
+    ],
+    "approvedReferences": "REFERENCE UNAVAILABLE"
+  },
+  "commitCreated": false,
+  "push": false,
+  "deploy": false
+}

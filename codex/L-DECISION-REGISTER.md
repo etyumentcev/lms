@@ -6,6 +6,17 @@
 
 Переход в ACCEPTED требует записи decision/date/owner/evidence и обновления затронутых ADR/плана. Технические B решения инженер может принять в разрешённом этапе после указанной проверки; L0 не разрешает implementation. Отсутствие ответа не является согласованием. [Архитектура](L-ARCHITECTURE.md), [этапы](L-IMPLEMENTATION-PLAN.md), [краткие вопросы](L0-RESULTS.md).
 
+## M1 acceptance extension — 2026-10-14
+
+Owner: владелец Sapientum. Evidence решения: явное задание `OWNER DECISION — M1-11 / TC-071` от 2026-10-14. Решение меняет только обязательность критерия для **M1 Synthetic MVP** и не переписывает исходные evidence или результаты прогонов.
+
+| ID | Статус | Решение | Неизменённый факт | Обязательное продолжение / не-следствия |
+|---|---|---|---|---|
+| M1-OD-071 | **ACCEPTED — WAIVED BY OWNER FOR M1** | Точное визуальное сравнение с отсутствующими утверждёнными PNG исключено из обязательных условий M1 Synthetic MVP. | TC-071 сохраняет исходный результат `REFERENCE UNAVAILABLE`; фиктивный `PASS` запрещён. | Создать и закрыть `UI-VISUAL-ACCEPTANCE` до пилота с реальными учениками. TC-076 не закрывается автоматически; TC-077 остаётся за окончательным решением владельца. Acceptance commit запрещён до TC-076 и финального TC-077; push/deploy запрещены. `SYNTHETIC MVP ACCEPTED` и `PILOT AUTHORIZED` не объявлены. |
+| M1-OD-077 | **ACCEPTED — SYNTHETIC MVP ACCEPTED** | После положительного независимого TC-076 re-review владелец принял этап M1 для synthetic-only среды и разрешил scoped acceptance commit. | Raw rerun3 остаётся `74 PASS / 0 FAIL / 3 BLOCKED`; historical TC-076 FAIL и TC-071 `REFERENCE UNAVAILABLE` неизменны. Текущая disposition: `76 PASS / 0 FAIL / 0 BLOCKED / 1 WAIVED / 0 NOT RUN`. | Production deployment, реальные данные детей, push и deploy не разрешены. `UI-VISUAL-ACCEPTANCE` обязателен до пилота; `PRS1 exact = OFF`, `G02 = BLOCKED`, `S4 HTTP NOT AUTHORIZED`; `PILOT AUTHORIZED` не следует. Evidence: [TC-077](TC-077-OWNER-DECISION.md), [TC-076 re-review](TC-076-INDEPENDENT-RE-REVIEW-RESULTS.md). |
+
+`UI-VISUAL-ACCEPTANCE` — обязательный pre-pilot gate: предоставить точные утверждённые PNG, сопоставить их с живыми React routes в согласованных viewport, записать отклонения и отдельное решение владельца. M1 waiver не является визуальной приёмкой и не переносится на pilot/real-data readiness.
+
 ## A — Already accepted
 
 | ID / вопрос | Статус и известные факты | Рекомендация / альтернативы | Что решить / кто | Этапы и отсутствие решения | ADR |

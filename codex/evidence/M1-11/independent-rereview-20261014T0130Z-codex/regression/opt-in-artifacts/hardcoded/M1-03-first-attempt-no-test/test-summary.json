@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-12",
+  "status": "DONE_COMPONENT_ACCEPTANCE",
+  "solutionBuild": { "passed": true, "warnings": 0, "errors": 0 },
+  "dotnet": {
+    "domain": { "passed": 43, "failed": 0 },
+    "application": { "passed": 369, "failed": 0 },
+    "infrastructure": { "passed": 338, "failed": 0 },
+    "api": { "passed": 376, "failed": 0, "skippedOptInBrowser": 7 }
+  },
+  "frontend": { "passed": 411, "failed": 0, "files": 17, "productionBuild": "PASS" },
+  "m103Browser": { "passed": 1, "failed": 0, "screenshots": 4 },
+  "commit": false,
+  "deploy": false,
+  "m104Started": false
+}

@@ -1,0 +1,3 @@
+f3b16d163c5377853bf69042e15c6e8aeb5aa6588493b32929ea715b856af310  manifest.json
+c16a4ab3aac9615503982c431ef044b0694838b299a2148ed2ad1799a88882f3  backup-set/postgresql/database.dump
+b97c845db0499b45c095cccb11aadabafdacefc80a127c0047406bf846b44dc6  backup-set/private-files (aggregate records)

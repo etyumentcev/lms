@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "reviewedAtUtc": "2026-10-14T03:13:18Z",
+  "tools": {
+    "ripgrep": "15.2.0",
+    "file": "5.46",
+    "strings": "GNU Binutils 2.46"
+  },
+  "highConfidenceScan": {
+    "newEvidenceMatches": 0,
+    "sourceSnapshotMatches": 1,
+    "sourceSnapshotDisposition": "tests/content_compiler/test_compiler.py contains the intentional negative URI fixture https://user:pass@example.test; it is not a credential and example.test is reserved test data"
+  },
+  "keywordTriage": {
+    "status": "PASS",
+    "finding": "Matched JSON/TRX/logs describe authorization behavior, memory-only tokens, command text, or manifest identifiers; no token/password value is persisted. Synthetic one-time activation codes visible in generated UI evidence were consumed during the same disposable run."
+  },
+  "syntheticDataReview": {
+    "status": "PASS",
+    "organizations": [
+      "Сапиентум — Демокружок A",
+      "Сапиентум — Демокружок B"
+    ],
+    "participants": "P01-P12, T-A, T-X and generated m111-* usernames",
+    "content": "synthetic olympiad fixture ZIPs",
+    "photos": "tests/fixtures/photos/a4-1.png and a4-2.png",
+    "realChildDataFound": false,
+    "productionSecretFound": false
+  },
+  "limitations": [
+    "Clean synthetic scan is not legal/compliance or production readiness evidence.",
+    "Raster screenshot bytes can produce random email/phone-like byte sequences; provenance is controlled by the synthetic harness and all 150 .png files passed PNG type validation.",
+    "Chromium emulation is not a physical tablet or Safari test."
+  ],
+  "evidence": [
+    "security-scan-transcript.txt",
+    "pii-and-image-metadata-summary.txt",
+    "../../../../tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs"
+  ]
+}

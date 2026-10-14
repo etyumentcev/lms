@@ -1,0 +1,10 @@
+{
+  "baseline": "8298add5f822fea04a363ac210787fa74f7d1a27",
+  "dotnet": {"passed": 1138, "failed": 0, "skippedBrowserOptIn": 12},
+  "react": {"passed": 421, "failed": 0, "files": 19, "buildModules": 300},
+  "compiler": {"passed": 74, "failed": 0},
+  "importer": {"passed": 49, "failed": 0},
+  "browserOptIn": {"passed": 10, "failed": 4, "skipped": 0, "cases": 14},
+  "m1Continuous": {"passed": 0, "failed": 1, "skipped": 0},
+  "acceptanceMatrix": {"pass": 27, "fail": 7, "blocked": 41, "notRun": 2}
+}

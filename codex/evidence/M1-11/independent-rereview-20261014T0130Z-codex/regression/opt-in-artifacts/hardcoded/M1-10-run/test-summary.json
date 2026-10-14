@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "productionReact": true,
+  "normalLogin": true,
+  "students": 12,
+  "assignments": 60,
+  "statusJourney": [
+    "NotStarted",
+    "Submitted",
+    "NeedsRevision",
+    "Accepted"
+  ],
+  "teacherHistory": true,
+  "acceptedHistory": true,
+  "studentAttemptHistory": true,
+  "apiPostgresUiConsistent": true,
+  "exactVersion": 1,
+  "lostSubmissionResponseReadBack": true,
+  "lostReviewResponseReadBack": true,
+  "automaticReplay": false,
+  "screenshots": 9
+}

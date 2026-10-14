@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "productionReact": true,
+  "uiApiPostgresConsistent": true,
+  "cleanBootstrapViaUi": true,
+  "processingContextCreatedViaAdminUi": true,
+  "courseBoundViaAdminUi": true,
+  "courseEditorAssignedByAdminUi": true,
+  "courseId": "course-1c7ae65b18c64d20b55df69157987c97",
+  "contextVersions": 1,
+  "activeBindings": 1,
+  "teacherGroups": [
+    "group-e213a10ca01e47e7aa4bdad1900a8317"
+  ],
+  "excludedGroup": "group-589e3ac90d7f4e3dab073a701e698ff3",
+  "g2AccessExpanded": false,
+  "publishedVersion": 1,
+  "assignedProblems": 5,
+  "student": "P01",
+  "screenshots": 4
+}

@@ -1,0 +1,40 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.13]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.08] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container fae6b30952be created
+[testcontainers.org 00:00:00.19] Start Docker container fae6b30952be
+[testcontainers.org 00:00:00.27] Wait for Docker container fae6b30952be to complete readiness checks
+[testcontainers.org 00:00:01.29] Docker container fae6b30952be ready
+[testcontainers.org 00:00:01.34] Docker container 2abfe02c1fb1 created
+[testcontainers.org 00:00:01.35] Start Docker container 2abfe02c1fb1
+[testcontainers.org 00:00:01.42] Wait for Docker container 2abfe02c1fb1 to complete readiness checks
+[testcontainers.org 00:00:01.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2abfe02c1fb1
+[testcontainers.org 00:00:02.47] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2abfe02c1fb1
+[testcontainers.org 00:00:02.50] Docker container 2abfe02c1fb1 ready
+[testcontainers.org 00:00:08.67] Delete Docker container 2abfe02c1fb1
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher) [4 s]
+[testcontainers.org 00:00:08.85] Docker container 28ee47579f0b created
+[testcontainers.org 00:00:08.85] Start Docker container 28ee47579f0b
+[testcontainers.org 00:00:08.93] Wait for Docker container 28ee47579f0b to complete readiness checks
+[testcontainers.org 00:00:08.93] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 28ee47579f0b
+[testcontainers.org 00:00:09.95] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 28ee47579f0b
+[testcontainers.org 00:00:09.99] Docker container 28ee47579f0b ready
+[testcontainers.org 00:00:13.95] Delete Docker container 28ee47579f0b
+[xUnit.net 00:00:14.35]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student) [3 s]
+
+Test Run Successful.
+Total tests: 2
+     Passed: 2
+ Total time: 14.6473 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/protected-photo-browser.trx

@@ -47,4 +47,4 @@ Suggested sequence: M00 → M02 → M03 → M04; M01 is normatively closed by th
 
 No new runtime test execution is claimed here. Evidence comes from existing checkpoints plus inspected source inventory; a missing complete journey is not a claim that every supporting type is absent. Reassess this register after each accepted slice, retaining separate implementation, owner acceptance and release labels.
 
-**TEACHER-REVOCATION PHYSICAL GATE CANCELLED · LOGICAL DEADLINE/SECURITY GATES ACTIVE · HTTP/REACT MIGRATION AUTHORIZED IN CURRENT SCOPE · PRS1 EXACT OFF · MVP/PILOT NOT ACCEPTED.**
+**TEACHER-REVOCATION PHYSICAL GATE CANCELLED · LOGICAL DEADLINE/SECURITY GATES ACTIVE · HTTP/REACT MIGRATION AUTHORIZED IN CURRENT SCOPE · PRS1 EXACT OFF · SYNTHETIC MVP ACCEPTED · PILOT/PRODUCTION/REAL DATA NOT AUTHORIZED.**

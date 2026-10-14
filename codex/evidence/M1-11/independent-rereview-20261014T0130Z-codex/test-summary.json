@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "testCase": "TC-076 independent re-review",
+  "verdict": "PASS",
+  "reviewer": {
+    "name": "OpenAI Codex",
+    "role": "separate automated independent reviewer/runner",
+    "contact": "current Codex task; no external contact",
+    "independentOfRerun3AndRemediation": true,
+    "signatureForm": "electronic task attestation; not a human or cryptographic signature"
+  },
+  "intervalUtc": {
+    "startedAt": "2026-10-14T01:30:38Z",
+    "signedAt": "2026-10-14T03:13:18Z"
+  },
+  "source": {
+    "repository": "/home/tea/github/lms",
+    "branch": "main",
+    "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+    "workingTreeInventoryAttached": true,
+    "sourceHarnessHashesMatched": 8,
+    "sourceHarnessHashesExpected": 8,
+    "originalRerun3Files": 681,
+    "originalRerun3Bytes": 142211716,
+    "originalRerun3AggregateSha256": "186d4e4a9da3b52210bb9f4c3241c9ed025d9b9917e56eef7c083d9976ef5838",
+    "historicalTc076FailSha256": "a3c81a8c8b08954b4fabf2a1b59f691fb1eb85da2eedf665d75251bae7c2c447"
+  },
+  "documentReview": {
+    "correctedSha256Length": 64,
+    "correctedSha256Matched": true,
+    "historicalFailPreserved": true,
+    "remediationManifestValidation": "PASS",
+    "remediationMigrations": 17,
+    "matrixRaw": { "pass": 74, "fail": 0, "blocked": 3, "notRun": 0 },
+    "tc071": "REFERENCE UNAVAILABLE; WAIVED BY OWNER FOR M1; not PASS",
+    "tc077": "OPEN; owner-only"
+  },
+  "build": {
+    "dotnet": { "status": "PASS", "warnings": 0, "errors": 0 },
+    "react": { "status": "PASS", "modules": 302 }
+  },
+  "mainE2e": {
+    "status": "PASS",
+    "tests": 1,
+    "transport": "HTTPS",
+    "browser": "Google Chrome/Chromium 154.0.8037.57",
+    "productionReactBundle": true,
+    "normalLogin": true,
+    "preissuedBrowserBearer": false,
+    "organizations": 2,
+    "students": 12,
+    "teachers": 2,
+    "assignments": 60,
+    "stateJourney": ["NotStarted", "Submitted", "NeedsRevision", "Submitted", "Accepted"],
+    "submissions": 2,
+    "reviews": 2,
+    "annotations": 2,
+    "progress": { "accepted": 2, "needsRevision": 2, "submitted": 2, "notStarted": 54 },
+    "protectedFiles": 4,
+    "negativeAccess": "PASS: T-X, foreign org, wrong course/group/role, forged/missing parent/file, revoke and restriction checks with positive controls"
+  },
+  "restartAndRestore": {
+    "apiRestart": "PASS",
+    "postgresqlRestart": "PASS",
+    "scenarioAFullDbAndFiles": {
+      "status": "PASS",
+      "createdbExit": 0,
+      "pgRestoreExit": 0,
+      "migrations": 17,
+      "files": 4,
+      "bytes": 138148,
+      "targetDatabaseDifferent": true,
+      "targetPrivateRootDifferent": true,
+      "historyAuthorizationAndHashesMatched": true
+    },
+    "dbOnlyNegative": { "status": "EXPECTED_FAILURE", "protectedReads500": 4 },
+    "scenarioBFilesOnly": {
+      "status": "PASS",
+      "validatorExit": 42,
+      "targetDatabaseAbsentBeforeAndAfter": true,
+      "targetPrivateRootEmpty": true,
+      "mutationsPerformed": false
+    },
+    "scenarioCIncompleteManifest": {
+      "status": "PASS",
+      "validatorExit": 42,
+      "targetDatabaseAbsentBeforeAndAfter": true,
+      "targetPrivateRootEmpty": true,
+      "mutationsPerformed": false
+    }
+  },
+  "regression": {
+    "dotnet": {
+      "domain": { "passed": 43, "failed": 0 },
+      "application": { "passed": 369, "failed": 0 },
+      "infrastructure": { "passed": 343, "failed": 0 },
+      "api": { "passed": 385, "failed": 0, "optInMethodsSkippedInOrdinaryRun": 12 }
+    },
+    "optInBrowser": { "methodsAccounted": 12, "casesPassed": 15, "failed": 0, "skipped": 0 },
+    "vitest": { "passed": 421, "failed": 0 },
+    "contentCompiler": { "passed": 74, "failed": 0 },
+    "contentImporter": { "passed": 49, "failed": 0 }
+  },
+  "securityAndPrivacy": {
+    "status": "PASS",
+    "newEvidenceHighConfidenceSecretMatches": 0,
+    "realChildDataFound": false,
+    "productionSecretFound": false
+  },
+  "disclosedFirstFailuresAndDeviations": [
+    "First Scenario B transcript wrapper could not open tee output before the directory existed; the restore check itself returned expected exit 42. The wrapper defect is preserved and B was repeated only to retain a full transcript.",
+    "The first OrganizationBootstrap opt-in attempt exited 127 because /tmp/lms-dotnet disappeared after the long solution run. The exact SDK 10.0.401 was reinstalled from the official dotnet installer and the corrected run passed.",
+    "The harness retains remediation-era manifest metadata evidencePurpose=M1-11-EVIDENCE-FIX and backupId prefix m1-11-evidence-fix; fresh timestamps, unique IDs, new root and payload hashes prove this is the re-review run. No runtime or test code was changed."
+  ],
+  "gates": {
+    "tc076": "PASS",
+    "tc077": "OPEN — owner decision required",
+    "syntheticMvpAccepted": false,
+    "pilotAuthorized": false,
+    "prs1Exact": "OFF",
+    "g02": "BLOCKED",
+    "s4Http": "NOT AUTHORIZED"
+  }
+}

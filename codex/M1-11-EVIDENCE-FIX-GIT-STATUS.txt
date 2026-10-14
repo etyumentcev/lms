@@ -1,0 +1,56 @@
+## main...origin/main [ahead 43]
+ M .obsidian/workspace.json
+ M codex/L-DECISION-REGISTER.md
+ M codex/M1-PROGRESS.md
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/01-create-organization.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/02-one-time-code.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/03-activate-admin.png
+ M codex/evidence/M1-03-ORGANIZATION-BOOTSTRAP/04-admin-dashboard.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/01-accounts-empty.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/02-create-student.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/03-student-code.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/04-accounts-list.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/05-student-activation.png
+ M codex/evidence/M1-04-ACCOUNTS-ACTIVATION/06-first-student-login.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/01-import-diagnostics-invalid.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/02-import-ready.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/03-preview-student.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/04-preview-teacher.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/05-published-v1-assigned-g1.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/06-published-v2.png
+ M codex/evidence/M1-06-CONTENT-PUBLICATION/07-student-v1-assignments-after-v2.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/01-course-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/02-lesson-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/03-lesson-768.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/04-lesson-390.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/05-problem-1440.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/06-hints-390.png
+ M codex/evidence/M1-07-MATERIALS-REFERENCE/07-teacher-reference-1440.png
+ M src/Lms.Web/src/features/organization-admin/AccountAdministration.tsx
+ M src/Lms.Web/src/features/organization-admin/accounts.css
+ M tests/Lms.Api.Tests/ApiFixture.cs
+ M tests/Lms.Api.Tests/ProcessingContextAdministrationHttpTests.cs
+ M tests/Lms.Api.Tests/ReactBrowserSessionTests.cs
+ M tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs
+ M tools/browser_read/content-publication.mjs
+ M tools/browser_read/photos.mjs
+ M tools/browser_read/react-browser-session.mjs
+ M tools/browser_read/react-teacher-journey.mjs
+ M tools/browser_read/run.mjs
+ M tools/browser_read/teacher-journey.mjs
+ M tools/browser_read/work.mjs
+?? codex/M1-11-EVIDENCE-FIX-CHECKSUM-ERRATUM.md
+?? codex/M1-11-EVIDENCE-FIX-GIT-STATUS.txt
+?? codex/M1-11-EVIDENCE-FIX-RESULTS.md
+?? codex/M1-11-RESULTS.md
+?? codex/M1-11-TC-076-INDEPENDENT-REVIEW-PACKAGE.md
+?? codex/M1-ACCEPTANCE-MATRIX.md
+?? codex/SAPIENTUM-M1-ACCEPTANCE-TEST-CASES.md
+?? codex/SAPIENTUM-M1-PLAN.md
+?? codex/TC-076-INDEPENDENT-REVIEW-RESULTS.md
+?? codex/evidence/M1-11/
+?? docs/ops/
+?? tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs
+?? tools/backup_restore/
+?? tools/browser_read/m1-11-readback.mjs
+?? tools/browser_read/m1-11-setup.mjs

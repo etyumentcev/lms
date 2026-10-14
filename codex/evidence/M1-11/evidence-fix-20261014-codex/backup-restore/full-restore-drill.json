@@ -1,0 +1,60 @@
+{
+  "scenario": "A-full-db-private-files",
+  "input": {
+    "backupId": "m1-11-evidence-fix-20261014T010547Z-78206733cef94ab295a6adb4bc48b7dd",
+    "manifest": "manifest.json",
+    "manifestSha256": "f5948597568b9f3dbfbcbfa3bf27fb24faad1a6e86e9e20bdd876cee11447a60",
+    "databaseSha256": "ff0ce9507276a99b24967fa47d24577c178f015224f63b4a1af6487575b85d0e",
+    "privateFilesAggregateSha256": "6079cbc59948d44c2b63adfdc4f7a67074310cbf017f95df3897d20efbd563e7",
+    "migrations": [
+      "20261007035847_InitialPersistence",
+      "20261007090442_CommandAccessFacts",
+      "20261007103352_ImmutableContentSnapshots",
+      "20261008013249_AttachmentStorage",
+      "20261008154119_ReviewAnnotations",
+      "20261009094756_SchemaFoundationsM1",
+      "20261009101331_SessionVerifierLookupS2",
+      "20261009153218_ScopedAuthorityS3",
+      "20261011120000_ProcessingWriterGuardC2G",
+      "20261012120000_BoundedTeacherRevocation",
+      "20261012121000_TeacherOperationAttempts",
+      "20261012122000_UnversionedTeacherIntents",
+      "20261012123000_OrganizationBootstrapM1",
+      "20261012153411_AccountsActivationRecoveryM1",
+      "20261012232000_CourseRosterCatalogM1",
+      "20261013012035_M1ContentImportPublication",
+      "20261013160626_CourseEditorAuthorityM111Fix01"
+    ]
+  },
+  "expected": "pg_restore succeeds into a different empty database; private files restore into a different empty root; DB/history/progress/authorization and all protected byte hashes match.",
+  "commands": [
+    {
+      "command": "createdb -U postgres c2_18ecf9853b694710a8b3302778895536",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "pg_restore -U postgres --exit-on-error -d c2_18ecf9853b694710a8b3302778895536 /tmp/c2_64f62eea23fd49f0a51afa064fe3ba6d.dump",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "actual": {
+    "database": "c2_18ecf9853b694710a8b3302778895536",
+    "restoredPrivateFiles": 4,
+    "restoredPrivateBytes": 138148,
+    "dbOracle": "2 versions; 60 assignments; Accepted; 2 submissions; 2 reviews; 2 annotations",
+    "httpOracle": "restore.json PASS; student bytes/history and teacher progress; T-X denied"
+  },
+  "sourceDatabase": "c2_64f62eea23fd49f0a51afa064fe3ba6d",
+  "targetDatabaseDifferent": true,
+  "targetPrivateRootDifferent": true,
+  "checksumManifestMatched": true,
+  "hiddenDataLossDetected": false,
+  "partialSuccessDetected": false,
+  "status": "PASS",
+  "startedAt": "2026-10-14T01:05:47.7364455Z",
+  "completedAt": "2026-10-14T01:05:48.0445776Z"
+}

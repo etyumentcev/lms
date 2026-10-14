@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.14]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.16]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.15] Docker container bbe053fa2eb6 created
+[testcontainers.org 00:00:00.17] Start Docker container bbe053fa2eb6
+[testcontainers.org 00:00:00.26] Wait for Docker container bbe053fa2eb6 to complete readiness checks
+[testcontainers.org 00:00:01.28] Docker container bbe053fa2eb6 ready
+[testcontainers.org 00:00:01.33] Docker container 3da66c93c82a created
+[testcontainers.org 00:00:01.33] Start Docker container 3da66c93c82a
+[testcontainers.org 00:00:01.41] Wait for Docker container 3da66c93c82a to complete readiness checks
+[testcontainers.org 00:00:01.41] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3da66c93c82a
+[testcontainers.org 00:00:02.45] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 3da66c93c82a
+[testcontainers.org 00:00:02.48] Docker container 3da66c93c82a ready
+[testcontainers.org 00:00:13.33] Delete Docker container 3da66c93c82a
+[xUnit.net 00:00:13.72]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_bootstraps_context_then_editor_publishes_only_for_G1(browser: True) [10 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 14.0556 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/course-editor-authority.trx

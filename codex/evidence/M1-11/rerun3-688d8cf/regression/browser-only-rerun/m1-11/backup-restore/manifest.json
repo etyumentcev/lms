@@ -1,0 +1,63 @@
+{
+  "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+  "syntheticOnly": true,
+  "databaseDump": {
+    "Sha256": "5d79ed8ccebe707ddc78200d077d5a799e9326ded2461561c4822dcd510b744c",
+    "Size": 307792
+  },
+  "files": [
+    {
+      "path": "m1-07-attachments/711d76a03fbb477f9a025bc510adcaa4",
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "path": "m1-07-attachments/7f0e7c2054794d199bac12d4c2fb72d0",
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "path": "m1-07-attachments/8e2fa1da6f7a4552945b3b0c47950a79",
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    },
+    {
+      "path": "m1-07-attachments/c8e49f4b292745039515601d770cdffe",
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    }
+  ],
+  "restoredFiles": [
+    {
+      "path": "m1-07-attachments/711d76a03fbb477f9a025bc510adcaa4",
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "path": "m1-07-attachments/7f0e7c2054794d199bac12d4c2fb72d0",
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "path": "m1-07-attachments/8e2fa1da6f7a4552945b3b0c47950a79",
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    },
+    {
+      "path": "m1-07-attachments/c8e49f4b292745039515601d770cdffe",
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    }
+  ],
+  "verified": [
+    "Accepted",
+    "2 submissions",
+    "2 reviews",
+    "2 annotations",
+    "60 assignments",
+    "v1/v2",
+    "student bytes",
+    "teacher history/progress",
+    "T-X denied"
+  ]
+}

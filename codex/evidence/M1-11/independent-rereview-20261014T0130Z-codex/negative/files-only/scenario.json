@@ -1,0 +1,13 @@
+{
+  "scenario": "B-files-only",
+  "status": "PASS",
+  "validatorExit": 42,
+  "expectedExit": 42,
+  "reason": "PostgreSQL backup payload is missing; refused before target mutation",
+  "targetDatabase": "tc076_files_only_target",
+  "targetDatabaseAbsentBefore": true,
+  "targetDatabaseAbsentAfter": true,
+  "targetPrivateRootEmptyAfter": true,
+  "createdbInvoked": false,
+  "pgRestoreInvoked": false
+}

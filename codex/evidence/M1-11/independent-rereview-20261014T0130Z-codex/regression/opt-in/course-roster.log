@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.14]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.15] Docker container 8f23efbf171f created
+[testcontainers.org 00:00:00.18] Start Docker container 8f23efbf171f
+[testcontainers.org 00:00:00.26] Wait for Docker container 8f23efbf171f to complete readiness checks
+[testcontainers.org 00:00:01.28] Docker container 8f23efbf171f ready
+[testcontainers.org 00:00:01.33] Docker container f8127717cfdf created
+[testcontainers.org 00:00:01.34] Start Docker container f8127717cfdf
+[testcontainers.org 00:00:01.42] Wait for Docker container f8127717cfdf to complete readiness checks
+[testcontainers.org 00:00:01.42] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f8127717cfdf
+[testcontainers.org 00:00:02.46] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container f8127717cfdf
+[testcontainers.org 00:00:02.49] Docker container f8127717cfdf ready
+[testcontainers.org 00:00:11.70] Delete Docker container f8127717cfdf
+[xUnit.net 00:00:12.10]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.CourseRosterBrowserTests.Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated(browser: True) [9 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 12.4034 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/course-roster.trx

@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d3509261-1a5b-4fd5-862c-e5b46867db72" name="@tea-Swift-SFG16-74 2026-10-14 00:24:03" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T00:24:03.5606356+06:00" queuing="2026-10-14T00:24:03.5606357+06:00" start="2026-10-14T00:23:01.9637905+06:00" finish="2026-10-14T00:24:03.5647707+06:00" />
+  <TestSettings name="default" id="140891e2-bea7-4002-98d5-b1678061607e">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_00_24_03" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="4f1d70f7-d87c-4b3b-8c41-33c6e424272f" testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" testName="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:58.3122729" startTime="2026-10-14T00:23:05.0427980+06:00" endTime="2026-10-14T00:24:03.3494789+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4f1d70f7-d87c-4b3b-8c41-33c6e424272f">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByTestId('import-diagnostics') to be visible\u001b[22m
+
+    at upload (/home/tea/github/lms/tools/browser_read/content-publication.mjs:58:48)
+    at async file:///home/tea/github/lms/tools/browser_read/content-publication.mjs:101:3
+http:403:/api/v1/teacher/courses/course-01299fef5f4047feaf969ad4c5ee73d5/imports
+console:Failed to load resource: the server responded with a status of 403 ()
+m111-ta-4aee037d
+Преподаватель
+Организация
+Выйти
+К основному содержимому
+Sapientum
+⌂
+Главная
+▤
+Мои курсы
+▦
+Расписание
+✓
+Проверка
+▣
+Архив задач
+↗
+Прогресс
+▱
+Сообщения
+S
+Учебное пространство
+Преподаватель
+Мои курсы
+Подготовка к олимпиаде Эйлера
+Материалы
+← Мои курсы
+МАТЕРИАЛЫ КУРСА
+Подготовка к олимпиаде Эйлера
+
+Синтетический курс M1-11
+
+Черновик
+1
+Импорт ZIP
+2
+Диагностика
+3
+Предпросмотр
+4
+Публикация
+5
+Открытие занятия
+6
+Назначение группе
+Импорт не выполнен. Проверьте формат ZIP и полномочия.
+Импорт ZIP
+
+Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+
+m1-06-invalid.zip
+Импортировать ZIP
+Контекст
+</Message>
+          <StackTrace>   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.RunNode(String root, String script, Object input, TimeSpan duration, IEnumerable`1 secrets) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 347
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 167
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 220
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 220
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 220
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="bee7d5e0-2a78-f521-3f32-b89542fa5f69">
+      <Execution id="4f1d70f7-d87c-4b3b-8c41-33c6e424272f" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests" name="Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" executionId="4f1d70f7-d87c-4b3b-8c41-33c6e424272f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.11]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.13]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.16] Docker container 427b80f56a0e created
+[testcontainers.org 00:00:00.18] Start Docker container 427b80f56a0e
+[testcontainers.org 00:00:00.29] Wait for Docker container 427b80f56a0e to complete readiness checks
+[testcontainers.org 00:00:01.31] Docker container 427b80f56a0e ready
+[testcontainers.org 00:00:01.39] Docker container 58cbe796a32a created
+[testcontainers.org 00:00:01.40] Start Docker container 58cbe796a32a
+[testcontainers.org 00:00:01.49] Wait for Docker container 58cbe796a32a to complete readiness checks
+[testcontainers.org 00:00:01.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 58cbe796a32a
+[testcontainers.org 00:00:02.54] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 58cbe796a32a
+[testcontainers.org 00:00:02.59] Docker container 58cbe796a32a ready
+[xUnit.net 00:01:01.17]       locator.waitFor: Timeout 30000ms exceeded.
+[xUnit.net 00:01:01.17]       Call log:
+[xUnit.net 00:01:01.17]       \u001b[2m  - waiting for getByTestId('import-diagnostics') to be visible\u001b[22m
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]           at upload (/home/tea/github/lms/tools/browser_read/content-publication.mjs:58:48)
+[xUnit.net 00:01:01.17]           at async file:///home/tea/github/lms/tools/browser_read/content-publication.mjs:101:3
+[xUnit.net 00:01:01.17]       http:403:/api/v1/teacher/courses/course-01299fef5f4047feaf969ad4c5ee73d5/imports
+[xUnit.net 00:01:01.17]       console:Failed to load resource: the server responded with a status of 403 ()
+[xUnit.net 00:01:01.17]       m111-ta-4aee037d
+[xUnit.net 00:01:01.17]       Преподаватель
+[xUnit.net 00:01:01.17]       Организация
+[xUnit.net 00:01:01.17]       Выйти
+[xUnit.net 00:01:01.17]       К основному содержимому
+[xUnit.net 00:01:01.17]       Sapientum
+[xUnit.net 00:01:01.17]       ⌂
+[xUnit.net 00:01:01.17]       Главная
+[xUnit.net 00:01:01.17]       ▤
+[xUnit.net 00:01:01.17]       Мои курсы
+[xUnit.net 00:01:01.17]       ▦
+[xUnit.net 00:01:01.17]       Расписание
+[xUnit.net 00:01:01.17]       ✓
+[xUnit.net 00:01:01.17]       Проверка
+[xUnit.net 00:01:01.17]       ▣
+[xUnit.net 00:01:01.17]       Архив задач
+[xUnit.net 00:01:01.17]       ↗
+[xUnit.net 00:01:01.17]       Прогресс
+[xUnit.net 00:01:01.17]       ▱
+[xUnit.net 00:01:01.17]       Сообщения
+[xUnit.net 00:01:01.17]       S
+[xUnit.net 00:01:01.17]       Учебное пространство
+[xUnit.net 00:01:01.17]       Преподаватель
+[xUnit.net 00:01:01.17]       Мои курсы
+[xUnit.net 00:01:01.17]       Подготовка к олимпиаде Эйлера
+[xUnit.net 00:01:01.17]       Материалы
+[xUnit.net 00:01:01.17]       ← Мои курсы
+[xUnit.net 00:01:01.17]       МАТЕРИАЛЫ КУРСА
+[xUnit.net 00:01:01.17]       Подготовка к олимпиаде Эйлера
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]       Синтетический курс M1-11
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]       Черновик
+[xUnit.net 00:01:01.17]       1
+[xUnit.net 00:01:01.17]       Импорт ZIP
+[xUnit.net 00:01:01.17]       2
+[xUnit.net 00:01:01.17]       Диагностика
+[xUnit.net 00:01:01.17]       3
+[xUnit.net 00:01:01.17]       Предпросмотр
+[xUnit.net 00:01:01.17]       4
+[xUnit.net 00:01:01.17]       Публикация
+[xUnit.net 00:01:01.17]       5
+[xUnit.net 00:01:01.17]       Открытие занятия
+[xUnit.net 00:01:01.17]       6
+[xUnit.net 00:01:01.17]       Назначение группе
+[xUnit.net 00:01:01.17]       Импорт не выполнен. Проверьте формат ZIP и полномочия.
+[xUnit.net 00:01:01.17]       Импорт ZIP
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]       Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]       m1-06-invalid.zip
+[xUnit.net 00:01:01.17]       Импортировать ZIP
+[xUnit.net 00:01:01.17]       Контекст
+[xUnit.net 00:01:01.17]       
+[xUnit.net 00:01:01.17]       Stack Trace:
+[xUnit.net 00:01:01.17]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(347,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.RunNode(String root, String script, Object input, TimeSpan duration, IEnumerable`1 secrets)
+[xUnit.net 00:01:01.17]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(167,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:01.17]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(220,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:01.17]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(220,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:01.17]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(220,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:01.17]         --- End of stack trace from previous location ---
+[testcontainers.org 00:01:00.94] Delete Docker container 58cbe796a32a
+[xUnit.net 00:01:01.30]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:24:03.3523789+06:00">
+        <Text>[xUnit.net 00:01:01.17]     Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

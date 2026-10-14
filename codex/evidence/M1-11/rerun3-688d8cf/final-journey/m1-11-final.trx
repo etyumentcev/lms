@@ -1,0 +1,1141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="626444d3-4ad7-42de-ae45-4d39d9c699f7" name="@tea-Swift-SFG16-74 2026-10-14 01:44:32" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T01:44:32.7093994+06:00" queuing="2026-10-14T01:44:32.7093995+06:00" start="2026-10-14T01:43:22.6962885+06:00" finish="2026-10-14T01:44:32.7173738+06:00" />
+  <TestSettings name="default" id="9fed8e44-6f9d-421a-888a-ae5480decdf2">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_01_44_32" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a7cd20a0-ef98-45eb-8762-3616193ee0fb" testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" testName="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:01:06.6136900" startTime="2026-10-14T01:43:25.8418525+06:00" endTime="2026-10-14T01:44:32.4542784+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7cd20a0-ef98-45eb-8762-3616193ee0fb">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByText('Ученик 01', { exact: true }) to be visible\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/content-publication.mjs:224:54
+
+m111-ta-0e0ce5c5
+Преподаватель
+Организация
+Выйти
+К основному содержимому
+Sapientum
+⌂
+Главная
+▤
+Мои курсы
+▦
+Расписание
+✓
+Проверка
+▣
+Архив задач
+↗
+Прогресс
+▱
+Сообщения
+S
+Учебное пространство
+Преподаватель
+Главная
+Прогресс
+Прогресс группы
+
+Статусы и история берутся из текущего серверного состояния.
+
+Прогресс группы
+Мои проверки
+Курс · ID
+Группа · ID
+Ученик · UUID
+Статус
+Все статусы
+Не начата
+На проверке
+Нужна доработка
+Принята
+Применить Сбросить
+P01
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+◷
+На проверке
+Попыток: 1
+Открыть задачу и историю
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P02
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P03
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P04
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P05
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P06
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P07
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P08
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P09
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P10
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P11
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+P12
+
+Подготовка к олимпиаде Эйлера · G1 · назначено 5
+
+Задача 1
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 2
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 3
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 4
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Задача 5
+
+Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+
+○
+Не начата
+Попыток: 0
+Контекст
+Сводка
+
+12 учеников
+
+60 назначенных задач
+
+Статусы
+Не начата
+59
+На проверке
+1
+Нужна доработка
+0
+Принята
+0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.RunNode(String root, String script, Object input, TimeSpan duration, IEnumerable`1 secrets) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 351
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 169
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 222
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 222
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 222
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="bee7d5e0-2a78-f521-3f32-b89542fa5f69">
+      <Execution id="a7cd20a0-ef98-45eb-8762-3616193ee0fb" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests" name="Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" executionId="a7cd20a0-ef98-45eb-8762-3616193ee0fb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.16]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.19]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container 7101c6fa0863 created
+[testcontainers.org 00:00:00.20] Start Docker container 7101c6fa0863
+[testcontainers.org 00:00:00.31] Wait for Docker container 7101c6fa0863 to complete readiness checks
+[testcontainers.org 00:00:01.34] Docker container 7101c6fa0863 ready
+[testcontainers.org 00:00:01.42] Docker container 086067308be4 created
+[testcontainers.org 00:00:01.42] Start Docker container 086067308be4
+[testcontainers.org 00:00:01.53] Wait for Docker container 086067308be4 to complete readiness checks
+[testcontainers.org 00:00:01.54] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 086067308be4
+[testcontainers.org 00:00:02.59] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 086067308be4
+[testcontainers.org 00:00:02.63] Docker container 086067308be4 ready
+[xUnit.net 00:01:09.55]       locator.waitFor: Timeout 30000ms exceeded.
+[xUnit.net 00:01:09.55]       Call log:
+[xUnit.net 00:01:09.55]       \u001b[2m  - waiting for getByText('Ученик 01', { exact: true }) to be visible\u001b[22m
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]           at /home/tea/github/lms/tools/browser_read/content-publication.mjs:224:54
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       m111-ta-0e0ce5c5
+[xUnit.net 00:01:09.55]       Преподаватель
+[xUnit.net 00:01:09.55]       Организация
+[xUnit.net 00:01:09.55]       Выйти
+[xUnit.net 00:01:09.55]       К основному содержимому
+[xUnit.net 00:01:09.55]       Sapientum
+[xUnit.net 00:01:09.55]       ⌂
+[xUnit.net 00:01:09.55]       Главная
+[xUnit.net 00:01:09.55]       ▤
+[xUnit.net 00:01:09.55]       Мои курсы
+[xUnit.net 00:01:09.55]       ▦
+[xUnit.net 00:01:09.55]       Расписание
+[xUnit.net 00:01:09.55]       ✓
+[xUnit.net 00:01:09.55]       Проверка
+[xUnit.net 00:01:09.55]       ▣
+[xUnit.net 00:01:09.55]       Архив задач
+[xUnit.net 00:01:09.55]       ↗
+[xUnit.net 00:01:09.55]       Прогресс
+[xUnit.net 00:01:09.55]       ▱
+[xUnit.net 00:01:09.55]       Сообщения
+[xUnit.net 00:01:09.55]       S
+[xUnit.net 00:01:09.55]       Учебное пространство
+[xUnit.net 00:01:09.55]       Преподаватель
+[xUnit.net 00:01:09.55]       Главная
+[xUnit.net 00:01:09.55]       Прогресс
+[xUnit.net 00:01:09.55]       Прогресс группы
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Статусы и история берутся из текущего серверного состояния.
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Прогресс группы
+[xUnit.net 00:01:09.55]       Мои проверки
+[xUnit.net 00:01:09.55]       Курс · ID
+[xUnit.net 00:01:09.55]       Группа · ID
+[xUnit.net 00:01:09.55]       Ученик · UUID
+[xUnit.net 00:01:09.55]       Статус
+[xUnit.net 00:01:09.55]       Все статусы
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       На проверке
+[xUnit.net 00:01:09.55]       Нужна доработка
+[xUnit.net 00:01:09.55]       Принята
+[xUnit.net 00:01:09.55]       Применить Сбросить
+[xUnit.net 00:01:09.55]       P01
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Задача 1
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ◷
+[xUnit.net 00:01:09.55]       На проверке
+[xUnit.net 00:01:09.55]       Попыток: 1
+[xUnit.net 00:01:09.55]       Открыть задачу и историю
+[xUnit.net 00:01:09.55]       Задача 2
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 3
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 4
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       P02
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Задача 1
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 2
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 3
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 4
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       P03
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Задача 1
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 2
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 3
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 4
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       P04
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Задача 1
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 2
+[xUnit.net 00:01:09.55]       
+[testcontainers.org 00:01:09.28] Delete Docker container 086067308be4
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 3
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 4
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       ○
+[xUnit.net 00:01:09.55]       Не начата
+[xUnit.net 00:01:09.55]       Попыток: 0
+[xUnit.net 00:01:09.55]       Задача 5
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.55]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.55]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P05
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P06
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P07
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P08
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P09
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P10
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P11
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       P12
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Подготовка к олимпиаде Эйлера · G1 · назначено 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Задача 1
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 2
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 3
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 4
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Задача 5
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Остатки и сравнения · версия 6d0d524e-d059-4927-8a1a-476d6f3769ed
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       ○
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       Попыток: 0
+[xUnit.net 00:01:09.56]       Контекст
+[xUnit.net 00:01:09.56]       Сводка
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       12 учеников
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       60 назначенных задач
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Статусы
+[xUnit.net 00:01:09.56]       Не начата
+[xUnit.net 00:01:09.56]       59
+[xUnit.net 00:01:09.56]       На проверке
+[xUnit.net 00:01:09.56]       1
+[xUnit.net 00:01:09.56]       Нужна доработка
+[xUnit.net 00:01:09.56]       0
+[xUnit.net 00:01:09.56]       Принята
+[xUnit.net 00:01:09.56]       0
+[xUnit.net 00:01:09.56]       
+[xUnit.net 00:01:09.56]       Stack Trace:
+[xUnit.net 00:01:09.56]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(351,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.RunNode(String root, String script, Object input, TimeSpan duration, IEnumerable`1 secrets)
+[xUnit.net 00:01:09.56]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(169,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:09.56]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(222,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:09.56]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(222,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:09.56]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(222,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:01:09.56]         --- End of stack trace from previous location ---
+[xUnit.net 00:01:09.71]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T01:44:32.4564420+06:00">
+        <Text>[xUnit.net 00:01:09.55]     Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

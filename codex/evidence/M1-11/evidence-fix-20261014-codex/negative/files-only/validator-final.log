@@ -1,0 +1,6 @@
+{
+  "status": "REFUSED",
+  "phase": "pre-restore-validation",
+  "reason": "PostgreSQL backup payload is missing or is a symlink",
+  "mutationsPerformed": false
+}

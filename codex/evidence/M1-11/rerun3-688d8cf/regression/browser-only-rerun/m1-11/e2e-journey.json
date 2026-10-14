@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "organizations": 2,
+  "students": 12,
+  "teachers": 2,
+  "assignments": 60,
+  "statusJourney": [
+    "NotStarted",
+    "Submitted",
+    "NeedsRevision",
+    "Submitted",
+    "Accepted"
+  ],
+  "submissions": 2,
+  "reviews": 2,
+  "annotations": 2,
+  "progress": {
+    "accepted": 2,
+    "needsRevision": 2,
+    "submitted": 2,
+    "notStarted": 54
+  },
+  "protectedFiles": [
+    {
+      "AttemptNumber": 1,
+      "attachmentId": "ead0ebbd-2698-4d23-800d-9dbdcb53e602",
+      "FileName": "a4-2.png",
+      "Size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    },
+    {
+      "AttemptNumber": 1,
+      "attachmentId": "2e9ce946-0496-47d3-b143-326c97563cc6",
+      "FileName": "a4-1.png",
+      "Size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "AttemptNumber": 2,
+      "attachmentId": "84795aa2-8207-43ba-b70b-8f8ad911b6ea",
+      "FileName": "a4-1.png",
+      "Size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "AttemptNumber": 2,
+      "attachmentId": "49c15eb1-469f-4d55-939e-9f12ac46b96f",
+      "FileName": "a4-2.png",
+      "Size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    }
+  ]
+}

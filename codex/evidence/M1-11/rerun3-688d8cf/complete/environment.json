@@ -1,0 +1,9 @@
+{
+  "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+  "transport": "HTTPS",
+  "browser": "Chromium",
+  "database": "PostgreSQL 17.6",
+  "productionReactBundle": true,
+  "privateStorage": true,
+  "syntheticOnly": true
+}

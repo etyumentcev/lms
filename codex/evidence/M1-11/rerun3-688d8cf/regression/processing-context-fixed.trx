@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="fa9d2ace-9ae0-47b2-94e7-f905c87d477d" name="@tea-Swift-SFG16-74 2026-10-14 02:37:44" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T02:37:44.7640101+06:00" queuing="2026-10-14T02:37:44.7640102+06:00" start="2026-10-14T02:37:38.2575403+06:00" finish="2026-10-14T02:37:44.7733205+06:00" />
+  <TestSettings name="default" id="f4931fa4-d7cb-4cda-b33e-6510a7883b37">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_02_37_44" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="b02acb3b-9523-418e-bf34-83d8ded03200" testId="13c379d5-80d6-d196-0552-81321e91234c" testName="Lms.Api.Tests.ProcessingContextAdministrationHttpTests.Admin_creates_versions_and_same_org_binding_with_replay_CAS_and_database_consistency" computerName="tea-Swift-SFG16-74" duration="00:00:03.1066180" startTime="2026-10-14T02:37:41.3968455+06:00" endTime="2026-10-14T02:37:44.5006256+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b02acb3b-9523-418e-bf34-83d8ded03200" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.ProcessingContextAdministrationHttpTests.Admin_creates_versions_and_same_org_binding_with_replay_CAS_and_database_consistency" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="13c379d5-80d6-d196-0552-81321e91234c">
+      <Execution id="b02acb3b-9523-418e-bf34-83d8ded03200" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.ProcessingContextAdministrationHttpTests" name="Admin_creates_versions_and_same_org_binding_with_replay_CAS_and_database_consistency" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="13c379d5-80d6-d196-0552-81321e91234c" executionId="b02acb3b-9523-418e-bf34-83d8ded03200" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.11]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.12]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container aa8db519f29f created
+[testcontainers.org 00:00:00.20] Start Docker container aa8db519f29f
+[testcontainers.org 00:00:00.31] Wait for Docker container aa8db519f29f to complete readiness checks
+[testcontainers.org 00:00:01.33] Docker container aa8db519f29f ready
+[testcontainers.org 00:00:01.40] Docker container ac05ab771779 created
+[testcontainers.org 00:00:01.41] Start Docker container ac05ab771779
+[testcontainers.org 00:00:01.50] Wait for Docker container ac05ab771779 to complete readiness checks
+[testcontainers.org 00:00:01.51] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ac05ab771779
+[testcontainers.org 00:00:02.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ac05ab771779
+[testcontainers.org 00:00:02.59] Docker container ac05ab771779 ready
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[62]
+      User profile is available. Using '/home/tea/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/tea/github/lms/src/Lms.Api
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/platform/organizations - application/json;+charset=utf-8 215
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/platform/organizations'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT pg_advisory_xact_lock(hashtextextended(@p0, 0))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@command_CommandId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT o."CommandId", o."AdminActorId", o."AdminUserId", o."ChallengeId", o."CreatedAt", o."OperatorSubjectHash", o."OrganizationId", o."PayloadDigest"
+      FROM "OrganizationBootstrapReceipts" AS o
+      WHERE o."CommandId" = @command_CommandId
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@normalized='?'], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "AspNetUsers" AS a
+          WHERE a."NormalizedUserName" = @normalized)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?' (DbType = Guid), @p3='?' (DbType = Int32), @p4='?', @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?', @p13='?' (DbType = Boolean), @p14='?', @p15='?' (DbType = Boolean), @p16='?', @p17='?' (DbType = Guid), @p18='?', @p19='?' (DbType = Boolean), @p20='?' (DbType = Guid), @p21='?' (DbType = DateTime), @p22='?' (DbType = DateTime), @p23='?' (DbType = Int32), @p24='?' (DbType = Int32), @p25='?', @p26='?' (DbType = Guid), @p27='?' (DbType = Binary), @p28='?', @p29='?' (DbType = DateTime), @p30='?' (DbType = Guid), @p31='?' (DbType = Int64), @p32='?' (DbType = Guid), @p33='?' (DbType = DateTime), @p34='?' (DbType = Int64), @p35='?', @p36='?', @p37='?' (DbType = Int64), @p38='?' (DbType = Guid), @p39='?' (DbType = Guid), @p40='?' (DbType = Boolean), @p41='?' (DbType = Guid), @p42='?' (DbType = Guid), @p43='?' (DbType = Guid), @p44='?' (DbType = DateTime), @p45='?', @p46='?' (DbType = Int64), @p47='?' (DbType = Int32), @p48='?' (DbType = DateTime), @p49='?', @p50='?' (DbType = Int64), @p51='?' (DbType = Guid), @p52='?', @p53='?' (DbType = Guid), @p54='?', @p55='?' (DbType = Guid), @p56='?' (DbType = Int64), @p57='?' (DbType = Guid), @p58='?' (DbType = Int64), @p59='?', @p60='?' (DbType = DateTime), @p61='?' (DbType = Guid), @p62='?', @p63='?', @p64='?', @p65='?', @p66='?' (DbType = Guid), @p67='?' (DbType = Guid), @p68='?' (DbType = Guid), @p69='?' (DbType = Guid), @p70='?' (DbType = DateTime), @p71='?', @p72='?' (DbType = Guid), @p73='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Actors" ("ActorId", "PrimaryEducationalRole")
+      VALUES (@p0, @p1);
+      INSERT INTO "AspNetUsers" ("Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName")
+      VALUES (@p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16);
+      INSERT INTO "Organizations" ("OrganizationId", "State", "SyntheticOnly")
+      VALUES (@p17, @p18, @p19);
+      INSERT INTO "AccessChallenges" ("ChallengeId", "CreatedAt", "ExpiresAt", "FailedAttempts", "KeyVersion", "Purpose", "RecoveryRequestId", "SecretMac", "State", "TerminalAt", "UserId", "Version")
+      VALUES (@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31);
+      INSERT INTO "AccountSecurityState" ("UserId", "ChangedAt", "CredentialEpoch", "ReasonRef", "State", "Version")
+      VALUES (@p32, @p33, @p34, @p35, @p36, @p37);
+      INSERT INTO "ActorIdentities" ("UserId", "ActorId", "IsActive", "ProvisioningOrgId")
+      VALUES (@p38, @p39, @p40, @p41);
+      INSERT INTO "OrganizationMemberships" ("ActorId", "OrganizationId", "AccessValidUntil", "EducationalRole", "Generation", "PermissionFlags", "RevocationRequestedAt", "State", "Version")
+      VALUES (@p42, @p43, @p44, @p45, @p46, @p47, @p48, @p49, @p50);
+      INSERT INTO "OrganizationProfiles" ("OrganizationId", "Name")
+      VALUES (@p51, @p52);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p53, @p54, @p55, @p56, @p57, @p58, @p59, @p60, @p61, @p62, @p63, @p64, @p65);
+      INSERT INTO "OrganizationBootstrapReceipts" ("CommandId", "AdminActorId", "AdminUserId", "ChallengeId", "CreatedAt", "OperatorSubjectHash", "OrganizationId", "PayloadDigest")
+      VALUES (@p66, @p67, @p68, @p69, @p70, @p71, @p72, @p73);
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/platform/organizations'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/platform/organizations - 201 - application/json;+charset=utf-8 638.8975ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET https://lms.test/api/v1/auth/csrf - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/auth/csrf'
+warn: Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery[8]
+      The 'Cache-Control' and 'Pragma' headers have been overridden and set to 'no-cache, no-store' and 'no-cache' respectively to prevent caching of this response. Any response that uses antiforgery should not be cached.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/auth/csrf'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET https://lms.test/api/v1/auth/csrf - 200 - application/json;+charset=utf-8 7.6226ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/auth/activate-first-admin - application/json;+charset=utf-8 205
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/auth/activate-first-admin'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT pg_advisory_xact_lock(hashtextextended(@p0, 0))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@_8__locals1_command_OrganizationId='?' (DbType = Guid), @normalized='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id"
+      FROM "AspNetUsers" AS a
+      INNER JOIN "ActorIdentities" AS a0 ON a."Id" = a0."UserId"
+      WHERE a0."ProvisioningOrgId" = @_8__locals1_command_OrganizationId AND a."NormalizedUserName" = @normalized
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ChangedAt", l."CredentialEpoch", l."ReasonRef", l."State", l."Version"
+      FROM (
+          SELECT * FROM "AccountSecurityState" WHERE "UserId"=@p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m."Id", m."AccessFailedCount", m."ConcurrencyStamp", m."Email", m."EmailConfirmed", m."LockoutEnabled", m."LockoutEnd", m."NormalizedEmail", m."NormalizedUserName", m."PasswordHash", m."PhoneNumber", m."PhoneNumberConfirmed", m."SecurityStamp", m."TwoFactorEnabled", m."UserName"
+      FROM (
+          SELECT * FROM "AspNetUsers" WHERE "Id"=@p0 FOR UPDATE
+      ) AS m
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ActorId", l."IsActive", l."ProvisioningOrgId"
+      FROM (
+          SELECT * FROM "ActorIdentities" WHERE "UserId"=@p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."ChallengeId", l."CreatedAt", l."ExpiresAt", l."FailedAttempts", l."KeyVersion", l."Purpose", l."RecoveryRequestId", l."SecretMac", l."State", l."TerminalAt", l."UserId", l."Version"
+      FROM (
+          SELECT * FROM "AccessChallenges" WHERE "UserId"=@p0 AND "Purpose"='Activation' ORDER BY "CreatedAt" DESC LIMIT 1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?', @p1='?' (DbType = DateTime), @p2='?' (DbType = Int64), @p4='?' (DbType = Int64), @p6='?' (DbType = Guid), @p5='?' (DbType = Boolean), @p9='?' (DbType = Guid), @p10='?', @p7='?', @p8='?', @p11='?' (DbType = Guid), @p12='?', @p13='?' (DbType = Guid), @p14='?' (DbType = Int64), @p15='?' (DbType = Guid), @p16='?' (DbType = Int64), @p17='?', @p18='?' (DbType = DateTime), @p19='?' (DbType = Guid), @p20='?', @p21='?', @p22='?', @p23='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE "AccessChallenges" SET "State" = @p0, "TerminalAt" = @p1, "Version" = @p2
+      WHERE "ChallengeId" = @p3 AND "Version" = @p4;
+      UPDATE "ActorIdentities" SET "IsActive" = @p5
+      WHERE "UserId" = @p6;
+      UPDATE "AspNetUsers" SET "PasswordHash" = @p7, "SecurityStamp" = @p8
+      WHERE "Id" = @p9 AND "ConcurrencyStamp" = @p10;
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23);
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/auth/activate-first-admin'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/auth/activate-first-admin - 204 - - 130.9396ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/auth/login - application/json;+charset=utf-8 166
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/auth/login'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalized='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedUserName" = @normalized
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ChangedAt", l."CredentialEpoch", l."ReasonRef", l."State", l."Version"
+      FROM (
+          SELECT * FROM "AccountSecurityState" WHERE "UserId" = @p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m."Id", m."AccessFailedCount", m."ConcurrencyStamp", m."Email", m."EmailConfirmed", m."LockoutEnabled", m."LockoutEnd", m."NormalizedEmail", m."NormalizedUserName", m."PasswordHash", m."PhoneNumber", m."PhoneNumberConfirmed", m."SecurityStamp", m."TwoFactorEnabled", m."UserName"
+      FROM (
+          SELECT * FROM "AspNetUsers" WHERE "Id" = @p0 FOR UPDATE
+      ) AS m
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ActorId", l."IsActive", l."ProvisioningOrgId"
+      FROM (
+          SELECT * FROM "ActorIdentities" WHERE "UserId" = @p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int64), @p4='?' (DbType = DateTime), @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Guid), @p8='?' (DbType = Int64), @p9='?' (DbType = Guid), @p10='?', @p11='?' (DbType = Guid), @p12='?' (DbType = Int64), @p13='?' (DbType = Guid), @p14='?' (DbType = Int64), @p15='?', @p16='?' (DbType = DateTime), @p17='?' (DbType = Guid), @p18='?', @p19='?', @p20='?', @p21='?', @p22='?' (DbType = Int64), @p23='?' (DbType = Guid), @p24='?' (DbType = DateTime), @p25='?' (DbType = DateTime), @p26='?' (DbType = Int32), @p27='?' (DbType = Binary)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "IdentitySessions" ("SessionId", "AbsoluteExpiresAt", "CreatedAt", "Generation", "LastSuccessfulRefreshAt", "RevocationReasonRef", "RevokedAt", "UserId", "Version")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+      INSERT INTO "RefreshVerifiers" ("Generation", "SessionId", "ConsumedAt", "CreatedAt", "KeyVersion", "Verifier")
+      VALUES (@p22, @p23, @p24, @p25, @p26, @p27);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."State", l."SyntheticOnly"
+      FROM (
+          SELECT * FROM "Organizations" WHERE "OrganizationId"=@p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @org AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@org='?' (DbType = Guid), @actor='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT o."OrganizationId", o."ActorId", o."AccessValidUntil", o."EducationalRole", o."Generation", o."PermissionFlags", o."RevocationRequestedAt", o."State", o."Version"
+      FROM "OrganizationMemberships" AS o
+      WHERE o."OrganizationId" = @org AND o."ActorId" = @actor AND o."State" = 'Active'
+      LIMIT 2
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/auth/login'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/auth/login - 200 - application/json 192.2124ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET https://lms.test/api/v1/auth/csrf - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/auth/csrf'
+warn: Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery[8]
+      The 'Cache-Control' and 'Pragma' headers have been overridden and set to 'no-cache, no-store' and 'no-cache' respectively to prevent caching of this response. Any response that uses antiforgery should not be cached.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/auth/csrf'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET https://lms.test/api/v1/auth/csrf - 200 - application/json;+charset=utf-8 3.3135ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/courses - application/json;+charset=utf-8 222
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/courses'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT pg_advisory_xact_lock(hashtextextended(@p0, 0))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@actorId='?' (DbType = Guid), @key='?'], CommandType='Text', CommandTimeout='30']
+      SELECT c."AdministratorActorId", c."IdempotencyKey", c."CreatedAt", c."Kind", c."OrganizationId", c."PayloadDigest", c."ResultRef"
+      FROM "CourseRosterCommandReceipts" AS c
+      WHERE c."AdministratorActorId" = @actorId AND c."IdempotencyKey" = @key
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Guid), @p3='?' (DbType = Guid), @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Guid), @p8='?', @p9='?', @p10='?' (DbType = Guid), @p11='?', @p12='?' (DbType = Guid), @p13='?' (DbType = Int64), @p14='?' (DbType = Guid), @p15='?' (DbType = Int64), @p16='?', @p17='?' (DbType = DateTime), @p18='?' (DbType = Guid), @p19='?', @p20='?', @p21='?', @p22='?', @p23='?', @p24='?' (DbType = DateTime), @p25='?', @p26='?' (DbType = Guid), @p27='?', @p28='?', @p29='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CourseRegistry" ("CourseId", "MappingState", "OrganizationId")
+      VALUES (@p0, @p1, @p2);
+      INSERT INTO "CourseRosterCommandReceipts" ("AdministratorActorId", "IdempotencyKey", "CreatedAt", "Kind", "OrganizationId", "PayloadDigest", "ResultRef")
+      VALUES (@p3, @p4, @p5, @p6, @p7, @p8, @p9);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22);
+      INSERT INTO "CourseCatalog" ("CourseId", "CreatedAt", "Description", "OrganizationId", "State", "Title", "Version")
+      VALUES (@p23, @p24, @p25, @p26, @p27, @p28, @p29);
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/courses'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/courses - 201 - application/json;+charset=utf-8 76.5166ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET https://lms.test/api/v1/admin/processing-context - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/admin/processing-context'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT o."OrganizationId", o."ActorId", o."AccessValidUntil", o."EducationalRole", o."Generation", o."PermissionFlags", o."RevocationRequestedAt", o."State", o."Version"
+      FROM "OrganizationMemberships" AS o
+      WHERE o."OrganizationId" = @organizationId AND o."ActorId" = @actorId
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (33ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/admin/processing-context'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET https://lms.test/api/v1/admin/processing-context - 200 - application/json;+charset=utf-8 80.3971ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - application/json;+charset=utf-8 182
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @command_OrganizationId
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_change(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @current_ContextId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @organizationId AND p."ContextId" = @current_ContextId AND p."State" = 'Active')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - 201 - application/json;+charset=utf-8 35.6600ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - application/json;+charset=utf-8 182
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @current_ContextId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @organizationId AND p."ContextId" = @current_ContextId AND p."State" = 'Active')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - 200 - application/json;+charset=utf-8 7.1382ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - application/json;+charset=utf-8 224
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now AND p."SyntheticOnly" AND p."ApprovalState" = 'SyntheticOnly'
+      ORDER BY p."EffectiveFrom" DESC, p."Version" DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid), @command_CourseId='?'], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "CourseRegistry" AS c
+          WHERE c."OrganizationId" = @command_OrganizationId AND c."CourseId" = @command_CourseId AND c."MappingState" = 'Verified')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid), @command_CourseId='?', @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @command_OrganizationId AND c."CourseId" = @command_CourseId AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_change(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @current_ContextId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @organizationId AND p."ContextId" = @current_ContextId AND p."State" = 'Active')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - 201 - application/json;+charset=utf-8 26.1231ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - application/json;+charset=utf-8 224
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - 409 - application/problem+json 13.7154ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - application/json;+charset=utf-8 213
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @command_OrganizationId
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_change(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @current_ContextId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @organizationId AND p."ContextId" = @current_ContextId AND p."State" = 'Active')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/processing-context/versions'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/processing-context/versions - 201 - application/json;+charset=utf-8 9.4967ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - application/json;+charset=utf-8 223
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_lock(@org) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[p0='?' (DbType = Guid), p1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."ActorId", l."AccessValidUntil", l."EducationalRole", l."Generation", l."PermissionFlags", l."RevocationRequestedAt", l."State", l."Version"
+      FROM (
+          SELECT * FROM "OrganizationMemberships" WHERE "OrganizationId"=@p0 AND "ActorId"=@p1 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_find_command(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now AND p."SyntheticOnly" AND p."ApprovalState" = 'SyntheticOnly'
+      ORDER BY p."EffectiveFrom" DESC, p."Version" DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid), @command_CourseId='?'], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "CourseRegistry" AS c
+          WHERE c."OrganizationId" = @command_OrganizationId AND c."CourseId" = @command_CourseId AND c."MappingState" = 'Verified')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@command_OrganizationId='?' (DbType = Guid), @command_CourseId='?', @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @command_OrganizationId AND c."CourseId" = @command_CourseId AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[org='?' (DbType = Guid), operation='?' (DbType = Guid), expected='?' (DbType = Int64), action='?', payload='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT public.processing_change(@org,@operation,@expected,@action,@payload) AS "Value"
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Value"
+      FROM (
+          SELECT "Revision" AS "Value" FROM "ProcessingGuards" WHERE "OrganizationId"=@org
+      ) AS s
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @now='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT p."ContextId", p."Version", p."ApprovalState", p."EffectiveFrom", p."LegalBasisRef", p."OrganizationId", p."PurposeRef", p."RetentionPolicyRef", p."SyntheticOnly"
+      FROM "ProcessingContextVersions" AS p
+      WHERE p."OrganizationId" = @organizationId AND p."EffectiveFrom" &lt;= @now
+      ORDER BY p."ContextId", p."Version"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@organizationId='?' (DbType = Guid), @current_ContextId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @organizationId AND p."ContextId" = @current_ContextId AND p."State" = 'Active')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @organizationId
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@organizationId='?' (DbType = Guid), @courseIds='?' (DbType = Object), @now='?' (DbType = DateTime), @now3='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."EffectiveFrom", c."ContextId", c."ContextVersion", c."EffectiveTo", c."OrganizationId"
+      FROM "CourseContextBindings" AS c
+      WHERE c."OrganizationId" = @organizationId AND c."CourseId" = ANY (@courseIds) AND c."EffectiveFrom" &lt;= @now AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @now3)
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/admin/courses/{courseId}/processing-context'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 POST https://lms.test/api/v1/admin/courses/course-bf054a0186274e19b2fd3f2929f283d5/processing-context - 201 - application/json;+charset=utf-8 14.3409ms
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[testcontainers.org 00:00:05.73] Delete Docker container ac05ab771779
+[xUnit.net 00:00:06.11]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

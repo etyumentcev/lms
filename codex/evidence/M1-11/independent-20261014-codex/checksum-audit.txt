@@ -1,0 +1,39 @@
+7a893405463e3993502c10f4d8f5c0fb772136d63b166aed555a326b8497f537  codex/SAPIENTUM-M1-PLAN.md
+466f55cef6a49b608ef77bad2f2b5ffa81ec3b4ea3559bad37c59aa10f53b800  codex/SAPIENTUM-M1-ACCEPTANCE-TEST-CASES.md
+034fb02770ddb81ddf17145f31be728b6bb2fb3d0b18c471e868446e87136664  docs/ops/M1-SYNTHETIC-RUNBOOK.md
+701b9541eaf125e8034ab9570ce526febe3c32aaf7b0c24a6ba7e4c52b46e118  tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs
+cef0e46d15ae8e27a8d976b9d5bd570281d9e1144b843891b7a9dcf823d22f6d  tools/browser_read/m1-11-setup.mjs
+3d00b7888e63f417d8547f326a0a8d3109f3ec5c85994d3e7b6f046376030caa  tools/browser_read/m1-11-readback.mjs
+codex/evidence/M1-11/rerun3-688d8cf|681|142211716|186d4e4a9da3b52210bb9f4c3241c9ed025d9b9917e56eef7c083d9976ef5838
+codex/evidence/M1-11/rerun3-688d8cf/complete-6|63|13110477|8588c77c9c913223e34b6a28e5b4c0153748db282d8491b0d0366e26a67e257d
+codex/evidence/M1-11/rerun3-688d8cf/browser-gaps|31|7597489|b8fa4952925c8ffdc2c61ef9f5847b9f4281148f96cf2431f70038f19573c952
+codex/evidence/M1-11/rerun3-688d8cf/regression|326|74066260|ef6029cb8d8997dd60928ac25557864eb56deb0dc61ae46f28b436ccafe304e8
+codex/evidence/M1-11/rerun3-688d8cf/first-failure|10|997901|919dcdf09918d4cd63d857ab522684f236eafcdde9c5a82d6e3d0a8d947d344b
+codex/evidence/M1-11/rerun3-688d8cf/final-journey|28|3736728|bcdcc2b3a40c3e2fe4b68236b3f0b38d2ff59d9d66b4f4e6a3d84443b7a2fc4f
+codex/evidence/M1-11/rerun3-688d8cf/final-journey-2|51|9389902|8b20a2cbf5ec939efe8365ed953544bf179c11aa3c042ce03db8206c03d9eebb
+codex/evidence/M1-11/rerun3-688d8cf/complete|52|9732674|9de07909377eca861216d79727c8020ea3f6f06291d2b228197bb3ccb2bcf62f
+codex/evidence/M1-11/rerun3-688d8cf/complete-2|54|10590541|e2d88c830d0e19ad54bf32c4b1912a855e09f3d81828388cca9732ad8543ba19
+codex/evidence/M1-11/rerun3-688d8cf/complete-3|63|12967649|b4797b1684f8081f3aa24366bc58afba3099126483f3d8553201eb68f03cd8fe
+codex/evidence/M1-11/rerun3-688d8cf/complete-4|1|7689|5b23cde9a62bbb60d273652a610260faf8c290189cdad0ba67e273c36f619db1
+codex/evidence/M1-11/rerun3-688d8cf/complete-5|1|13083|ba707419778281078b5a2ab7031237f6d7b4333d4b383239ad51251fe841ccc9
+e5ac00545d606df634844dc420b87e8475d5e1b259c652d2dd0de2bb418113be  codex/evidence/M1-11/rerun3-688d8cf/test-summary.json
+f754d7a771102b4e715a40d8fa568588810ac3b4648c0e67b44cccda3d44e8fa  codex/evidence/M1-11/rerun3-688d8cf/complete-6/environment.json
+322d08f5bd37aa55d5b72d0d1b356e13a84740b89cbd9d28c7e8126cc028f0b0  codex/evidence/M1-11/rerun3-688d8cf/complete-6/E03-authority-oracle.json
+53206971d0fd9b8107768535be064783b5ce5b0d806d70f493c603aeecf63ced  codex/evidence/M1-11/rerun3-688d8cf/complete-6/e2e-journey.json
+6dec84cad7f1dce4a0f639092502bbf924622654c981f380da94b5bf18d1d467  codex/evidence/M1-11/rerun3-688d8cf/complete-6/m1-11-complete-6.trx
+083abbf2ee55e45678ebb09a55d8c9e09902f79a7f4dbe9a222c3d83fed19994  codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/manifest.json
+04ac68bbe0bbb53e71adddfab264560ebcabfc57c180994b74d9756b8a9331ce  codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/api-restart.json
+d677e8728ea6235f211bd2fae51fc95e46ed8c2ac6c072f4e903f0c25e675683  codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/postgres-restart.json
+a739efc8e6a350a8b661ab6e6ae920867c1dd1daba49896058b1feb27c9c0bff  codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore.json
+be0ac8cea615e97257f603bdd7ed78a219c582bac484dae1a239cf8e9aa23381  codex/evidence/M1-11/rerun3-688d8cf/complete-6/backup-restore/restore-db-only-negative.json
+04638e598a98bbd9353fa6eb7a6741d98e50cc60a16a4852c4ff98739e699aa5  codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/my-courses-fixed-5.trx
+ec2a5668fd850c0601472e30419577fd23d827d09bcbfca10d2d3883e7161593  codex/evidence/M1-11/rerun3-688d8cf/browser-gaps/real-auth-teacher-fixed-2.trx
+c49c5f475d4261842f1df7e467dbf1854f2d385d6a58d10b9faaec73a05ed897  codex/evidence/M1-11/rerun3-688d8cf/regression/browser-all-first.trx
+47342826441433f4e25c296bd7e4b566d97355b3fac18f4d5258afaa48f5f74d  codex/evidence/M1-11/rerun3-688d8cf/regression/browser-only-rerun.trx
+54bddf586f22248aa7d972a9240efa76b5c18d8dc4f06fb781a65f6c61af0e9a  codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-domain.trx
+e1d5f8d7ac4d2f141e7e7217d9b180f7da9e0b389d532e3e27c74081d67e9659  codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-application.trx
+b903cb78fc8286b34d9075783021d7f2e9e68b71d6b11a33e6ef1eac5791aa56  codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-infrastructure.trx
+f8bf28a829baa12805c30eaccaa59d39a23633374928b081615097f1d933ab5c  codex/evidence/M1-11/rerun3-688d8cf/regression/dotnet-final-api.trx
+341d4136a1fbb2a5616820021e3fd7508334521e55f000b5d405f88adf8daddd  codex/evidence/M1-11/rerun3-688d8cf/regression/processing-context-rerun.trx
+24e66c82109fe6f6b45b35c851a7dd86d07e485d2150c587d232edb9ec93c5e6  codex/evidence/M1-11/rerun3-688d8cf/regression/processing-context-fixed.trx
+b2c705ab93b16fce76e3fe63177efd40e692fbb332706f43218b12cdcecb3bf4  codex/evidence/M1-11/rerun3-688d8cf/regression/vitest-attachment-rerun.json

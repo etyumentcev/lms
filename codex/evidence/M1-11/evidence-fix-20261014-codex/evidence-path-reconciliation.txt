@@ -1,0 +1,13 @@
+M1-11-EVIDENCE-FIX path reconciliation
+Date: 2026-10-14
+
+The test was invoked from /home/tea/github/lms with the relative environment value:
+  LMS_M1_11_EVIDENCE=codex/evidence/M1-11/evidence-fix-20261014-codex
+
+Browser subprocess outputs resolved from the repository root. Direct C# File writes resolved from the testhost working directory:
+  /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/codex/evidence/M1-11/evidence-fix-20261014-codex
+
+After the successful test completed, the latter tree was copied byte-for-byte into the intended evidence root with:
+  cp -a tests/Lms.Api.Tests/bin/Debug/net10.0/codex/evidence/M1-11/evidence-fix-20261014-codex/. codex/evidence/M1-11/evidence-fix-20261014-codex/
+
+No rerun3 file was read as a copy source or modified. The copied manifest and payload checksums are verified separately by verify_m1_backup_set.py.

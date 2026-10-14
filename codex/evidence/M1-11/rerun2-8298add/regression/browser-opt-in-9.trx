@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a9c83fb9-78a9-4bfc-b288-5236fc9793d3" name="@tea-Swift-SFG16-74 2026-10-14 00:36:51" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T00:36:51.2580760+06:00" queuing="2026-10-14T00:36:51.2580761+06:00" start="2026-10-14T00:36:30.0723066+06:00" finish="2026-10-14T00:36:51.2624229+06:00" />
+  <TestSettings name="default" id="3abb1460-ff02-4f25-8cee-34b821c746be">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_00_36_51" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="78aa834a-d2bc-40eb-a646-5486578de42a" testId="94bcd2c4-89c8-e08e-b433-d4a858ed15e7" testName="Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:17.7832419" startTime="2026-10-14T00:36:33.2476449+06:00" endTime="2026-10-14T00:36:51.0311816+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="78aa834a-d2bc-40eb-a646-5486578de42a">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.click: Timeout 15000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByRole('button', { name: 'Первый запуск организации' })\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/organization-bootstrap.mjs:27:73
+
+?
+Помощь
+RU⌄
+сапиентум
+Олимпиадная
+математика
+
+Задачи, кружки, прогресс
+и обратная связь в одном месте
+
+Вход в Сапиентум
+
+Используйте учётные данные, выданные администратором вашей образовательной организации.
+
+Логин
+♙
+Пароль
+▢
+◌
+Организация
+◇
+Войти
+или
+Продолжить текущую сессию
+i
+
+Нет учётных данных?
+Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+
+У меня есть код активации
+Восстановить доступ
+Первый администратор
+Первый запуск
+Оператор безопасности
+</Message>
+          <StackTrace>   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 149
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="94bcd2c4-89c8-e08e-b433-d4a858ed15e7">
+      <Execution id="78aa834a-d2bc-40eb-a646-5486578de42a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.OrganizationBootstrapBrowserTests" name="Real_browser_creates_activates_and_opens_organization_admin_dashboard" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="94bcd2c4-89c8-e08e-b433-d4a858ed15e7" executionId="78aa834a-d2bc-40eb-a646-5486578de42a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.08]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container d32add8ad5b3 created
+[testcontainers.org 00:00:00.20] Start Docker container d32add8ad5b3
+[testcontainers.org 00:00:00.31] Wait for Docker container d32add8ad5b3 to complete readiness checks
+[testcontainers.org 00:00:01.33] Docker container d32add8ad5b3 ready
+[testcontainers.org 00:00:01.40] Docker container 6a3786dc26a5 created
+[testcontainers.org 00:00:01.40] Start Docker container 6a3786dc26a5
+[testcontainers.org 00:00:01.50] Wait for Docker container 6a3786dc26a5 to complete readiness checks
+[testcontainers.org 00:00:01.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6a3786dc26a5
+[testcontainers.org 00:00:02.56] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6a3786dc26a5
+[testcontainers.org 00:00:02.60] Docker container 6a3786dc26a5 ready
+[xUnit.net 00:00:20.70]       locator.click: Timeout 15000ms exceeded.
+[xUnit.net 00:00:20.70]       Call log:
+[xUnit.net 00:00:20.70]       \u001b[2m  - waiting for getByRole('button', { name: 'Первый запуск организации' })\u001b[22m
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]           at /home/tea/github/lms/tools/browser_read/organization-bootstrap.mjs:27:73
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       ?
+[xUnit.net 00:00:20.70]       Помощь
+[xUnit.net 00:00:20.70]       RU⌄
+[xUnit.net 00:00:20.70]       сапиентум
+[xUnit.net 00:00:20.70]       Олимпиадная
+[xUnit.net 00:00:20.70]       математика
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Задачи, кружки, прогресс
+[xUnit.net 00:00:20.70]       и обратная связь в одном месте
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Вход в Сапиентум
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Используйте учётные данные, выданные администратором вашей образовательной организации.
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Логин
+[xUnit.net 00:00:20.70]       ♙
+[xUnit.net 00:00:20.70]       Пароль
+[xUnit.net 00:00:20.70]       ▢
+[xUnit.net 00:00:20.70]       ◌
+[xUnit.net 00:00:20.70]       Организация
+[xUnit.net 00:00:20.70]       ◇
+[xUnit.net 00:00:20.70]       Войти
+[xUnit.net 00:00:20.70]       или
+[xUnit.net 00:00:20.70]       Продолжить текущую сессию
+[xUnit.net 00:00:20.70]       i
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Нет учётных данных?
+[xUnit.net 00:00:20.70]       Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       У меня есть код активации
+[xUnit.net 00:00:20.70]       Восстановить доступ
+[xUnit.net 00:00:20.70]       Первый администратор
+[xUnit.net 00:00:20.70]       Первый запуск
+[xUnit.net 00:00:20.70]       Оператор безопасности
+[xUnit.net 00:00:20.70]       
+[xUnit.net 00:00:20.70]       Stack Trace:
+[xUnit.net 00:00:20.70]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(149,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:20.70]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:20.70]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:20.70]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:20.70]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:20.41] Delete Docker container 6a3786dc26a5
+[xUnit.net 00:00:20.84]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:36:51.0334796+06:00">
+        <Text>[xUnit.net 00:00:20.69]     Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

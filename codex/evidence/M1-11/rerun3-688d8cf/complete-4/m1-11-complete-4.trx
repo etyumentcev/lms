@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="09637879-c04f-4be7-bbf4-57a8ca7fc668" name="@tea-Swift-SFG16-74 2026-10-14 02:42:54" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T02:42:54.9540204+06:00" queuing="2026-10-14T02:42:54.9540204+06:00" start="2026-10-14T02:42:03.2672080+06:00" finish="2026-10-14T02:42:54.9586376+06:00" />
+  <TestSettings name="default" id="827734fa-b98b-43fe-b5fd-86a6d9124045">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_02_42_54" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5776bf9a-f555-4f03-9a64-f90fe70d49f2" testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" testName="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:48.1932216" startTime="2026-10-14T02:42:06.4863924+06:00" endTime="2026-10-14T02:42:54.6960048+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5776bf9a-f555-4f03-9a64-f90fe70d49f2">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ
+Expected: OK
+Actual:   Forbidden</Message>
+          <StackTrace>   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.&lt;&gt;c__DisplayClass4_1.&lt;&lt;Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL&gt;g__Review|14&gt;d.MoveNext() in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 236
+--- End of stack trace from previous location ---
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 238
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 392
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 392
+   at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs:line 392
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="bee7d5e0-2a78-f521-3f32-b89542fa5f69">
+      <Execution id="5776bf9a-f555-4f03-9a64-f90fe70d49f2" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests" name="Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" executionId="5776bf9a-f555-4f03-9a64-f90fe70d49f2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.08]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.16]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.10] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.22] Docker container 61fddc3127a4 created
+[testcontainers.org 00:00:00.26] Start Docker container 61fddc3127a4
+[testcontainers.org 00:00:00.35] Wait for Docker container 61fddc3127a4 to complete readiness checks
+[testcontainers.org 00:00:01.37] Docker container 61fddc3127a4 ready
+[testcontainers.org 00:00:01.44] Docker container 6e010c4dd8d2 created
+[testcontainers.org 00:00:01.44] Start Docker container 6e010c4dd8d2
+[testcontainers.org 00:00:01.54] Wait for Docker container 6e010c4dd8d2 to complete readiness checks
+[testcontainers.org 00:00:01.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6e010c4dd8d2
+[testcontainers.org 00:00:02.59] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6e010c4dd8d2
+[testcontainers.org 00:00:02.63] Docker container 6e010c4dd8d2 ready
+[xUnit.net 00:00:51.14]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:51.15]       Expected: OK
+[xUnit.net 00:00:51.15]       Actual:   Forbidden
+[xUnit.net 00:00:51.15]       Stack Trace:
+[xUnit.net 00:00:51.15]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(236,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.&lt;&gt;c__DisplayClass4_1.&lt;&lt;Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL&gt;g__Review|14&gt;d.MoveNext()
+[xUnit.net 00:00:51.15]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:51.15]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(238,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:00:51.15]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(392,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:00:51.15]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(392,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:00:51.15]         /home/tea/github/lms/tests/Lms.Api.Tests/M1SyntheticAcceptanceBrowserTests.cs(392,0): at Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(Boolean browser)
+[xUnit.net 00:00:51.15]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:50.91] Delete Docker container 6e010c4dd8d2
+[xUnit.net 00:00:51.31]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T02:42:54.6986722+06:00">
+        <Text>[xUnit.net 00:00:51.14]     Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

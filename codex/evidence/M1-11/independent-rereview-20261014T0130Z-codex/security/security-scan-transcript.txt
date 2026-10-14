@@ -1,0 +1,39 @@
++ git ls-files -z
++ xargs -0 rg -I -l -e '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|gh[pousr]_[0-9A-Za-z]{20,}|xox[baprs]-[0-9A-Za-z-]{20,}|sk-(live|prod|proj)-[0-9A-Za-z_-]{16,}|Authorization:[[:space:]]*Bearer[[:space:]]+[A-Za-z0-9._~-]{20,}|https?://[^/@[:space:]]+:[^/@[:space:]]+@'
+tests/content_compiler/test_compiler.py
++ tc076_tracked_high=0
++ printf 'tracked-high-confidence-exit=%s\n' 0
+tracked-high-confidence-exit=0
++ git ls-files --others --exclude-standard -z
++ xargs -0 rg -I -l -e '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|gh[pousr]_[0-9A-Za-z]{20,}|xox[baprs]-[0-9A-Za-z-]{20,}|sk-(live|prod|proj)-[0-9A-Za-z_-]{16,}|Authorization:[[:space:]]*Bearer[[:space:]]+[A-Za-z0-9._~-]{20,}|https?://[^/@[:space:]]+:[^/@[:space:]]+@'
++ tc076_untracked_high=123
++ printf 'untracked-high-confidence-exit=%s\n' 123
+untracked-high-confidence-exit=123
++ rg -a -l -e '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|gh[pousr]_[0-9A-Za-z]{20,}|xox[baprs]-[0-9A-Za-z-]{20,}|sk-(live|prod|proj)-[0-9A-Za-z_-]{16,}|Authorization:[[:space:]]*Bearer[[:space:]]+[A-Za-z0-9._~-]{20,}|https?://[^/@[:space:]]+:[^/@[:space:]]+@' codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex
++ tc076_evidence_high=1
++ printf 'new-evidence-high-confidence-exit=%s\n' 1
+new-evidence-high-confidence-exit=1
++ rg -I -l -i -e '(password|passwd|pwd|secret|token|connection(string)?|bearer|authorization)' codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/security/security-scan-transcript.txt
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in-artifacts/M1-01-BROWSER-AUTH/result.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_37_56_net10.0.trx
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_39_30_net10.0.trx
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/content-import.log
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in-artifacts/TEACHER-REVOCATION-REACT-E2E/result.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in-artifacts/MVP-BROWSER-READ-01/Teacher/results.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/content-publication.log
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/content-publication.trx
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in-artifacts/hardcoded/M1-04-run/test-summary.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in-artifacts/MVP-BROWSER-READ-01/Student/results.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/backup-restore/full-restore-drill.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/backup-restore/manifest.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/commands-and-console.log
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/preflight/remediation-manifest-audit.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/preflight/matrix-audit.txt
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/vitest.log
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/commands-and-console.log
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/input/manifest.json
+codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/input/manifest.json
++ tc076_keyword=0
++ printf 'new-evidence-keyword-triage-exit=%s\n' 0
+new-evidence-keyword-triage-exit=0

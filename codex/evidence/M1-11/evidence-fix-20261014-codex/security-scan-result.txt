@@ -1,0 +1,8 @@
+Command:
+rg -n -i --glob "*.json" --glob "*.log" --glob "*.txt" --glob "*.trx" --glob "*.md" "BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.|Password[[:space:]]*=|postgres(ql)?://[^[:space:]]+:[^@[:space:]]+@|AKIA[0-9A-Z]{16}" codex/evidence/M1-11/evidence-fix-20261014-codex
+
+Exit code: 1
+Matches: 0
+Interpretation: PASS for this pattern scan; ripgrep exit 1 means no matches. This is not a legal/compliance or production-readiness statement.
+
+Manual scope check: generated actors, organizations, course content and image fixtures are the synthetic M1 harness values. No real-child data was introduced by this evidence fix.

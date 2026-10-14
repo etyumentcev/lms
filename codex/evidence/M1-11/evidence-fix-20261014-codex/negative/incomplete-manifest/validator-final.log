@@ -1,0 +1,6 @@
+{
+  "status": "REFUSED",
+  "phase": "pre-restore-validation",
+  "reason": "capture.completedAt must be an ISO-8601 UTC value ending in Z",
+  "mutationsPerformed": false
+}

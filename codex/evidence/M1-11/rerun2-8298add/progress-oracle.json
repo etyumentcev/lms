@@ -1,0 +1,9 @@
+{
+  "status": "BLOCKED",
+  "expectedStudents": 12,
+  "expectedProblemsPerStudent": 5,
+  "expectedAssignments": 60,
+  "actualStudents": 12,
+  "actualAssignments": 0,
+  "reason": "E04 failed before v1 publication; no progress projection was created"
+}

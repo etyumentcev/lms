@@ -1,0 +1,52 @@
+  Lms.Domain -> /home/tea/github/lms/src/Lms.Domain/bin/Debug/net10.0/Lms.Domain.dll
+  Lms.Domain.Tests -> /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Domain.Tests/bin/Debug/net10.0/Lms.Domain.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_37_54_net10.0.trx
+
+Passed!  - Failed:     0, Passed:    43, Skipped:     0, Total:    43, Duration: 69 ms - Lms.Domain.Tests.dll (net10.0)
+  Lms.Application -> /home/tea/github/lms/src/Lms.Application/bin/Debug/net10.0/Lms.Application.dll
+  Lms.Application.Tests -> /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Application.Tests/bin/Debug/net10.0/Lms.Application.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_37_55_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   369, Skipped:     0, Total:   369, Duration: 103 ms - Lms.Application.Tests.dll (net10.0)
+  Lms.Infrastructure -> /home/tea/github/lms/src/Lms.Infrastructure/bin/Debug/net10.0/Lms.Infrastructure.dll
+  Lms.Infrastructure.Tests -> /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Infrastructure.Tests/bin/Debug/net10.0/Lms.Infrastructure.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_37_56_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   343, Skipped:     0, Total:   343, Duration: 1 m 28 s - Lms.Infrastructure.Tests.dll (net10.0)
+  Lms.Api -> /home/tea/github/lms/src/Lms.Api/bin/Debug/net10.0/Lms.Api.dll
+  Lms.Api.Tests -> /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:03.14]     Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in [SKIP]
+[xUnit.net 00:00:04.13]     Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL [SKIP]
+  Skipped Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in [1 ms]
+  Skipped Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL [1 ms]
+[xUnit.net 00:00:09.68]     Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_bootstraps_context_then_editor_publishes_only_for_G1 [SKIP]
+  Skipped Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_bootstraps_context_then_editor_publishes_only_for_G1 [1 ms]
+[xUnit.net 00:00:12.89]     Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard [SKIP]
+  Skipped Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard [1 ms]
+[xUnit.net 00:00:20.88]     Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos [SKIP]
+  Skipped Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos [1 ms]
+[xUnit.net 00:00:22.47]     Lms.Api.Tests.CourseRosterBrowserTests.Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated [SKIP]
+  Skipped Lms.Api.Tests.CourseRosterBrowserTests.Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated [1 ms]
+[xUnit.net 00:25:40.02]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout [1 ms]
+[xUnit.net 00:25:43.92]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials [1 ms]
+[xUnit.net 00:26:39.01]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials [1 ms]
+[xUnit.net 00:26:57.14]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials [SKIP]
+  Skipped Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials [1 ms]
+[xUnit.net 00:27:04.21]     Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context [SKIP]
+  Skipped Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context [1 ms]
+[xUnit.net 00:27:05.55]     Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org [SKIP]
+  Skipped Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org [1 ms]
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/dotnet-solution/_tea-Swift-SFG16-74_2026-10-14_07_39_30_net10.0.trx
+
+Passed!  - Failed:     0, Passed:   385, Skipped:    12, Total:   397, Duration: 1 h 16 m - Lms.Api.Tests.dll (net10.0)

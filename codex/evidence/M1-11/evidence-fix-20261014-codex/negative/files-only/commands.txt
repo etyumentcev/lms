@@ -1,0 +1,11 @@
+Scenario B — files-only backup
+
+[exit 0] docker run -d --name m1evidence-filesonly-782067 --network none --tmpfs /var/lib/postgresql/data:rw,noexec,nosuid,size=256m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-alpine
+[exit 0] docker exec m1evidence-filesonly-782067 pg_isready -U postgres -d postgres
+[exit 0] docker exec m1evidence-filesonly-782067 psql -U postgres -d postgres -Atc "SELECT datname FROM pg_database WHERE datname = 'm1_files_only_target';"
+[exit 42] python3 tools/backup_restore/verify_m1_backup_set.py codex/evidence/M1-11/evidence-fix-20261014-codex/negative/files-only/input --manifest codex/evidence/M1-11/evidence-fix-20261014-codex/negative/files-only/input/manifest.json
+[exit 0] docker exec m1evidence-filesonly-782067 psql -U postgres -d postgres -Atc "SELECT datname FROM pg_database WHERE datname = 'm1_files_only_target';"
+[exit 0] find codex/evidence/M1-11/evidence-fix-20261014-codex/negative/files-only/target-private-root -mindepth 1 -print
+[exit 0] docker rm -f m1evidence-filesonly-782067
+
+Empty database-before.log, database-after.log and target-private-after.log are evidence that the target database and target private root remained absent/empty. Exit 42 is the validator's deliberate fail-closed code.

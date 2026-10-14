@@ -1,0 +1,37 @@
++ tc076_scenario=codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest
++ mkdir -p codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/input/backup-set codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/target-private-root
++ cp -a codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/backup-restore/backup-set/. codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/input/backup-set/
++ jq 'del(.capture.completedAt)' codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/backup-restore/manifest.json
++ docker run -d --name tc076rereview-incomplete-0130 --network none --tmpfs /var/lib/postgresql/data:rw,noexec,nosuid,size=256m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-alpine
+a896a6aee72fd7f45f3a9e2561e48b4701a0ee8d7709bb24713f77574ddf851d
++ tc076_ready=1
++ for tc076_try in 1 2 3 4 5 6 7 8 9 10
++ docker exec tc076rereview-incomplete-0130 pg_isready -U postgres -d postgres
+/var/run/postgresql:5432 - no response
++ sleep 1
++ for tc076_try in 1 2 3 4 5 6 7 8 9 10
++ docker exec tc076rereview-incomplete-0130 pg_isready -U postgres -d postgres
+/var/run/postgresql:5432 - accepting connections
++ tc076_ready=0
++ break
++ docker exec tc076rereview-incomplete-0130 psql -U postgres -d postgres -Atc 'SELECT datname FROM pg_database WHERE datname = '\''tc076_incomplete_target'\'';'
++ python3 tools/backup_restore/verify_m1_backup_set.py codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/input --manifest codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/input/manifest.json
++ tc076_validator_exit=42
++ printf '%s\n' 42
++ cat codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/validator.log
+{
+  "status": "REFUSED",
+  "phase": "pre-restore-validation",
+  "reason": "capture.completedAt must be an ISO-8601 UTC value ending in Z",
+  "mutationsPerformed": false
+}
++ docker exec tc076rereview-incomplete-0130 psql -U postgres -d postgres -Atc 'SELECT datname FROM pg_database WHERE datname = '\''tc076_incomplete_target'\'';'
++ find codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/target-private-root -mindepth 1 -print
++ docker rm -f tc076rereview-incomplete-0130
+tc076rereview-incomplete-0130
++ jq -n --arg scenario C-incomplete-manifest --arg status PASS --argjson validatorExit 42 --arg reason 'capture.completedAt missing; refused before target mutation' --arg targetDatabase tc076_incomplete_target '{scenario:$scenario,status:$status,validatorExit:$validatorExit,expectedExit:42,reason:$reason,targetDatabase:$targetDatabase,targetDatabaseAbsentBefore:true,targetDatabaseAbsentAfter:true,targetPrivateRootEmptyAfter:true,createdbInvoked:false,pgRestoreInvoked:false}'
++ test 0 -eq 0
++ test 42 -eq 42
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/database-before.log
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/database-after.log
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/incomplete-manifest/target-private-after.log

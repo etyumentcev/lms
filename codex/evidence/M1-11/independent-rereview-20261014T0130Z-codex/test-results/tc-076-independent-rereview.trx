@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="20cd569e-c551-4533-9d56-732df6ec997d" name="@tea-Swift-SFG16-74 2026-10-14 07:34:49" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T07:34:49.5996408+06:00" queuing="2026-10-14T07:34:49.5996409+06:00" start="2026-10-14T07:33:25.8827339+06:00" finish="2026-10-14T07:34:49.6090408+06:00" />
+  <TestSettings name="default" id="d0d6a946-dd4e-45a2-b3ca-58573fe3ea9d">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_07_34_49" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9f18abd1-9fb9-4acd-b0f5-1b1dd321daec" testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" testName="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:01:20.4009451" startTime="2026-10-14T07:33:28.9959817+06:00" endTime="2026-10-14T07:34:49.3690428+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f18abd1-9fb9-4acd-b0f5-1b1dd321daec" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests.Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="bee7d5e0-2a78-f521-3f32-b89542fa5f69">
+      <Execution id="9f18abd1-9fb9-4acd-b0f5-1b1dd321daec" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.M1SyntheticAcceptanceBrowserTests" name="Clean_React_journey_bootstraps_to_Accepted_without_user_entity_SQL" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bee7d5e0-2a78-f521-3f32-b89542fa5f69" executionId="9f18abd1-9fb9-4acd-b0f5-1b1dd321daec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.17] Docker container b264771f8e3a created
+[testcontainers.org 00:00:00.20] Start Docker container b264771f8e3a
+[testcontainers.org 00:00:00.30] Wait for Docker container b264771f8e3a to complete readiness checks
+[testcontainers.org 00:00:01.32] Docker container b264771f8e3a ready
+[testcontainers.org 00:00:01.38] Docker container 0e30524a3cb3 created
+[testcontainers.org 00:00:01.38] Start Docker container 0e30524a3cb3
+[testcontainers.org 00:00:01.47] Wait for Docker container 0e30524a3cb3 to complete readiness checks
+[testcontainers.org 00:00:01.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:02.53] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:02.59] Docker container 0e30524a3cb3 ready
+[testcontainers.org 00:00:56.64] Stop Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.80] Start Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.92] Wait for Docker container 0e30524a3cb3 to complete readiness checks
+[testcontainers.org 00:00:56.92] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0e30524a3cb3
+[testcontainers.org 00:00:56.96] Docker container 0e30524a3cb3 ready
+[testcontainers.org 00:01:07.91] Execute "pg_dump -U postgres -Fc -f /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump c2_a26639c4482b4dad81359f0b9d42a9b4" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.02] Execute "sha256sum /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.05] Execute "stat -c %s /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.07] Read "/tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" from Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.10] Execute "createdb -U postgres c2_6349bb427296462d82474f4fcc6ebf06" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:08.15] Execute "pg_restore -U postgres --exit-on-error -d c2_6349bb427296462d82474f4fcc6ebf06 /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump" at Docker container 0e30524a3cb3
+[testcontainers.org 00:01:23.01] Delete Docker container 0e30524a3cb3
+[xUnit.net 00:01:23.42]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

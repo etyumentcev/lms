@@ -1,0 +1,30 @@
+{
+  "status": "EXPECTED_FAILURE",
+  "stage": "restore-db-only-negative",
+  "fileResults": [
+    {
+      "attachmentId": "ac244664-aa7c-426c-9500-042c00e8969a",
+      "status": 500,
+      "size": 211,
+      "sha256": null
+    },
+    {
+      "attachmentId": "980497f0-bf01-4ba6-96db-892b01acd417",
+      "status": 500,
+      "size": 211,
+      "sha256": null
+    },
+    {
+      "attachmentId": "ad827dd9-b263-45e3-984c-a3f3f4718406",
+      "status": 500,
+      "size": 211,
+      "sha256": null
+    },
+    {
+      "attachmentId": "ad6263c1-697b-4e4c-af2a-e49c04e2c3ea",
+      "status": 500,
+      "size": 211,
+      "sha256": null
+    }
+  ]
+}

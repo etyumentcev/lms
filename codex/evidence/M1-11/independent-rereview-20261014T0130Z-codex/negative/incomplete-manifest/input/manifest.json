@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "backupId": "m1-11-evidence-fix-20261014T013434Z-f8226060a82c43638236501d421800bf",
+  "syntheticOnly": true,
+  "build": {
+    "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+    "evidencePurpose": "M1-11-EVIDENCE-FIX"
+  },
+  "capture": {
+    "startedAt": "2026-10-14T01:34:34.2559804Z",
+    "writersQuiescedAt": "2026-10-14T01:34:34.2559804Z",
+    "databaseDumpCompletedAt": "2026-10-14T01:34:34.3806507Z",
+    "privateFilesCompletedAt": "2026-10-14T01:34:34.4506179Z",
+    "timeZone": "UTC",
+    "timeSource": "TimeProvider.System.GetUtcNow"
+  },
+  "migrations": [
+    "20261007035847_InitialPersistence",
+    "20261007090442_CommandAccessFacts",
+    "20261007103352_ImmutableContentSnapshots",
+    "20261008013249_AttachmentStorage",
+    "20261008154119_ReviewAnnotations",
+    "20261009094756_SchemaFoundationsM1",
+    "20261009101331_SessionVerifierLookupS2",
+    "20261009153218_ScopedAuthorityS3",
+    "20261011120000_ProcessingWriterGuardC2G",
+    "20261012120000_BoundedTeacherRevocation",
+    "20261012121000_TeacherOperationAttempts",
+    "20261012122000_UnversionedTeacherIntents",
+    "20261012123000_OrganizationBootstrapM1",
+    "20261012153411_AccountsActivationRecoveryM1",
+    "20261012232000_CourseRosterCatalogM1",
+    "20261013012035_M1ContentImportPublication",
+    "20261013160626_CourseEditorAuthorityM111Fix01"
+  ],
+  "postgresqlBackup": {
+    "identifier": "c2_a26639c4482b4dad81359f0b9d42a9b4:c16a4ab3aac9615503982c431ef044b0694838b299a2148ed2ad1799a88882f3",
+    "database": "c2_a26639c4482b4dad81359f0b9d42a9b4",
+    "relativePath": "backup-set/postgresql/database.dump",
+    "format": "custom",
+    "tool": "pg_dump from postgres:17.6-alpine",
+    "sha256": "c16a4ab3aac9615503982c431ef044b0694838b299a2148ed2ad1799a88882f3",
+    "size": 307623
+  },
+  "privateFilesSnapshot": {
+    "identifier": "private-files:b97c845db0499b45c095cccb11aadabafdacefc80a127c0047406bf846b44dc6",
+    "relativeRoot": "backup-set/private-files",
+    "fileCount": 4,
+    "totalBytes": 138148,
+    "aggregateSha256": "b97c845db0499b45c095cccb11aadabafdacefc80a127c0047406bf846b44dc6",
+    "files": [
+      {
+        "path": "m1-07-attachments/29fa8b807d6d47edb95cf1dd466b4880",
+        "size": 34110,
+        "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+      },
+      {
+        "path": "m1-07-attachments/6033ff9298c245b482f3747c89c93148",
+        "size": 34964,
+        "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+      },
+      {
+        "path": "m1-07-attachments/c5d0f0f0605f482bba384aea1f62ceb1",
+        "size": 34964,
+        "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+      },
+      {
+        "path": "m1-07-attachments/df7699e652114ccd84c96f05ed20d548",
+        "size": 34110,
+        "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+      }
+    ]
+  },
+  "consistency": {
+    "writersQuiesced": true,
+    "method": "All API instances were stopped before pg_dump; PostgreSQL remained online; pg_dump -Fc completed before a no-symlink recursive copy of the unchanged private root; the restored DB and copied snapshot were then checked together by DB, HTTP authorization, history/progress and original-byte SHA-256 oracles.",
+    "sourceMarker": {
+      "workId": "3b6b99c6-fd10-44f5-880b-b9ed979e0cb9",
+      "state": "Accepted",
+      "submissions": 2,
+      "reviews": 2,
+      "assignments": 60,
+      "originals": 4
+    }
+  },
+  "commands": {
+    "pgDump": "pg_dump -U postgres -Fc -f /tmp/c2_a26639c4482b4dad81359f0b9d42a9b4.dump c2_a26639c4482b4dad81359f0b9d42a9b4",
+    "privateFilesSnapshot": "recursive copy of the complete private storage root; reject ReparsePoint; preserve relative paths and bytes"
+  }
+}

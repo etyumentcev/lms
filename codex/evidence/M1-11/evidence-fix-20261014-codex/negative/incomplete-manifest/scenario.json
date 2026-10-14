@@ -1,0 +1,66 @@
+{
+  "scenario": "C-incomplete-manifest",
+  "isolatedEnvironment": {
+    "postgresContainer": "m1evidence-incomplete-782067",
+    "network": "none",
+    "storage": "tmpfs",
+    "targetDatabase": "m1_incomplete_target",
+    "targetPrivateRoot": "target-private-root"
+  },
+  "input": {
+    "description": "The PostgreSQL dump and complete private-files snapshot are present; capture.completedAt was deliberately removed from a copy of the authentic manifest.",
+    "manifestSha256": "8c0322d460ea004cedf02149dc2eadac1f0893acce43947408f10778fb76b593",
+    "databaseSha256": "ff0ce9507276a99b24967fa47d24577c178f015224f63b4a1af6487575b85d0e",
+    "privateFilesAggregateSha256": "6079cbc59948d44c2b63adfdc4f7a67074310cbf017f95df3897d20efbd563e7",
+    "missingField": "capture.completedAt"
+  },
+  "expected": "The restore procedure refuses during pre-restore validation before createdb, pg_restore, or private-file copy; no partial success is reported.",
+  "commands": [
+    {
+      "command": "docker run -d --name m1evidence-incomplete-782067 --network none --tmpfs /var/lib/postgresql/data:rw,noexec,nosuid,size=256m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-alpine",
+      "exitCode": 0,
+      "log": "container-start.log"
+    },
+    {
+      "command": "docker exec m1evidence-incomplete-782067 pg_isready -U postgres -d postgres",
+      "exitCode": 0,
+      "log": "pg-isready.log"
+    },
+    {
+      "command": "docker exec m1evidence-incomplete-782067 psql -U postgres -d postgres -Atc SELECT-target-database",
+      "exitCode": 0,
+      "log": "database-before.log"
+    },
+    {
+      "command": "python3 tools/backup_restore/verify_m1_backup_set.py negative/incomplete-manifest/input --manifest negative/incomplete-manifest/input/manifest.json",
+      "exitCode": 42,
+      "log": "validator.log"
+    },
+    {
+      "command": "docker exec m1evidence-incomplete-782067 psql -U postgres -d postgres -Atc SELECT-target-database",
+      "exitCode": 0,
+      "log": "database-after.log"
+    },
+    {
+      "command": "find target-private-root -mindepth 1 -print",
+      "exitCode": 0,
+      "log": "target-private-after.log"
+    },
+    {
+      "command": "docker rm -f m1evidence-incomplete-782067",
+      "exitCode": 0,
+      "log": "container-destroy.log"
+    }
+  ],
+  "actual": {
+    "validatorStatus": "REFUSED",
+    "validatorReason": "capture.completedAt must be an ISO-8601 UTC value ending in Z",
+    "targetDatabaseBefore": "absent",
+    "targetDatabaseAfter": "absent",
+    "targetPrivateRootAfter": "empty",
+    "restoreCommandsInvoked": false,
+    "hiddenDataLossDetected": false,
+    "partialSuccessDetected": false
+  },
+  "status": "PASS"
+}

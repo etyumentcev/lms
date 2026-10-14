@@ -1,0 +1,10 @@
+{
+  "baseline": "8298add5f822fea04a363ac210787fa74f7d1a27",
+  "E01": "PASS", "E02": "PASS", "E03": "PASS", "E04": "FAIL",
+  "E05": "BLOCKED", "E06": "BLOCKED", "E07": "BLOCKED", "E08": "BLOCKED",
+  "E09": "BLOCKED", "E10": "BLOCKED", "E11": "BLOCKED", "E12": "BLOCKED",
+  "E13": "BLOCKED", "E14": "BLOCKED", "E15": "FAIL",
+  "stopReason": "HTTP 403: required ProcessingContextVersion and CourseContextBinding absent in clean environment",
+  "bypassUsed": false,
+  "accepted": false
+}

@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.13]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.08] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.18] Docker container 3a252965e3ef created
+[testcontainers.org 00:00:00.21] Start Docker container 3a252965e3ef
+[testcontainers.org 00:00:00.30] Wait for Docker container 3a252965e3ef to complete readiness checks
+[testcontainers.org 00:00:01.32] Docker container 3a252965e3ef ready
+[testcontainers.org 00:00:01.38] Docker container 82109d6313ea created
+[testcontainers.org 00:00:01.38] Start Docker container 82109d6313ea
+[testcontainers.org 00:00:01.50] Wait for Docker container 82109d6313ea to complete readiness checks
+[testcontainers.org 00:00:01.50] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 82109d6313ea
+[testcontainers.org 00:00:02.55] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 82109d6313ea
+[testcontainers.org 00:00:02.57] Docker container 82109d6313ea ready
+[testcontainers.org 00:00:29.09] Delete Docker container 82109d6313ea
+[xUnit.net 00:00:29.48]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True) [25 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 29.7900 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/react-browser-session.trx

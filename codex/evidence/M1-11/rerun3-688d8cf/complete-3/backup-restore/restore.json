@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "stage": "restore",
+  "fileResults": [
+    {
+      "attachmentId": "874d91ca-ab79-4f11-8d43-9bb88159efdc",
+      "status": 200,
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    },
+    {
+      "attachmentId": "aa876387-2d0c-41e3-a586-64d4d9d346ad",
+      "status": 200,
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "attachmentId": "c0cc49a6-614a-4385-937c-fcab13656ec6",
+      "status": 200,
+      "size": 34110,
+      "sha256": "d93fc9aada5ba8db936463c3e514236b51f8071fdc7f1a2c838077f1241b57b8"
+    },
+    {
+      "attachmentId": "8c250e77-fe4e-44ef-853b-f75413126af7",
+      "status": 200,
+      "size": 34964,
+      "sha256": "35437474fbf2306a1ca05c8da520233e01a29444bf93fe448949f499150c0745"
+    }
+  ],
+  "progress": {
+    "studentCount": 12,
+    "assignedCount": 60,
+    "notStarted": 59,
+    "submitted": 0,
+    "needsRevision": 0,
+    "accepted": 1
+  },
+  "reviewHistory": {
+    "total": 2,
+    "needsRevision": 1,
+    "accepted": 1
+  },
+  "annotations": 2,
+  "denied": [
+    {
+      "path": "/api/v1/teacher/problem-works/8cd1fe86-987d-4e44-98da-b3df71adc10a",
+      "status": 403,
+      "size": 201
+    },
+    {
+      "path": "/api/v1/attachments/874d91ca-ab79-4f11-8d43-9bb88159efdc/content",
+      "status": 403,
+      "size": 199
+    },
+    {
+      "path": "/api/v1/attachments/aa876387-2d0c-41e3-a586-64d4d9d346ad/content",
+      "status": 403,
+      "size": 199
+    },
+    {
+      "path": "/api/v1/attachments/c0cc49a6-614a-4385-937c-fcab13656ec6/content",
+      "status": 403,
+      "size": 199
+    },
+    {
+      "path": "/api/v1/attachments/8c250e77-fe4e-44ef-853b-f75413126af7/content",
+      "status": 403,
+      "size": 199
+    }
+  ]
+}

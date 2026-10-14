@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.13]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.15] Docker container 87375a77fc81 created
+[testcontainers.org 00:00:00.17] Start Docker container 87375a77fc81
+[testcontainers.org 00:00:00.26] Wait for Docker container 87375a77fc81 to complete readiness checks
+[testcontainers.org 00:00:01.29] Docker container 87375a77fc81 ready
+[testcontainers.org 00:00:01.34] Docker container eaa72b37a590 created
+[testcontainers.org 00:00:01.34] Start Docker container eaa72b37a590
+[testcontainers.org 00:00:01.43] Wait for Docker container eaa72b37a590 to complete readiness checks
+[testcontainers.org 00:00:01.44] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container eaa72b37a590
+[testcontainers.org 00:00:02.49] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container eaa72b37a590
+[testcontainers.org 00:00:02.53] Docker container eaa72b37a590 ready
+[testcontainers.org 00:00:07.91] Delete Docker container eaa72b37a590
+[xUnit.net 00:00:08.28]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(browser: True) [5 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 8.6139 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/account-administration.trx

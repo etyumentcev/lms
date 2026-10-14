@@ -1,0 +1,13 @@
+{
+  "scenario": "C-incomplete-manifest",
+  "status": "PASS",
+  "validatorExit": 42,
+  "expectedExit": 42,
+  "reason": "capture.completedAt missing; refused before target mutation",
+  "targetDatabase": "tc076_incomplete_target",
+  "targetDatabaseAbsentBefore": true,
+  "targetDatabaseAbsentAfter": true,
+  "targetPrivateRootEmptyAfter": true,
+  "createdbInvoked": false,
+  "pgRestoreInvoked": false
+}

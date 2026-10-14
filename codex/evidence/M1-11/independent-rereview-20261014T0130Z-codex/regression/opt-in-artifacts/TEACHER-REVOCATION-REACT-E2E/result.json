@@ -1,0 +1,434 @@
+{
+  "passed": true,
+  "scope": "Production React bundle over real Chromium, HTTPS API and disposable PostgreSQL",
+  "authentication": "Production React login/logout forms for every actor; no pre-issued browser token",
+  "fixture": "Course, group and assignment are pre-seeded; they are not created by a user in the browser",
+  "stages": [
+    {
+      "action": "student-submit",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-message",
+      "ui": "React",
+      "photo": true
+    },
+    {
+      "action": "teacher-needs-revision",
+      "ui": "React",
+      "annotationStrokes": 1,
+      "state": "NeedsRevision"
+    },
+    {
+      "action": "student-revise",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-accept",
+      "ui": "React",
+      "state": "Accepted",
+      "repeatedCommandButton": false
+    },
+    {
+      "action": "student-observes-accepted",
+      "ui": "React"
+    },
+    {
+      "action": "teacher-revoked",
+      "ui": "React",
+      "state": "Forbidden",
+      "publicSession": "fresh login issued without revoked educational scope"
+    },
+    {
+      "action": "cross-organization-isolation",
+      "ui": "React",
+      "state": "Forbidden"
+    }
+  ],
+  "apiEvents": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/workspace",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/uploads/85fc87ba-398f-4c41-887f-f73031ee3904",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/072108f0-33f7-43ee-afc1-310b35cdd0cf/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/messages",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reviews/needs-revision",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/cb4135fe-1ca4-4463-973a-fcfe8b77f30a/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reviews/accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/6b0b50cf-96fa-43b4-b75e-84f044397bff/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e5f1d0be-a4ff-4087-bc6a-568969427c3a/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/c71d8db1-6dfd-4103-a4f8-8e271cff15a9",
+      "status": 403
+    }
+  ]
+}

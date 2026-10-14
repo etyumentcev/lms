@@ -1,0 +1,54 @@
+test_cancel_before_start (test_import.ComponentTests.test_cancel_before_start) ... ok
+test_cancel_inflight_no_partial_artifacts (test_import.ComponentTests.test_cancel_inflight_no_partial_artifacts) ... ok
+test_changed_source_after_snapshot_uses_retained_bytes (test_import.ComponentTests.test_changed_source_after_snapshot_uses_retained_bytes) ... ok
+test_cleanup_failure_no_ready (test_import.ComponentTests.test_cleanup_failure_no_ready) ... ok
+test_forged_success_no_digest (test_import.ComponentTests.test_forged_success_no_digest) ... ok
+test_full_ready_private_hashes_and_cleanup (test_import.ComponentTests.test_full_ready_private_hashes_and_cleanup) ... ok
+test_invalid_zip_atomic (test_import.ComponentTests.test_invalid_zip_atomic) ... ok
+test_literal_source_revision (test_import.ComponentTests.test_literal_source_revision) ... ok
+test_missing_runtime_fail_closed (test_import.ComponentTests.test_missing_runtime_fail_closed) ... ok
+test_output_limit_atomic (test_import.ComponentTests.test_output_limit_atomic) ... ok
+test_private_compile_error_atomic (test_import.ComponentTests.test_private_compile_error_atomic) ... ok
+test_repeated_input_receipt_reproducible (test_import.ComponentTests.test_repeated_input_receipt_reproducible) ... ok
+test_tampered_artifact_rejected (test_import.ComponentTests.test_tampered_artifact_rejected) ... ok
+test_teacher_only_change_noninterference (test_import.ComponentTests.test_teacher_only_change_noninterference) ... ok
+test_local_fifo (test_import.SnapshotTests.test_local_fifo) ... ok
+test_local_hardlink (test_import.SnapshotTests.test_local_hardlink) ... ok
+test_local_symlink_no_follow (test_import.SnapshotTests.test_local_symlink_no_follow) ... ok
+test_mutation_during_read (test_import.SnapshotTests.test_mutation_during_read) ... ok
+test_replacement_during_read (test_import.SnapshotTests.test_replacement_during_read) ... ok
+test_snapshot_matches (test_import.SnapshotTests.test_snapshot_matches) ... ok
+test_aggregate_cpu_budget_across_children (test_import.SupervisorTests.test_aggregate_cpu_budget_across_children) ... ok
+test_cancellation_kills_tree (test_import.SupervisorTests.test_cancellation_kills_tree) ... ok
+test_cpu_limit (test_import.SupervisorTests.test_cpu_limit) ... ok
+test_hung_detached_child_timeout (test_import.SupervisorTests.test_hung_detached_child_timeout) ... ok
+test_memory_limit (test_import.SupervisorTests.test_memory_limit) ... ok
+test_namespace_no_network_secrets_db (test_import.SupervisorTests.test_namespace_no_network_secrets_db) ... ok
+test_normal_exit_kills_lingering_child (test_import.SupervisorTests.test_normal_exit_kills_lingering_child) ... ok
+test_output_pipe_limit (test_import.SupervisorTests.test_output_pipe_limit) ... ok
+test_process_limit (test_import.SupervisorTests.test_process_limit) ... ok
+test_tmpfs_storage_limit (test_import.SupervisorTests.test_tmpfs_storage_limit) ... ok
+test_bomb_and_expanded_boundary (test_import.ZipTests.test_bomb_and_expanded_boundary) ... ok
+test_crc_corruption (test_import.ZipTests.test_crc_corruption) ... ok
+test_duplicates_and_parent_collisions (test_import.ZipTests.test_duplicates_and_parent_collisions) ... ok
+test_encrypted_flag (test_import.ZipTests.test_encrypted_flag) ... ok
+test_entry_count_and_boundary (test_import.ZipTests.test_entry_count_and_boundary) ... ok
+test_false_eocd_count (test_import.ZipTests.test_false_eocd_count) ... ok
+test_forged_size_and_matching_truncated_crc (test_import.ZipTests.test_forged_size_and_matching_truncated_crc) ... ok
+test_full_zip_index (test_import.ZipTests.test_full_zip_index) ... ok
+test_hardlink_extension (test_import.ZipTests.test_hardlink_extension) ... ok
+test_invalid_and_trailing_format (test_import.ZipTests.test_invalid_and_trailing_format) ... ok
+test_lying_expanded_size (test_import.ZipTests.test_lying_expanded_size) ... ok
+test_nested_archives_extension_magic (test_import.ZipTests.test_nested_archives_extension_magic) ... ok
+test_nested_sfx_zip_and_v7_tar (test_import.ZipTests.test_nested_sfx_zip_and_v7_tar) ... ok
+test_paths (test_import.ZipTests.test_paths) ... ok
+test_stored_and_explicit_directory (test_import.ZipTests.test_stored_and_explicit_directory) ... ok
+test_streaming_data_descriptor (test_import.ZipTests.test_streaming_data_descriptor) ... ok
+test_symlink_special_types (test_import.ZipTests.test_symlink_special_types) ... ok
+test_unsupported_compression (test_import.ZipTests.test_unsupported_compression) ... ok
+test_zip_byte_limit (test_import.ZipTests.test_zip_byte_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 9.816s
+
+OK

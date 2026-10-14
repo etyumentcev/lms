@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="96ac232f-6fc6-49dc-93b1-6c235bd744f5" name="@tea-Swift-SFG16-74 2026-10-14 00:38:40" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T00:38:40.7991842+06:00" queuing="2026-10-14T00:38:40.7991843+06:00" start="2026-10-14T00:38:03.1212879+06:00" finish="2026-10-14T00:38:40.8078782+06:00" />
+  <TestSettings name="default" id="cb88749f-cdbd-4f16-8be8-34800b7f858d">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_00_38_40" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ffc41755-e1d0-4b1f-99de-94beb68cbaf6" testId="b6aaffab-6981-325d-939a-3444bfc2ee9f" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:32.7551197" startTime="2026-10-14T00:38:03.5768229+06:00" endTime="2026-10-14T00:38:40.7210361+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ffc41755-e1d0-4b1f-99de-94beb68cbaf6">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByText('Организация А') to be visible\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/react-browser-session.mjs:52:39 {
+  log: [ "  - waiting for getByText('Организация А') to be visible" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs:line 127
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs:line 136
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b6aaffab-6981-325d-939a-3444bfc2ee9f">
+      <Execution id="ffc41755-e1d0-4b1f-99de-94beb68cbaf6" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="b6aaffab-6981-325d-939a-3444bfc2ee9f" executionId="ffc41755-e1d0-4b1f-99de-94beb68cbaf6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.09] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.21] Docker container fd817dcc102a created
+[testcontainers.org 00:00:00.24] Start Docker container fd817dcc102a
+[testcontainers.org 00:00:00.35] Wait for Docker container fd817dcc102a to complete readiness checks
+[testcontainers.org 00:00:01.37] Docker container fd817dcc102a ready
+[testcontainers.org 00:00:01.46] Docker container 60b4418429b1 created
+[testcontainers.org 00:00:01.47] Start Docker container 60b4418429b1
+[testcontainers.org 00:00:01.57] Wait for Docker container 60b4418429b1 to complete readiness checks
+[testcontainers.org 00:00:01.58] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 60b4418429b1
+[testcontainers.org 00:00:02.63] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 60b4418429b1
+[testcontainers.org 00:00:02.68] Docker container 60b4418429b1 ready
+[testcontainers.org 00:00:36.87] Delete Docker container 60b4418429b1
+[xUnit.net 00:00:37.33]       node:internal/modules/run_main:107
+[xUnit.net 00:00:37.33]           triggerUncaughtException(
+[xUnit.net 00:00:37.33]           ^
+[xUnit.net 00:00:37.33]       
+[xUnit.net 00:00:37.33]       locator.waitFor: Timeout 30000ms exceeded.
+[xUnit.net 00:00:37.33]       Call log:
+[xUnit.net 00:00:37.33]       \u001b[2m  - waiting for getByText('Организация А') to be visible\u001b[22m
+[xUnit.net 00:00:37.33]       
+[xUnit.net 00:00:37.33]           at /home/tea/github/lms/tools/browser_read/react-browser-session.mjs:52:39 {
+[xUnit.net 00:00:37.33]         log: [ "  - waiting for getByText('Организация А') to be visible" ],
+[xUnit.net 00:00:37.33]         name: 'TimeoutError'
+[xUnit.net 00:00:37.33]       }
+[xUnit.net 00:00:37.33]       
+[xUnit.net 00:00:37.33]       Node.js v24.19.0
+[xUnit.net 00:00:37.33]       
+[xUnit.net 00:00:37.33]       Stack Trace:
+[xUnit.net 00:00:37.33]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs(127,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser)
+[xUnit.net 00:00:37.33]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs(136,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser)
+[xUnit.net 00:00:37.33]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:37.34]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:38:40.7230979+06:00">
+        <Text>[xUnit.net 00:00:37.33]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

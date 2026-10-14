@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-14",
+  "head": "688d8cf3305d7739a3cb76824a60ad9d5de3596b",
+  "syntheticOnly": true,
+  "acceptance": {
+    "pass": 74,
+    "fail": 0,
+    "blocked": 3,
+    "notRun": 0,
+    "blockedCases": ["TC-071", "TC-076", "TC-077"]
+  },
+  "integrated": {
+    "passed": true,
+    "organizations": 2,
+    "students": 12,
+    "teachers": 2,
+    "assignments": 60,
+    "accepted": 2,
+    "needsRevision": 2,
+    "submitted": 2,
+    "notStarted": 54,
+    "apiRestart": "PASS",
+    "postgresRestart": "PASS",
+    "restore": "PASS",
+    "dbOnlyRestore": "EXPECTED_FAILURE"
+  },
+  "regression": {
+    "dotnet": {
+      "domain": { "passed": 43, "failed": 0, "skipped": 0 },
+      "application": { "passed": 369, "failed": 0, "skipped": 0 },
+      "infrastructure": { "passed": 343, "failed": 0, "skipped": 0 },
+      "api": { "passed": 385, "failed": 0, "skipped": 12 }
+    },
+    "chromium": { "passed": 15, "failed": 0, "skipped": 0 },
+    "vitest": { "passed": 421, "failed": 0, "firstRunTimingFailures": 1 },
+    "productionBuildModules": 302,
+    "compiler": { "passed": 74, "failed": 0 },
+    "importer": { "passed": 49, "failed": 0 }
+  },
+  "visual": {
+    "functionalViewports": [390, 768, 1440],
+    "approvedReferences": "REFERENCE UNAVAILABLE"
+  },
+  "commitCreated": false,
+  "push": false,
+  "deploy": false
+}

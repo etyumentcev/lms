@@ -1,0 +1,48 @@
+$ vitest run
+
+ RUN  v4.0.18 /home/tea/github/lms/src/Lms.Web
+
+ ✓ src/test/courseNavigation.test.tsx (14 tests) 1452ms
+     ✓ loads only server rows, role and server progress, opens course and returns through history  444ms
+   ✓ student traverses list → course → lesson → assignment → history and returns to the same lesson  445ms
+ ✓ src/test/lesson.test.tsx (40 tests) 1692ms
+ ✓ src/test/course.test.tsx (34 tests) 1736ms
+ ✓ src/test/history.test.tsx (37 tests) 2594ms
+ ✓ src/test/annotations.test.tsx (28 tests) 563ms
+ ✓ src/test/reviewQueue.test.tsx (44 tests) 3153ms
+ ✓ src/test/session.test.tsx (3 tests) 799ms
+     ✓ logs in with an in-memory token, clears Blob URLs and revokes server session on logout  585ms
+ ✓ src/test/workspaceContent.test.tsx (11 tests) 664ms
+   ✓ follows exact API links through existing page modes without legacy permissions or write UI  377ms
+stderr | src/test/progressHistory.test.tsx > M1-10 progress and review history > shows authoritative 12-student summary, all status counters and immutable work link
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/progressHistory.test.tsx (4 tests) 437ms
+stderr | src/test/protectedWork.test.tsx > isolated protected work > selects old attempt and its feedback without issuing writes or loading blocked files
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/protectedPhotos.test.tsx (5 tests) 366ms
+     ✓ fetches pages with bearer and no-store, revokes old bytes when changing page and on unmount  315ms
+ ✓ src/test/protectedWork.test.tsx (5 tests) 490ms
+ ✓ src/test/shell.test.tsx (14 tests) 844ms
+stderr | src/test/studentStudy.test.tsx > M1-07 student study views > shows published course, available lesson, assigned count and real progress
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/attachments.test.tsx (20 tests) 628ms
+ ✓ src/test/studentStudy.test.tsx (2 tests) 244ms
+ ✓ src/test/problem.test.tsx (53 tests) 4979ms
+     ✓ keeps shell, statement/tabs/solution/context skeletons while loading  330ms
+ ✓ src/test/api.test.ts (20 tests) 13ms
+ ✓ src/test/attachmentTransport.test.ts (4 tests) 9ms
+ ✓ src/test/primitives.test.tsx (15 tests) 212ms
+ ✓ src/test/teacherReview.test.tsx (68 tests) 6720ms
+     ✓ keeps draft through explicit concurrency refresh and reads new version  447ms
+
+ Test Files  19 passed (19)
+      Tests  421 passed (421)
+   Start at  09:02:39
+   Duration  8.30s (transform 3.06s, setup 2.23s, import 6.56s, tests 27.60s, environment 9.69s)
+

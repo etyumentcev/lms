@@ -1,0 +1,1683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="7fa4b1da-312a-42eb-8b4d-efdb2b3b1f66" name="@tea-Swift-SFG16-74 2026-10-14 00:33:56" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T00:33:56.3547012+06:00" queuing="2026-10-14T00:33:56.3547013+06:00" start="2026-10-14T00:33:49.7471063+06:00" finish="2026-10-14T00:34:33.8366500+06:00" />
+  <TestSettings name="default" id="0a06a514-9e0a-48b8-b6ea-798b4e2d7686">
+    <Deployment runDeploymentRoot="_tea-Swift-SFG16-74_2026-10-14_00_33_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="4a1ed622-f40c-4f25-bbd9-f702f1baf482" testId="19c9a06f-e2d7-0086-c4ba-5bf43da4622d" testName="Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:26.2038144" startTime="2026-10-14T00:33:53.0506713+06:00" endTime="2026-10-14T00:34:19.2576295+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a1ed622-f40c-4f25-bbd9-f702f1baf482">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.waitFor: Timeout 20000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByRole('heading', { name: 'Нет доступных курсов' }) to be visible\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/accounts-activation.mjs:74:69
+http:404:/api/v1/admin/courses
+console:Failed to load resource: the server responded with a status of 404 ()
+http:404:/api/v1/admin/courses
+console:Failed to load resource: the server responded with a status of 404 ()
+console:Failed to load resource: net::ERR_NETWORK_CHANGED
+?
+Помощь
+RU⌄
+сапиентум
+Олимпиадная
+математика
+
+Задачи, кружки, прогресс
+и обратная связь в одном месте
+
+Вход в Сапиентум
+
+Используйте учётные данные, выданные администратором вашей образовательной организации.
+
+Сервис временно недоступен. Результат запроса неизвестен; повторите восстановление сессии.
+
+Логин
+♙
+Пароль
+▢
+◌
+Организация
+◇
+Войти
+или
+Продолжить текущую сессию
+i
+
+Нет учётных данных?
+Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+
+У меня есть код активации
+Восстановить доступ
+Первый администратор
+Первый запуск
+Оператор безопасности
+</Message>
+          <StackTrace>   at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs:line 117
+   at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs:line 124
+   at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs:line 124
+   at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs:line 124
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e10a83cf-1ee4-496f-af64-070967f89bc8" testId="b6aaffab-6981-325d-939a-3444bfc2ee9f" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3039465" startTime="2026-10-14T00:34:04.1002992+06:00" endTime="2026-10-14T00:34:06.4478530+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e10a83cf-1ee4-496f-af64-070967f89bc8">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/react-browser-session.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs:line 127
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs:line 136
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e7509f05-9b54-471e-80d6-96ee72ad9acb" testId="9b69df2c-2325-4236-28d6-50435bbe34b0" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.4762188" startTime="2026-10-14T00:34:01.6922441+06:00" endTime="2026-10-14T00:34:04.0993720+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7509f05-9b54-471e-80d6-96ee72ad9acb">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/work.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 53
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 56
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7175c2c3-5301-403f-916f-876a4419d508" testId="f8360f77-2dbe-eed5-a692-1a03339626e7" testName="Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:01.1191154" startTime="2026-10-14T00:34:32.4943248+06:00" endTime="2026-10-14T00:34:33.6139124+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7175c2c3-5301-403f-916f-876a4419d508">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/react-teacher-journey.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs:line 216
+   at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs:line 230
+   at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs:line 230
+   at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs:line 230
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="379009b0-fd03-4367-9232-02aca81029d1" testId="2f47bff0-b04f-c3ee-7f7d-bcb80bbeeabc" testName="Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:35.5367333" startTime="2026-10-14T00:33:53.1600282+06:00" endTime="2026-10-14T00:34:28.6965977+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="379009b0-fd03-4367-9232-02aca81029d1">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByText('Пакет готов к публикации.', { exact: true }) to be visible\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/content-publication.mjs:106:70
+console:Failed to load resource: net::ERR_NETWORK_CHANGED
+teacher-2cb5a9579a664791a70815f66067b026
+Преподаватель
+Организация
+Выйти
+К основному содержимому
+Sapientum
+⌂
+Главная
+▤
+Мои курсы
+▦
+Расписание
+✓
+Проверка
+▣
+Архив задач
+↗
+Прогресс
+▱
+Сообщения
+S
+Учебное пространство
+Преподаватель
+Мои курсы
+Олимпиадная математика · M1-06
+Материалы
+← Мои курсы
+МАТЕРИАЛЫ КУРСА
+Олимпиадная математика · M1-06
+
+Draft-only курс, созданный цепочкой M1-05
+
+Черновик
+1
+Импорт ZIP
+2
+Диагностика
+3
+Предпросмотр
+4
+Публикация
+5
+Открытие занятия
+6
+Назначение группе
+Результат запроса неизвестен. Не повторяйте автоматически: проверьте состояние импорта.
+Импорт ZIP
+
+Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+
+m1-06-olympiad.zip
+Импортировать ZIP
+Диагностика
+
+Исправьте ошибки и импортируйте новый пакет.
+
+Invalid
+Уровень	Файл и строка	Сообщение
+ERROR	lessons/number-theory/problems/congruence-1.md:2:1	E_FIELD_REQUIRED
+Required field is missing.
+Контекст
+</Message>
+          <StackTrace>   at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs:line 224
+   at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs:line 308
+   at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs:line 308
+   at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs:line 308
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="18d4348a-bbd4-4f9f-8bc4-baf958cdce0d" testId="1062ea39-855d-194d-4976-096f44ca1248" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:00.3006339" startTime="2026-10-14T00:34:06.4487542+06:00" endTime="2026-10-14T00:34:08.7028896+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18d4348a-bbd4-4f9f-8bc4-baf958cdce0d">
+      <Output>
+        <ErrorInfo>
+          <Message>Browser E2E failed: node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/run.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs:line 111
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs:line 113
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e2c2cb8d-82da-42e1-8ff3-59e936c3cf50" testId="94bcd2c4-89c8-e08e-b433-d4a858ed15e7" testName="Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:18.2233812" startTime="2026-10-14T00:33:53.0975411+06:00" endTime="2026-10-14T00:34:11.3232151+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2c2cb8d-82da-42e1-8ff3-59e936c3cf50">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.click: Timeout 15000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByRole('button', { name: 'Первый запуск организации' })\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/organization-bootstrap.mjs:27:73
+
+?
+Помощь
+RU⌄
+сапиентум
+Олимпиадная
+математика
+
+Задачи, кружки, прогресс
+и обратная связь в одном месте
+
+Вход в Сапиентум
+
+Используйте учётные данные, выданные администратором вашей образовательной организации.
+
+Логин
+♙
+Пароль
+▢
+◌
+Организация
+◇
+Войти
+или
+Продолжить текущую сессию
+i
+
+Нет учётных данных?
+Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+
+У меня есть код активации
+Восстановить доступ
+Первый администратор
+Первый запуск
+Оператор безопасности
+</Message>
+          <StackTrace>   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 149
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+   at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs:line 155
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="38814ac7-d33d-419f-a557-1f3e0041290e" testId="1296e4d0-50db-5d98-30c3-47b6799d53c6" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:00.4270138" startTime="2026-10-14T00:33:59.3168228+06:00" endTime="2026-10-14T00:34:01.6912770+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38814ac7-d33d-419f-a557-1f3e0041290e">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/work.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 53
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs:line 56
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ead97ae4-461b-4196-a858-29239e34a450" testId="116cc37b-2d87-8e5b-09a4-47e4fa6f55f8" testName="Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:34.9905068" startTime="2026-10-14T00:33:54.1083979+06:00" endTime="2026-10-14T00:34:29.0995109+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ead97ae4-461b-4196-a858-29239e34a450">
+      <Output>
+        <ErrorInfo>
+          <Message>locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+\u001b[2m  - waiting for getByText('Пакет готов к публикации.', { exact: true }) to be visible\u001b[22m
+
+    at /home/tea/github/lms/tools/browser_read/m1-11-fix-01.mjs:90:70
+console:Failed to load resource: net::ERR_NETWORK_CHANGED
+fix01-teacher-cbabcd
+Преподаватель
+Организация
+Выйти
+К основному содержимому
+Sapientum
+⌂
+Главная
+▤
+Мои курсы
+▦
+Расписание
+✓
+Проверка
+▣
+Архив задач
+↗
+Прогресс
+▱
+Сообщения
+S
+Учебное пространство
+Преподаватель
+Мои курсы
+Подготовка к олимпиаде Эйлера
+Материалы
+← Мои курсы
+МАТЕРИАЛЫ КУРСА
+Подготовка к олимпиаде Эйлера
+
+Синтетический курс FIX-01
+
+Черновик
+1
+Импорт ZIP
+2
+Диагностика
+3
+Предпросмотр
+4
+Публикация
+5
+Открытие занятия
+6
+Назначение группе
+Результат запроса неизвестен. Не повторяйте автоматически: проверьте состояние импорта.
+Импорт ZIP
+
+Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+
+m1-06-olympiad.zip
+Импортировать ZIP
+Контекст
+</Message>
+          <StackTrace>   at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs:line 259
+   at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs:line 297
+   at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs:line 297
+   at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs:line 297
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e6c58fd6-306f-44ac-93a2-cfd3fc7abc4a" testId="b58b7511-65f2-03ca-276f-6f27583ad494" testName="Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:00.6424016" startTime="2026-10-14T00:34:30.4769404+06:00" endTime="2026-10-14T00:34:31.1193971+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6c58fd6-306f-44ac-93a2-cfd3fc7abc4a">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/teacher-journey.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs:line 114
+   at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs:line 120
+   at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs:line 120
+   at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser) in /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs:line 120
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5fd4b91e-d65f-477d-b2ee-ee0fe40a6c61" testId="a9a032fc-cdf0-4995-b228-162da0b38c1d" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)" computerName="tea-Swift-SFG16-74" duration="00:00:01.1842629" startTime="2026-10-14T00:33:50.1647510+06:00" endTime="2026-10-14T00:33:56.2798447+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5fd4b91e-d65f-477d-b2ee-ee0fe40a6c61">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/photos.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 62
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 65
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9c724033-a29e-4554-a38d-b3df20a87062" testId="deb64697-9c60-1103-a023-b6673ba1243d" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.6930836" startTime="2026-10-14T00:33:56.3195678+06:00" endTime="2026-10-14T00:33:59.3146784+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c724033-a29e-4554-a38d-b3df20a87062">
+      <Output>
+        <ErrorInfo>
+          <Message>node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/photos.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 62
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs:line 65
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4b486d4b-b4ad-48a8-8335-8f6de19dcaed" testId="a3969f96-ad1b-0449-c910-bff4c9a32519" testName="Lms.Api.Tests.CourseRosterBrowserTests.Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated(browser: True)" computerName="tea-Swift-SFG16-74" duration="00:00:08.9858619" startTime="2026-10-14T00:33:54.0686217+06:00" endTime="2026-10-14T00:34:03.0550894+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b486d4b-b4ad-48a8-8335-8f6de19dcaed" />
+    <UnitTestResult executionId="b1bc3ce5-3560-4278-a01b-bf84cc92bebb" testId="9025d734-920c-2c05-b9d4-19874d62875d" testName="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student)" computerName="tea-Swift-SFG16-74" duration="00:00:00.2966400" startTime="2026-10-14T00:34:08.7036741+06:00" endTime="2026-10-14T00:34:10.8673465+06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b1bc3ce5-3560-4278-a01b-bf84cc92bebb">
+      <Output>
+        <ErrorInfo>
+          <Message>Browser E2E failed: node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/run.mjs
+Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+    at #resolve (node:internal/modules/esm/loader:683:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+}
+
+Node.js v24.19.0
+</Message>
+          <StackTrace>   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs:line 111
+   at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role) in /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs:line 113
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9b69df2c-2325-4236-28d6-50435bbe34b0">
+      <Execution id="e7509f05-9b54-471e-80d6-96ee72ad9acb" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_work_real_student_teacher_history_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="f8360f77-2dbe-eed5-a692-1a03339626e7">
+      <Execution id="7175c2c3-5301-403f-916f-876a4419d508" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.ReactTeacherJourneyTests" name="React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b6aaffab-6981-325d-939a-3444bfc2ee9f">
+      <Execution id="e10a83cf-1ee4-496f-af64-070967f89bc8" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.CourseRosterBrowserTests.Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="a3969f96-ad1b-0449-c910-bff4c9a32519">
+      <Execution id="4b486d4b-b4ad-48a8-8335-8f6de19dcaed" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.CourseRosterBrowserTests" name="Real_chromium_admin_builds_roster_and_role_catalogs_are_isolated" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="1296e4d0-50db-5d98-30c3-47b6799d53c6">
+      <Execution id="38814ac7-d33d-419f-a557-1f3e0041290e" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_work_real_student_teacher_history_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="94bcd2c4-89c8-e08e-b433-d4a858ed15e7">
+      <Execution id="e2c2cb8d-82da-42e1-8ff3-59e936c3cf50" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.OrganizationBootstrapBrowserTests" name="Real_browser_creates_activates_and_opens_organization_admin_dashboard" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="a9a032fc-cdf0-4995-b228-162da0b38c1d">
+      <Execution id="5fd4b91e-d65f-477d-b2ee-ee0fe40a6c61" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_photo_real_student_teacher_A4_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="deb64697-9c60-1103-a023-b6673ba1243d">
+      <Execution id="9c724033-a29e-4554-a38d-b3df20a87062" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_photo_real_student_teacher_A4_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="9025d734-920c-2c05-b9d4-19874d62875d">
+      <Execution id="b1bc3ce5-3560-4278-a01b-bf84cc92bebb" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_read_real_http_postgres_navigation_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="2f47bff0-b04f-c3ee-7f7d-bcb80bbeeabc">
+      <Execution id="379009b0-fd03-4367-9232-02aca81029d1" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.ContentPublicationBrowserTests" name="Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="b58b7511-65f2-03ca-276f-6f27583ad494">
+      <Execution id="e6c58fd6-306f-44ac-93a2-cfd3fc7abc4a" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.TeacherOperationJourneyTests" name="Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="116cc37b-2d87-8e5b-09a4-47e4fa6f55f8">
+      <Execution id="ead97ae4-461b-4196-a858-29239e34a450" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.CourseEditorAuthorityBrowserTests" name="Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="1062ea39-855d-194d-4976-096f44ca1248">
+      <Execution id="18d4348a-bbd4-4f9f-8bc4-baf958cdce0d" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.IsolatedProcessingDeploymentTests" name="Browser_read_real_http_postgres_navigation_and_denials" />
+    </UnitTest>
+    <UnitTest name="Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(browser: True)" storage="/home/tea/github/lms/tests/lms.api.tests/bin/debug/net10.0/lms.api.tests.dll" id="19c9a06f-e2d7-0086-c4ba-5bf43da4622d">
+      <Execution id="4a1ed622-f40c-4f25-bbd9-f702f1baf482" />
+      <TestMethod codeBase="/home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Lms.Api.Tests.AccountAdministrationBrowserTests" name="Real_chromium_admin_creates_student_who_activates_and_logs_in" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="19c9a06f-e2d7-0086-c4ba-5bf43da4622d" executionId="4a1ed622-f40c-4f25-bbd9-f702f1baf482" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6aaffab-6981-325d-939a-3444bfc2ee9f" executionId="e10a83cf-1ee4-496f-af64-070967f89bc8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b69df2c-2325-4236-28d6-50435bbe34b0" executionId="e7509f05-9b54-471e-80d6-96ee72ad9acb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8360f77-2dbe-eed5-a692-1a03339626e7" executionId="7175c2c3-5301-403f-916f-876a4419d508" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2f47bff0-b04f-c3ee-7f7d-bcb80bbeeabc" executionId="379009b0-fd03-4367-9232-02aca81029d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1062ea39-855d-194d-4976-096f44ca1248" executionId="18d4348a-bbd4-4f9f-8bc4-baf958cdce0d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="94bcd2c4-89c8-e08e-b433-d4a858ed15e7" executionId="e2c2cb8d-82da-42e1-8ff3-59e936c3cf50" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1296e4d0-50db-5d98-30c3-47b6799d53c6" executionId="38814ac7-d33d-419f-a557-1f3e0041290e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="116cc37b-2d87-8e5b-09a4-47e4fa6f55f8" executionId="ead97ae4-461b-4196-a858-29239e34a450" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b58b7511-65f2-03ca-276f-6f27583ad494" executionId="e6c58fd6-306f-44ac-93a2-cfd3fc7abc4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9a032fc-cdf0-4995-b228-162da0b38c1d" executionId="5fd4b91e-d65f-477d-b2ee-ee0fe40a6c61" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="deb64697-9c60-1103-a023-b6673ba1243d" executionId="9c724033-a29e-4554-a38d-b3df20a87062" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a3969f96-ad1b-0449-c910-bff4c9a32519" executionId="4b486d4b-b4ad-48a8-8335-8f6de19dcaed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9025d734-920c-2c05-b9d4-19874d62875d" executionId="b1bc3ce5-3560-4278-a01b-bf84cc92bebb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="14" executed="14" passed="1" failed="13" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.05]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.11]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.13]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.09] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.24] Docker container 01ec82633832 created
+[testcontainers.org 00:00:00.26] Start Docker container 01ec82633832
+[testcontainers.org 00:00:00.36] Wait for Docker container 01ec82633832 to complete readiness checks
+[testcontainers.org 00:00:01.38] Docker container 01ec82633832 ready
+[testcontainers.org 00:00:01.55] Docker container 0f48033f29d7 created
+[testcontainers.org 00:00:01.55] Docker container 41341c402385 created
+[testcontainers.org 00:00:01.55] Docker container b2ea883dca79 created
+[testcontainers.org 00:00:01.55] Docker container d574a38c6bea created
+[testcontainers.org 00:00:01.55] Docker container a58ccd541db2 created
+[testcontainers.org 00:00:01.55] Start Docker container 41341c402385
+[testcontainers.org 00:00:01.56] Docker container e7295715f85f created
+[testcontainers.org 00:00:01.56] Start Docker container d574a38c6bea
+[testcontainers.org 00:00:01.56] Start Docker container b2ea883dca79
+[testcontainers.org 00:00:01.56] Start Docker container a58ccd541db2
+[testcontainers.org 00:00:01.56] Start Docker container 0f48033f29d7
+[testcontainers.org 00:00:01.56] Start Docker container e7295715f85f
+[testcontainers.org 00:00:01.68] Wait for Docker container d574a38c6bea to complete readiness checks
+[testcontainers.org 00:00:01.69] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d574a38c6bea
+[testcontainers.org 00:00:01.70] Wait for Docker container 41341c402385 to complete readiness checks
+[testcontainers.org 00:00:01.71] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 41341c402385
+[testcontainers.org 00:00:01.75] Wait for Docker container b2ea883dca79 to complete readiness checks
+[testcontainers.org 00:00:01.75] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b2ea883dca79
+[testcontainers.org 00:00:01.77] Wait for Docker container 0f48033f29d7 to complete readiness checks
+[testcontainers.org 00:00:01.77] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0f48033f29d7
+[testcontainers.org 00:00:01.81] Wait for Docker container a58ccd541db2 to complete readiness checks
+[testcontainers.org 00:00:01.82] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a58ccd541db2
+[testcontainers.org 00:00:01.84] Wait for Docker container e7295715f85f to complete readiness checks
+[testcontainers.org 00:00:01.85] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e7295715f85f
+[testcontainers.org 00:00:02.76] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d574a38c6bea
+[testcontainers.org 00:00:02.77] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 41341c402385
+[testcontainers.org 00:00:02.81] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b2ea883dca79
+[testcontainers.org 00:00:02.82] Docker container 41341c402385 ready
+[testcontainers.org 00:00:02.83] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 0f48033f29d7
+[testcontainers.org 00:00:02.87] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a58ccd541db2
+[testcontainers.org 00:00:02.87] Docker container 0f48033f29d7 ready
+[testcontainers.org 00:00:02.89] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container e7295715f85f
+[testcontainers.org 00:00:02.93] Docker container e7295715f85f ready
+[testcontainers.org 00:00:03.81] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container d574a38c6bea
+[testcontainers.org 00:00:03.84] Docker container d574a38c6bea ready
+[testcontainers.org 00:00:03.85] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container b2ea883dca79
+[testcontainers.org 00:00:03.88] Docker container b2ea883dca79 ready
+[testcontainers.org 00:00:03.91] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a58ccd541db2
+[testcontainers.org 00:00:03.96] Docker container a58ccd541db2 ready
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[62]
+      User profile is available. Using '/home/tea/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://127.0.0.1:46635
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET https://127.0.0.1:46635/ - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'Fallback {*path:nonfile}'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'Fallback {*path:nonfile}'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET https://127.0.0.1:46635/ - 200 - text/html;+charset=utf-8 90.7835ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET https://127.0.0.1:46635/assets/index-DjaW9Hka.js - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/assets/index-DjaW9Hka.js'. Physical path: '/home/tea/github/lms/src/Lms.Web/dist/assets/index-DjaW9Hka.js'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET https://127.0.0.1:46635/assets/index-DjaW9Hka.js - 200 460411 text/javascript 12.2031ms
+[testcontainers.org 00:00:05.87] Delete Docker container a58ccd541db2
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/ - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'Fallback {*path:nonfile}'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'Fallback {*path:nonfile}'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/ - 200 - text/html;+charset=utf-8 18.9759ms
+[xUnit.net 00:00:06.28]       node:internal/modules/run_main:107
+[xUnit.net 00:00:06.28]           triggerUncaughtException(
+[xUnit.net 00:00:06.28]           ^
+[xUnit.net 00:00:06.28]       
+[xUnit.net 00:00:06.28]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/photos.mjs
+[xUnit.net 00:00:06.28]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:06.28]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:06.28]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:06.28]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:06.28]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:06.28]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:06.28]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:06.28]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:06.28]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:06.28]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:06.28]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:06.28]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:06.28]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:06.28]       }
+[xUnit.net 00:00:06.28]       
+[xUnit.net 00:00:06.28]       Node.js v24.19.0
+[xUnit.net 00:00:06.28]       
+[xUnit.net 00:00:06.29]       Stack Trace:
+[xUnit.net 00:00:06.29]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs(62,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role)
+[xUnit.net 00:00:06.29]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs(65,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role)
+[xUnit.net 00:00:06.29]         --- End of stack trace from previous location ---
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/assets/index-6RSLM96H.css - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/assets/index-DjaW9Hka.js - - -
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/assets/markdown-DNNb3ObZ.js - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/assets/index-6RSLM96H.css'. Physical path: '/home/tea/github/lms/src/Lms.Web/dist/assets/index-6RSLM96H.css'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/assets/index-6RSLM96H.css - 200 82521 text/css 1.0871ms
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/assets/markdown-DNNb3ObZ.js'. Physical path: '/home/tea/github/lms/src/Lms.Web/dist/assets/markdown-DNNb3ObZ.js'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/assets/markdown-DNNb3ObZ.js - 200 405788 text/javascript 1.6797ms
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/assets/index-DjaW9Hka.js'. Physical path: '/home/tea/github/lms/src/Lms.Web/dist/assets/index-DjaW9Hka.js'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/assets/index-DjaW9Hka.js - 200 460411 text/javascript 1.9417ms
+[testcontainers.org 00:00:06.15] Docker container 526f55dfe942 created
+[testcontainers.org 00:00:06.15] Start Docker container 526f55dfe942
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/assets/login-study-room-qnbbL5fO.png - - -
+info: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[2]
+      Sending file. Request path: '/assets/login-study-room-qnbbL5fO.png'. Physical path: '/home/tea/github/lms/src/Lms.Web/dist/assets/login-study-room-qnbbL5fO.png'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/assets/login-study-room-qnbbL5fO.png - 200 1564738 image/png 9.1766ms
+[testcontainers.org 00:00:06.27] Wait for Docker container 526f55dfe942 to complete readiness checks
+[testcontainers.org 00:00:06.27] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 526f55dfe942
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/api/v1/auth/csrf - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/auth/csrf'
+info: Microsoft.AspNetCore.DataProtection.EphemeralDataProtectionProvider[45]
+      Using ephemeral data protection provider. Payloads will be undecipherable upon application shutdown.
+warn: Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery[8]
+      The 'Cache-Control' and 'Pragma' headers have been overridden and set to 'no-cache, no-store' and 'no-cache' respectively to prevent caching of this response. Any response that uses antiforgery should not be cached.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/auth/csrf'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/api/v1/auth/csrf - 200 - application/json;+charset=utf-8 9.5868ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://127.0.0.1:46635/api/v1/auth/login - application/json 147
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/auth/login'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@normalized='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedUserName" = @normalized
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ChangedAt", l."CredentialEpoch", l."ReasonRef", l."State", l."Version"
+      FROM (
+          SELECT * FROM "AccountSecurityState" WHERE "UserId" = @p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m."Id", m."AccessFailedCount", m."ConcurrencyStamp", m."Email", m."EmailConfirmed", m."LockoutEnabled", m."LockoutEnd", m."NormalizedEmail", m."NormalizedUserName", m."PasswordHash", m."PhoneNumber", m."PhoneNumberConfirmed", m."SecurityStamp", m."TwoFactorEnabled", m."UserName"
+      FROM (
+          SELECT * FROM "AspNetUsers" WHERE "Id" = @p0 FOR UPDATE
+      ) AS m
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."UserId", l."ActorId", l."IsActive", l."ProvisioningOrgId"
+      FROM (
+          SELECT * FROM "ActorIdentities" WHERE "UserId" = @p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (DbType = Int64), @p4='?' (DbType = DateTime), @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Guid), @p8='?' (DbType = Int64), @p9='?' (DbType = Guid), @p10='?', @p11='?' (DbType = Guid), @p12='?' (DbType = Int64), @p13='?' (DbType = Guid), @p14='?' (DbType = Int64), @p15='?', @p16='?' (DbType = DateTime), @p17='?' (DbType = Guid), @p18='?', @p19='?', @p20='?', @p21='?', @p22='?' (DbType = Int64), @p23='?' (DbType = Guid), @p24='?' (DbType = DateTime), @p25='?' (DbType = DateTime), @p26='?' (DbType = Int32), @p27='?' (DbType = Binary)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "IdentitySessions" ("SessionId", "AbsoluteExpiresAt", "CreatedAt", "Generation", "LastSuccessfulRefreshAt", "RevocationReasonRef", "RevokedAt", "UserId", "Version")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21);
+      INSERT INTO "RefreshVerifiers" ("Generation", "SessionId", "ConsumedAt", "CreatedAt", "KeyVersion", "Verifier")
+      VALUES (@p22, @p23, @p24, @p25, @p26, @p27);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."OrganizationId", l."State", l."SyntheticOnly"
+      FROM (
+          SELECT * FROM "Organizations" WHERE "OrganizationId"=@p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@org='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @org AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@org='?' (DbType = Guid), @actor='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT o."OrganizationId", o."ActorId", o."AccessValidUntil", o."EducationalRole", o."Generation", o."PermissionFlags", o."RevocationRequestedAt", o."State", o."Version"
+      FROM "OrganizationMemberships" AS o
+      WHERE o."OrganizationId" = @org AND o."ActorId" = @actor AND o."State" = 'Active'
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@actor='?' (DbType = Guid), @org='?' (DbType = Guid), @m_Generation='?' (DbType = Int64), @org4='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT t."GrantId", t."AccessValidUntil", t."CourseId", t."Generation", t."GroupId", t."MembershipGeneration", t."OrganizationId", t."RevocationRequestedAt", t."State", t."TeacherId", t."Version"
+      FROM "TeacherAssignmentScopes" AS t
+      INNER JOIN "AccessTeachers" AS a ON t."GrantId" = a."Id"
+      INNER JOIN "CourseRegistry" AS c ON t."CourseId" = c."CourseId"
+      WHERE t."TeacherId" = @actor AND t."OrganizationId" = @org AND t."State" = 'Active' AND t."MembershipGeneration" = @m_Generation AND t."RevocationRequestedAt" IS NULL AND t."AccessValidUntil" IS NULL AND a."TeacherId" = @actor AND a."CourseId" = t."CourseId" AND (a."GroupId" = t."GroupId" OR (a."GroupId" IS NULL AND t."GroupId" IS NULL)) AND c."OrganizationId" = @org4 AND c."MappingState" = 'Verified'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@actor='?' (DbType = Guid), @org='?' (DbType = Guid), @m_Generation='?' (DbType = Int64), @org3='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT c."GrantId", c."AccessValidUntil", c."CourseId", c."EditorId", c."Generation", c."MembershipGeneration", c."OrganizationId", c."RevocationRequestedAt", c."State", c."Version"
+      FROM "CourseEditorScopes" AS c
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."EditorId" = @actor AND c."OrganizationId" = @org AND c."State" = 'Active' AND c."MembershipGeneration" = @m_Generation AND c."RevocationRequestedAt" IS NULL AND c."AccessValidUntil" IS NULL AND c0."OrganizationId" = @org3 AND c0."MappingState" = 'Verified'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/auth/login'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST https://127.0.0.1:46635/api/v1/auth/login - 200 - application/json 125.3193ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/api/v1/my/courses - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/my/courses'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@membership_OrganizationId='?' (DbType = Guid), @ids='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @membership_OrganizationId AND c."CourseId" = ANY (@ids)
+      ORDER BY c."Title"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@ids='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."GroupId", c."CreatedAt", c."Description", c."Name", c."Version"
+      FROM "CourseGroupCatalog" AS c
+      WHERE c."CourseId" = ANY (@ids)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@_8__locals3_8__locals2_8__locals1_membership_OrganizationId='?' (DbType = Guid), @_8__locals3_8__locals2_course_CourseId='?', @group_GroupId='?'], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "EnrollmentScopes" AS e
+      WHERE e."OrganizationId" = @_8__locals3_8__locals2_8__locals1_membership_OrganizationId AND e."CourseId" = @_8__locals3_8__locals2_course_CourseId AND e."GroupId" = @group_GroupId AND e."State" = 'Active'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/my/courses'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/api/v1/my/courses - 200 - application/json;+charset=utf-8 81.3990ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690 - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/teacher/courses/{courseId}'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@membership_OrganizationId='?' (DbType = Guid), @courseId='?'], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."CreatedAt", c."Description", c."OrganizationId", c."State", c."Title", c."Version"
+      FROM "CourseCatalog" AS c
+      WHERE c."OrganizationId" = @membership_OrganizationId AND c."CourseId" = @courseId
+      LIMIT 2
+[testcontainers.org 00:00:07.33] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 526f55dfe942
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@course_CourseId='?', @groupFilter='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT c."CourseId", c."GroupId", c."CreatedAt", c."Description", c."Name", c."Version"
+      FROM "CourseGroupCatalog" AS c
+      WHERE c."CourseId" = @course_CourseId AND c."GroupId" = ANY (@groupFilter)
+      ORDER BY c."Name"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@course_OrganizationId='?' (DbType = Guid), @course_CourseId='?', @groupIds='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT o."ActorId", o."DisplayName", o."ExternalRosterKey", c."GroupId", c."Name", e."EnrollmentGeneration", e."Version"
+      FROM "EnrollmentScopes" AS e
+      INNER JOIN "OrganizationParticipantProfiles" AS o ON e."OrganizationId" = o."OrganizationId" AND e."StudentId" = o."ActorId"
+      INNER JOIN "CourseGroupCatalog" AS c ON e."CourseId" = c."CourseId" AND e."GroupId" = c."GroupId"
+      WHERE e."OrganizationId" = @course_OrganizationId AND e."CourseId" = @course_CourseId AND e."State" = 'Active' AND e."GroupId" IS NOT NULL AND e."GroupId" = ANY (@groupIds)
+      ORDER BY o."DisplayName"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@course_OrganizationId='?' (DbType = Guid), @course_CourseId='?', @groupIds='?' (DbType = Object)], CommandType='Text', CommandTimeout='30']
+      SELECT o."ActorId", o."DisplayName", o."ExternalRosterKey", t."GrantId", c."GroupId", c."Name", t."Generation", t."Version"
+      FROM "TeacherAssignmentScopes" AS t
+      INNER JOIN "OrganizationParticipantProfiles" AS o ON t."OrganizationId" = o."OrganizationId" AND t."TeacherId" = o."ActorId"
+      INNER JOIN "CourseGroupCatalog" AS c ON t."CourseId" = c."CourseId" AND t."GroupId" = c."GroupId"
+      WHERE t."OrganizationId" = @course_OrganizationId AND t."CourseId" = @course_CourseId AND t."State" = 'Active' AND t."GroupId" IS NOT NULL AND t."GroupId" = ANY (@groupIds)
+      ORDER BY o."DisplayName"
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/teacher/courses/{courseId}'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690 - 200 - application/json;+charset=utf-8 63.2448ms
+[testcontainers.org 00:00:07.37] Docker container 526f55dfe942 ready
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 GET https://127.0.0.1:46635/api/v1/auth/csrf - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /api/v1/auth/csrf'
+warn: Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery[8]
+      The 'Cache-Control' and 'Pragma' headers have been overridden and set to 'no-cache, no-store' and 'no-cache' respectively to prevent caching of this response. Any response that uses antiforgery should not be cached.
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /api/v1/auth/csrf'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 GET https://127.0.0.1:46635/api/v1/auth/csrf - 200 - application/json;+charset=utf-8 3.0785ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690/imports - multipart/form-data;+boundary=----WebKitFormBoundaryOakz8CstwxENZLvn 12427
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/teacher/courses/{courseId}/imports'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT public.processing_lock(@p0)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT pg_advisory_xact_lock(hashtextextended(@p0, 0))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@_8__locals1_token_Identity_ActorId='?' (DbType = Guid), @_8__locals1_idempotencyKey='?'], CommandType='Text', CommandTimeout='30']
+      SELECT c."ImportId", c."CourseId", c."CreatedAt", c."DiagnosticsJson", c."ExpiresAt", c."IdempotencyKey", c."OrganizationId", c."OwnerActorId", c."PackageHash", c."PublishedVersionId", c."ReceiptJson", c."RequestDigest", c."SourceRevision", c."State", c."StudentArtifactJson", c."StudentProjectionHash", c."TeacherArtifactHash", c."TeacherArtifactJson", c."Version"
+      FROM "ContentImportAttempts" AS c
+      WHERE c."OwnerActorId" = @_8__locals1_token_Identity_ActorId AND c."IdempotencyKey" = @_8__locals1_idempotencyKey
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@_8__locals1_courseId='?', @resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "CourseCatalog" AS c
+          WHERE c."CourseId" = @_8__locals1_courseId AND c."OrganizationId" = @resource_OrganizationId)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Object), @p4='?' (DbType = DateTime), @p5='?', @p6='?' (DbType = Guid), @p7='?' (DbType = Guid), @p8='?', @p9='?' (DbType = Guid), @p10='?' (DbType = Object), @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Object), @p15='?', @p16='?', @p17='?' (DbType = Object), @p18='?' (DbType = Int64), @p19='?' (DbType = Guid), @p20='?', @p21='?' (DbType = Guid), @p22='?' (DbType = Int64), @p23='?' (DbType = Guid), @p24='?' (DbType = Int64), @p25='?', @p26='?' (DbType = DateTime), @p27='?' (DbType = Guid), @p28='?', @p29='?', @p30='?', @p31='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "ContentImportAttempts" ("ImportId", "CourseId", "CreatedAt", "DiagnosticsJson", "ExpiresAt", "IdempotencyKey", "OrganizationId", "OwnerActorId", "PackageHash", "PublishedVersionId", "ReceiptJson", "RequestDigest", "SourceRevision", "State", "StudentArtifactJson", "StudentProjectionHash", "TeacherArtifactHash", "TeacherArtifactJson", "Version")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT public.processing_lock(@p0)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT l."ImportId", l."CourseId", l."CreatedAt", l."DiagnosticsJson", l."ExpiresAt", l."IdempotencyKey", l."OrganizationId", l."OwnerActorId", l."PackageHash", l."PublishedVersionId", l."ReceiptJson", l."RequestDigest", l."SourceRevision", l."State", l."StudentArtifactJson", l."StudentProjectionHash", l."TeacherArtifactHash", l."TeacherArtifactJson", l."Version"
+      FROM (
+          SELECT * FROM "ContentImportAttempts" WHERE "ImportId"=@p0 FOR UPDATE
+      ) AS l
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?' (DbType = Object), @p1='?', @p2='?' (DbType = Int64), @p4='?' (DbType = Guid), @p5='?', @p6='?' (DbType = Guid), @p7='?' (DbType = Int64), @p8='?' (DbType = Guid), @p9='?' (DbType = Int64), @p10='?', @p11='?' (DbType = DateTime), @p12='?' (DbType = Guid), @p13='?', @p14='?', @p15='?', @p16='?'], CommandType='Text', CommandTimeout='30']
+      UPDATE "ContentImportAttempts" SET "DiagnosticsJson" = @p0, "State" = @p1, "Version" = @p2
+      WHERE "ImportId" = @p3;
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16);
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/teacher/courses/{courseId}/imports'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690/imports - 201 - application/json;+charset=utf-8 604.3368ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690/imports - multipart/form-data;+boundary=----WebKitFormBoundary4QaurJPp2xCytF6W 12442
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: POST /api/v1/teacher/courses/{courseId}/imports'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT public.processing_lock(@p0)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT pg_advisory_xact_lock(hashtextextended(@p0, 0))
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@_8__locals1_token_Identity_ActorId='?' (DbType = Guid), @_8__locals1_idempotencyKey='?'], CommandType='Text', CommandTimeout='30']
+      SELECT c."ImportId", c."CourseId", c."CreatedAt", c."DiagnosticsJson", c."ExpiresAt", c."IdempotencyKey", c."OrganizationId", c."OwnerActorId", c."PackageHash", c."PublishedVersionId", c."ReceiptJson", c."RequestDigest", c."SourceRevision", c."State", c."StudentArtifactJson", c."StudentProjectionHash", c."TeacherArtifactHash", c."TeacherArtifactJson", c."Version"
+      FROM "ContentImportAttempts" AS c
+      WHERE c."OwnerActorId" = @_8__locals1_token_Identity_ActorId AND c."IdempotencyKey" = @_8__locals1_idempotencyKey
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@_8__locals1_courseId='?', @resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "CourseCatalog" AS c
+          WHERE c."CourseId" = @_8__locals1_courseId AND c."OrganizationId" = @resource_OrganizationId)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Object), @p4='?' (DbType = DateTime), @p5='?', @p6='?' (DbType = Guid), @p7='?' (DbType = Guid), @p8='?', @p9='?' (DbType = Guid), @p10='?' (DbType = Object), @p11='?', @p12='?', @p13='?', @p14='?' (DbType = Object), @p15='?', @p16='?', @p17='?' (DbType = Object), @p18='?' (DbType = Int64), @p19='?' (DbType = Guid), @p20='?', @p21='?' (DbType = Guid), @p22='?' (DbType = Int64), @p23='?' (DbType = Guid), @p24='?' (DbType = Int64), @p25='?', @p26='?' (DbType = DateTime), @p27='?' (DbType = Guid), @p28='?', @p29='?', @p30='?', @p31='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "ContentImportAttempts" ("ImportId", "CourseId", "CreatedAt", "DiagnosticsJson", "ExpiresAt", "IdempotencyKey", "OrganizationId", "OwnerActorId", "PackageHash", "PublishedVersionId", "ReceiptJson", "RequestDigest", "SourceRevision", "State", "StudentArtifactJson", "StudentProjectionHash", "TeacherArtifactHash", "TeacherArtifactJson", "Version")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+      INSERT INTO "SecurityAudit" ("AuditId", "Action", "ActorId", "AuthorityVersion", "ContextId", "ContextVersion", "EvidenceRef", "OccurredAt", "OrganizationId", "ResourceRef", "Result", "SubjectRef", "TraceId")
+      VALUES (@p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31);
+[testcontainers.org 00:00:08.92] Delete Docker container 526f55dfe942
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT public.processing_lock(@p0)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Organizations" AS o
+          WHERE o."OrganizationId" = @resource_OrganizationId AND o."State" = 'Enabled' AND o."SyntheticOnly")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@resource_CourseId='?', @resource_OrganizationId='?' (DbType = Guid), @resource_OrganizationId3='?' (DbType = Guid), @time_Latest='?' (DbType = DateTime), @time_Earliest='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT c."ContextId", c."EffectiveFrom", c."EffectiveTo", p."EffectiveFrom" AS "ContextFrom", p."SyntheticOnly", p."ApprovalState"
+      FROM "CourseContextBindings" AS c
+      INNER JOIN "ProcessingContextVersions" AS p ON c."ContextId" = p."ContextId" AND c."ContextVersion" = p."Version"
+      INNER JOIN "CourseRegistry" AS c0 ON c."CourseId" = c0."CourseId"
+      WHERE c."CourseId" = @resource_CourseId AND c."OrganizationId" = @resource_OrganizationId AND p."OrganizationId" = @resource_OrganizationId AND c0."OrganizationId" = @resource_OrganizationId3 AND c0."MappingState" = 'Verified' AND c."EffectiveFrom" &lt;= @time_Latest AND (c."EffectiveTo" IS NULL OR c."EffectiveTo" &gt; @time_Earliest)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[@resource_OrganizationId='?' (DbType = Guid), @binding_ContextId='?' (DbType = Guid), @actorId='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "ProcessingRestrictions" AS p
+          WHERE p."OrganizationId" = @resource_OrganizationId AND p."ContextId" = @binding_ContextId AND p."State" = 'Active' AND (p."SubjectActorId" IS NULL OR p."SubjectActorId" = @actorId))
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: POST /api/v1/teacher/courses/{courseId}/imports'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST https://127.0.0.1:46635/api/v1/teacher/courses/m1-05-browser-draft-74433afab6c04c188a2c9e303781b690/imports - 499 - - 668.2273ms
+[xUnit.net 00:00:09.30]       node:internal/modules/run_main:107
+[xUnit.net 00:00:09.30]           triggerUncaughtException(
+[xUnit.net 00:00:09.30]           ^
+[xUnit.net 00:00:09.30]       
+[xUnit.net 00:00:09.30]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/photos.mjs
+[xUnit.net 00:00:09.30]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:09.30]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:09.30]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:09.30]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:09.30]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:09.30]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:09.30]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:09.30]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:09.30]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:09.30]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:09.30]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:09.30]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:09.30]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:09.30]       }
+[xUnit.net 00:00:09.30]       
+[xUnit.net 00:00:09.30]       Node.js v24.19.0
+[xUnit.net 00:00:09.30]       
+[xUnit.net 00:00:09.30]       Stack Trace:
+[xUnit.net 00:00:09.30]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs(62,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role)
+[xUnit.net 00:00:09.30]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedPhotoBrowserTests.cs(65,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(ScopeRole role)
+[xUnit.net 00:00:09.30]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:09.19] Docker container 2499e78f8803 created
+[testcontainers.org 00:00:09.19] Start Docker container 2499e78f8803
+[testcontainers.org 00:00:09.30] Wait for Docker container 2499e78f8803 to complete readiness checks
+[testcontainers.org 00:00:09.30] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2499e78f8803
+[testcontainers.org 00:00:10.34] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2499e78f8803
+[testcontainers.org 00:00:10.38] Docker container 2499e78f8803 ready
+[testcontainers.org 00:00:11.34] Delete Docker container 2499e78f8803
+[xUnit.net 00:00:11.67]       node:internal/modules/run_main:107
+[xUnit.net 00:00:11.67]           triggerUncaughtException(
+[xUnit.net 00:00:11.67]           ^
+[xUnit.net 00:00:11.67]       
+[xUnit.net 00:00:11.67]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/work.mjs
+[xUnit.net 00:00:11.67]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:11.67]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:11.67]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:11.67]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:11.67]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:11.67]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:11.67]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:11.67]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:11.67]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:11.67]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:11.67]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:11.67]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:11.67]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:11.67]       }
+[xUnit.net 00:00:11.67]       
+[xUnit.net 00:00:11.67]       Node.js v24.19.0
+[xUnit.net 00:00:11.67]       
+[xUnit.net 00:00:11.67]       Stack Trace:
+[xUnit.net 00:00:11.67]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs(53,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role)
+[xUnit.net 00:00:11.67]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs(56,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role)
+[xUnit.net 00:00:11.67]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:11.53] Docker container 68420d48c657 created
+[testcontainers.org 00:00:11.53] Start Docker container 68420d48c657
+[testcontainers.org 00:00:11.63] Wait for Docker container 68420d48c657 to complete readiness checks
+[testcontainers.org 00:00:11.64] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 68420d48c657
+[testcontainers.org 00:00:12.69] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 68420d48c657
+[testcontainers.org 00:00:12.73] Docker container 68420d48c657 ready
+[testcontainers.org 00:00:12.83] Delete Docker container d574a38c6bea
+[testcontainers.org 00:00:13.74] Delete Docker container 68420d48c657
+[xUnit.net 00:00:14.08]       node:internal/modules/run_main:107
+[xUnit.net 00:00:14.08]           triggerUncaughtException(
+[xUnit.net 00:00:14.08]           ^
+[xUnit.net 00:00:14.08]       
+[xUnit.net 00:00:14.08]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/work.mjs
+[xUnit.net 00:00:14.08]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:14.08]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:14.08]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:14.08]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:14.08]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:14.08]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:14.08]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:14.08]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:14.08]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:14.08]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:14.08]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:14.08]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:14.08]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:14.08]       }
+[xUnit.net 00:00:14.08]       
+[xUnit.net 00:00:14.08]       Node.js v24.19.0
+[xUnit.net 00:00:14.08]       
+[xUnit.net 00:00:14.08]       Stack Trace:
+[xUnit.net 00:00:14.08]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs(53,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role)
+[xUnit.net 00:00:14.08]         /home/tea/github/lms/tests/Lms.Api.Tests/ProtectedWorkBrowserTests.cs(56,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(ScopeRole role)
+[xUnit.net 00:00:14.08]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:13.94] Docker container 6cb86d9dd9a2 created
+[testcontainers.org 00:00:13.94] Start Docker container 6cb86d9dd9a2
+[testcontainers.org 00:00:14.04] Wait for Docker container 6cb86d9dd9a2 to complete readiness checks
+[testcontainers.org 00:00:14.04] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6cb86d9dd9a2
+[testcontainers.org 00:00:15.06] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 6cb86d9dd9a2
+[testcontainers.org 00:00:15.11] Docker container 6cb86d9dd9a2 ready
+[testcontainers.org 00:00:16.06] Delete Docker container 6cb86d9dd9a2
+[xUnit.net 00:00:16.43]       node:internal/modules/run_main:107
+[xUnit.net 00:00:16.43]           triggerUncaughtException(
+[xUnit.net 00:00:16.43]           ^
+[xUnit.net 00:00:16.43]       
+[xUnit.net 00:00:16.43]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/react-browser-session.mjs
+[xUnit.net 00:00:16.43]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:16.43]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:16.43]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:16.43]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:16.43]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:16.43]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:16.43]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:16.43]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:16.43]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:16.43]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:16.43]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:16.43]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:16.43]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:16.43]       }
+[xUnit.net 00:00:16.43]       
+[xUnit.net 00:00:16.43]       Node.js v24.19.0
+[xUnit.net 00:00:16.43]       
+[xUnit.net 00:00:16.43]       Stack Trace:
+[xUnit.net 00:00:16.43]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs(127,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser)
+[xUnit.net 00:00:16.43]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactBrowserSessionTests.cs(136,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(Boolean browser)
+[xUnit.net 00:00:16.43]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:16.28] Docker container 2faf0d2cc8db created
+[testcontainers.org 00:00:16.29] Start Docker container 2faf0d2cc8db
+[testcontainers.org 00:00:16.38] Wait for Docker container 2faf0d2cc8db to complete readiness checks
+[testcontainers.org 00:00:16.38] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2faf0d2cc8db
+[testcontainers.org 00:00:17.43] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2faf0d2cc8db
+[testcontainers.org 00:00:17.47] Docker container 2faf0d2cc8db ready
+[testcontainers.org 00:00:18.32] Delete Docker container 2faf0d2cc8db
+[xUnit.net 00:00:18.68]       Browser E2E failed: node:internal/modules/run_main:107
+[xUnit.net 00:00:18.68]           triggerUncaughtException(
+[xUnit.net 00:00:18.68]           ^
+[xUnit.net 00:00:18.68]       
+[xUnit.net 00:00:18.68]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/run.mjs
+[xUnit.net 00:00:18.68]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:18.68]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:18.68]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:18.68]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:18.68]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:18.68]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:18.68]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:18.68]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:18.69]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:18.69]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:18.69]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:18.69]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:18.69]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:18.69]       }
+[xUnit.net 00:00:18.69]       
+[xUnit.net 00:00:18.69]       Node.js v24.19.0
+[xUnit.net 00:00:18.69]       
+[xUnit.net 00:00:18.69]       Stack Trace:
+[xUnit.net 00:00:18.69]         /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs(111,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role)
+[xUnit.net 00:00:18.69]         /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs(113,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role)
+[xUnit.net 00:00:18.69]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:18.54] Docker container fbbe9c46e5a0 created
+[testcontainers.org 00:00:18.54] Start Docker container fbbe9c46e5a0
+[testcontainers.org 00:00:18.63] Wait for Docker container fbbe9c46e5a0 to complete readiness checks
+[testcontainers.org 00:00:18.63] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container fbbe9c46e5a0
+[testcontainers.org 00:00:19.67] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container fbbe9c46e5a0
+[testcontainers.org 00:00:19.70] Docker container fbbe9c46e5a0 ready
+[testcontainers.org 00:00:20.50] Delete Docker container fbbe9c46e5a0
+[xUnit.net 00:00:20.85]       Browser E2E failed: node:internal/modules/run_main:107
+[xUnit.net 00:00:20.85]           triggerUncaughtException(
+[xUnit.net 00:00:20.85]           ^
+[xUnit.net 00:00:20.85]       
+[xUnit.net 00:00:20.85]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/run.mjs
+[xUnit.net 00:00:20.85]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:20.85]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:20.85]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:20.85]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:20.85]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:20.85]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:20.85]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:20.85]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:20.85]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:20.85]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:20.85]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:20.85]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:20.85]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:20.85]       }
+[xUnit.net 00:00:20.85]       
+[xUnit.net 00:00:20.85]       Node.js v24.19.0
+[xUnit.net 00:00:20.85]       
+[xUnit.net 00:00:20.85]       Stack Trace:
+[xUnit.net 00:00:20.85]         /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs(111,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role)
+[xUnit.net 00:00:20.85]         /home/tea/github/lms/tests/Lms.Api.Tests/BrowserReadTests.cs(113,0): at Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(ScopeRole role)
+[xUnit.net 00:00:20.85]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:21.31]       locator.click: Timeout 15000ms exceeded.
+[xUnit.net 00:00:21.31]       Call log:
+[xUnit.net 00:00:21.31]       \u001b[2m  - waiting for getByRole('button', { name: 'Первый запуск организации' })\u001b[22m
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]           at /home/tea/github/lms/tools/browser_read/organization-bootstrap.mjs:27:73
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       ?
+[xUnit.net 00:00:21.31]       Помощь
+[xUnit.net 00:00:21.31]       RU⌄
+[xUnit.net 00:00:21.31]       сапиентум
+[xUnit.net 00:00:21.31]       Олимпиадная
+[xUnit.net 00:00:21.31]       математика
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       Задачи, кружки, прогресс
+[xUnit.net 00:00:21.31]       и обратная связь в одном месте
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       Вход в Сапиентум
+[xUnit.net 00:00:21.31]       
+[testcontainers.org 00:00:21.10] Delete Docker container 0f48033f29d7
+[xUnit.net 00:00:21.31]       Используйте учётные данные, выданные администратором вашей образовательной организации.
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       Логин
+[xUnit.net 00:00:21.31]       ♙
+[xUnit.net 00:00:21.31]       Пароль
+[xUnit.net 00:00:21.31]       ▢
+[xUnit.net 00:00:21.31]       ◌
+[xUnit.net 00:00:21.31]       Организация
+[xUnit.net 00:00:21.31]       ◇
+[xUnit.net 00:00:21.31]       Войти
+[xUnit.net 00:00:21.31]       или
+[xUnit.net 00:00:21.31]       Продолжить текущую сессию
+[xUnit.net 00:00:21.31]       i
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       Нет учётных данных?
+[xUnit.net 00:00:21.31]       Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       У меня есть код активации
+[xUnit.net 00:00:21.31]       Восстановить доступ
+[xUnit.net 00:00:21.31]       Первый администратор
+[xUnit.net 00:00:21.31]       Первый запуск
+[xUnit.net 00:00:21.31]       Оператор безопасности
+[xUnit.net 00:00:21.31]       
+[xUnit.net 00:00:21.31]       Stack Trace:
+[xUnit.net 00:00:21.31]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(149,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:21.31]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:21.31]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:21.31]         /home/tea/github/lms/tests/Lms.Api.Tests/OrganizationBootstrapBrowserTests.cs(155,0): at Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(Boolean browser)
+[xUnit.net 00:00:21.31]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:29.24]       locator.waitFor: Timeout 20000ms exceeded.
+[xUnit.net 00:00:29.24]       Call log:
+[xUnit.net 00:00:29.24]       \u001b[2m  - waiting for getByRole('heading', { name: 'Нет доступных курсов' }) to be visible\u001b[22m
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]           at /home/tea/github/lms/tools/browser_read/accounts-activation.mjs:74:69
+[xUnit.net 00:00:29.24]       http:404:/api/v1/admin/courses
+[xUnit.net 00:00:29.24]       console:Failed to load resource: the server responded with a status of 404 ()
+[xUnit.net 00:00:29.24]       http:404:/api/v1/admin/courses
+[xUnit.net 00:00:29.24]       console:Failed to load resource: the server responded with a status of 404 ()
+[xUnit.net 00:00:29.24]       console:Failed to load resource: net::ERR_NETWORK_CHANGED
+[xUnit.net 00:00:29.24]       ?
+[xUnit.net 00:00:29.24]       Помощь
+[xUnit.net 00:00:29.24]       RU⌄
+[testcontainers.org 00:00:29.03] Delete Docker container 41341c402385
+[xUnit.net 00:00:29.24]       сапиентум
+[xUnit.net 00:00:29.24]       Олимпиадная
+[xUnit.net 00:00:29.24]       математика
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Задачи, кружки, прогресс
+[xUnit.net 00:00:29.24]       и обратная связь в одном месте
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Вход в Сапиентум
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Используйте учётные данные, выданные администратором вашей образовательной организации.
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Сервис временно недоступен. Результат запроса неизвестен; повторите восстановление сессии.
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Логин
+[xUnit.net 00:00:29.24]       ♙
+[xUnit.net 00:00:29.24]       Пароль
+[xUnit.net 00:00:29.24]       ▢
+[xUnit.net 00:00:29.24]       ◌
+[xUnit.net 00:00:29.24]       Организация
+[xUnit.net 00:00:29.24]       ◇
+[xUnit.net 00:00:29.24]       Войти
+[xUnit.net 00:00:29.24]       или
+[xUnit.net 00:00:29.24]       Продолжить текущую сессию
+[xUnit.net 00:00:29.24]       i
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Нет учётных данных?
+[xUnit.net 00:00:29.24]       Обратитесь к администратору вашей образовательной организации. Доступ предоставляется индивидуально, публичной регистрации нет.
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       У меня есть код активации
+[xUnit.net 00:00:29.24]       Восстановить доступ
+[xUnit.net 00:00:29.24]       Первый администратор
+[xUnit.net 00:00:29.24]       Первый запуск
+[xUnit.net 00:00:29.24]       Оператор безопасности
+[xUnit.net 00:00:29.24]       
+[xUnit.net 00:00:29.24]       Stack Trace:
+[xUnit.net 00:00:29.24]         /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs(117,0): at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser)
+[xUnit.net 00:00:29.24]         /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs(124,0): at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser)
+[xUnit.net 00:00:29.24]         /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs(124,0): at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser)
+[xUnit.net 00:00:29.24]         /home/tea/github/lms/tests/Lms.Api.Tests/AccountAdministrationBrowserTests.cs(124,0): at Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(Boolean browser)
+[xUnit.net 00:00:29.24]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:38.68]       locator.waitFor: Timeout 30000ms exceeded.
+[xUnit.net 00:00:38.68]       Call log:
+[xUnit.net 00:00:38.68]       \u001b[2m  - waiting for getByText('Пакет готов к публикации.', { exact: true }) to be visible\u001b[22m
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]           at /home/tea/github/lms/tools/browser_read/content-publication.mjs:106:70
+[xUnit.net 00:00:38.68]       console:Failed to load resource: net::ERR_NETWORK_CHANGED
+[xUnit.net 00:00:38.68]       teacher-2cb5a9579a664791a70815f66067b026
+[xUnit.net 00:00:38.68]       Преподаватель
+[xUnit.net 00:00:38.68]       Организация
+[xUnit.net 00:00:38.68]       Выйти
+[xUnit.net 00:00:38.68]       К основному содержимому
+[xUnit.net 00:00:38.68]       Sapientum
+[xUnit.net 00:00:38.68]       ⌂
+[xUnit.net 00:00:38.68]       Главная
+[xUnit.net 00:00:38.68]       ▤
+[xUnit.net 00:00:38.68]       Мои курсы
+[xUnit.net 00:00:38.68]       ▦
+[xUnit.net 00:00:38.68]       Расписание
+[xUnit.net 00:00:38.68]       ✓
+[xUnit.net 00:00:38.68]       Проверка
+[xUnit.net 00:00:38.68]       ▣
+[xUnit.net 00:00:38.68]       Архив задач
+[xUnit.net 00:00:38.68]       ↗
+[xUnit.net 00:00:38.68]       Прогресс
+[xUnit.net 00:00:38.68]       ▱
+[xUnit.net 00:00:38.68]       Сообщения
+[xUnit.net 00:00:38.68]       S
+[xUnit.net 00:00:38.68]       Учебное пространство
+[xUnit.net 00:00:38.68]       Преподаватель
+[xUnit.net 00:00:38.68]       Мои курсы
+[xUnit.net 00:00:38.68]       Олимпиадная математика · M1-06
+[xUnit.net 00:00:38.68]       Материалы
+[xUnit.net 00:00:38.68]       ← Мои курсы
+[xUnit.net 00:00:38.68]       МАТЕРИАЛЫ КУРСА
+[xUnit.net 00:00:38.68]       Олимпиадная математика · M1-06
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Draft-only курс, созданный цепочкой M1-05
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Черновик
+[xUnit.net 00:00:38.68]       1
+[xUnit.net 00:00:38.68]       Импорт ZIP
+[xUnit.net 00:00:38.68]       2
+[xUnit.net 00:00:38.68]       Диагностика
+[xUnit.net 00:00:38.68]       3
+[xUnit.net 00:00:38.68]       Предпросмотр
+[xUnit.net 00:00:38.68]       4
+[xUnit.net 00:00:38.68]       Публикация
+[xUnit.net 00:00:38.68]       5
+[xUnit.net 00:00:38.68]       Открытие занятия
+[xUnit.net 00:00:38.68]       6
+[xUnit.net 00:00:38.68]       Назначение группе
+[xUnit.net 00:00:38.68]       Результат запроса неизвестен. Не повторяйте автоматически: проверьте состояние импорта.
+[xUnit.net 00:00:38.68]       Импорт ZIP
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       m1-06-olympiad.zip
+[xUnit.net 00:00:38.68]       Импортировать ZIP
+[xUnit.net 00:00:38.68]       Диагностика
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Исправьте ошибки и импортируйте новый пакет.
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Invalid
+[xUnit.net 00:00:38.68]       Уровень	Файл и строка	Сообщение
+[xUnit.net 00:00:38.68]       ERROR	lessons/number-theory/problems/congruence-1.md:2:1	E_FIELD_REQUIRED
+[xUnit.net 00:00:38.68]       Required field is missing.
+[xUnit.net 00:00:38.68]       Контекст
+[xUnit.net 00:00:38.68]       
+[xUnit.net 00:00:38.68]       Stack Trace:
+[xUnit.net 00:00:38.68]         /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs(224,0): at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser)
+[xUnit.net 00:00:38.68]         /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs(308,0): at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser)
+[xUnit.net 00:00:38.68]         /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs(308,0): at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser)
+[xUnit.net 00:00:38.68]         /home/tea/github/lms/tests/Lms.Api.Tests/ContentPublicationBrowserTests.cs(308,0): at Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(Boolean browser)
+[testcontainers.org 00:00:38.47] Delete Docker container e7295715f85f
+[xUnit.net 00:00:38.68]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:39.08]       locator.waitFor: Timeout 30000ms exceeded.
+[xUnit.net 00:00:39.08]       Call log:
+[xUnit.net 00:00:39.08]       \u001b[2m  - waiting for getByText('Пакет готов к публикации.', { exact: true }) to be visible\u001b[22m
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]           at /home/tea/github/lms/tools/browser_read/m1-11-fix-01.mjs:90:70
+[xUnit.net 00:00:39.08]       console:Failed to load resource: net::ERR_NETWORK_CHANGED
+[xUnit.net 00:00:39.08]       fix01-teacher-cbabcd
+[xUnit.net 00:00:39.08]       Преподаватель
+[xUnit.net 00:00:39.08]       Организация
+[xUnit.net 00:00:39.08]       Выйти
+[xUnit.net 00:00:39.08]       К основному содержимому
+[xUnit.net 00:00:39.08]       Sapientum
+[xUnit.net 00:00:39.08]       ⌂
+[xUnit.net 00:00:39.08]       Главная
+[xUnit.net 00:00:39.08]       ▤
+[xUnit.net 00:00:39.08]       Мои курсы
+[xUnit.net 00:00:39.08]       ▦
+[xUnit.net 00:00:39.08]       Расписание
+[xUnit.net 00:00:39.08]       ✓
+[xUnit.net 00:00:39.08]       Проверка
+[xUnit.net 00:00:39.08]       ▣
+[xUnit.net 00:00:39.08]       Архив задач
+[xUnit.net 00:00:39.08]       ↗
+[xUnit.net 00:00:39.08]       Прогресс
+[xUnit.net 00:00:39.08]       ▱
+[xUnit.net 00:00:39.08]       Сообщения
+[xUnit.net 00:00:39.08]       S
+[xUnit.net 00:00:39.08]       Учебное пространство
+[xUnit.net 00:00:39.08]       Преподаватель
+[xUnit.net 00:00:39.08]       Мои курсы
+[xUnit.net 00:00:39.08]       Подготовка к олимпиаде Эйлера
+[xUnit.net 00:00:39.08]       Материалы
+[xUnit.net 00:00:39.08]       ← Мои курсы
+[xUnit.net 00:00:39.08]       МАТЕРИАЛЫ КУРСА
+[xUnit.net 00:00:39.08]       Подготовка к олимпиаде Эйлера
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]       Синтетический курс FIX-01
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]       Черновик
+[xUnit.net 00:00:39.08]       1
+[xUnit.net 00:00:39.08]       Импорт ZIP
+[xUnit.net 00:00:39.08]       2
+[xUnit.net 00:00:39.08]       Диагностика
+[xUnit.net 00:00:39.08]       3
+[xUnit.net 00:00:39.08]       Предпросмотр
+[xUnit.net 00:00:39.08]       4
+[xUnit.net 00:00:39.08]       Публикация
+[xUnit.net 00:00:39.08]       5
+[xUnit.net 00:00:39.08]       Открытие занятия
+[xUnit.net 00:00:39.08]       6
+[xUnit.net 00:00:39.08]       Назначение группе
+[xUnit.net 00:00:39.08]       Результат запроса неизвестен. Не повторяйте автоматически: проверьте состояние импорта.
+[xUnit.net 00:00:39.08]       Импорт ZIP
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]       Markdown, LaTeX, изображения и закрытые материалы преподавателя проверяются существующим B07a/B07b.
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]       m1-06-olympiad.zip
+[xUnit.net 00:00:39.08]       Импортировать ZIP
+[xUnit.net 00:00:39.08]       Контекст
+[xUnit.net 00:00:39.08]       
+[xUnit.net 00:00:39.08]       Stack Trace:
+[xUnit.net 00:00:39.08]         /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs(259,0): at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser)
+[xUnit.net 00:00:39.08]         /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs(297,0): at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser)
+[xUnit.net 00:00:39.08]         /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs(297,0): at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser)
+[xUnit.net 00:00:39.08]         /home/tea/github/lms/tests/Lms.Api.Tests/CourseEditorAuthorityBrowserTests.cs(297,0): at Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(Boolean browser)
+[xUnit.net 00:00:39.08]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:38.88] Delete Docker container b2ea883dca79
+[testcontainers.org 00:00:39.08] Docker container a6022cb0b72c created
+[testcontainers.org 00:00:39.08] Start Docker container a6022cb0b72c
+[testcontainers.org 00:00:39.17] Wait for Docker container a6022cb0b72c to complete readiness checks
+[testcontainers.org 00:00:39.17] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a6022cb0b72c
+[testcontainers.org 00:00:40.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container a6022cb0b72c
+[testcontainers.org 00:00:40.25] Docker container a6022cb0b72c ready
+[xUnit.net 00:00:41.10]       node:internal/modules/run_main:107
+[xUnit.net 00:00:41.10]           triggerUncaughtException(
+[xUnit.net 00:00:41.10]           ^
+[xUnit.net 00:00:41.10]       
+[xUnit.net 00:00:41.10]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/teacher-journey.mjs
+[xUnit.net 00:00:41.10]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:41.10]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:41.10]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:41.10]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:41.10]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:41.10]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[testcontainers.org 00:00:40.90] Delete Docker container a6022cb0b72c
+[xUnit.net 00:00:41.10]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:41.10]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:41.10]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:41.10]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:41.10]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:41.10]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:41.10]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:41.10]       }
+[xUnit.net 00:00:41.10]       
+[xUnit.net 00:00:41.10]       Node.js v24.19.0
+[xUnit.net 00:00:41.10]       
+[xUnit.net 00:00:41.10]       Stack Trace:
+[xUnit.net 00:00:41.10]         /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs(114,0): at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser)
+[xUnit.net 00:00:41.10]         /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs(120,0): at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser)
+[xUnit.net 00:00:41.10]         /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs(120,0): at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser)
+[xUnit.net 00:00:41.10]         /home/tea/github/lms/tests/Lms.Api.Tests/TeacherOperationJourneyTests.cs(120,0): at Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(Boolean browser)
+[xUnit.net 00:00:41.10]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:41.10] Docker container 8877d03804b3 created
+[testcontainers.org 00:00:41.10] Start Docker container 8877d03804b3
+[testcontainers.org 00:00:41.19] Wait for Docker container 8877d03804b3 to complete readiness checks
+[testcontainers.org 00:00:41.19] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8877d03804b3
+[testcontainers.org 00:00:42.21] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 8877d03804b3
+[testcontainers.org 00:00:42.27] Docker container 8877d03804b3 ready
+[xUnit.net 00:00:43.60]       node:internal/modules/run_main:107
+[xUnit.net 00:00:43.60]           triggerUncaughtException(
+[xUnit.net 00:00:43.60]           ^
+[xUnit.net 00:00:43.60]       
+[xUnit.net 00:00:43.60]       Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright' is not supported resolving ES modules imported from /home/tea/github/lms/tools/browser_read/react-teacher-journey.mjs
+[xUnit.net 00:00:43.60]       Did you mean to import "/home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js"?
+[xUnit.net 00:00:43.60]           at finalizeResolution (node:internal/modules/esm/resolve:259:11)
+[xUnit.net 00:00:43.60]           at moduleResolve (node:internal/modules/esm/resolve:865:10)
+[xUnit.net 00:00:43.60]           at defaultResolve (node:internal/modules/esm/resolve:992:11)
+[xUnit.net 00:00:43.60]           at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+[xUnit.net 00:00:43.60]           at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+[xUnit.net 00:00:43.60]           at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+[xUnit.net 00:00:43.60]           at #resolve (node:internal/modules/esm/loader:683:17)
+[xUnit.net 00:00:43.60]           at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+[xUnit.net 00:00:43.60]           at node:internal/modules/esm/loader:632:32
+[xUnit.net 00:00:43.60]           at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+[xUnit.net 00:00:43.60]         code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+[xUnit.net 00:00:43.60]         url: 'file:///home/tea/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'
+[xUnit.net 00:00:43.60]       }
+[xUnit.net 00:00:43.60]       
+[xUnit.net 00:00:43.60]       Node.js v24.19.0
+[xUnit.net 00:00:43.60]       
+[xUnit.net 00:00:43.60]       Stack Trace:
+[xUnit.net 00:00:43.60]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs(216,0): at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser)
+[xUnit.net 00:00:43.60]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs(230,0): at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser)
+[xUnit.net 00:00:43.60]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs(230,0): at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser)
+[xUnit.net 00:00:43.60]         /home/tea/github/lms/tests/Lms.Api.Tests/ReactTeacherJourneyTests.cs(230,0): at Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(Boolean browser)
+[xUnit.net 00:00:43.60]         --- End of stack trace from previous location ---
+[testcontainers.org 00:00:43.39] Delete Docker container 8877d03804b3
+[xUnit.net 00:00:43.74]   Finished:    Lms.Api.Tests
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:33:56.2860883+06:00">
+        <Text>[xUnit.net 00:00:06.27]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Teacher) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:33:59.3151475+06:00">
+        <Text>[xUnit.net 00:00:09.30]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_photo_real_student_teacher_A4_and_denials(role: Student) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:01.6915567+06:00">
+        <Text>[xUnit.net 00:00:11.67]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Teacher) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:04.0996718+06:00">
+        <Text>[xUnit.net 00:00:14.08]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_work_real_student_teacher_history_and_denials(role: Student) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:06.4482196+06:00">
+        <Text>[xUnit.net 00:00:16.43]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.React_browser_login_reload_expiry_two_tabs_switch_replay_and_logout(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:08.7032127+06:00">
+        <Text>[xUnit.net 00:00:18.68]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Teacher) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:10.8677545+06:00">
+        <Text>[xUnit.net 00:00:20.85]     Lms.Api.Tests.IsolatedProcessingDeploymentTests.Browser_read_real_http_postgres_navigation_and_denials(role: Student) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:11.3236444+06:00">
+        <Text>[xUnit.net 00:00:21.30]     Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:19.2579767+06:00">
+        <Text>[xUnit.net 00:00:29.24]     Lms.Api.Tests.AccountAdministrationBrowserTests.Real_chromium_admin_creates_student_who_activates_and_logs_in(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:28.6969121+06:00">
+        <Text>[xUnit.net 00:00:38.68]     Lms.Api.Tests.ContentPublicationBrowserTests.Real_chromium_https_preserves_published_v1_and_submits_ordered_original_photos(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:29.0998457+06:00">
+        <Text>[xUnit.net 00:00:39.08]     Lms.Api.Tests.CourseEditorAuthorityBrowserTests.Real_chromium_admin_assigns_editor_then_teacher_publishes_only_for_G1(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:31.1196964+06:00">
+        <Text>[xUnit.net 00:00:41.10]     Lms.Api.Tests.TeacherOperationJourneyTests.Browser_Submit_Review_Revise_Accept_with_mandatory_teacher_context(browser: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="tea-Swift-SFG16-74" outcome="Error" timestamp="2026-10-14T00:34:33.6141207+06:00">
+        <Text>[xUnit.net 00:00:43.60]     Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(browser: True) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

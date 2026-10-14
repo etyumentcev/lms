@@ -1,0 +1,32 @@
+{
+  "role": "Student",
+  "browser": "154.0.8037.57",
+  "status": "PASS",
+  "covered": [
+    "real-http-postgres",
+    "own-assigned-work",
+    "historical-review-binding",
+    "statement",
+    "foreign-work-denial",
+    "parent-denial",
+    "current-restriction",
+    "jwt-expiry",
+    "no-store",
+    "tablet-history",
+    "A4-pages",
+    "zoom",
+    "attempt-photo-separation",
+    "foreign-photo-denial",
+    "anonymous-photo-denial",
+    "corrupt-original",
+    "missing-original",
+    "photo-restriction",
+    "photo-expiry",
+    "blob-revocation"
+  ],
+  "blocked": [
+    "production",
+    "user-upload-http"
+  ],
+  "apiRequests": 40
+}

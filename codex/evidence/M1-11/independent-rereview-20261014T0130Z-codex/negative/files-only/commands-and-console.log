@@ -1,0 +1,33 @@
++ tc076_scenario=codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only
++ docker run -d --name tc076rereview-filesonly-0130 --network none --tmpfs /var/lib/postgresql/data:rw,noexec,nosuid,size=256m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-alpine
+a5802269cc5575978dd78fb15a8b5015c71ad0b82506386b0c05ff57da175179
++ tc076_ready=1
++ for tc076_try in 1 2 3 4 5 6 7 8 9 10
++ docker exec tc076rereview-filesonly-0130 pg_isready -U postgres -d postgres
+/var/run/postgresql:5432 - no response
++ sleep 1
++ for tc076_try in 1 2 3 4 5 6 7 8 9 10
++ docker exec tc076rereview-filesonly-0130 pg_isready -U postgres -d postgres
+/var/run/postgresql:5432 - accepting connections
++ tc076_ready=0
++ break
++ docker exec tc076rereview-filesonly-0130 psql -U postgres -d postgres -Atc 'SELECT datname FROM pg_database WHERE datname = '\''tc076_files_only_target'\'';'
++ python3 tools/backup_restore/verify_m1_backup_set.py codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/input --manifest codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/input/manifest.json
++ tc076_validator_exit=42
++ printf '%s\n' 42
++ cat codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/validator-repeat.log
+{
+  "status": "REFUSED",
+  "phase": "pre-restore-validation",
+  "reason": "PostgreSQL backup payload is missing or is a symlink",
+  "mutationsPerformed": false
+}
++ docker exec tc076rereview-filesonly-0130 psql -U postgres -d postgres -Atc 'SELECT datname FROM pg_database WHERE datname = '\''tc076_files_only_target'\'';'
++ find codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/target-private-root -mindepth 1 -print
++ docker rm -f tc076rereview-filesonly-0130
+tc076rereview-filesonly-0130
++ test 0 -eq 0
++ test 42 -eq 42
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/database-before-repeat.log
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/database-after-repeat.log
++ test '!' -s codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/negative/files-only/target-private-after-repeat.log

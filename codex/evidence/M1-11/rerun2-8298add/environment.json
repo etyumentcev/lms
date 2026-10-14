@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-14",
+  "baseline": "8298add5f822fea04a363ac210787fa74f7d1a27",
+  "branch": "main",
+  "os": "Ubuntu 26.04.1 LTS",
+  "dotnet": "10.0.12",
+  "node": "24.19.0",
+  "chrome": "154",
+  "postgres": "17.6-alpine disposable",
+  "api": "HTTPS dynamic loopback",
+  "storage": "private disposable temporary root",
+  "syntheticOnly": true,
+  "secretsIncluded": false
+}

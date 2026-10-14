@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.08]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.14]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.17]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.15] Docker container bb0258d7541c created
+[testcontainers.org 00:00:00.17] Start Docker container bb0258d7541c
+[testcontainers.org 00:00:00.31] Wait for Docker container bb0258d7541c to complete readiness checks
+[testcontainers.org 00:00:01.33] Docker container bb0258d7541c ready
+[testcontainers.org 00:00:01.39] Docker container 2e47b458b7f6 created
+[testcontainers.org 00:00:01.39] Start Docker container 2e47b458b7f6
+[testcontainers.org 00:00:01.47] Wait for Docker container 2e47b458b7f6 to complete readiness checks
+[testcontainers.org 00:00:01.48] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2e47b458b7f6
+[testcontainers.org 00:00:02.52] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container 2e47b458b7f6
+[testcontainers.org 00:00:02.55] Docker container 2e47b458b7f6 ready
+[testcontainers.org 00:00:07.11] Delete Docker container 2e47b458b7f6
+[xUnit.net 00:00:07.49]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.OrganizationBootstrapBrowserTests.Real_browser_creates_activates_and_opens_organization_admin_dashboard(browser: True) [4 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 7.8252 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/organization-bootstrap-corrected.trx

@@ -1,0 +1,415 @@
+{
+  "message": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: /Нет учебных полномочий|Нет доступа к работе/ }) to be visible\u001b[22m\n",
+  "events": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/workspace",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/uploads/fa564f1d-3144-42c7-b216-032617782f7c",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/e1c4e229-989b-4b91-a3fe-928467803789/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/messages",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reviews/needs-revision",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/0daa4a8d-24ef-4964-bea4-4d583d012f90/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/uploads",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/submissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reviews/accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/problem-works/a6023e9a-b14a-4259-969b-1c4c32f4c249/reference",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 204
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/problem-assignments/5fb6099f-f1db-4927-a6a6-1d0765d0e240/workspace",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/attachments/4454b540-1a3b-464f-98b3-33a02c608c28/content",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "status": 204
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    }
+  ],
+  "stages": [
+    {
+      "action": "student-submit",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-message",
+      "ui": "React",
+      "photo": true
+    },
+    {
+      "action": "teacher-needs-revision",
+      "ui": "React",
+      "annotationStrokes": 1,
+      "state": "NeedsRevision"
+    },
+    {
+      "action": "student-revise",
+      "ui": "React",
+      "photo": true,
+      "state": "Submitted"
+    },
+    {
+      "action": "teacher-accept",
+      "ui": "React",
+      "state": "Accepted",
+      "repeatedCommandButton": false
+    },
+    {
+      "action": "student-observes-accepted",
+      "ui": "React"
+    }
+  ]
+}

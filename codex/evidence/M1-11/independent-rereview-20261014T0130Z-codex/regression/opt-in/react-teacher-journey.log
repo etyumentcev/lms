@@ -1,0 +1,32 @@
+Test run for /home/tea/github/lms/tests/Lms.Api.Tests/bin/Debug/net10.0/Lms.Api.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)
+[xUnit.net 00:00:00.07]   Discovering: Lms.Api.Tests
+[xUnit.net 00:00:00.15]   Discovered:  Lms.Api.Tests
+[xUnit.net 00:00:00.18]   Starting:    Lms.Api.Tests
+[testcontainers.org 00:00:00.06] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.8.1
+  Kernel Version: 7.0.0-38-generic
+  API Version: 1.56
+  Operating System: Ubuntu 26.04.1 LTS
+  Total Memory: 30.48 GB
+[testcontainers.org 00:00:00.15] Docker container 7554d1a48275 created
+[testcontainers.org 00:00:00.18] Start Docker container 7554d1a48275
+[testcontainers.org 00:00:00.27] Wait for Docker container 7554d1a48275 to complete readiness checks
+[testcontainers.org 00:00:01.29] Docker container 7554d1a48275 ready
+[testcontainers.org 00:00:01.34] Docker container ae90c2f28394 created
+[testcontainers.org 00:00:01.34] Start Docker container ae90c2f28394
+[testcontainers.org 00:00:01.43] Wait for Docker container ae90c2f28394 to complete readiness checks
+[testcontainers.org 00:00:01.43] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ae90c2f28394
+[testcontainers.org 00:00:02.48] Execute "pg_isready --host localhost --dbname postgres --username postgres" at Docker container ae90c2f28394
+[testcontainers.org 00:00:02.50] Docker container ae90c2f28394 ready
+[testcontainers.org 00:00:10.31] Delete Docker container ae90c2f28394
+[xUnit.net 00:00:10.71]   Finished:    Lms.Api.Tests
+  Passed Lms.Api.Tests.ReactTeacherJourneyTests.React_Submit_Review_Revise_Accept_photos_annotations_revoke_and_cross_org(browser: True) [7 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 11.0335 Seconds
+Results File: /home/tea/github/lms/codex/evidence/M1-11/independent-rereview-20261014T0130Z-codex/regression/opt-in/trx/react-teacher-journey.trx
