@@ -27,7 +27,7 @@ public sealed partial class IsolatedProcessingDeploymentTests
         var identity=await IdentitySeed(); var secondIdentity=await IdentitySeed();
         var orgB=Guid.NewGuid(); var contextA=Guid.NewGuid(); var contextB=Guid.NewGuid();
         const string courseA="auth-course-a", courseB="auth-course-b";
-        await Sql(owner,$"INSERT INTO \"Organizations\" VALUES('{orgB}','Enabled',true); INSERT INTO \"OrganizationProfiles\" VALUES('{existingOrg}','Организация А'),('{orgB}','Организация Б'); INSERT INTO \"CourseRegistry\" VALUES('{courseA}','{existingOrg}','Verified'),('{courseB}','{orgB}','Verified'); INSERT INTO \"CourseGroups\" VALUES('{courseA}','g'),('{courseB}','g')");
+        await Sql(owner,$"INSERT INTO \"Organizations\" VALUES('{orgB}','Enabled',true); INSERT INTO \"OrganizationProfiles\" VALUES('{existingOrg}','Малый матфак'),('{orgB}','Организация Б'); INSERT INTO \"CourseRegistry\" VALUES('{courseA}','{existingOrg}','Verified'),('{courseB}','{orgB}','Verified'); INSERT INTO \"CourseGroups\" VALUES('{courseA}','g'),('{courseB}','g')");
         await Sql(owner,"GRANT SELECT ON \"CourseCatalog\",\"CourseGroupCatalog\" TO c2h_runtime");
         await ChangeRestricted(new(AuthorityKind.Membership,AuthorityOperation.Grant,existingOrg,identity.Actor,0,Role:ScopeRole.Student));
         await ChangeRestricted(new(AuthorityKind.Enrollment,AuthorityOperation.Grant,existingOrg,identity.Actor,0,1,courseA,"g"));
@@ -46,6 +46,12 @@ public sealed partial class IsolatedProcessingDeploymentTests
         await using(var db=Open(owner))
         {
             db.AddRange(
+                new OrganizationParticipantProfile{OrganizationId=existingOrg,ActorId=identity.Actor,
+                    ExternalRosterKey="browser-auth-a",DisplayName="Тюменцев Евгений Александрович С Очень Длинной Фамилией",CreatedAt=time.At},
+                new OrganizationParticipantProfile{OrganizationId=orgB,ActorId=identity.Actor,
+                    ExternalRosterKey="browser-auth-b",DisplayName="Тюменцев Евгений Александрович С Очень Длинной Фамилией",CreatedAt=time.At},
+                new OrganizationParticipantProfile{OrganizationId=orgB,ActorId=secondIdentity.Actor,
+                    ExternalRosterKey="browser-auth-second",DisplayName="Петрова Анна",CreatedAt=time.At},
                 new CourseCatalogRecord{CourseId=courseA,OrganizationId=existingOrg,Title="Организация А",Description="Синтетический курс",State="Published",Version=1,CreatedAt=time.At},
                 new CourseCatalogRecord{CourseId=courseB,OrganizationId=orgB,Title="Организация Б",Description="Синтетический курс",State="Published",Version=1,CreatedAt=time.At},
                 new CourseGroupCatalogRecord{CourseId=courseA,GroupId="g",Name="Группа A",Description="",Version=1,CreatedAt=time.At},
@@ -114,7 +120,8 @@ public sealed partial class IsolatedProcessingDeploymentTests
         using var runner=Process.Start(start)!; using var timeout=new CancellationTokenSource(TimeSpan.FromMinutes(4));
         var stderr=runner.StandardError.ReadToEndAsync(timeout.Token);
         await runner.StandardInput.WriteLineAsync(JsonSerializer.Serialize(new{origin,userName=identity.Name,password=identity.Password,
-            secondUserName=secondIdentity.Name,secondPassword=secondIdentity.Password,secondOrganization=orgB,organizationA=existingOrg,organizationB=orgB,organizationNameA="Организация А",organizationNameB="Организация Б",foreignOrganization=Guid.NewGuid(),courseA="Организация А",courseB="Организация Б",evidence}));
+            displayName="Тюменцев Евгений Александрович С Очень Длинной Фамилией",secondDisplayName="Петрова Анна",
+            secondUserName=secondIdentity.Name,secondPassword=secondIdentity.Password,secondOrganization=orgB,organizationA=existingOrg,organizationB=orgB,organizationNameA="Малый матфак",organizationNameB="Организация Б",foreignOrganization=Guid.NewGuid(),courseA="Организация А",courseB="Организация Б",evidence}));
         var passed=false;
         try
         {

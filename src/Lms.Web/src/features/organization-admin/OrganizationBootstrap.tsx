@@ -5,6 +5,7 @@ import './organization-admin.css';
 import { AccountsPanel } from './AccountAdministration';
 import { CourseAdministrationPanel } from './CourseAdministration';
 import { ProcessingContextPanel } from './ProcessingContextAdministration';
+import { UserMenu, type SidebarSession } from '../../layout/SidebarNavigation';
 
 type BootstrapResult = { commandId: string; organizationId: string; organizationName: string;
   adminUserId: string; adminActorId: string; challengeId: string; created: boolean; activationCode: string | null };
@@ -129,7 +130,7 @@ export function FirstAdminActivationPanel({ initialOrganization = '', initialUse
 
 const actionNames: Record<string, string> = { organization_bootstrapped: 'Создана организация', first_admin_activated: 'Активирован первый администратор',
   session_created: 'Создана сессия', session_rotated: 'Обновлена сессия', session_revoked: 'Завершена сессия', first_admin_activation_denied: 'Отклонена активация' };
-export function OrganizationAdminDashboard() {
+export function OrganizationAdminDashboard({ session, onLogout }: { session: SidebarSession; onLogout: () => void | Promise<void> }) {
   const [view, setView] = useState<'home' | 'accounts' | 'courses' | 'processing'>('home');
   const [overview, setOverview] = useState<Overview | null>(null); const [audit, setAudit] = useState<AuditItem[]>([]); const [stats, setStats] = useState({ courses: 0, groups: 0 }); const [error, setError] = useState('');
   useEffect(() => { const abort = new AbortController(); Promise.all([
@@ -138,7 +139,7 @@ export function OrganizationAdminDashboard() {
     browserApiClient.request('/admin/courses', decodeCourseStats, { signal: abort.signal })
   ]).then(([organization, items, catalog]) => { setOverview(organization); setAudit(items); setStats(catalog); }).catch(reason => { if (!abort.signal.aborted) setError(message(reason)); });
     return () => abort.abort(); }, [view]);
-  return <div className="admin-dashboard"><aside><strong><span>Σ</span>Sapientum</strong><p>Веста</p><nav><button type="button" aria-current={view === 'home' ? 'page' : undefined} onClick={() => setView('home')}>⌂ Главная</button><span>▣ Организация</span><button type="button" aria-current={view === 'accounts' ? 'page' : undefined} onClick={() => setView('accounts')}>♙ Пользователи</button><button type="button" aria-current={view === 'courses' ? 'page' : undefined} onClick={() => setView('courses')}>▤ Курсы и группы</button><button type="button" aria-current={view === 'processing' ? 'page' : undefined} onClick={() => setView('processing')}>◎ Контекст обработки</button><span>◷ Журнал действий</span><span>⚙ Настройки</span></nav></aside>
+  return <div className="admin-dashboard"><aside><strong><span>Σ</span>Sapientum</strong><p>Организация</p><nav><button type="button" title={session.organizationName} aria-current={view === 'home' ? 'page' : undefined} onClick={() => setView('home')}>⌂ <span>{session.organizationName}</span></button><span>▣ Организация</span><button type="button" aria-current={view === 'accounts' ? 'page' : undefined} onClick={() => setView('accounts')}>♙ Пользователи</button><button type="button" aria-current={view === 'courses' ? 'page' : undefined} onClick={() => setView('courses')}>▤ Курсы и группы</button><button type="button" aria-current={view === 'processing' ? 'page' : undefined} onClick={() => setView('processing')}>◎ Контекст обработки</button><span>◷ Журнал действий</span><span>⚙ Настройки</span></nav><div className="admin-user-menu"><UserMenu session={session} onLogout={onLogout} /></div></aside>
     <main>{view === 'accounts' ? <AccountsPanel onBack={() => setView('home')} /> : view === 'courses' ? <CourseAdministrationPanel onBack={() => setView('home')} /> : view === 'processing' ? <ProcessingContextPanel onBack={() => setView('home')} /> : <><div className="dashboard-heading"><div><span className="eyebrow">АДМИНИСТРАТИВНАЯ ПАНЕЛЬ</span><h1>Добро пожаловать, администратор!</h1><p>Управление организацией, пользователями, курсами и доступом.</p></div><span className="operator-chip">AC · Администратор организации</span></div>
       {error && <p className="admin-alert" role="alert">{error}</p>}
       <section className="metric-grid"><article><span>▣</span><div><small>Организация</small><strong>{overview ? '1' : '—'}</strong></div></article><article><span>♙</span><div><small>Администраторы</small><strong>{overview ? '1' : '—'}</strong></div></article><article><span>▤</span><div><small>Курсы</small><strong>{stats.courses}</strong></div></article><article><span>◎</span><div><small>Группы</small><strong>{stats.groups}</strong></div></article></section>

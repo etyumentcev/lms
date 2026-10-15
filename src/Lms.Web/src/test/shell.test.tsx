@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { App } from '../App';
 import { AppShell, ContextSection } from '../layout/AppShell';
 import { SidebarNavigation } from '../layout/SidebarNavigation';
@@ -24,6 +24,48 @@ describe('Shared shell', () => {
     expect(nav.getAllByRole('link')).toHaveLength(7);
     expect(nav.getByRole('link', { name: role === 'Student' ? 'Текущие задачи' : 'Проверка' })).toBeInTheDocument();
     expect(nav.queryByRole('link', { name: role === 'Student' ? 'Проверка' : 'Текущие задачи' })).not.toBeInTheDocument();
+  });
+  it.each([['Student', 'Ученик'], ['Teacher', 'Преподаватель'], [null, 'Администратор']] as const)(
+    'renders current user data for %s role', (role, roleLabel) => {
+      render(<MemoryRouter><SidebarNavigation role={role}
+        session={{ organizationName: 'Малый матфак', displayName: 'Тюменцев Евгений', roleLabel }}
+        onLogout={vi.fn()} /></MemoryRouter>);
+      expect(screen.getByRole('button', { name: new RegExp(`Тюменцев Евгений.*${roleLabel}`) })).toBeVisible();
+    });
+  it('uses the active organization and an accessible user menu with real session data', async () => {
+    const logout = vi.fn();
+    const displayName = 'Тюменцев Евгений Александрович С Очень Длинной Фамилией';
+    const organizationName = 'Малый матфак с очень длинным названием организации';
+    render(<MemoryRouter><SidebarNavigation role="Student" session={{ organizationName, displayName, roleLabel: 'Ученик' }} onLogout={logout} /></MemoryRouter>);
+    const organization = screen.getByRole('link', { name: organizationName });
+    expect(organization).toHaveAttribute('href', '/');
+    expect(organization).toHaveAttribute('title', organizationName);
+    expect(organization.querySelector('.nav-icon svg')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Главная' })).toBeNull();
+    expect(screen.queryByText(/11111111|organizationId/i)).toBeNull();
+    const trigger = screen.getByRole('button', { name: /Тюменцев Евгений.*Ученик/ });
+    expect(within(trigger).getByText('ТЕ')).toBeInTheDocument();
+    expect(within(trigger).getByText(displayName)).toHaveAttribute('title', displayName);
+    await userEvent.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('menuitem', { name: 'Выйти' })).toBeVisible();
+    expect(screen.getByRole('menuitem', { name: 'Выйти' })).toHaveFocus();
+    await userEvent.click(trigger);
+    expect(screen.queryByRole('menuitem', { name: 'Выйти' })).toBeNull();
+    await userEvent.click(trigger);
+    await userEvent.click(document.body);
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(trigger);
+    await userEvent.keyboard('{Escape}');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(trigger).toHaveFocus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(screen.getByRole('menuitem', { name: 'Выйти' })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    expect(trigger).toHaveFocus();
+    await userEvent.click(trigger);
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Выйти' }));
+    expect(logout).toHaveBeenCalledOnce();
   });
   it('does not expose the former demo navigation fallback', () => {
     renderApp();

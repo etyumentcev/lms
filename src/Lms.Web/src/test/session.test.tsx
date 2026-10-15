@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { BrowserSessionController, isAdministrativeEntryPath, safeReturnPath, SessionGate, SessionProvider } from '../auth/session';
 import { createSessionObjectUrl } from '../api/sessionResources';
+import { AppShell } from '../layout/AppShell';
 
 const org = '11111111-1111-1111-1111-111111111111';
 const org2 = '33333333-3333-3333-3333-333333333333';
@@ -21,12 +22,12 @@ function transport() {
     if (path.endsWith('/auth/logout')) return new Response(null, { status: 204 });
     if (path.endsWith('/auth/refresh') && !localStorage.getItem('sapientum.organization')) return json({}, 401);
     return json({ accessToken: token(), hasEducationalScope: true, hasOrganizationAdminScope: false,
-      organizationId: org, organizationName: 'Лицей Эйлера', selectionRequired: false,
+      organizationId: org, organizationName: 'Лицей Эйлера', displayName: 'Тюменцев Евгений', selectionRequired: false,
       organizations: [{ organizationId: org, name: 'Лицей Эйлера' }] });
   });
 }
 function mount(controller: BrowserSessionController, path = '/login') {
-  return render(<MemoryRouter initialEntries={[path]}><SessionProvider controller={controller}><SessionGate><div>Защищённое приложение</div></SessionGate></SessionProvider></MemoryRouter>);
+  return render(<MemoryRouter initialEntries={[path]}><SessionProvider controller={controller}><SessionGate><AppShell role="Student" context={null}><div>Защищённое приложение</div></AppShell></SessionGate></SessionProvider></MemoryRouter>);
 }
 afterEach(() => {
   sessionStorage.clear(); localStorage.clear(); delete window.lmsAuth; vi.unstubAllGlobals();
@@ -63,7 +64,9 @@ describe('browser session lifecycle', () => {
     expect(localStorage.getItem('sapientum.organization')).toBe(org);
     expect(Object.values(localStorage).join('')).not.toContain('signature');
     createSessionObjectUrl(new Blob(['photo']));
-    await userEvent.click(screen.getByRole('button', { name: 'Выйти' }));
+    expect(screen.getByRole('link', { name: 'Лицей Эйлера' })).toHaveAttribute('href', '/');
+    await userEvent.click(screen.getByRole('button', { name: /Тюменцев Евгений.*Ученик/ }));
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Выйти' }));
     expect(await screen.findByRole('heading', { name: 'Вход' })).toBeVisible();
     expect(window.lmsAuth?.getAccessToken()).toBeNull();
     expect(revoke).toHaveBeenCalledWith('blob:session-photo');
@@ -119,7 +122,7 @@ describe('browser session lifecycle', () => {
       if (path.endsWith('/auth/csrf')) return json({ token: 'csrf' });
       if (path.endsWith('/auth/refresh')) return json({}, 401);
       return json({ accessToken: null, hasEducationalScope: false, hasOrganizationAdminScope: false,
-        organizationId: org, organizationName: 'Лицей Эйлера', selectionRequired: false,
+        organizationId: org, organizationName: 'Лицей Эйлера', displayName: 'Тюменцев Евгений', selectionRequired: false,
         organizations: [{ organizationId: org, name: 'Лицей Эйлера' }] });
     }));
     mount(new BrowserSessionController());
@@ -138,10 +141,10 @@ describe('browser session lifecycle', () => {
       if (path.endsWith('/auth/csrf')) return json({ token: 'csrf' });
       if (path.endsWith('/auth/refresh')) return json({}, 401);
       if (path.endsWith('/auth/login')) return json({ accessToken: null, hasEducationalScope: false, hasOrganizationAdminScope: false,
-        organizationId: null, organizationName: null, selectionRequired: true, organizations: [
+        organizationId: null, organizationName: null, displayName: null, selectionRequired: true, organizations: [
           { organizationId: org, name: 'Лицей Эйлера' }, { organizationId: org2, name: 'Школа Лобачевского' }] });
       if (path.endsWith('/auth/switch-organization')) return json({ accessToken: token(org2), hasEducationalScope: true, hasOrganizationAdminScope: false,
-        organizationId: org2, organizationName: 'Школа Лобачевского', selectionRequired: false, organizations: [
+        organizationId: org2, organizationName: 'Школа Лобачевского', displayName: 'Тюменцев Евгений', selectionRequired: false, organizations: [
           { organizationId: org, name: 'Лицей Эйлера' }, { organizationId: org2, name: 'Школа Лобачевского' }] });
       if (path.endsWith('/auth/logout')) return new Response(null, { status: 204 });
       return json({}, 404);

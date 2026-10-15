@@ -5,17 +5,18 @@ import { resetSessionResources } from '../api/sessionResources';
 import './auth.css';
 import { FirstAdminActivationPanel, OrganizationAdminDashboard, PlatformBootstrapPanel } from '../features/organization-admin/OrganizationBootstrap';
 import { AccountAccessPanel, SecurityOperatorPanel } from '../features/organization-admin/AccountAdministration';
+import { UserMenu, type SidebarSession } from '../layout/SidebarNavigation';
 
 type Role = 'Student' | 'Teacher';
 type OrganizationOption = { organizationId: string; name: string };
-type SessionView = { organizationId: string; organizationName: string; organizations: OrganizationOption[]; actorId: string | null; role: Role | null; permissions: number; expiresAt: number | null; hasEducationalScope: boolean; hasOrganizationAdminScope: boolean; label: string };
+type SessionView = { organizationId: string; organizationName: string; organizations: OrganizationOption[]; actorId: string | null; role: Role | null; permissions: number; expiresAt: number | null; hasEducationalScope: boolean; hasOrganizationAdminScope: boolean; displayName: string };
 export type SessionState =
   | { phase: 'starting' }
   | { phase: 'anonymous'; organizationId: string; message?: string; error?: boolean }
   | { phase: 'busy'; organizationId: string; action: 'login' | 'restore' | 'switch' }
   | { phase: 'selecting'; organizations: OrganizationOption[]; message?: string }
   | { phase: 'authenticated'; session: SessionView; refreshing: boolean; message?: string };
-type AuthResponse = { accessToken: string | null; hasEducationalScope: boolean; hasOrganizationAdminScope: boolean; organizationId: string | null; organizationName: string | null; selectionRequired: boolean; organizations: OrganizationOption[] };
+type AuthResponse = { accessToken: string | null; hasEducationalScope: boolean; hasOrganizationAdminScope: boolean; organizationId: string | null; organizationName: string | null; displayName: string | null; selectionRequired: boolean; organizations: OrganizationOption[] };
 type TokenDetails = { actorId: string; organizationId: string; role: Role | null; permissions: number; expiresAt: number };
 const organizationKey = 'sapientum.organization';
 const coordinationKey = 'sapientum.auth.lock';
@@ -29,6 +30,7 @@ function decodeAuth(value: unknown): AuthResponse {
       typeof candidate.hasEducationalScope !== 'boolean' || typeof candidate.hasOrganizationAdminScope !== 'boolean' ||
       (typeof candidate.organizationId !== 'string' && candidate.organizationId !== null) ||
       (typeof candidate.organizationName !== 'string' && candidate.organizationName !== null) ||
+      (typeof candidate.displayName !== 'string' && candidate.displayName !== null) ||
       typeof candidate.selectionRequired !== 'boolean' || !Array.isArray(organizations) ||
       organizations.some(item => !item || typeof item !== 'object' ||
         typeof (item as Record<string, unknown>).organizationId !== 'string' || typeof (item as Record<string, unknown>).name !== 'string'))
@@ -105,7 +107,7 @@ export class BrowserSessionController {
     this.publish({ phase: 'busy', organizationId: '', action: 'login' });
     try {
       const result = await this.auth.request('/auth/login', decodeAuth, { method: 'POST', csrf: true, body: { userName, password } });
-      this.accept(result, userName);
+      this.accept(result);
       this.channel?.postMessage({ type: 'session-replaced', sender: this.id });
     } catch (error) {
       this.publish({ phase: 'anonymous', organizationId: '', message: failureMessage(error, 'Не удалось выполнить вход.'), error: true });
@@ -156,7 +158,7 @@ export class BrowserSessionController {
       this.publish({ phase: 'anonymous', organizationId: '', message: failureMessage(error, 'Локальные данные очищены, но серверный выход не подтверждён.'), error: true });
     }
   }
-  private accept(result: AuthResponse, label = 'Пользователь') {
+  private accept(result: AuthResponse) {
     const identifiers = result.organizations.map(item => item.organizationId);
     if (new Set(identifiers).size !== identifiers.length || result.organizations.some(item => !item.organizationId || !item.name.trim()))
       throw new ApiError(200, 'InvalidResponse');
@@ -165,14 +167,14 @@ export class BrowserSessionController {
       if (result.hasEducationalScope || result.hasOrganizationAdminScope) throw new ApiError(200, 'InvalidResponse');
       if (result.organizationId || result.organizationName) {
         if (!result.organizationId || !result.organizationName || !selected || selected.name !== result.organizationName ||
-            result.selectionRequired) throw new ApiError(200, 'InvalidResponse');
+            result.selectionRequired || !result.displayName?.trim()) throw new ApiError(200, 'InvalidResponse');
         this.token = null; storeOrganization(result.organizationId); this.cancelTimer();
         this.publish({ phase: 'authenticated', refreshing: false, session: { organizationId: result.organizationId,
           organizationName: result.organizationName, organizations: result.organizations, actorId: null, role: null,
-          permissions: 0, expiresAt: null, hasEducationalScope: false, hasOrganizationAdminScope: false, label } });
+          permissions: 0, expiresAt: null, hasEducationalScope: false, hasOrganizationAdminScope: false, displayName: result.displayName.trim() } });
         return;
       }
-      if (result.selectionRequired !== (result.organizations.length > 0)) throw new ApiError(200, 'InvalidResponse');
+      if (result.displayName !== null || result.selectionRequired !== (result.organizations.length > 0)) throw new ApiError(200, 'InvalidResponse');
       this.token = null; storeOrganization(''); this.cancelTimer();
       this.publish({ phase: 'selecting', organizations: result.organizations,
         message: result.organizations.length === 0 ? 'Нет доступных организаций. Обратитесь к администратору.' : undefined });
@@ -180,11 +182,11 @@ export class BrowserSessionController {
     }
     const details = tokenDetails(result.accessToken);
     if (!details || !result.organizationId || !result.organizationName || !selected || selected.name !== result.organizationName ||
-        details.organizationId !== result.organizationId || result.selectionRequired) throw new ApiError(200, 'InvalidResponse');
+        details.organizationId !== result.organizationId || result.selectionRequired || !result.displayName?.trim()) throw new ApiError(200, 'InvalidResponse');
     this.token = result.accessToken; storeOrganization(result.organizationId);
     const session: SessionView = { organizationId: result.organizationId, organizationName: result.organizationName, organizations: result.organizations,
       actorId: details.actorId, role: details.role, permissions: details.permissions, expiresAt: details.expiresAt,
-      hasEducationalScope: result.hasEducationalScope, hasOrganizationAdminScope: result.hasOrganizationAdminScope, label };
+      hasEducationalScope: result.hasEducationalScope, hasOrganizationAdminScope: result.hasOrganizationAdminScope, displayName: result.displayName.trim() };
     this.publish({ phase: 'authenticated', session, refreshing: false });
     this.schedule(session);
   }
@@ -287,13 +289,6 @@ function OrganizationSelectionScreen({ state, controller }: { state: Extract<Ses
     <button className="button button--secondary" onClick={() => void controller.logout()}>Выйти</button>
   </section></main>;
 }
-function SessionToolbar({ session, controller }: { session: SessionView; controller: BrowserSessionController }) {
-  const alternatives = session.organizations.filter(item => item.organizationId !== session.organizationId);
-  return <aside className="session-toolbar" aria-label="Управление сессией"><div><strong>{session.organizationName}</strong><span>{session.role === 'Teacher' ? 'Преподаватель' : session.role === 'Student' ? 'Ученик' : 'Нет учебных полномочий'}</span></div>
-    {alternatives.length > 0 && <details><summary>Сменить организацию</summary><div className="session-organization-options">{alternatives.map(organization =>
-      <button key={organization.organizationId} className="button button--secondary" onClick={() => void controller.switchOrganization(organization.organizationId)}>{organization.name}</button>)}</div></details>}
-    <button className="button button--secondary" onClick={() => void controller.logout()}>Выйти</button></aside>;
-}
 export function isAdministrativeEntryPath(value: string) {
   return /^\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/.test(value);
 }
@@ -319,6 +314,12 @@ function AdministrativeEntryScreen() {
   </section></main>;
 }
 
+function sidebarSession(session: SessionView): SidebarSession {
+  return { organizationName: session.organizationName, displayName: session.displayName,
+    roleLabel: session.hasOrganizationAdminScope ? 'Администратор' : session.role === 'Teacher' ? 'Преподаватель'
+      : session.role === 'Student' ? 'Ученик' : 'Нет учебных полномочий' };
+}
+
 export function SessionGate({ children }: { children: ReactNode }) {
   const { state, controller } = useSession();
   const location = useLocation();
@@ -336,11 +337,12 @@ export function SessionGate({ children }: { children: ReactNode }) {
   }
   if (location.pathname === '/login' || location.pathname === '/select-organization')
     return <Navigate to={safeReturnPath((location.state as { returnTo?: unknown } | null)?.returnTo)} replace />;
-  if (state.session.hasOrganizationAdminScope) return <><SessionToolbar session={state.session} controller={controller} /><OrganizationAdminDashboard /></>;
+  if (state.session.hasOrganizationAdminScope) return <OrganizationAdminDashboard session={sidebarSession(state.session)} onLogout={() => controller.logout()} />;
   if (!state.session.hasEducationalScope) return <main className="auth-page"><section className="auth-card"><Brand /><h1>Нет доступных курсов</h1>
+    <p><strong>{state.session.organizationName}</strong></p>
     <p>Сессия подтверждена, но для выбранной организации нет действующих учебных полномочий.</p>
-    <SessionToolbar session={state.session} controller={controller} /></section></main>;
-  return <><SessionToolbar session={state.session} controller={controller} />{children}</>;
+    <UserMenu session={sidebarSession(state.session)} onLogout={() => controller.logout()} /></section></main>;
+  return <>{children}</>;
 }
 
 export function safeReturnPath(value: unknown) {

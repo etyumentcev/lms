@@ -59,7 +59,7 @@ public sealed class PostgresComponentTokenIssuer(LmsDbContext db, IAuthorityCloc
         {
             return new(new(SessionOutcome.NoOrganizations), []);
         }
-        return FinishBrowser(result, organizations, selected, deadline);
+        return await FinishBrowser(result, organizations, selected, deadline, ct);
     }
 
     public async Task<AccessToken?> Issue(Guid userId, Guid sessionId, Guid organizationId, CancellationToken ct = default)
@@ -126,16 +126,30 @@ public sealed class PostgresComponentTokenIssuer(LmsDbContext db, IAuthorityCloc
         {
             return new(new(SessionOutcome.NoOrganizations), []);
         }
-        return FinishBrowser(result, organizations, selected, deadline);
+        return await FinishBrowser(result, organizations, selected, deadline, ct);
     }
 
-    private BrowserSessionResult FinishBrowser(SessionResult result,
-        IReadOnlyList<OrganizationOption> organizations, Guid? selected, ApplicationDeadline deadline)
+    private async Task<BrowserSessionResult> FinishBrowser(SessionResult result,
+        IReadOnlyList<OrganizationOption> organizations, Guid? selected, ApplicationDeadline deadline,
+        CancellationToken ct)
     {
         if (!deadline.Check(ApplicationAction.ResponseEnqueue).Allowed || clock.Read() is not { Valid: true } ||
             result.AccessToken is { } token && jwt.Validate(token) == null)
             return new(new(SessionOutcome.Denied), []);
-        return new(result, organizations, selected);
+        string? displayName = null;
+        if (result.Outcome == SessionOutcome.Success && result.Identity is { } identity && selected is { } organizationId)
+            displayName = await DisplayName(identity, organizationId, ct);
+        return new(result, organizations, selected, displayName);
+    }
+
+    private async Task<string?> DisplayName(SessionIdentity identity, Guid organizationId, CancellationToken ct)
+    {
+        var participantName = await db.Set<OrganizationParticipantProfile>().AsNoTracking()
+            .Where(x => x.OrganizationId == organizationId && x.ActorId == identity.ActorId)
+            .Select(x => x.DisplayName).SingleOrDefaultAsync(ct);
+        var value = participantName ?? await db.Users.AsNoTracking()
+            .Where(x => x.Id == identity.UserId).Select(x => x.UserName).SingleAsync(ct);
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
 
     private static Guid? Select(IReadOnlyList<OrganizationOption> organizations, Guid? preferred)

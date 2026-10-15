@@ -35,6 +35,35 @@ async function login(page) {
   await page.getByRole('heading', { name: 'Мои курсы' }).waitFor();
   await page.getByRole('heading', { name: input.courseA, exact: true }).waitFor();
 }
+async function openUserMenu(page) {
+  const trigger = page.locator('.user-menu-trigger');
+  await trigger.click();
+  const logout = page.getByRole('menuitem', { name: 'Выйти' });
+  await logout.waitFor();
+  const [triggerBox, menuBox] = await Promise.all([trigger.boundingBox(), page.locator('.user-menu-popover').boundingBox()]);
+  if (!triggerBox || !menuBox || menuBox.y < 0 || menuBox.y + menuBox.height > triggerBox.y ||
+      menuBox.x < 0 || menuBox.x + menuBox.width > page.viewportSize().width)
+    throw new Error('User menu is outside the viewport or overlaps its trigger');
+  return logout;
+}
+async function logout(page) {
+  await (await openUserMenu(page)).click();
+  await page.getByRole('heading', { name: 'Вход' }).waitFor();
+}
+async function switchOrganization(page, organizationId) {
+  return page.evaluate(async id => {
+    const csrf = await fetch('/api/v1/auth/csrf', { credentials: 'same-origin', cache: 'no-store' }).then(response => response.json());
+    const response = await fetch('/api/v1/auth/switch-organization', { method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf.token }, body: JSON.stringify({ organizationId: id }) });
+    return { status: response.status, body: await response.json() };
+  }, organizationId);
+}
+async function adoptOrganization(page, organizationId, organizationName, courseName) {
+  await page.evaluate(id => localStorage.setItem('sapientum.organization', id), organizationId);
+  await page.reload();
+  await page.getByRole('link', { name: organizationName }).waitFor();
+  await page.getByRole('heading', { name: courseName, exact: true }).waitFor();
+}
 try {
   const context = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width: 1440, height: 900 } });
   const page = await context.newPage(); observe(page);
@@ -75,6 +104,40 @@ try {
   if (JSON.stringify(storage).includes('eyJ')) throw new Error('Access token reached browser storage');
   stages.push({ action: 'login', realReactForm: true, tokenStorage: 'memory-only', course: input.courseA });
   await page.screenshot({ path: path.join(input.evidence, '03-authenticated.png'), fullPage: true });
+  await page.getByRole('link', { name: input.organizationNameA }).waitFor();
+  await page.getByRole('button', { name: new RegExp(input.displayName + '.*Ученик') }).waitFor();
+  if (await page.locator('.sidebar-nav a[href="/"] .nav-icon svg').count() !== 1)
+    throw new Error('Organization navigation does not use the home SVG icon');
+  const nameMetrics = await page.locator('.user-menu-copy strong').evaluate(element => {
+    const style = getComputedStyle(element);
+    return { height: element.getBoundingClientRect().height, lineHeight: Number.parseFloat(style.lineHeight),
+      scrollHeight: element.scrollHeight, clamp: style.webkitLineClamp };
+  });
+  if (nameMetrics.clamp !== '2' || nameMetrics.height < nameMetrics.lineHeight * 1.5 ||
+      nameMetrics.height > nameMetrics.lineHeight * 2.1 || nameMetrics.scrollHeight <= nameMetrics.height)
+    throw new Error('Long user name is not clamped after two visible lines');
+  if (await page.getByRole('complementary', { name: 'Управление сессией' }).count())
+    throw new Error('Former floating session toolbar is still visible');
+  if (await page.getByText(input.organizationA, { exact: true }).count())
+    throw new Error('Organization GUID leaked into authenticated UI');
+  await openUserMenu(page);
+  if (await page.getByText('Сменить организацию', { exact: true }).count())
+    throw new Error('Organization switch leaked into user menu');
+  if (!await page.getByRole('menuitem', { name: 'Выйти' }).evaluate(element => element === document.activeElement))
+    throw new Error('User menu did not move keyboard focus to its action');
+  await page.screenshot({ path: path.join(input.evidence, '03-authenticated-user-menu-open-1440.png'), fullPage: true });
+  await page.keyboard.press('Escape');
+  if (await page.locator('.user-menu-trigger').getAttribute('aria-expanded') !== 'false')
+    throw new Error('Escape did not close user menu');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openUserMenu(page);
+  const narrowOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  if (narrowOverflow) throw new Error('Narrow user menu introduced horizontal scrolling');
+  await page.screenshot({ path: path.join(input.evidence, '03-authenticated-user-menu-open-390.png'), fullPage: true });
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  stages.push({ action: 'user-menu', desktop: true, narrow: true, outsideViewport: false,
+    overlapsTrigger: false, horizontalScroll: false, logoutOnly: true });
 
   await page.reload();
   await page.getByRole('heading', { name: 'Мои курсы' }).waitFor();
@@ -124,43 +187,35 @@ try {
   await page.getByRole('heading', { name: input.courseA, exact: true }).waitFor();
   stages.push({ action: 'access-expiry-refresh', expiredStatus: expired, recovered: true });
 
-  let toolbar = page.getByRole('complementary', { name: 'Управление сессией' });
-  await toolbar.getByText('Сменить организацию').click();
-  await toolbar.getByRole('button', { name: input.organizationNameB }).click();
-  await page.getByRole('heading', { name: input.courseB, exact: true }).waitFor();
+  const switched = await switchOrganization(page, input.organizationB);
+  if (switched.status !== 200 || switched.body.organizationId !== input.organizationB)
+    throw new Error('Server organization switch failed');
+  await adoptOrganization(page, input.organizationB, input.organizationNameB, input.courseB);
   if (await page.getByRole('heading', { name: input.courseA, exact: true }).count()) throw new Error('Organization A course leaked after switch');
-  stages.push({ action: 'switch-organization', isolated: true, course: input.courseB });
+  stages.push({ action: 'switch-organization', isolated: true, sidebarUpdated: true, course: input.courseB });
 
-  const forged = await page.evaluate(async ({ organizationId, token }) => {
-    const response = await fetch('/api/v1/auth/switch-organization', { method: 'POST', credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token }, body: JSON.stringify({ organizationId }) });
-    return { status: response.status, body: await response.json() };
-  }, { organizationId: input.foreignOrganization, token: csrf });
+  const forged = await switchOrganization(page, input.foreignOrganization);
   if (forged.status !== 200 || forged.body.accessToken !== null || forged.body.organizationId !== null || !forged.body.selectionRequired)
     throw new Error('Forged organization selector was accepted as authority');
   stages.push({ action: 'foreign-organization', selectorOnly: true, educationalToken: false });
 
-  toolbar = page.getByRole('complementary', { name: 'Управление сессией' });
-  await toolbar.getByText('Сменить организацию').click();
-  await toolbar.getByRole('button', { name: input.organizationNameA }).click();
-  await page.getByRole('heading', { name: input.courseA, exact: true }).waitFor();
+  const switchedBack = await switchOrganization(page, input.organizationA);
+  if (switchedBack.status !== 200 || switchedBack.body.organizationId !== input.organizationA)
+    throw new Error('Server switch back to organization A failed');
+  await adoptOrganization(page, input.organizationA, input.organizationNameA, input.courseA);
   await control('revoke-a');
-  toolbar = page.getByRole('complementary', { name: 'Управление сессией' });
-  await toolbar.getByText('Сменить организацию').click();
-  await toolbar.getByRole('button', { name: input.organizationNameB }).click();
-  await page.getByRole('heading', { name: input.courseB, exact: true }).waitFor();
-  if (await page.getByRole('button', { name: input.organizationNameA }).count())
+  const switchedAfterRevoke = await switchOrganization(page, input.organizationB);
+  if (switchedAfterRevoke.status !== 200 || switchedAfterRevoke.body.organizationId !== input.organizationB)
+    throw new Error('Server switch after revocation failed');
+  if (switchedAfterRevoke.body.organizations.some(option => option.organizationId === input.organizationA))
     throw new Error('Revoked organization remained selectable');
-  const revoked = await page.evaluate(async ({ organizationId, token }) => {
-    const response = await fetch('/api/v1/auth/switch-organization', { method: 'POST', credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token }, body: JSON.stringify({ organizationId }) });
-    return { status: response.status, body: await response.json() };
-  }, { organizationId: input.organizationA, token: csrf });
+  await adoptOrganization(page, input.organizationB, input.organizationNameB, input.courseB);
+  const revoked = await switchOrganization(page, input.organizationA);
   if (revoked.status !== 200 || revoked.body.organizationId !== input.organizationB)
     throw new Error('Revoked organization selector escaped server revalidation');
   stages.push({ action: 'revoked-authority', removedFromOptions: true, selectedOrganization: input.organizationNameB });
 
-  await page.getByRole('button', { name: 'Выйти' }).click();
+  await logout(page);
   await page.getByRole('heading', { name: 'Вход' }).waitFor();
   await second.getByRole('heading', { name: 'Вход' }).waitFor();
   await page.screenshot({ path: path.join(input.evidence, '04-logged-out.png'), fullPage: true });
@@ -174,9 +229,10 @@ try {
   await other.getByLabel('Пароль', { exact: true }).fill(input.secondPassword);
   await other.getByRole('button', { name: 'Войти' }).click();
   await other.getByRole('heading', { name: input.courseB, exact: true }).waitFor();
+  await other.getByRole('button', { name: new RegExp(input.secondDisplayName + '.*Ученик') }).waitFor();
   if (await other.getByRole('heading', { name: input.courseA, exact: true }).count()) throw new Error('Organization A course leaked to second user');
   await other.screenshot({ path: path.join(input.evidence, '05-second-user-authenticated.png'), fullPage: true });
-  await other.getByRole('button', { name: 'Выйти' }).click();
+  await logout(other);
   await other.getByRole('heading', { name: 'Вход' }).waitFor();
   stages.push({ action: 'second-user-login-logout', realReactForm: true, independentBrowserContext: true, singleOrganizationAutoSelected: true, course: input.courseB });
   await otherContext.close();

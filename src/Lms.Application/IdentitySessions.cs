@@ -7,7 +7,8 @@ public sealed record SessionIdentity(Guid UserId, Guid ActorId, Guid SessionId,
     DateTimeOffset AbsoluteExpiresAt);
 public sealed record OrganizationOption(Guid OrganizationId, string Name);
 public sealed record BrowserSessionResult(SessionResult Session,
-    IReadOnlyList<OrganizationOption> Organizations, Guid? OrganizationId = null);
+    IReadOnlyList<OrganizationOption> Organizations, Guid? OrganizationId = null,
+    string? DisplayName = null);
 
 // Deliberately not a record: generated ToString must never print a bearer secret.
 public sealed class RefreshSecret(string value)

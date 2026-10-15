@@ -98,7 +98,7 @@ public static class TeacherRevocationHttp
                         .SingleOrDefault(x => x.OrganizationId == browser.OrganizationId)?.Name;
                     var bytes = JsonSerializer.SerializeToUtf8Bytes(new {
                         accessToken = result.AccessToken?.Reveal(), hasEducationalScope, hasOrganizationAdminScope,
-                        organizationId = browser.OrganizationId, organizationName,
+                        organizationId = browser.OrganizationId, organizationName, displayName = browser.DisplayName,
                         selectionRequired = browser.OrganizationId == null && browser.Organizations.Count > 0,
                         organizations = browser.Organizations.Select(x => new { x.OrganizationId, x.Name })
                     }, Json);

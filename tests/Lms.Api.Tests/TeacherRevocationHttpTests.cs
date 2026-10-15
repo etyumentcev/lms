@@ -78,6 +78,8 @@ public sealed class TeacherRevocationHttpTests(ApiPostgresFixture fixture) : ICl
         seed.Add(new Organization { OrganizationId = org, State = "Enabled", SyntheticOnly = true });
         seed.Add(new OrganizationProfile { OrganizationId = org, Name = "Синтетический лицей" });
         seed.AddRange(new ActorRecord { ActorId = teacher }, new ActorRecord { ActorId = student });
+        seed.Add(new OrganizationParticipantProfile { OrganizationId = org, ActorId = teacher,
+            ExternalRosterKey = "teacher-http", DisplayName = "Тюменцев Евгений", CreatedAt = At });
         seed.Add(new CourseRegistration { CourseId = "teacher-http", OrganizationId = org, MappingState = "Verified" });
         seed.Add(new CourseGroup { CourseId = "teacher-http", GroupId = "g" }); await seed.SaveChangesAsync(); seed.ChangeTracker.Clear();
         var administration = new PostgresScopedAuthorityAdministration(seed);
@@ -108,6 +110,7 @@ public sealed class TeacherRevocationHttpTests(ApiPostgresFixture fixture) : ICl
         var loginBody = await login.Content.ReadFromJsonAsync<JsonElement>();
         Assert.Equal(org, loginBody.GetProperty("organizationId").GetGuid());
         Assert.Equal("Синтетический лицей", loginBody.GetProperty("organizationName").GetString());
+        Assert.Equal("Тюменцев Евгений", loginBody.GetProperty("displayName").GetString());
         Assert.Single(loginBody.GetProperty("organizations").EnumerateArray());
         var token = loginBody.GetProperty("accessToken").GetString();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -156,7 +159,11 @@ public sealed class TeacherRevocationHttpTests(ApiPostgresFixture fixture) : ICl
                 new Organization { OrganizationId = orgB, State = "Enabled", SyntheticOnly = true },
                 new OrganizationProfile { OrganizationId = orgA, Name = "Лицей Эйлера" },
                 new OrganizationProfile { OrganizationId = orgB, Name = "Школа Лобачевского" },
-                new ActorRecord { ActorId = multiActor }, new ActorRecord { ActorId = emptyActor });
+                new ActorRecord { ActorId = multiActor }, new ActorRecord { ActorId = emptyActor },
+                new OrganizationParticipantProfile { OrganizationId = orgA, ActorId = multiActor,
+                    ExternalRosterKey = "multi-a", DisplayName = "Иванов Иван", CreatedAt = At },
+                new OrganizationParticipantProfile { OrganizationId = orgB, ActorId = multiActor,
+                    ExternalRosterKey = "multi-b", DisplayName = "Петров Пётр", CreatedAt = At });
             await setup.SaveChangesAsync();
         }
         await using (var authority = database.Open())
@@ -195,6 +202,7 @@ public sealed class TeacherRevocationHttpTests(ApiPostgresFixture fixture) : ICl
         var loginJson = await login.Content.ReadFromJsonAsync<JsonElement>();
         Assert.Equal(JsonValueKind.Null, loginJson.GetProperty("accessToken").ValueKind);
         Assert.True(loginJson.GetProperty("selectionRequired").GetBoolean());
+        Assert.Equal(JsonValueKind.Null, loginJson.GetProperty("displayName").ValueKind);
         Assert.Equal(new[] { "Лицей Эйлера", "Школа Лобачевского" },
             loginJson.GetProperty("organizations").EnumerateArray().Select(x => x.GetProperty("name").GetString()));
         var refresh = Assert.Single(login.Headers.GetValues("Set-Cookie")).Split(';')[0];
@@ -215,6 +223,8 @@ public sealed class TeacherRevocationHttpTests(ApiPostgresFixture fixture) : ICl
         var selectedJson = await selected.Content.ReadFromJsonAsync<JsonElement>();
         Assert.Equal(orgB, selectedJson.GetProperty("organizationId").GetGuid());
         Assert.Equal("Школа Лобачевского", selectedJson.GetProperty("organizationName").GetString());
+        Assert.Equal("Петров Пётр", selectedJson.GetProperty("displayName").GetString());
+        Assert.DoesNotContain("Иванов Иван", await selected.Content.ReadAsStringAsync());
         Assert.NotNull(selectedJson.GetProperty("accessToken").GetString());
         var selectedRefresh = Assert.Single(selected.Headers.GetValues("Set-Cookie")).Split(';')[0];
         await using (var revoke = database.Open())

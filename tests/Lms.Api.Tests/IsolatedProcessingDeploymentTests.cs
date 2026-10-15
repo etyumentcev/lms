@@ -96,6 +96,9 @@ public sealed partial class IsolatedProcessingDeploymentTests : IAsyncLifetime
         Assert.True(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'SELECT')"));
         Assert.False(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
         Assert.False(await Scalar<bool>(processing,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
+        Assert.True(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationParticipantProfiles\"', 'SELECT')"));
+        Assert.False(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationParticipantProfiles\"', 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
+        Assert.False(await Scalar<bool>(processing,"SELECT has_table_privilege(current_user, '\"OrganizationParticipantProfiles\"', 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
         await Sql(owner,$"INSERT INTO \"OrganizationProfiles\" VALUES ('{existingOrg}', 'Runtime profile name')");
         Assert.Equal("Runtime profile name",await Scalar<string>(runtime,$"SELECT \"Name\" FROM \"OrganizationProfiles\" WHERE \"OrganizationId\"='{existingOrg}'"));
         await Denied(()=>Sql(runtime,$"UPDATE \"OrganizationProfiles\" SET \"Name\"='Forged' WHERE \"OrganizationId\"='{existingOrg}'"));
