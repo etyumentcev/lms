@@ -82,6 +82,8 @@ public sealed class ProgressHistoryHttpTests(ApiPostgresFixture fixture) : IClas
         Assert.Equal(1, group.GetProperty("summary").GetProperty("submitted").GetInt32());
         Assert.Equal("Submitted", group.GetProperty("items")[0].GetProperty("assignments")[0]
             .GetProperty("status").GetString());
+        Assert.False(group.GetProperty("items")[0].GetProperty("assignments")[0]
+            .TryGetProperty("lastSubmittedAt", out _));
 
         await Json(await teacher.PostAsJsonAsync($"/api/v1/problem-works/{workId}/reviews/accept",
             new { commandId = Guid.NewGuid(), submissionId, expectedVersion = version, feedback = "Принято" }));
@@ -124,6 +126,40 @@ public sealed class ProgressHistoryHttpTests(ApiPostgresFixture fixture) : IClas
         var original = moved.GetProperty("items").EnumerateArray().Single(x =>
             x.GetProperty("assignmentId").GetGuid() == first.Id);
         Assert.Equal("Accepted", original.GetProperty("status").GetString());
+        var recentPath = $"/api/v1/student/progress-history?courseId={first.CourseId}&sort=lastSubmissionDesc";
+        var beforeSecondSubmission = await Json(await movedStudent.GetAsync($"{recentPath}&page=1&pageSize=1"));
+        Assert.Equal(1, beforeSecondSubmission.GetProperty("total").GetInt32());
+        Assert.Equal(first.Id, beforeSecondSubmission.GetProperty("items")[0].GetProperty("assignmentId").GetGuid());
+        Assert.Equal(JsonValueKind.String,
+            beforeSecondSubmission.GetProperty("items")[0].GetProperty("lastSubmittedAt").ValueKind);
+        Assert.False(beforeSecondSubmission.GetProperty("items")[0].GetProperty("lastSubmittedAt").GetString() ==
+            beforeSecondSubmission.GetProperty("items")[0].GetProperty("lastActivityAt").GetString());
+
+        await Json(await movedStudent.PostAsJsonAsync(
+            $"/api/v1/problem-assignments/{second.Id}/submissions",
+            new { bodyMarkdown = "Второе синтетическое решение", attachmentIds = Array.Empty<Guid>(),
+                expectedVersion = (long?)null }), HttpStatusCode.Created);
+        var newest = await Json(await movedStudent.GetAsync($"{recentPath}&page=1&pageSize=1"));
+        Assert.Equal(2, newest.GetProperty("total").GetInt32());
+        Assert.Equal(1, newest.GetProperty("items").GetArrayLength());
+        Assert.Equal(second.Id, newest.GetProperty("items")[0].GetProperty("assignmentId").GetGuid());
+        Assert.Equal("Submitted", newest.GetProperty("items")[0].GetProperty("status").GetString());
+        var older = await Json(await movedStudent.GetAsync($"{recentPath}&page=2&pageSize=1"));
+        Assert.Equal(first.Id, older.GetProperty("items")[0].GetProperty("assignmentId").GetGuid());
+        Assert.Equal("Accepted", older.GetProperty("items")[0].GetProperty("status").GetString());
+        Assert.Equal(2, older.GetProperty("total").GetInt32());
+
+        Assert.Equal(HttpStatusCode.Forbidden, (await teacher.GetAsync(recentPath)).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            $"{recentPath}&groupId=G1")).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            $"{recentPath}&studentId={Guid.NewGuid()}")).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            "/api/v1/student/progress-history?courseId=forged-course&sort=lastSubmissionDesc")).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            $"/api/v1/student/progress-history?courseId={first.CourseId}&sort=unapproved")).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            "/api/v1/student/progress-history?sort=lastSubmissionDesc")).StatusCode);
 
         var oldGroup = await Json(await teacher.GetAsync(
             $"/api/v1/teacher/group-progress?courseId={first.CourseId}&groupId=G1"));
@@ -152,6 +188,8 @@ public sealed class ProgressHistoryHttpTests(ApiPostgresFixture fixture) : IClas
         }
         Assert.Equal(HttpStatusCode.Forbidden, (await teacher.GetAsync(
             $"/api/v1/teacher/group-progress?courseId={foreignCourse}&groupId=G1")).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(
+            $"/api/v1/student/progress-history?courseId={foreignCourse}&sort=lastSubmissionDesc")).StatusCode);
 
         Guid teacherGrantId;
         await using (var db = app.Open())
@@ -167,13 +205,41 @@ public sealed class ProgressHistoryHttpTests(ApiPostgresFixture fixture) : IClas
         Assert.Equal(HttpStatusCode.Forbidden, (await revokedTeacher.GetAsync(
             $"/api/v1/teacher/group-progress?courseId={first.CourseId}&groupId=G1")).StatusCode);
 
+        long restrictedRevision;
         await using (var db = app.Open())
-            await new PostgresProcessingStateAdministration(db).Change(new(app.OrganizationId, Guid.NewGuid(), 1,
+            restrictedRevision = await new PostgresProcessingStateAdministration(db).Change(new(app.OrganizationId, Guid.NewGuid(), 1,
                 new AddProcessingRestriction(Guid.NewGuid(), app.ProcessingContextId, 1,
                     ApiFactory.Teacher, 1)));
         Assert.Equal(HttpStatusCode.Forbidden, (await teacher.GetAsync(
             $"/api/v1/teacher/group-progress?courseId={first.CourseId}&groupId=G1")).StatusCode);
         Assert.Equal(HttpStatusCode.Forbidden, (await teacher.GetAsync(
             $"/api/v1/teacher/review-history?courseId={first.CourseId}&groupId=G1")).StatusCode);
+        await using (var db = app.Open())
+            await new PostgresProcessingStateAdministration(db).Change(new(app.OrganizationId,
+                Guid.NewGuid(), restrictedRevision, new AddProcessingRestriction(Guid.NewGuid(),
+                    app.ProcessingContextId, 1, ApiFactory.Student, 1)));
+        Assert.Equal(HttpStatusCode.Forbidden, (await movedStudent.GetAsync(recentPath)).StatusCode);
+        Assert.Equal(HttpStatusCode.Forbidden, (await student.GetAsync(recentPath)).StatusCode);
     }
+
+    [Fact]
+    public async Task Recent_submissions_deny_when_course_processing_binding_is_closed_even_if_empty()
+    {
+        await using var app = await fixture.CreateApp(organizationBootstrap: true);
+        var assignment = await app.Seed(scopedTeacher: true, teacherGroup: "G1", studentGroup: "G1");
+        await Publish(app, assignment, 1, "binding");
+        using var student = await app.SecureClient("Student");
+        var path = $"/api/v1/student/progress-history?courseId={assignment.CourseId}&sort=lastSubmissionDesc&pageSize=5";
+        var before = await Json(await student.GetAsync(path));
+        Assert.Equal(0, before.GetProperty("total").GetInt32());
+        await using (var db = app.Open())
+        {
+            var bindingFrom = await db.Set<CourseContextBinding>().Where(x => x.CourseId == assignment.CourseId)
+                .Select(x => x.EffectiveFrom).SingleAsync();
+            await new PostgresProcessingStateAdministration(db).Change(new(app.OrganizationId,
+                Guid.NewGuid(), 1, new CloseProcessingBinding(assignment.CourseId, bindingFrom)));
+        }
+        Assert.Equal(HttpStatusCode.Forbidden, (await student.GetAsync(path)).StatusCode);
+    }
+
 }

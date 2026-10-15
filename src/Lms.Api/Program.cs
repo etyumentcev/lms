@@ -118,6 +118,7 @@ if (teacherRevocation.OrganizationBootstrapEnabled)
     app.MapAccountAdministration(teacherRevocation.AllowedOrigin);
     app.MapCourseRoster(teacherRevocation.AllowedOrigin);
     app.MapProcessingContextAdministration(teacherRevocation.AllowedOrigin);
+    app.MapCourseSchedule(teacherRevocation.AllowedOrigin);
     app.MapContentPublication(teacherRevocation.AllowedOrigin,
         app.Configuration.GetValue<long?>("ContentImport:MaxZipBytes") ?? 20_000_000);
 }

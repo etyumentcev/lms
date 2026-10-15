@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Lms.Api.Tests;
 
-public sealed class CourseRosterHttpTests(ApiPostgresFixture fixture) : IClassFixture<ApiPostgresFixture>
+public sealed partial class CourseRosterHttpTests(ApiPostgresFixture fixture) : IClassFixture<ApiPostgresFixture>
 {
     private static string PlatformToken()
     {

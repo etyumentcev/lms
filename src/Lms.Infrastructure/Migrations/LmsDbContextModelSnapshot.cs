@@ -951,6 +951,315 @@ namespace Lms.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleAudit", b =>
+                {
+                    b.Property<Guid>("AuditId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("OccurredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ResourceId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TraceId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AuditId");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("CourseId", "OrganizationId");
+
+                    b.HasIndex("OrganizationId", "CourseId", "OccurredAt");
+
+                    b.ToTable("CourseScheduleAudit", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleCommandReceipt", b =>
+                {
+                    b.Property<Guid>("AdministratorActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PayloadDigest")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResultJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("AdministratorActorId", "IdempotencyKey");
+
+                    b.HasIndex("CourseId", "OrganizationId");
+
+                    b.HasIndex("OrganizationId", "AdministratorActorId");
+
+                    b.ToTable("CourseScheduleCommandReceipts", (string)null);
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleException", b =>
+                {
+                    b.Property<Guid>("ExceptionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("AcademicHours")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeliveryMode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("NewDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly?>("NewEndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<TimeOnly?>("NewStartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("OnlineUrl")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("OriginalDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("RuleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ExceptionId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("CourseId", "OrganizationId");
+
+                    b.HasIndex("RuleId", "OriginalDate")
+                        .IsUnique();
+
+                    b.ToTable("CourseScheduleExceptions", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseScheduleException_Move", "(\"Status\" = 'Cancelled' AND \"NewDate\" IS NULL AND \"NewStartTime\" IS NULL AND \"NewEndTime\" IS NULL) OR (\"Status\" = 'Moved' AND \"NewDate\" IS NOT NULL AND \"NewStartTime\" IS NOT NULL AND \"NewEndTime\" IS NOT NULL)");
+
+                            t.HasCheckConstraint("CK_CourseScheduleException_Status", "\"Status\" IN ('Moved','Cancelled')");
+
+                            t.HasCheckConstraint("CK_CourseScheduleException_Version", "\"Version\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleRule", b =>
+                {
+                    b.Property<Guid>("RuleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AcademicHours")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeliveryMode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("EffectiveFrom")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("EffectiveTo")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("EventKind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("IsoDayOfWeek")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LessonId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OnlineUrl")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("TimeZoneId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RuleId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("CourseId", "OrganizationId");
+
+                    b.HasIndex("CourseId", "IsActive", "EffectiveFrom", "EffectiveTo");
+
+                    b.ToTable("CourseScheduleRules", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Day", "\"IsoDayOfWeek\" BETWEEN 1 AND 7");
+
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Hours", "\"AcademicHours\" BETWEEN 1 AND 24");
+
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Kind", "\"EventKind\" IN ('Lesson','Consultation','ExtraLesson')");
+
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Mode", "\"DeliveryMode\" IN ('InPerson','Online','Hybrid')");
+
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Period", "\"EffectiveTo\" >= \"EffectiveFrom\" AND \"EffectiveTo\" <= \"EffectiveFrom\" + 731");
+
+                            t.HasCheckConstraint("CK_CourseScheduleRule_Version", "\"Version\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseWorkload", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AcademicHourMinutes")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IndependentAcademicHours")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ScheduledAcademicHours")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TotalAcademicHours")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CourseId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("CourseId", "OrganizationId")
+                        .IsUnique();
+
+                    b.ToTable("CourseWorkloads", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseWorkload_Hours", "\"TotalAcademicHours\" >= 0 AND \"ScheduledAcademicHours\" >= 0 AND \"IndependentAcademicHours\" >= 0 AND \"TotalAcademicHours\" = \"ScheduledAcademicHours\" + \"IndependentAcademicHours\"");
+
+                            t.HasCheckConstraint("CK_CourseWorkload_Minutes", "\"AcademicHourMinutes\" BETWEEN 1 AND 180");
+
+                            t.HasCheckConstraint("CK_CourseWorkload_Version", "\"Version\" > 0");
+                        });
+                });
+
             modelBuilder.Entity("Lms.Infrastructure.EnrollmentAccess", b =>
                 {
                     b.Property<Guid>("StudentId")
@@ -2378,6 +2687,116 @@ namespace Lms.Infrastructure.Migrations
                     b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
                         .WithMany()
                         .HasForeignKey("OrganizationId", "AdministratorActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleAudit", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseCatalogRecord", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "OrganizationId")
+                        .HasPrincipalKey("CourseId", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleCommandReceipt", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.CourseCatalogRecord", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "OrganizationId")
+                        .HasPrincipalKey("CourseId", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.OrganizationMembership", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId", "AdministratorActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleException", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseScheduleRule", null)
+                        .WithMany()
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseCatalogRecord", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "OrganizationId")
+                        .HasPrincipalKey("CourseId", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseScheduleRule", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseCatalogRecord", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId", "OrganizationId")
+                        .HasPrincipalKey("CourseId", "OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lms.Infrastructure.CourseWorkload", b =>
+                {
+                    b.HasOne("Lms.Infrastructure.Organization", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.ActorRecord", null)
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Lms.Infrastructure.CourseCatalogRecord", null)
+                        .WithOne()
+                        .HasForeignKey("Lms.Infrastructure.CourseWorkload", "CourseId", "OrganizationId")
+                        .HasPrincipalKey("Lms.Infrastructure.CourseCatalogRecord", "CourseId", "OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

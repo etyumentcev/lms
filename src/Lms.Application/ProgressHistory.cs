@@ -4,12 +4,13 @@ using System.Text.Json.Serialization;
 namespace Lms.Application;
 
 public sealed record ProgressHistoryQuery(string? CourseId = null, string? GroupId = null,
-    Guid? StudentId = null, string? Status = null, int Page = 1, int PageSize = 50);
+    Guid? StudentId = null, string? Status = null, int Page = 1, int PageSize = 50, string? Sort = null);
 
 public sealed record ProgressAssignmentDto(Guid AssignmentId, Guid? ProblemWorkId, Guid CourseVersionId,
     string CourseId, string? CourseTitle, string LessonId, string? LessonTitle, string ProblemId,
     string? ProblemTitle, ProblemWorkStatus Status, int AttemptCount, bool IsActive,
-    DateTimeOffset? LastActivityAt);
+    DateTimeOffset? LastActivityAt,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] DateTimeOffset? LastSubmittedAt = null);
 
 public sealed record StudentProgressRowDto(Guid StudentId, string? StudentDisplayName, string CourseId,
     string? CourseTitle, string? GroupId, string? GroupTitle, int AssignedCount,

@@ -50,7 +50,7 @@ public static class ProgressHistoryHttp
 
     private static ProgressHistoryQuery ProgressQuery(HttpContext context) => new(
         Text(context, "courseId"), Text(context, "groupId"), GuidValue(context, "studentId"),
-        Text(context, "status"), IntValue(context, "page", 1), IntValue(context, "pageSize", 50));
+        Text(context, "status"), IntValue(context, "page", 1), IntValue(context, "pageSize", 50), Text(context, "sort"));
 
     private static ReviewHistoryQuery ReviewQuery(HttpContext context) => new(
         Text(context, "courseId"), Text(context, "groupId"), GuidValue(context, "studentId"),

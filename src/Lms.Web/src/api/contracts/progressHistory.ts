@@ -22,6 +22,10 @@ export type TeacherProgress = {
 export type StudentProgress = {
   items: ProgressAssignment[]; page: number; pageSize: number; total: number; summary: ProgressSummary;
 };
+export type RecentSubmission = ProgressAssignment & { lastSubmittedAt: string };
+export type StudentRecentProgress = Omit<StudentProgress, 'items'> & {
+  items: RecentSubmission[];
+};
 export type ReviewHistoryItem = {
   reviewId: string; problemWorkId: string; submissionId: string; studentId: string;
   studentDisplayName: string | null; courseId: string; courseTitle: string | null;
@@ -66,6 +70,19 @@ export function decodeTeacherProgress(value: unknown): TeacherProgress {
 export function decodeStudentProgress(value: unknown): StudentProgress {
   if (!student(value)) throw new Error('Invalid StudentProgress');
   return value as StudentProgress;
+}
+export function decodeStudentRecentProgress(value: unknown, courseId: string): StudentRecentProgress {
+  if (!student(value)) throw new Error('Invalid StudentRecentProgress');
+  const data = value as StudentProgress;
+  if (data.page !== 1 || data.pageSize !== 5 || data.items.length > 5 || data.total < data.items.length ||
+    data.items.some(item => item.courseId !== courseId || item.status === 'NotStarted' ||
+      !timestamp((item as ProgressAssignment & { lastSubmittedAt?: unknown }).lastSubmittedAt)))
+    throw new Error('Invalid StudentRecentProgress');
+  const times = data.items.map(item =>
+    Date.parse((item as RecentSubmission).lastSubmittedAt));
+  if (times.some((time, index) => index > 0 && time > times[index - 1]!))
+    throw new Error('Invalid StudentRecentProgress');
+  return data as StudentRecentProgress;
 }
 export function decodeReviewHistory(value: unknown): ReviewHistory {
   if (!reviews(value)) throw new Error('Invalid ReviewHistory');

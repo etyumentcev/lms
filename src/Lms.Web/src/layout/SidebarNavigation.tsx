@@ -7,7 +7,6 @@ export type SidebarSession = { organizationName: string; displayName: string; ro
 
 const commonItems = [
   { label: 'Главная', to: '/', icon: 'home' },
-  { label: 'Мои курсы', to: '/courses', icon: '▤' },
   { label: 'Расписание', to: '/schedule', icon: '▦' },
 ] as const;
 

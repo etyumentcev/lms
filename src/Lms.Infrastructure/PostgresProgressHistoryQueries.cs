@@ -51,6 +51,7 @@ public sealed class PostgresProgressHistoryQueries(
     {
         Validate(query);
         Require(token, ScopeRole.Teacher);
+        if (query.Sort != null) throw new UseCaseException("ValidationFailed");
         var status = ParseStatus(query.Status);
         await using var db = await contexts.CreateDbContextAsync(ct);
         await using var snapshot = await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead, ct);
@@ -143,6 +144,8 @@ public sealed class PostgresProgressHistoryQueries(
     {
         Validate(query);
         Require(token, ScopeRole.Student);
+        if (query.Sort != null && (query.Sort != "lastSubmissionDesc" || query.CourseId == null))
+            throw new UseCaseException("ValidationFailed");
         if (query.GroupId != null || query.StudentId is { } student && student != token.Identity.ActorId)
             throw new UseCaseException("Forbidden");
         var status = ParseStatus(query.Status);
@@ -158,7 +161,11 @@ public sealed class PostgresProgressHistoryQueries(
         foreach (var courseId in courses)
         {
             if (!await authorization.Authorization.Allows(token,
-                new(ResourceKind.Course, CourseId: courseId), ScopeAction.Read, ct)) continue;
+                new(ResourceKind.Course, CourseId: courseId), ScopeAction.Read, ct))
+            {
+                if (query.Sort == "lastSubmissionDesc") throw new UseCaseException("Forbidden");
+                continue;
+            }
             var candidates = await (from scope in db.Set<AssignmentScope>().AsNoTracking()
                 join assignment in db.Assignments.AsNoTracking() on scope.AssignmentId equals assignment.Id
                 where scope.StudentId == token.Identity.ActorId && scope.CourseId == courseId &&
@@ -173,13 +180,16 @@ public sealed class PostgresProgressHistoryQueries(
                 var work = await db.Works.AsNoTracking().AsSplitQuery()
                     .Include(x => x.Submissions).Include(x => x.Reviews)
                     .SingleOrDefaultAsync(x => x.ProblemAssignmentId == assignmentId, ct);
-                result.Add(await Project(db, assignment, work, ct));
+                result.Add(await Project(db, assignment, work, ct, includeLastSubmittedAt: true));
             }
         }
         var active = result.Where(x => x.IsActive).ToArray();
-        var filtered = (status == null ? result : result.Where(x => x.Status == status))
-            .OrderBy(x => x.CourseTitle).ThenBy(x => x.LessonId).ThenBy(x => x.ProblemId)
-            .ThenBy(x => x.AssignmentId).ToArray();
+        var visible = (status == null ? result : result.Where(x => x.Status == status));
+        var filtered = query.Sort == "lastSubmissionDesc"
+            ? visible.Where(x => x.LastSubmittedAt != null).OrderByDescending(x => x.LastSubmittedAt)
+                .ThenBy(x => x.AssignmentId).ToArray()
+            : visible.OrderBy(x => x.CourseTitle).ThenBy(x => x.LessonId).ThenBy(x => x.ProblemId)
+                .ThenBy(x => x.AssignmentId).ToArray();
         var total = filtered.Length;
         return new(filtered.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize).ToArray(),
             query.Page, query.PageSize, total, Summary(active, active.Length == 0 ? 0 : 1),
@@ -314,7 +324,8 @@ public sealed class PostgresProgressHistoryQueries(
     }
 
     private static async Task<ProgressAssignmentDto> Project(LmsDbContext db,
-        ProblemAssignment assignment, ProblemWork? work, CancellationToken ct)
+        ProblemAssignment assignment, ProblemWork? work, CancellationToken ct,
+        bool includeLastSubmittedAt = false)
     {
         var content = await new PostgresContentResolver(db).Resolve(assignment.CourseId, assignment.Content, ct);
         var activity = work?.Submissions.Select(x => (DateTimeOffset?)x.SubmittedAt)
@@ -323,7 +334,9 @@ public sealed class PostgresProgressHistoryQueries(
             content.Course.Title, assignment.Content.LessonId, content.Lesson.Title,
             assignment.Content.ProblemId, content.Problem.Title,
             work?.Status ?? ProblemWorkStatus.NotStarted, work?.AttemptCount ?? 0,
-            assignment.Status == AssignmentStatus.Active, activity);
+            assignment.Status == AssignmentStatus.Active, activity,
+            includeLastSubmittedAt ? work?.Submissions.OrderByDescending(x => x.AttemptNumber)
+                .FirstOrDefault()?.SubmittedAt : null);
     }
 
     private static async Task<string?> CourseTitle(LmsDbContext db, string courseId, CancellationToken ct)

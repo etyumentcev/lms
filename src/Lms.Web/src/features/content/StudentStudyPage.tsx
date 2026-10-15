@@ -8,6 +8,7 @@ import { AppShell, ContextSection } from '../../layout/AppShell';
 import { AvailabilityBadge, StatusBadge } from '../../components/StatusBadge';
 import { Breadcrumbs, EmptyState, ErrorState, LoadingSkeleton, PageHeader, ProgressBar } from '../../components/primitives';
 import { MarkdownContent } from '../../components/MarkdownContent';
+import { StudentCourseDashboard } from './StudentCourseDashboard';
 import './studentStudy.css';
 
 type CatalogCourse = { courseId: string; title: string; description: string };
@@ -43,18 +44,20 @@ export function StudentPublishedCoursePage({courseId,client=browserApiClient}:{c
     const assignments=ready.assignments.filter(x=>x.contentVersionId===versionId&&x.lessonId===lesson.id);
     return{versionId,versionNumber:assignments[0]?.versionNumber??0,content,lesson,assignments};
   })).sort((a,b)=>a.lesson.order-b.lesson.order||a.versionNumber-b.versionNumber):[],[ready]);
-  const all=ready?.assignments??[];const accepted=all.filter(x=>x.status==='Accepted').length;const progress=percent(accepted,all.length);
   const first=rows[0];const title=first?.content.course.title||ready?.catalog?.title||'Курс';
-  const load=useCallback((path:string)=>first?assetLoader(client,courseId,first.versionId)(path):Promise.reject(),[client,courseId,first]);
   useEffect(()=>{document.title=`${title} · Sapientum`;},[title]);
-  return <AppShell role="Student" preview={false} context={ready?<><ContextSection title="Прогресс курса"><p>{accepted} из {all.length} задач принято</p><ProgressBar value={progress} label="Прогресс курса"/><p className="muted small">Только по реально назначенным задачам.</p></ContextSection><ContextSection title="Доступ"><p>{rows.length} занятий · {all.length} задач</p><p className="muted small">Каждое занятие привязано к опубликованной версии.</p></ContextSection></>:null}>
-    <Breadcrumbs items={[{label:'Мои курсы',to:'/courses'},{label:title}]}/><div className="workspace-content student-study" aria-busy={state.phase==='loading'}>
-      <PageHeader title={title} description={first?.content.course.description||ready?.catalog?.description}/>
+  if(ready)return <StudentCourseDashboard courseId={courseId} title={title}
+    description={first?.content.course.description||ready.catalog?.description}
+    assignments={ready.assignments} rows={rows} client={client}/>;
+  return <AppShell role="Student" preview={false} context={state.phase==='loading'
+    ?<LoadingSkeleton label="Загрузка сведений о курсе" rows={4}/>:null}>
+    <Breadcrumbs items={[{label:'Мои курсы',to:'/courses'},{label:title}]}/>
+    <div className="workspace-content student-study" aria-busy={state.phase==='loading'}>
+      <PageHeader title={title}/>
       {state.phase==='loading'&&<><LoadingSkeleton label="Загрузка курса" rows={3}/><LoadingSkeleton label="Загрузка занятий" rows={4}/></>}
-      {state.phase==='error'&&<Failure error={state.error} retry={retry}/>} {first&&<section className="study-theory" aria-label="Описание курса"><MarkdownContent assets={first.content.assets} loadAsset={load}>{first.content.course.bodyMarkdown}</MarkdownContent></section>}
-      {ready&&<section aria-labelledby="published-lessons"><div className="section-intro"><h2 id="published-lessons">Занятия</h2><span className="muted">{rows.length}</span></div>{rows.length?<ol className="study-card-list">{rows.map(row=>{
-        const done=row.assignments.filter(x=>x.status==='Accepted').length;return <li key={`${row.versionId}/${row.lesson.id}`}><Link to={`/study/courses/${encodeURIComponent(courseId)}/versions/${encodeURIComponent(row.versionId)}/lessons/${encodeURIComponent(row.lesson.id)}`}><span className="row-number">{row.lesson.order}</span><span className="row-text"><strong>{row.lesson.title}</strong><small><AvailabilityBadge isAvailable/> · {row.assignments.length} задач · {done} принято · версия v{row.versionNumber}</small></span><span aria-hidden="true">→</span></Link></li>;})}</ol>:<EmptyState title="Нет доступных занятий" description="Преподаватель ещё не открыл занятие вашей группе."/>}</section>}
-    </div></AppShell>;
+      {state.phase==='error'&&<Failure error={state.error} retry={retry}/>}
+    </div>
+  </AppShell>;
 }
 
 export function StudentPublishedLessonPage({courseId,versionId,lessonId,client=browserApiClient}:{courseId:string;versionId:string;lessonId:string;client?:ApiClient}){

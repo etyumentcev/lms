@@ -30,7 +30,7 @@ public static class ApiErrors
         "MalformedAttachment" => ("InvalidAttachment", 400),
         "AttachmentAlreadyAttached" => (code, 409),
         "IdempotencyConflict" or "DuplicateIdentity" or "DuplicateMembership" or "ActivationUnavailable" or "ActivationLocked" or "RecoveryUnavailable" or "RecoveryLocked" or "ApprovalUnavailable" or
-            "ProcessingContextConflict" or "ProcessingContextMissing" => (code, 409),
+            "ProcessingContextConflict" or "ProcessingContextMissing" or "ScheduleOverlap" => (code, 409),
         "ActivationExpired" or "RecoveryExpired" => (code, 410),
         "ActivationUsed" or "RecoveryUsed" => (code, 409),
         "ChallengeRateLimited" or "ChallengeCooldown" => (code, 429),
@@ -39,6 +39,7 @@ public static class ApiErrors
         "AttachmentNotOwned" => (code, 403),
         "OperationAlreadyAttempted" or "ConcurrencyConflict" or "WorkAlreadySubmitted" or "WorkAlreadyAccepted" or "WorkNotSubmitted" or
             "SubmissionIsNotCurrent" or "SubmissionAlreadyReviewed" => (code, 409),
+        "ScheduleRangeInvalid" or "InvalidTimeZone" or "NonexistentLocalTime" => (code, 400),
         "ProcessingRestricted" => (code, 403),
         "InvalidAnnotations" or "EmptySubmission" or "FeedbackRequired" or "InvalidReplyTarget" => (code, 422),
         "InvalidId" or "EmptyValue" or "EmptyMessage" or "InvalidAttachment" or "InvalidAuthorRole" => ("ValidationFailed", 422),

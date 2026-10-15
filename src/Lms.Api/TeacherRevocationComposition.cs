@@ -62,6 +62,7 @@ internal static class TeacherRevocationComposition
             builder.Services.AddScoped<IAccountAdministration>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
             builder.Services.AddScoped<IAccountSecurityOperations>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
             builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
+            builder.Services.AddScoped<ICourseScheduleService, PostgresCourseScheduleService>();
             var repositoryRoot = builder.Configuration["ContentImport:RepositoryRoot"] ?? string.Empty;
             var localSyntheticSocketPath = builder.Configuration["ContentImport:LocalSyntheticSocketPath"] ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(localSyntheticSocketPath) && !builder.Environment.IsDevelopment())

@@ -1,0 +1,67 @@
+.learning-course-grid--student {
+  align-items: stretch;
+}
+
+.student-course-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: .6rem;
+  padding: 1.15rem;
+  border: 1px solid #dce9e1;
+  border-radius: .85rem;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.student-course-card:hover {
+  border-color: #83caa3;
+  background: #fbfefc;
+  box-shadow: 0 10px 25px #14532d12;
+}
+
+.student-course-card:focus-visible {
+  border-color: var(--primary);
+}
+
+.student-course-card h2,
+.student-course-card p {
+  margin: 0;
+}
+
+.student-course-card p {
+  color: var(--text-muted);
+}
+
+.student-course-groups {
+  min-height: 1.9rem;
+}
+
+.student-course-progress {
+  margin-top: auto;
+  padding-top: .65rem;
+}
+
+.student-course-progress .progress-label {
+  color: var(--text);
+  font-size: var(--font-body);
+  font-weight: 600;
+}
+
+.student-course-progress .progress-label span:last-child {
+  color: var(--primary);
+}
+
+.student-course-empty-progress {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--font-small);
+}
+
+@media (max-width: 600px) {
+  .student-course-card {
+    padding: 1rem;
+  }
+}

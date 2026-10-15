@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { ApiError } from '../../api/client';
 import { browserApiClient } from '../../api/browserClient';
+import { CourseScheduleEditor } from './CourseScheduleEditor';
 import './course-administration.css';
 
 type Course = { courseId: string; title: string; description: string; state: 'Draft'|'Published'; version: number;
@@ -74,6 +75,7 @@ function CourseDetail({ value, mode, setMode, onBack, onReload, error, loading }
   value: Detail; mode: 'students'|'teachers'|'editors'; setMode: (value:'students'|'teachers'|'editors') => void; onBack:()=>void; onReload:()=>void; error:string; loading:boolean }) {
   const [adding, setAdding] = useState<'students'|'teacher'|'editor'|null>(null);
   const [addingGroup, setAddingGroup] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState(false);
   const [actionError, setActionError] = useState('');
   async function mutate(path: string, body: Record<string, unknown>, prompt: string) {
     if (!window.confirm(prompt)) return;
@@ -93,7 +95,8 @@ function CourseDetail({ value, mode, setMode, onBack, onReload, error, loading }
     <div className="course-actions"><button className="button button--secondary" onClick={() => setAddingGroup(true)}>+ Добавить группу</button>
       <button className="button button--primary" disabled={!value.groups.length} onClick={() => setAdding('students')}>+ Зачислить учеников</button>
       <button className="button button--secondary" disabled={!value.groups.length} onClick={() => setAdding('teacher')}>Назначить преподавателя</button>
-      <button className="button button--secondary" onClick={() => setAdding('editor')}>Назначить редактора курса</button></div>
+      <button className="button button--secondary" onClick={() => setAdding('editor')}>Назначить редактора курса</button>
+      <button className="button button--secondary" onClick={() => setEditingSchedule(true)}>Расписание и нагрузка</button></div>
     <div className="group-grid">{value.groups.map(group => <article key={group.groupId}><span className="group-symbol">◎</span><div><strong>{group.name}</strong><small>{group.description || 'Без описания'}</small></div><dl><div><dt>Ученики</dt><dd>{group.studentCount}</dd></div><div><dt>Преподаватели</dt><dd>{group.teacherCount}</dd></div></dl></article>)}</div>
     {!value.groups.length && <div className="account-empty"><strong>Добавьте две группы</strong><p>Зачисление и назначения станут доступны после создания структуры.</p></div>}
     <div className="roster-tabs"><button aria-pressed={mode === 'students'} onClick={() => setMode('students')}>Ученики ({value.students.length})</button><button aria-pressed={mode === 'teachers'} onClick={() => setMode('teachers')}>Преподаватели ({value.teachers.length})</button><button aria-pressed={mode === 'editors'} onClick={() => setMode('editors')}>Редакторы курса ({value.editors.length})</button></div>
@@ -109,6 +112,7 @@ function CourseDetail({ value, mode, setMode, onBack, onReload, error, loading }
     {adding === 'teacher' && <TeacherDialog detail={value} onClose={() => setAdding(null)} onDone={() => { setAdding(null); onReload(); }} />}
     {adding === 'editor' && <CourseEditorDialog detail={value} onClose={() => setAdding(null)} onDone={() => { setAdding(null); onReload(); }} />}
     {addingGroup && <CreateGroupDialog courseId={value.course.courseId} onClose={() => setAddingGroup(false)} onCreated={() => { setAddingGroup(false); onReload(); }} />}
+    {editingSchedule && <CourseScheduleEditor courseId={value.course.courseId} onClose={() => setEditingSchedule(false)}/>}
   </section>;
 }
 

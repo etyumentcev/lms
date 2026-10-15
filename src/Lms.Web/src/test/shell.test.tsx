@@ -21,7 +21,8 @@ describe('Shared shell', () => {
   it.each(['Student', 'Teacher'] as const)('uses role-specific sidebar items for %s', role => {
     render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><SidebarNavigation role={role} /></MemoryRouter>);
     const nav = within(screen.getByRole('navigation'));
-    expect(nav.getAllByRole('link')).toHaveLength(7);
+    expect(nav.getAllByRole('link')).toHaveLength(6);
+    expect(nav.queryByRole('link', { name: 'Мои курсы' })).not.toBeInTheDocument();
     expect(nav.getByRole('link', { name: role === 'Student' ? 'Текущие задачи' : 'Проверка' })).toBeInTheDocument();
     expect(nav.queryByRole('link', { name: role === 'Student' ? 'Проверка' : 'Текущие задачи' })).not.toBeInTheDocument();
   });
