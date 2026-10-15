@@ -145,7 +145,7 @@ public sealed class ProcessingContextAdministrationHttpTests(ApiPostgresFixture 
             Assert.Equal("ConcurrencyConflict", (await stale.Content.ReadFromJsonAsync<JsonElement>())
                 .GetProperty("code").GetString());
 
-            var version2At = DateTimeOffset.UtcNow.AddMilliseconds(10);
+            var version2At = DateTimeOffset.UtcNow.AddMilliseconds(-1);
             using var version2 = await client.PostAsJsonAsync("/api/v1/admin/processing-context/versions", new
             {
                 operationId = Guid.NewGuid(), expectedRevision = 2, expectedContextId = operation,

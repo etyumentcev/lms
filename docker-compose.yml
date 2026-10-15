@@ -20,6 +20,8 @@ x-api-environment: &api-environment
   TeacherRevocation__DataProtectionKeysPath: /var/lib/lms/data-protection
   OrganizationBootstrap__Enabled: "true"
   OrganizationBootstrap__ChallengeKeyVersion: "1"
+  OrganizationBootstrap__ActivationRequestsPerMinute: "400"
+  OrganizationBootstrap__MaxIssuesPerInitiatorPerHour: "400"
   Authentication__Authority: https://identity:8443/realms/sapientum-local
   Authentication__Audience: sapientum-local
   Authentication__PlatformAudience: sapientum-platform
@@ -32,12 +34,14 @@ x-api-environment: &api-environment
   ContentImport__KatexPath: /opt/lms-source/src/Lms.Web/node_modules/katex
   ContentImport__StorageRoot: /var/lib/lms/content-import
   ContentImport__MaxZipBytes: "20000000"
+  ContentImport__LocalSyntheticSocketPath: /run/lms-import-proxy/import.sock
 
 x-api-volumes: &api-volumes
   - lms-secrets:/run/lms-secrets:ro
   - lms-attachments:/var/lib/lms/attachments
   - lms-content:/var/lib/lms/content-import
   - lms-data-protection:/var/lib/lms/data-protection
+  - /tmp/sapientum-lms-import-proxy:/run/lms-import-proxy:ro
 
 services:
   local-init:

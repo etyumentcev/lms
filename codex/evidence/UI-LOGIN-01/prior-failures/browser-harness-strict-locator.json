@@ -1,0 +1,48 @@
+{
+  "message": "locator.waitFor: Error: strict mode violation: getByText('Организация А') resolved to 2 elements:\n    1) <strong>Организация А</strong> aka getByLabel('Управление сессией').getByText('Организация А')\n    2) <h2>Организация А</h2> aka getByRole('heading', { name: 'Организация А' })\n\nCall log:\n\u001b[2m  - waiting for getByText('Организация А') to be visible\u001b[22m\n",
+  "stages": [
+    {
+      "action": "login",
+      "realReactForm": true,
+      "tokenStorage": "memory-only",
+      "course": "Организация А"
+    }
+  ],
+  "apiEvents": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/switch-organization",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/my/courses",
+      "status": 200
+    }
+  ]
+}

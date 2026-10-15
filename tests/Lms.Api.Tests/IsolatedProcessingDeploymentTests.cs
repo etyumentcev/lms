@@ -91,6 +91,18 @@ public sealed partial class IsolatedProcessingDeploymentTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Runtime_can_read_organization_names_but_cannot_mutate_profiles()
+    {
+        Assert.True(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'SELECT')"));
+        Assert.False(await Scalar<bool>(runtime,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
+        Assert.False(await Scalar<bool>(processing,"SELECT has_table_privilege(current_user, '\"OrganizationProfiles\"', 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')"));
+        await Sql(owner,$"INSERT INTO \"OrganizationProfiles\" VALUES ('{existingOrg}', 'Runtime profile name')");
+        Assert.Equal("Runtime profile name",await Scalar<string>(runtime,$"SELECT \"Name\" FROM \"OrganizationProfiles\" WHERE \"OrganizationId\"='{existingOrg}'"));
+        await Denied(()=>Sql(runtime,$"UPDATE \"OrganizationProfiles\" SET \"Name\"='Forged' WHERE \"OrganizationId\"='{existingOrg}'"));
+        await Denied(()=>Sql(processing,"SELECT * FROM \"OrganizationProfiles\""));
+    }
+
+    [Fact]
     public async Task Direct_processing_DML_DDL_EF_and_function_replacement_are_denied()
     {
         foreach(var cs in new[]{runtime,processing})

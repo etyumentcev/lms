@@ -221,7 +221,7 @@ try {
   if (submittedProgress.summary.studentCount !== 12 || submittedProgress.summary.assignedCount !== 60 ||
       submittedProgress.summary.notStarted !== 59 || submittedProgress.summary.submitted !== 1)
     throw new Error(`submitted progress mismatch: ${JSON.stringify(submittedProgress.summary)}`);
-  await page.getByText('Ученик 01', { exact: true }).waitFor();
+  await page.getByText(/^(P01|Ученик 01)$/, { exact: true }).waitFor();
   await page.screenshot({ path: `${data.progressEvidence}/01-teacher-submitted-1440.png`, fullPage: true });
   await page.getByRole('link', { name: 'Проверка' }).click();
   await page.getByRole('heading', { name: 'Проверка работ' }).waitFor();

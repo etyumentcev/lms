@@ -27,7 +27,8 @@ public sealed partial class IsolatedProcessingDeploymentTests
         var identity=await IdentitySeed(); var secondIdentity=await IdentitySeed();
         var orgB=Guid.NewGuid(); var contextA=Guid.NewGuid(); var contextB=Guid.NewGuid();
         const string courseA="auth-course-a", courseB="auth-course-b";
-        await Sql(owner,$"INSERT INTO \"Organizations\" VALUES('{orgB}','Enabled',true); INSERT INTO \"CourseRegistry\" VALUES('{courseA}','{existingOrg}','Verified'),('{courseB}','{orgB}','Verified'); INSERT INTO \"CourseGroups\" VALUES('{courseA}','g'),('{courseB}','g')");
+        await Sql(owner,$"INSERT INTO \"Organizations\" VALUES('{orgB}','Enabled',true); INSERT INTO \"OrganizationProfiles\" VALUES('{existingOrg}','Организация А'),('{orgB}','Организация Б'); INSERT INTO \"CourseRegistry\" VALUES('{courseA}','{existingOrg}','Verified'),('{courseB}','{orgB}','Verified'); INSERT INTO \"CourseGroups\" VALUES('{courseA}','g'),('{courseB}','g')");
+        await Sql(owner,"GRANT SELECT ON \"CourseCatalog\",\"CourseGroupCatalog\" TO c2h_runtime");
         await ChangeRestricted(new(AuthorityKind.Membership,AuthorityOperation.Grant,existingOrg,identity.Actor,0,Role:ScopeRole.Student));
         await ChangeRestricted(new(AuthorityKind.Enrollment,AuthorityOperation.Grant,existingOrg,identity.Actor,0,1,courseA,"g"));
         await ChangeRestricted(new(AuthorityKind.Membership,AuthorityOperation.Grant,orgB,identity.Actor,0,Role:ScopeRole.Student));
@@ -45,6 +46,10 @@ public sealed partial class IsolatedProcessingDeploymentTests
         await using(var db=Open(owner))
         {
             db.AddRange(
+                new CourseCatalogRecord{CourseId=courseA,OrganizationId=existingOrg,Title="Организация А",Description="Синтетический курс",State="Published",Version=1,CreatedAt=time.At},
+                new CourseCatalogRecord{CourseId=courseB,OrganizationId=orgB,Title="Организация Б",Description="Синтетический курс",State="Published",Version=1,CreatedAt=time.At},
+                new CourseGroupCatalogRecord{CourseId=courseA,GroupId="g",Name="Группа A",Description="",Version=1,CreatedAt=time.At},
+                new CourseGroupCatalogRecord{CourseId=courseB,GroupId="g",Name="Группа B",Description="",Version=1,CreatedAt=time.At},
                 new PublishedContentVersion{Id=Guid.NewGuid(),CourseId=courseA,VersionNumber=1,SourceRevision="auth-a",PublishedAt=time.At,
                     ContentJson=JsonSerializer.Serialize(new PublishedCourseContent("Организация А","Синтетический курс",[]),new JsonSerializerOptions(JsonSerializerDefaults.Web))},
                 new PublishedContentVersion{Id=Guid.NewGuid(),CourseId=courseB,VersionNumber=1,SourceRevision="auth-b",PublishedAt=time.At,
@@ -70,12 +75,14 @@ public sealed partial class IsolatedProcessingDeploymentTests
         builder.Services.AddSingleton(clock); builder.Services.AddSingleton<IAuthorityClock>(clock); builder.Services.AddSingleton(jwt);
         builder.Services.AddSingleton<TimeProvider>(new HttpTimeProvider(time));
         builder.Services.AddDbContextFactory<LmsDbContext>(options=>options.UseNpgsql(runtime));
+        builder.Services.AddScoped(sp => sp.GetRequiredService<IDbContextFactory<LmsDbContext>>().CreateDbContext());
         builder.Services.AddScoped(_=>new HttpDatabases(runtime));
         builder.Services.AddScoped(sp=>new ComponentAuthorization(
             new PostgresScopedAuthorityReader(sp.GetRequiredService<HttpDatabases>().Resources,new HttpTimeProvider(time)),
             new PostgresCurrentProcessingGate(sp.GetRequiredService<HttpDatabases>().Processing,clock),clock));
         builder.Services.AddScoped<ICourseNavigationQueries>(sp=>new PostgresCourseNavigationQueries(
             sp.GetRequiredService<HttpDatabases>().Content,sp.GetRequiredService<ComponentAuthorization>(),clock));
+        builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
         builder.Services.AddSingleton(new AttachmentOptions{MaxBytes=1024*1024});
         builder.Services.AddSingleton<IAttachmentStorage>(new LocalFileAttachmentStorage(new(){Root=Path.Combine(Path.GetTempPath(),"auth-browser-unused")}));
         builder.Services.AddScoped<PostgresTeacherCommands>();
@@ -90,7 +97,7 @@ public sealed partial class IsolatedProcessingDeploymentTests
         await using var app=builder.Build();
         app.UseMiddleware<ApiExceptionMiddleware>(); app.UseMiddleware<CourseRequestIngress>();
         app.UseAuthentication(); app.UseAuthorization();
-        app.MapTeacherRevocation(origin,true); app.MapProtectedCourses();
+        app.MapTeacherRevocation(origin,true); app.MapProtectedCourses(); app.MapCourseRoster(origin);
         app.UseStaticFiles(new StaticFileOptions{FileProvider=new PhysicalFileProvider(web)});
         app.MapFallback(async http=>{
             if(http.Request.Path.StartsWithSegments("/api")){http.Response.StatusCode=404;return;}
@@ -107,7 +114,7 @@ public sealed partial class IsolatedProcessingDeploymentTests
         using var runner=Process.Start(start)!; using var timeout=new CancellationTokenSource(TimeSpan.FromMinutes(4));
         var stderr=runner.StandardError.ReadToEndAsync(timeout.Token);
         await runner.StandardInput.WriteLineAsync(JsonSerializer.Serialize(new{origin,userName=identity.Name,password=identity.Password,
-            secondUserName=secondIdentity.Name,secondPassword=secondIdentity.Password,secondOrganization=orgB,organizationA=existingOrg,organizationB=orgB,foreignOrganization=Guid.NewGuid(),courseA="Организация А",courseB="Организация Б",evidence}));
+            secondUserName=secondIdentity.Name,secondPassword=secondIdentity.Password,secondOrganization=orgB,organizationA=existingOrg,organizationB=orgB,organizationNameA="Организация А",organizationNameB="Организация Б",foreignOrganization=Guid.NewGuid(),courseA="Организация А",courseB="Организация Б",evidence}));
         var passed=false;
         try
         {

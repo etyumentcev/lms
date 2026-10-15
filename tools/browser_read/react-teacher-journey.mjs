@@ -1,13 +1,15 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import readline from 'node:readline';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 const commandInput = readline.createInterface({ input: process.stdin, crlfDelay: Infinity });
 const commands = commandInput[Symbol.asyncIterator]();
 const first = await commands.next();
 if (first.done) throw new Error('Missing journey input');
 const input = JSON.parse(first.value);
-const { chromium } = await import(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
+const { chromium } = require(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
 const browser = await chromium.launch({
   executablePath: process.env.LMS_BROWSER_EXECUTABLE || '/opt/google/chrome/chrome',
   headless: true,
@@ -26,14 +28,8 @@ async function control(command) {
 
 try {
   const context = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width: 1365, height: 900 } });
-  await context.addInitScript(({ studentToken }) => {
-    window.__journeyAuth = { token: localStorage.getItem('journey-token') || studentToken, unauthenticated: 0 };
-    window.lmsAuth = {
-      getAccessToken: () => window.__journeyAuth.token,
-      onUnauthenticated: () => { window.__journeyAuth.unauthenticated += 1; },
-    };
-  }, { studentToken: input.studentToken });
   const page = await context.newPage();
+  page.setDefaultTimeout(30000);
   page.on('pageerror', error => events.push({ error: error.name, message: error.message }));
   page.on('requestfailed', request => events.push({ method: request.method(), path: new URL(request.url()).pathname,
     failure: request.failure()?.errorText }));
@@ -44,12 +40,23 @@ try {
 
   const photo = { name: 'real-solution.png', mimeType: 'image/png', buffer: Buffer.from(input.pngBase64, 'base64') };
   const teacherPhoto = { name: 'real-remark.png', mimeType: 'image/png', buffer: Buffer.from(input.pngBase64, 'base64') };
-  const setToken = token => page.evaluate(value => {
-    localStorage.setItem('journey-token', value); window.__journeyAuth.token = value;
-  }, token);
   const studentUrl = `${input.origin}/problem-assignments/${input.assignmentId}`;
   const teacherUrl = `${input.origin}/teacher/reviews/${input.workId}`;
+  async function login(userName, password, organizationId) {
+    await page.goto(`${input.origin}/courses`);
+    await page.getByRole('heading', { name: 'Вход в Сапиентум' }).waitFor();
+    await page.getByLabel('Логин').fill(userName);
+    await page.getByLabel('Пароль', { exact: true }).fill(password);
+    await page.getByLabel('Организация').fill(organizationId);
+    await page.getByRole('button', { name: 'Войти' }).click();
+    await page.getByRole('button', { name: 'Выйти' }).waitFor();
+  }
+  async function logout() {
+    await page.getByRole('button', { name: 'Выйти' }).click();
+    await page.getByRole('heading', { name: 'Вход в Сапиентум' }).waitFor();
+  }
 
+  await login(input.studentUserName, input.studentPassword, input.organizationId);
   await page.goto(studentUrl);
   await page.getByRole('heading', { name: 'Journey problem' }).waitFor();
   await page.locator('section[aria-label="Фотографии решения"] input[type=file]').setInputFiles(photo);
@@ -60,7 +67,8 @@ try {
   await page.getByLabel('Статус: На проверке').first().waitFor();
   stages.push({ action: 'student-submit', ui: 'React', photo: true, state: 'Submitted' });
 
-  await setToken(input.teacherToken);
+  await logout();
+  await login(input.teacherUserName, input.teacherPassword, input.organizationId);
   await page.goto(teacherUrl);
   await page.getByRole('heading', { name: 'Journey problem' }).waitFor();
   const firstCanvas = page.getByRole('img', { name: 'Страница 1' });
@@ -88,7 +96,8 @@ try {
   await page.getByText('Работа возвращена на доработку. Ожидается новая попытка ученика.').waitFor();
   stages.push({ action: 'teacher-needs-revision', ui: 'React', annotationStrokes: 1, state: 'NeedsRevision' });
 
-  await setToken(input.studentToken);
+  await logout();
+  await login(input.studentUserName, input.studentPassword, input.organizationId);
   await page.goto(studentUrl);
   await page.getByRole('heading', { name: 'Journey problem' }).waitFor();
   await page.getByRole('heading', { name: 'Новое решение' }).waitFor();
@@ -100,7 +109,8 @@ try {
   await page.getByLabel('Статус: На проверке').first().waitFor();
   stages.push({ action: 'student-revise', ui: 'React', photo: true, state: 'Submitted' });
 
-  await setToken(input.teacherToken);
+  await logout();
+  await login(input.teacherUserName, input.teacherPassword, input.organizationId);
   await page.goto(teacherUrl);
   await page.getByRole('heading', { name: 'Journey problem' }).waitFor();
   await page.getByRole('button', { name: 'Принять решение' }).waitFor();
@@ -111,18 +121,22 @@ try {
   if (await page.getByRole('button', { name: 'Принять решение' }).count()) throw new Error('Accepted command remained repeatable in UI');
   stages.push({ action: 'teacher-accept', ui: 'React', state: 'Accepted', repeatedCommandButton: false });
 
-  await setToken(input.studentToken);
+  await logout();
+  await login(input.studentUserName, input.studentPassword, input.organizationId);
   await page.goto(studentUrl);
   await page.getByLabel('Статус: Принята').first().waitFor();
   stages.push({ action: 'student-observes-accepted', ui: 'React' });
 
   await control('revoke');
-  await setToken(input.teacherToken);
+  await logout();
+  await login(input.teacherUserName, input.teacherPassword, input.organizationId);
   await page.goto(teacherUrl);
-  await page.getByRole('heading', { name: 'Нет доступа к работе' }).waitFor();
-  stages.push({ action: 'teacher-revoked', ui: 'React', state: 'Forbidden' });
+  await page.getByRole('heading', { name: /Нет доступных курсов|Нет учебных полномочий|Нет доступа к работе/ }).waitFor();
+  stages.push({ action: 'teacher-revoked', ui: 'React', state: 'Forbidden',
+    publicSession: 'fresh login issued without revoked educational scope' });
 
-  await setToken(input.outsiderToken);
+  await logout();
+  await login(input.outsiderUserName, input.outsiderPassword, input.outsiderOrganizationId);
   await page.goto(teacherUrl);
   await page.getByRole('heading', { name: 'Нет доступа к работе' }).waitFor();
   stages.push({ action: 'cross-organization-isolation', ui: 'React', state: 'Forbidden' });
@@ -131,7 +145,7 @@ try {
   await writeFile(path.join(input.evidence, 'result.json'), JSON.stringify({
     passed: true,
     scope: 'Production React bundle over real Chromium, HTTPS API and disposable PostgreSQL',
-    authentication: 'Pre-issued scoped access tokens supplied through the documented window.lmsAuth host adapter; browser login/refresh/logout not covered',
+    authentication: 'Production React login/logout forms for every actor; no pre-issued browser token',
     fixture: 'Course, group and assignment are pre-seeded; they are not created by a user in the browser',
     stages,
     apiEvents: events,

@@ -5,6 +5,9 @@ namespace Lms.Application;
 public sealed record IdentityLink(Guid UserId, Guid ActorId, bool IsActive);
 public sealed record SessionIdentity(Guid UserId, Guid ActorId, Guid SessionId,
     DateTimeOffset AbsoluteExpiresAt);
+public sealed record OrganizationOption(Guid OrganizationId, string Name);
+public sealed record BrowserSessionResult(SessionResult Session,
+    IReadOnlyList<OrganizationOption> Organizations, Guid? OrganizationId = null);
 
 // Deliberately not a record: generated ToString must never print a bearer secret.
 public sealed class RefreshSecret(string value)
@@ -13,7 +16,7 @@ public sealed class RefreshSecret(string value)
     public override string ToString() => "[REDACTED]";
 }
 
-public enum SessionOutcome { Success, Denied, RefreshAlreadyRotated }
+public enum SessionOutcome { Success, Denied, RefreshAlreadyRotated, NoOrganizations }
 public sealed class SessionResult(SessionOutcome outcome, SessionIdentity? identity = null,
     RefreshSecret? refreshToken = null, AccessToken? accessToken = null)
 {
@@ -27,6 +30,7 @@ public sealed class SessionResult(SessionOutcome outcome, SessionIdentity? ident
     {
         SessionOutcome.RefreshAlreadyRotated => "refresh_already_rotated",
         SessionOutcome.Denied => "invalid_session",
+        SessionOutcome.NoOrganizations => "no_available_organizations",
         _ => null
     };
 }

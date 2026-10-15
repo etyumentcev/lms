@@ -12,12 +12,15 @@
 .account-filters label,.security-token label { display: grid; gap: .35rem; color: #31564a; font-size: .78rem; font-weight: 700; }
 .account-filters input,.account-filters select,.security-token input,.account-form input { min-height: 2.75rem; width: 100%; border: 1px solid #cad8cf; border-radius: .45rem; padding: .6rem .75rem; background: white; font: inherit; }
 .account-count { margin: 1rem 0 .6rem; color: var(--text-muted); font-size: .82rem; }
-.account-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .8rem; }
-.account-card { border: 1px solid #dfe9e3; border-radius: .7rem; background: white; box-shadow: 0 .35rem 1.4rem rgba(28,80,53,.04); overflow: hidden; }
-.account-card > button { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .8rem; border: 0; padding: 1rem; color: inherit; background: white; text-align: left; font: inherit; }
-.account-card > button > span:nth-child(2) { display: grid; min-width: 0; }
-.account-card small { color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; }
-.account-card footer { display: flex; justify-content: space-between; padding: .65rem 1rem; border-top: 1px solid #edf2ef; color: #587067; font-size: .76rem; }
+.account-table { overflow: hidden; border: 1px solid #dfe9e3; border-radius: .7rem; background: white; box-shadow: 0 .35rem 1.4rem rgba(28,80,53,.04); }
+.account-table-head,.account-table-row { display: grid; grid-template-columns: minmax(18rem,2fr) minmax(7rem,.7fr) minmax(8rem,.7fr) minmax(9rem,.9fr) 3rem; align-items: center; gap: .8rem; }
+.account-table-head { min-height: 2.75rem; padding: .55rem 1rem; color: #587067; background: #f3f8f5; font-size: .75rem; font-weight: 700; }
+.account-table-row { width: 100%; min-height: 4.4rem; border: 0; border-top: 1px solid #edf2ef; padding: .65rem 1rem; color: inherit; background: white; text-align: left; font: inherit; }
+.account-table-row:hover,.account-table-row:focus-visible { background: #f8fcf9; }
+.account-table-identity { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: .8rem; min-width: 0; }
+.account-table-identity > span:last-child { display: grid; min-width: 0; }
+.account-table small { color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; }
+.account-open { color: var(--primary); text-align: right; font-size: 1.4rem; }
 .account-avatar { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: 50%; color: #08733f; background: #dcf3e5; font-weight: 800; }
 .account-avatar.large { width: 4rem; height: 4rem; margin: auto; font-size: 1.35rem; }
 .status-pendingactivation { color: #8a5b09; background: #fff4d7; }.status-blocked { color: #a52c2c; background: #ffe8e8; }
@@ -32,4 +35,4 @@
 .access-flow { padding-top: 1rem; }.access-flow .activation-card { margin-top: 1rem; }
 .security-token { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: .8rem; padding: 1rem; border: 1px solid #dfe9e3; border-radius: .7rem; background: white; }
 .security-requests { display: grid; gap: .7rem; margin-top: 1rem; }.security-requests article { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: .6rem; padding: 1rem; border: 1px solid #dfe9e3; border-radius: .7rem; background: white; }.security-requests article div { display: grid; }.security-requests small { color: var(--text-muted); }
-@media(max-width:800px){.account-grid{grid-template-columns:1fr}.account-filters{grid-template-columns:1fr}.accounts-heading{display:block}.accounts-heading>.button{margin-top:1rem}.security-token,.security-requests article{grid-template-columns:1fr}.account-detail dl{grid-template-columns:1fr}}
+@media(max-width:800px){.account-table-head{display:none}.account-table-row{grid-template-columns:1fr auto;gap:.45rem}.account-table-row>span:nth-child(2),.account-table-row>span:nth-child(4){padding-left:3.6rem;color:var(--text-muted);font-size:.8rem}.account-table-row>span:nth-child(3){grid-column:2}.account-open{grid-column:2;grid-row:1}.account-filters{grid-template-columns:1fr}.accounts-heading{display:block}.accounts-heading>.button{margin-top:1rem}.security-token,.security-requests article{grid-template-columns:1fr}.account-detail dl{grid-template-columns:1fr}}

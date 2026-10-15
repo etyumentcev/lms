@@ -50,12 +50,13 @@ courses and groups, enroll students, assign teachers and grant CourseEditor auth
 Student submission, teacher review, revision, acceptance, history and private attachments use
 the persisted API and database paths.
 
-The accepted B07b content importer additionally requires a working user-systemd manager,
-writable delegated cgroup v2 controllers and bubblewrap. A normal unprivileged Docker
-container does not provide that control plane. Import therefore fails closed in this Compose
-profile; there is no unisolated fallback. Enabling nested systemd/cgroup privileges or adding
-a separate import worker requires an explicit security/deployment decision before this profile
-can be called complete for ZIP import and publication.
+The accepted B07b content importer requires a working host user-systemd manager, writable
+delegated cgroup v2 controllers and bubblewrap. For the explicitly authorized local synthetic
+profile, `tools/pilot_seed/run.sh` starts a trusted host proxy and transfers ZIP bytes from the
+API over a peer-credential-checked Unix socket. The proxy invokes the accepted isolated worker;
+it does not add an unisolated or privileged-container fallback. This adapter is rejected outside
+`ASPNETCORE_ENVIRONMENT=Development`; production deployment still requires a separately
+authorized and qualified worker topology.
 
 There are deliberately no default application credentials or deterministic records. Do not use
 real child or production data: the current authorization is **synthetic M1 testing only**.

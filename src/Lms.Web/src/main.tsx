@@ -6,5 +6,5 @@ import { SessionGate, SessionProvider } from './auth/session';
 import './styles/tokens.css';
 import './styles/ui.css';
 createRoot(document.getElementById('root')!).render(
-  <StrictMode><SessionProvider><SessionGate><BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><App /></BrowserRouter></SessionGate></SessionProvider></StrictMode>,
+  <StrictMode><BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><SessionProvider><SessionGate><App /></SessionGate></SessionProvider></BrowserRouter></StrictMode>,
 );

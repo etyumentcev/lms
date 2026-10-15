@@ -50,7 +50,9 @@ internal static class TeacherRevocationComposition
             try { challengeKey = Convert.FromBase64String(encodedKey ?? string.Empty); }
             catch (FormatException) { throw new InvalidOperationException("OrganizationBootstrap:ChallengeKey must be base64."); }
             var bootstrapOptions = new OrganizationBootstrapOptions { ChallengeKey = challengeKey,
-                KeyVersion = builder.Configuration.GetValue<int?>("OrganizationBootstrap:ChallengeKeyVersion") ?? 1 };
+                KeyVersion = builder.Configuration.GetValue<int?>("OrganizationBootstrap:ChallengeKeyVersion") ?? 1,
+                MaxIssuesPerInitiatorPerHour = builder.Configuration.GetValue<int?>(
+                    "OrganizationBootstrap:MaxIssuesPerInitiatorPerHour") ?? 20 };
             bootstrapOptions.Validate();
             builder.Services.AddSingleton(bootstrapOptions);
             builder.Services.AddScoped<IOrganizationBootstrap, PostgresOrganizationBootstrap>();
@@ -61,6 +63,10 @@ internal static class TeacherRevocationComposition
             builder.Services.AddScoped<IAccountSecurityOperations>(sp => sp.GetRequiredService<PostgresAccountAdministration>());
             builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
             var repositoryRoot = builder.Configuration["ContentImport:RepositoryRoot"] ?? string.Empty;
+            var localSyntheticSocketPath = builder.Configuration["ContentImport:LocalSyntheticSocketPath"] ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(localSyntheticSocketPath) && !builder.Environment.IsDevelopment())
+                throw new InvalidOperationException(
+                    "ContentImport:LocalSyntheticSocketPath is allowed only in Development.");
             var importOptions = new ContentImportRuntimeOptions
             {
                 RepositoryRoot = repositoryRoot,
@@ -69,13 +75,18 @@ internal static class TeacherRevocationComposition
                 KatexPath = builder.Configuration["ContentImport:KatexPath"] ?? Path.Combine(repositoryRoot, "src", "Lms.Web", "node_modules", "katex"),
                 StorageRoot = builder.Configuration["ContentImport:StorageRoot"] ?? string.Empty,
                 MaxZipBytes = builder.Configuration.GetValue<long?>("ContentImport:MaxZipBytes") ?? 20_000_000,
+                LocalSyntheticSocketPath = localSyntheticSocketPath,
             };
             builder.Services.AddSingleton(importOptions);
             builder.Services.AddScoped<IContentPublication, PostgresContentPublication>();
+            var activationRequestsPerMinute = builder.Configuration.GetValue<int?>(
+                "OrganizationBootstrap:ActivationRequestsPerMinute") ?? 10;
+            if (activationRequestsPerMinute is < 1 or > 400)
+                throw new InvalidOperationException("OrganizationBootstrap:ActivationRequestsPerMinute must be between 1 and 400.");
             builder.Services.AddRateLimiter(options => options.AddPolicy(OrganizationBootstrapHttp.ActivationRatePolicy,
                 context => RateLimitPartition.GetFixedWindowLimiter(
                     context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ => new FixedWindowRateLimiterOptions
-                    { PermitLimit = 10, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 })));
+                    { PermitLimit = activationRequestsPerMinute, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 })));
             builder.Services.AddAuthentication().AddJwtBearer(OrganizationBootstrapHttp.PlatformBearerScheme, options =>
             {
                 options.Authority = builder.Configuration["Authentication:Authority"];

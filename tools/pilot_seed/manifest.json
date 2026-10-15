@@ -1,0 +1,64 @@
+{
+  "fixtureVersion": 1,
+  "origin": "https://localhost:8443",
+  "contentPublication": "enabled",
+  "organizations": [
+    {
+      "key": "small-math",
+      "name": "Малый матфак",
+      "adminUserName": "pilot.math.admin",
+      "teachers": [
+        { "userName": "pilot.math.teacher", "displayName": "Наталья Сергеевна Воронцова", "rosterKey": "pilot-math-teacher" },
+        { "userName": "pilot.math.observer", "displayName": "Марина Ильинична Лебедева", "rosterKey": "pilot-math-observer", "unassigned": true }
+      ],
+      "courses": [
+        {
+          "key": "math-grade-5",
+          "title": "Олимпиадная математика · 5 класс",
+          "description": "72 часа · 24 занятия · очно · 1 × 3 ч/нед.",
+          "groupName": "5 класс",
+          "groupDescription": "15 синтетических учеников · очная группа",
+          "lessonCount": 24,
+          "studentPrefix": "pilot.m5",
+          "studentRosterPrefix": "pilot-m5",
+          "studentCount": 15,
+          "teacherUserName": "pilot.math.teacher"
+        },
+        {
+          "key": "math-grade-8",
+          "title": "Олимпиадная математика · 8 класс",
+          "description": "72 часа · 24 занятия · очно · 1 × 3 ч/нед.",
+          "groupName": "8 класс",
+          "groupDescription": "15 синтетических учеников · очная группа",
+          "lessonCount": 24,
+          "studentPrefix": "pilot.m8",
+          "studentRosterPrefix": "pilot-m8",
+          "studentCount": 15,
+          "teacherUserName": "pilot.math.teacher"
+        }
+      ]
+    },
+    {
+      "key": "remote-circle",
+      "name": "Кружок",
+      "adminUserName": "pilot.circle.admin",
+      "teachers": [
+        { "userName": "pilot.circle.teacher", "displayName": "Алексей Павлович Туманов", "rosterKey": "pilot-circle-teacher" }
+      ],
+      "courses": [
+        {
+          "key": "remote-grade-8-program-1",
+          "title": "Дистанционный кружок · 8 класс · программа 1",
+          "description": "36 часов · 18 занятий · дистанционно · 2 × 2 ч/нед. Зачислено 24; типичная посещаемость 12–14 учитывается отдельно от активности LMS.",
+          "groupName": "8 класс · дистанционно",
+          "groupDescription": "24 синтетических зачисления · посещаемость не моделируется активностью LMS",
+          "lessonCount": 18,
+          "studentPrefix": "pilot.r8",
+          "studentRosterPrefix": "pilot-r8",
+          "studentCount": 24,
+          "teacherUserName": "pilot.circle.teacher"
+        }
+      ]
+    }
+  ]
+}

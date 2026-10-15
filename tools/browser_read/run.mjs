@@ -3,10 +3,12 @@ import assert from 'node:assert/strict';
 import { createInterface } from 'node:readline';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 const lines = createInterface({ input: process.stdin })[Symbol.asyncIterator]();
 const receive = async () => JSON.parse((await lines.next()).value);
 const config = await receive();
-const { chromium } = await import(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
+const { chromium } = require(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
 const command = async name => { process.stdout.write(`${name}\n`); return receive(); };
 const browser = await chromium.launch(process.env.LMS_BROWSER_EXECUTABLE
   ? { executablePath: process.env.LMS_BROWSER_EXECUTABLE, headless: true }

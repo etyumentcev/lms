@@ -1,8 +1,10 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 let raw = ''; for await (const chunk of process.stdin) raw += chunk;
 const input = JSON.parse(raw);
-const { chromium } = await import(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
+const { chromium } = require(process.env.LMS_PLAYWRIGHT_MODULE || 'playwright');
 const browser = await chromium.launch({ executablePath: process.env.LMS_BROWSER_EXECUTABLE || '/opt/google/chrome/chrome', headless: true });
 try {
   const context = await browser.newContext({ ignoreHTTPSErrors: true });

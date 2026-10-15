@@ -400,7 +400,7 @@ public sealed class PostgresAccountAdministration(
         var issued = await db.Set<SecurityAudit>().CountAsync(x => x.ActorId == initiator &&
             (x.Action == "activation_issued" || x.Action == "account_provisioned" || x.Action == "recovery_approved") &&
             x.OccurredAt > now.AddHours(-1), ct);
-        if (issued >= 20) throw new UseCaseException("ChallengeRateLimited");
+        if (issued >= options.MaxIssuesPerInitiatorPerHour) throw new UseCaseException("ChallengeRateLimited");
     }
     private AccessChallenge Challenge(Guid id, Guid userId, string purpose, string code, DateTimeOffset created,
         DateTimeOffset expires, Guid? recovery) => new() { ChallengeId = id, UserId = userId, Purpose = purpose,

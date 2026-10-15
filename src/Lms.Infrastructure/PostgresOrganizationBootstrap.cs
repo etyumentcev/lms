@@ -11,11 +11,13 @@ public sealed class OrganizationBootstrapOptions
 {
     public required byte[] ChallengeKey { get; init; }
     public int KeyVersion { get; init; } = 1;
+    public int MaxIssuesPerInitiatorPerHour { get; init; } = 20;
 
     public void Validate()
     {
-        if (ChallengeKey is not { Length: >= 32 } || KeyVersion <= 0)
-            throw new InvalidOperationException("Bootstrap challenge key must contain at least 256 bits and a positive version.");
+        if (ChallengeKey is not { Length: >= 32 } || KeyVersion <= 0 || MaxIssuesPerInitiatorPerHour is < 1 or > 400)
+            throw new InvalidOperationException(
+                "Bootstrap challenge key must contain at least 256 bits; key version and issue limit (1..400) must be positive.");
     }
 }
 

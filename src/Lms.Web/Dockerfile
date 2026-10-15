@@ -6,7 +6,9 @@ RUN pnpm install --frozen-lockfile
 COPY src/Lms.Web/ ./
 RUN pnpm build
 FROM nginx:1.28-alpine AS runtime
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/templates/default.conf.template
+COPY docker/web-entrypoint.sh /usr/local/bin/lms-web-entrypoint
+ENTRYPOINT ["/usr/local/bin/lms-web-entrypoint"]
 COPY --from=build /source/dist /usr/share/nginx/html
 EXPOSE 80
 # Explicit Compose-only target adds a manual bearer-token adapter. Generic runtime stays clean.

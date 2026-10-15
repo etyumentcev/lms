@@ -21,8 +21,8 @@ using Microsoft.Extensions.Logging;
 namespace Lms.Api.Tests;
 
 // Production React bundle -> real Chromium -> HTTPS -> production controllers and
-// protected teacher routes -> disposable PostgreSQL. Authentication tokens are issued
-// out of band through the documented host adapter, so this is not browser-login acceptance.
+// protected teacher routes -> disposable PostgreSQL. Every actor authenticates through
+// the production React login form; no token is passed to the browser harness.
 [Collection("Teacher browser network isolation")]
 public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClassFixture<ApiPostgresFixture>
 {
@@ -55,6 +55,10 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
         db.AddRange(new ActorRecord { ActorId = teacher }, new ActorRecord { ActorId = student });
         db.Add(new CourseRegistration { CourseId = course, OrganizationId = org, MappingState = "Verified" });
         db.Add(new CourseGroup { CourseId = course, GroupId = group });
+        db.Add(new CourseCatalogRecord { CourseId = course, OrganizationId = org, Title = "Journey course",
+            Description = "Real React E2E", State = "Published", Version = 1, CreatedAt = At });
+        db.Add(new CourseGroupCatalogRecord { CourseId = course, GroupId = group, Name = "Journey group",
+            Description = "", Version = 1, CreatedAt = At });
         await db.SaveChangesAsync(); db.ChangeTracker.Clear();
         var teacherGrant = new AuthorityCommand(AuthorityKind.Teacher, AuthorityOperation.Grant, org, teacher, 0, 1,
             course, group, Guid.NewGuid());
@@ -87,6 +91,10 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
         db.Add(new ActorRecord { ActorId = outsider });
         db.Add(new CourseRegistration { CourseId = "outsider-course", OrganizationId = outsiderOrg, MappingState = "Verified" });
         db.Add(new CourseGroup { CourseId = "outsider-course", GroupId = group });
+        db.Add(new CourseCatalogRecord { CourseId = "outsider-course", OrganizationId = outsiderOrg,
+            Title = "Outsider course", Description = "Isolation control", State = "Published", Version = 1, CreatedAt = At });
+        db.Add(new CourseGroupCatalogRecord { CourseId = "outsider-course", GroupId = group,
+            Name = "Outsider group", Description = "", Version = 1, CreatedAt = At });
         await db.SaveChangesAsync(); db.ChangeTracker.Clear();
         var outsiderAdmin = new PostgresScopedAuthorityAdministration(db);
         await outsiderAdmin.Change(new(AuthorityKind.Membership, AuthorityOperation.Grant, outsiderOrg, outsider, 0, Role: ScopeRole.Teacher));
@@ -99,25 +107,21 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
 
         var source = new Clock(); var clock = new QualifiedAuthorityClock(source, TimeSpan.Zero, TimeSpan.Zero);
         using var signing = RSA.Create(2048); var jwt = new ComponentJwt(signing, "journey", "journey", clock);
-        async Task<string> Token(Guid actor, Guid organization)
+        async Task<(string UserName, string Password)> Credential(Guid actor, Guid organization)
         {
             await using var tokenDb = database.Open();
             var userId = Guid.NewGuid(); var name = "journey-" + actor.ToString("N");
             await new PostgresIdentityMapping(tokenDb, source).CreateInactive(userId, actor, organization, name);
             (await tokenDb.Set<ActorIdentity>().SingleAsync(x => x.UserId == userId)).IsActive = true;
             var user = await tokenDb.Users.SingleAsync(x => x.Id == userId);
-            user.PasswordHash = new PasswordHasher<IdentityUser<Guid>>().HashPassword(user, "Synthetic-password-123");
+            const string password = "Synthetic-password-123";
+            user.PasswordHash = new PasswordHasher<IdentityUser<Guid>>().HashPassword(user, password);
             await tokenDb.SaveChangesAsync(); tokenDb.ChangeTracker.Clear();
-            return (await new PostgresComponentTokenIssuer(tokenDb, clock, jwt).Login(name, "Synthetic-password-123",
-                organization, new Ingress(clock).Arrive())).AccessToken!.Reveal();
+            return (name, password);
         }
-        var studentToken = await Token(student, org); var teacherToken = await Token(teacher, org);
-        var outsiderToken = await Token(outsider, outsiderOrg);
-        var issuedTeacher = jwt.Validate(new AccessToken(teacherToken));
-        Assert.NotNull(issuedTeacher); Assert.Equal(teacher, issuedTeacher.Identity.ActorId);
-        Assert.Equal(ScopeRole.Teacher, issuedTeacher.Authority.Membership.Role);
-        Assert.Contains(issuedTeacher.Authority.Grants, grant => grant.Kind == AuthorityKind.Teacher &&
-            grant.CourseId == course && grant.GroupId == group);
+        var studentCredential = await Credential(student, org);
+        var teacherCredential = await Credential(teacher, org);
+        var outsiderCredential = await Credential(outsider, outsiderOrg);
         await using (var policyDb = database.Open())
         {
             var persistedAssignment = await policyDb.Assignments.SingleAsync(x => x.Id == assignment.Id);
@@ -153,6 +157,7 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
         builder.Services.AddScoped<ProblemWorkService>();
         builder.Services.AddScoped<IImmutableContentResolver, PostgresContentResolver>();
         builder.Services.AddScoped<IWorkspaceQueries, PostgresWorkspaceQueries>();
+        builder.Services.AddScoped<ICourseRosterAdministration, PostgresCourseRosterAdministration>();
         builder.Services.AddSingleton<IActorMapper, ClaimsActorMapper>();
         builder.Services.AddScoped<PostgresTeacherCommands>();
         builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
@@ -168,7 +173,7 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
         app.UseMiddleware<ApiExceptionMiddleware>();
         app.UseMiddleware<CourseRequestIngress>();
         app.UseAuthentication(); app.UseAuthorization();
-        app.MapControllers(); app.MapTeacherRevocation(origin);
+        app.MapControllers(); app.MapTeacherRevocation(origin); app.MapCourseRoster(origin);
         app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(web) });
         app.MapFallback(async http => {
             if (http.Request.Path.StartsWithSegments("/api")) { http.Response.StatusCode = 404; return; }
@@ -177,15 +182,6 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
                 Path.Combine(web, "index.html"));
         });
         await app.StartAsync();
-        using (var handler = new HttpClientHandler { ServerCertificateCustomValidationCallback = (_, _, _, _) => true })
-        using (var probe = new HttpClient(handler))
-        {
-            probe.DefaultRequestHeaders.Authorization = new("Bearer", teacherToken);
-            using var response = await probe.GetAsync($"{origin}/api/v1/teacher/problem-works/{seededWork.Id}");
-            Assert.True(response.IsSuccessStatusCode,
-                $"Teacher read preflight failed with {(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
-        }
-
         var evidence = Path.Combine(Environment.GetEnvironmentVariable("LMS_BROWSER_EVIDENCE_ROOT") ??
             Path.Combine(root.FullName, "codex/evidence"), "TEACHER-REVOCATION-REACT-E2E");
         Directory.CreateDirectory(evidence);
@@ -195,8 +191,12 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
         start.ArgumentList.Add(Path.Combine(root.FullName, "tools/browser_read/react-teacher-journey.mjs"));
         using var runner = Process.Start(start)!; using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(4));
         var errors = runner.StandardError.ReadToEndAsync(timeout.Token);
-        await runner.StandardInput.WriteLineAsync(JsonSerializer.Serialize(new { origin, studentToken, teacherToken,
-            outsiderToken, assignmentId = assignment.Id, workId = seededWork.Id, evidence,
+        await runner.StandardInput.WriteLineAsync(JsonSerializer.Serialize(new { origin,
+            studentUserName = studentCredential.UserName, studentPassword = studentCredential.Password,
+            teacherUserName = teacherCredential.UserName, teacherPassword = teacherCredential.Password,
+            outsiderUserName = outsiderCredential.UserName, outsiderPassword = outsiderCredential.Password,
+            organizationId = org, outsiderOrganizationId = outsiderOrg,
+            assignmentId = assignment.Id, workId = seededWork.Id, evidence,
             pngBase64 = Convert.ToBase64String(AttachmentImages.Png) }));
         var passed = false;
         try
@@ -211,8 +211,10 @@ public sealed class ReactTeacherJourneyTests(ApiPostgresFixture fixture) : IClas
                 await runner.StandardInput.WriteLineAsync("{}");
             }
             await runner.WaitForExitAsync(timeout.Token);
-            var diagnostic = (await errors).Replace(studentToken, "[REDACTED]")
-                .Replace(teacherToken, "[REDACTED]").Replace(outsiderToken, "[REDACTED]");
+            var diagnostic = (await errors).Replace(studentCredential.Password, "[REDACTED]")
+                .Replace(studentCredential.UserName, "[REDACTED]")
+                .Replace(teacherCredential.UserName, "[REDACTED]")
+                .Replace(outsiderCredential.UserName, "[REDACTED]");
             Assert.True(passed && runner.ExitCode == 0, diagnostic);
         }
         finally { if (!runner.HasExited) runner.Kill(true); }

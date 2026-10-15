@@ -1,18 +1,13 @@
 .auth-page { min-height: 100dvh; padding: 0; background: var(--surface); color: #083f32; overflow-x: hidden; }
 .auth-shell { position: relative; min-height: 100dvh; display: grid; grid-template-columns: minmax(24rem, 48%) minmax(32rem, 52%); align-items: center; background: linear-gradient(120deg, #fbfdf8 0 47%, #eaf8ef 47% 100%); }
-.auth-utility { position: absolute; z-index: 3; top: 2rem; right: clamp(2rem, 5vw, 5rem); display: flex; align-items: center; gap: 1.25rem; font-size: 1rem; }
-.auth-utility a, .auth-utility button { color: #174b3f; background: none; border: 0; text-decoration: none; font: inherit; }
-.auth-utility a { display: inline-flex; align-items: center; gap: .55rem; }
-.auth-utility a::first-letter { font-weight: 750; }
-.auth-utility > span { width: 1px; height: 1.8rem; background: #cbded2; }
 .auth-hero { position: relative; align-self: stretch; min-height: 100dvh; padding: clamp(2rem, 5vw, 5rem) clamp(2rem, 7vw, 7rem); overflow: hidden; background: #f8fbf3 url('../assets/login-study-room.png') center bottom / cover no-repeat; }
 .auth-brand { position: relative; z-index: 2; display: flex; align-items: center; gap: .75rem; color: #064535; }
 .auth-brand svg { width: 3.1rem; height: 2.2rem; flex: 0 0 auto; }
 .auth-brand strong { font-size: clamp(1.45rem, 2.3vw, 2.15rem); letter-spacing: -.045em; }
-.auth-hero-copy { position: relative; z-index: 2; margin-top: clamp(3.5rem, 9vh, 7.5rem); }
-.auth-hero-copy h2 { margin-bottom: 1.25rem; color: #064535; font-size: clamp(2.6rem, 3.6vw, 4.1rem); line-height: 1.05; letter-spacing: -.045em; }
+.auth-hero-copy { position: relative; z-index: 2; max-width: 23rem; margin-top: clamp(2rem, 5.5vh, 4.5rem); margin-left: clamp(1.25rem, 2.5vw, 3rem); }
+.auth-hero-copy h2 { margin-bottom: 1.25rem; color: #064535; font-size: clamp(2.2rem, 2.8vw, 3.25rem); line-height: 1.05; letter-spacing: -.045em; }
 .auth-hero-copy p { color: #65786f; font-size: clamp(1.15rem, 1.7vw, 1.65rem); line-height: 1.45; }
-.auth-card { position: relative; z-index: 2; justify-self: center; width: min(calc(100% - 4rem), 39rem); margin: 6rem 0 2rem; padding: clamp(2rem, 4vw, 3.5rem); border: 1px solid rgb(226 232 228 / 85%); border-radius: 1.75rem; background: rgb(255 255 255 / 94%); box-shadow: 0 1.5rem 4.5rem rgb(35 88 58 / 12%); backdrop-filter: blur(10px); }
+.auth-card { position: relative; z-index: 2; justify-self: center; width: min(calc(100% - 4rem), 39rem); margin: 2rem 0; padding: clamp(2rem, 4vw, 3.5rem); border: 1px solid rgb(226 232 228 / 85%); border-radius: 1.75rem; background: rgb(255 255 255 / 94%); box-shadow: 0 1.5rem 4.5rem rgb(35 88 58 / 12%); backdrop-filter: blur(10px); }
 .auth-card h1 { margin-bottom: .55rem; color: #073f32; font-size: clamp(2rem, 3.5vw, 3rem); }
 .auth-intro { margin-bottom: 1.7rem; color: #75817b; font-size: 1.04rem; line-height: 1.45; }
 .auth-form { display: grid; gap: .55rem; }
@@ -23,10 +18,8 @@
 .auth-input input { min-width: 0; flex: 1; border: 0; outline: 0; padding: .85rem .75rem .85rem 0; color: var(--text); background: transparent; font: inherit; }
 .auth-input input::placeholder { color: #909a95; }
 .auth-input button { width: 3.2rem; align-self: stretch; flex: 0 0 auto; border: 0; color: #727e78; background: transparent; font-size: 1.25rem; }
+.auth-icon { display: block; width: 1.35rem; height: 1.35rem; margin: auto; }
 .auth-submit { width: 100%; min-height: 3.5rem; margin-top: 1rem; border-radius: .65rem; font-size: 1.05rem; }
-.auth-divider { display: flex; align-items: center; gap: .75rem; margin: 1.25rem 0 .85rem; color: #9aa59f; font-size: .78rem; }
-.auth-divider::before, .auth-divider::after { content: ''; height: 1px; flex: 1; background: #e1e7e3; }
-.auth-continue { width: 100%; }
 .auth-help { display: grid; grid-template-columns: 2rem 1fr; gap: .85rem; margin-top: 1.2rem; padding: 1rem 1.1rem; border-radius: .8rem; background: linear-gradient(120deg, #f0f9f1, #e7f4e9); color: #617169; }
 .auth-help > span { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border: 2px solid #075342; border-radius: 50%; color: #075342; font-weight: 800; }
 .auth-help p { margin: 0; font-size: .86rem; }
@@ -35,18 +28,25 @@
 .auth-message--error { color: var(--error-text); background: var(--error-surface); }
 .bootstrap-links { display: flex; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
 .bootstrap-links button { border: 0; padding: .35rem 0; color: var(--primary); background: transparent; font: inherit; font-size: .82rem; text-decoration: underline; text-underline-offset: .2em; }
+.auth-loading { display: grid; min-height: 100dvh; place-content: center; gap: 1rem; text-align: center; background: linear-gradient(155deg, #fbfdf8, #e7f5e9); }
+.auth-loading .auth-brand { justify-content: center; }
 .session-toolbar { position: fixed; z-index: 9; top: var(--space-3); right: var(--space-4); display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2); border: var(--border-width) solid var(--border); border-radius: var(--radius-medium); background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: 0 .4rem 1.5rem rgb(21 63 43 / 8%); }
 .session-toolbar > div { display: grid; padding-inline: var(--space-2); font-size: var(--font-small); }
 .session-toolbar > div span { color: var(--text-muted); }
 .session-toolbar details { position: relative; }
 .session-toolbar summary { min-height: 44px; display: grid; place-items: center; padding: 0 var(--space-3); cursor: pointer; color: var(--primary); font-weight: 650; }
 .session-toolbar details[open] { display: flex; gap: var(--space-2); align-items: center; }
-.session-toolbar input { width: 18rem; }
+.session-organization-options { display: flex; gap: var(--space-2); align-items: center; }
+.organization-picker { margin: 1rem; text-align: left; }
+.organization-picker > p { color: var(--text-muted); }
+.organization-options { display: grid; gap: .75rem; margin: 1.5rem 0; }
+.organization-options .button { min-height: 3.25rem; justify-content: flex-start; border-color: var(--primary); color: #fff; background: var(--primary); text-align: left; }
+.organization-options .button:hover { background: var(--primary-hover); }
 @media (max-width: 767px) {
   .session-toolbar { position: static; border-width: 0 0 var(--border-width); border-radius: 0; box-shadow: none; flex-wrap: wrap; justify-content: flex-end; }
   .session-toolbar > div { margin-right: auto; }
-  .session-toolbar details[open] { order: 3; width: 100%; }
-  .session-toolbar input { width: 100%; min-width: 0; }
+  .session-toolbar details[open] { order: 3; width: 100%; align-items: stretch; flex-direction: column; }
+  .session-organization-options { display: grid; width: 100%; }
 }
 @media (min-width: 801px) and (max-height: 950px) {
   .auth-card { margin: 4.25rem 0 1rem; padding: 1.8rem 2.35rem; }
@@ -56,27 +56,30 @@
   .auth-form label { margin-top: .25rem; }
   .auth-input { min-height: 3.05rem; }
   .auth-submit { min-height: 3.1rem; margin-top: .65rem; }
-  .auth-divider { margin: .75rem 0 .55rem; }
   .auth-help { margin-top: .75rem; padding: .75rem .9rem; }
   .auth-help p { font-size: .8rem; line-height: 1.4; }
 }
 @media (max-width: 1100px) {
   .auth-shell { grid-template-columns: minmax(20rem, 42%) minmax(29rem, 58%); }
   .auth-hero { padding-inline: 2.5rem; }
-  .auth-hero-copy h2 { font-size: clamp(2.35rem, 5vw, 3.6rem); }
+  .auth-hero-copy h2 { font-size: clamp(2.15rem, 4.2vw, 3rem); }
   .auth-card { width: min(calc(100% - 2rem), 36rem); }
 }
 @media (max-width: 800px) {
   .auth-shell { display: block; padding: 6.5rem 1rem 2rem; background: linear-gradient(155deg, #fbfdf8, #e7f5e9); }
-  .auth-utility { top: 1.5rem; right: 1.5rem; }
   .auth-hero { min-height: auto; padding: 0 1rem 2rem; background: none; }
-  .auth-hero-copy { margin-top: 2rem; }
+  .auth-hero-copy { max-width: none; margin: 2rem 0 0; }
   .auth-hero-copy h2 { font-size: 2.25rem; }
   .auth-hero-copy p { font-size: 1rem; }
   .auth-card { width: 100%; margin: 0; padding: 1.5rem; border-radius: 1.25rem; }
 }
 @media (max-width: 460px) {
-  .auth-utility a span { display: none; }
-  .auth-hero-copy h2 br, .auth-hero-copy p br { display: none; }
   .auth-card h1 { font-size: 1.85rem; }
 }
+
+.administrative-entry { display: grid; gap: 1rem; text-align: left; }
+.administrative-entry .auth-brand { margin-bottom: .75rem; }
+.administrative-entry > p { margin: 0; color: var(--text-muted); line-height: 1.55; }
+.administrative-entry-actions { display: grid; gap: .75rem; margin: .5rem 0; }
+.administrative-entry-actions .button { min-height: 3.2rem; justify-content: flex-start; }
+.administrative-entry > .link-button { justify-self: start; }

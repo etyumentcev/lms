@@ -214,3 +214,42 @@ Owner: владелец проекта. Основание: явное реше�
 Обязательны positive clean-bootstrap Chromium HTTPS E2E до Student G1, отрицательные org/role/context/binding/restriction/concurrency/history/G2 проверки, API/PostgreSQL consistency, причины четырёх прежних browser failures, screenshots и machine-readable summary. Разрешён scoped commit «fix(m1): enable processing context bootstrap through admin UI»; push/deploy и автоматический полный M1-11 запрещены.
 
 **M1-11-FIX-02 AUTHORIZED · SYNTHETIC PROCESSING CONTEXT/UI/API ONLY · IMMUTABLE VERSIONS + SAME-ORG BINDING · RESTRICTIONS/FAIL-CLOSED BEHAVIOR PRESERVED · COURSEEDITOR NOT EXPANDED · PRS1 EXACT OFF · G02 BLOCKED · NO FULL M1-11/PUSH/DEPLOY.**
+
+
+## 2026-10-14 — Pilot local Compose content publication
+
+Owner: владелец проекта. Основание: явный запрос загрузить сгенерированные материалы
+для просмотра курса преподавателем и учеником и последующее подтверждение «разрешить»
+на точный вопрос об изменении границы S4 только для локального synthetic Compose.
+
+Разрешён существующий M1-06 Organization → ProcessingContext → CourseEditor → ZIP Import →
+Publish → group assignment путь только для controlled `SyntheticOnly` в локальном Development
+Compose. Trusted API adapter может обращаться к принятому B07b-C1 host sandbox через
+аутентифицированный peer credentials Unix socket. Production/default path остаётся прежним
+systemd/bubblewrap fail-closed; новые HTTP routes, роли, schema, direct DB writes, privileged
+container или unisolated fallback запрещены. Реальные ПД, G02/PRS1 exact, commit/push/deploy
+не разрешены.
+
+**PILOT LOCAL S4 CONTENT AUTHORIZED · SYNTHETIC DEVELOPMENT COMPOSE ONLY · EXISTING M1-06 ROUTES · B07B-C1 HOST SANDBOX · PRODUCTION DEFAULT OFF · G02 BLOCKED · NO COMMIT/PUSH/DEPLOY.**
+
+
+## 2026-10-15 — UI-LOGIN-01 partial acceptance and mandatory deployment blocker
+
+Owner: владелец проекта. Основание: явное решение «Изменения по форме логина принимаю» и
+указание, что отдельная страница первого входа и размещённые на ней операции доступны любому
+пользователю, попавшему на страницу.
+
+Изменения основной формы логина приняты. Отдельная страница первого/административного входа,
+её route protection и все доступные с неё операции **NOT ACCEPTED**. UUID/непубличный URL —
+только мера discoverability, не authentication и не authorization. Текущее исправление
+отложено по решению владельца, но является обязательным release/deployment gate: до отдельной
+server-side authorization страницы и каждой операции, fail-closed semantics, positive controls
+и independent negative-access tests (anonymous, ordinary user, wrong role/org/context, revoked
+authority, direct URL/operation call, CSRF/Origin) любой deploy запрещён. Технические UI/E2E
+результаты 14.10.2026 не снимают этот blocker и не означают acceptance административной границы.
+
+Тем же решением разрешено закоммитить все текущие изменения канонического репозитория и
+интегрировать их в `main`. Разрешение на Git-фиксацию не является разрешением на push, deploy,
+pilot или реальные данные и не меняет PRS1/G02/S4/прочие release gates.
+
+**LOGIN FORM ACCEPTED · ADMIN/FIRST-ENTRY PAGE AND OPERATIONS NOT ACCEPTED · UUID IS NOT AUTHORIZATION · DEPLOY BLOCKED UNTIL FIX + NEGATIVE ACCESS EVIDENCE + OWNER ACCEPTANCE · COMMIT/MAIN INTEGRATION AUTHORIZED · NO PUSH/DEPLOY.**

@@ -15,6 +15,7 @@ secret keycloak-db-password
 secret keycloak-admin-password
 secret platform-operator-password
 [ -s "$root/challenge-key.b64" ] || openssl rand -base64 32 > "$root/challenge-key.b64"
+[ -s "$root/admin-entry-uuid" ] || openssl rand -hex 16 | sed -E 's|^(.{8})(.{4}).(.{3}).(.{3})(.{12})$|\1-\2-4\3-8\4-\5|' > "$root/admin-entry-uuid"
 [ -s "$root/component-signing.pem" ] || openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072 -out "$root/component-signing.pem"
 
 if [ ! -s "$root/ca.crt" ] || [ ! -s "$root/ca.key" ]; then
@@ -50,4 +51,4 @@ if [ ! -s "$root/sapientum-local-realm.json" ]; then
 fi
 
 chmod 0444 "$root"/*.crt "$root"/sapientum-local-realm.json
-chmod 0444 "$root"/*.key "$root"/*.pem "$root"/*-password "$root"/challenge-key.b64
+chmod 0444 "$root"/*.key "$root"/*.pem "$root"/*-password "$root"/challenge-key.b64 "$root"/admin-entry-uuid

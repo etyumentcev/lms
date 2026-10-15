@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "chromium": true,
+  "exactRouteStatus": 200,
+  "wrongUuidStatus": 404,
+  "secretRenderedInPage": false,
+  "headers": {
+    "xRobotsTag": "noindex, nofollow, noarchive",
+    "referrerPolicy": "no-referrer",
+    "cacheControl": "no-store"
+  }
+}

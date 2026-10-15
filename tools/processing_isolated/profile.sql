@@ -13,7 +13,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE c2h_owner REVOKE ALL ON SEQUENCES FROM PUBLIC;
 GRANT SELECT ON "AccessEnrollments","AccessLessons","AccessTeachers","AccessAttachments",
  "StoredAttachments","PublishedContentVersions","ProblemAssignments","ProblemWorks",
  "Submissions","Messages","Reviews","DomainEvents",
- "Organizations","Actors","ActorIdentities","AccountSecurityState","AspNetUsers",
+ "Organizations","OrganizationProfiles","Actors","ActorIdentities","AccountSecurityState","AspNetUsers",
  "IdentitySessions","RefreshVerifiers","OrganizationMemberships","EnrollmentScopes",
  "TeacherAssignmentScopes","CourseEditorScopes","CourseRegistry","CourseGroups","AssignmentScopes","AuthorityHistory","AttachmentScopes",
  "ProcessingContextVersions","CourseContextBindings","ProcessingRestrictions"

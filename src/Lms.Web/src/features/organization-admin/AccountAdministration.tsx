@@ -81,12 +81,14 @@ export function AccountsPanel({ onBack }: { onBack: () => void }) {
       <label>Роль<select value={role} onChange={e => setRole(e.target.value)}><option value="">Все роли</option><option value="Student">Ученики</option><option value="Teacher">Преподаватели</option></select></label>
       <label>Статус<select value={state} onChange={e => setState(e.target.value)}><option value="">Все статусы</option><option value="PendingActivation">Не активирован</option><option value="Active">Активен</option><option value="Blocked">Заблокирован</option></select></label></div>
     <div className="account-count">{loading ? 'Загружаем…' : `Найдено: ${total}`}</div>
-    <div className="account-grid">{items.map(item => <article className="account-card" key={item.actorId}>
-      <button onClick={() => setSelected(item)} aria-label={`Открыть карточку ${item.displayName}`}><span className="account-avatar">{item.displayName.split(/\s+/).slice(0,2).map(x => x[0]).join('').toUpperCase()}</span>
-        <span><strong>{item.displayName}</strong><small>@{item.userName} · {item.externalRosterKey}</small></span>
-        <span className={`status-pill status-${item.state.toLowerCase()}`}>{item.state === 'Active' ? 'Активен' : item.state === 'Blocked' ? 'Заблокирован' : 'Не активирован'}</span></button>
-      <footer><span>{item.role === 'Student' ? 'Ученик' : 'Преподаватель'}</span><span>{item.organizationCount > 1 ? `Организаций: ${item.organizationCount}` : 'Эта организация'}</span></footer>
-    </article>)}</div>
+    <div className="account-table">
+      <div className="account-table-head"><span>Пользователь</span><span>Роль</span><span>Статус</span><span>Организация</span><span aria-hidden="true">Карточка</span></div>
+      {items.map(item => <button className="account-table-row" key={item.actorId} onClick={() => setSelected(item)} aria-label={`Открыть карточку ${item.displayName}`}>
+        <span className="account-table-identity"><span className="account-avatar">{item.displayName.split(/\s+/).slice(0,2).map(x => x[0]).join('').toUpperCase()}</span><span><strong>{item.displayName}</strong><small>@{item.userName} · {item.externalRosterKey}</small></span></span>
+        <span>{item.role === 'Student' ? 'Ученик' : 'Преподаватель'}</span><span><span className={`status-pill status-${item.state.toLowerCase()}`}>{item.state === 'Active' ? 'Активен' : item.state === 'Blocked' ? 'Заблокирован' : 'Не активирован'}</span></span>
+        <span>{item.organizationCount > 1 ? `Организаций: ${item.organizationCount}` : 'Эта организация'}</span><span className="account-open" aria-hidden="true">›</span>
+      </button>)}
+    </div>
     {!loading && !items.length && <div className="account-empty"><strong>Пользователи не найдены</strong><p>Измените фильтры или создайте первую учётную запись.</p></div>}
     {creating && <CreateAccountDialog onClose={() => setCreating(false)} onCreated={result => { setCreating(false); void load();
       if (result.activationCode) setSecret({ title: 'Одноразовый код активации', code: result.activationCode, note: 'Код действует 24 часа и показывается только один раз.' });

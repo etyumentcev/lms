@@ -24,6 +24,33 @@ using Testcontainers.PostgreSql;
 
 namespace Lms.Api.Tests;
 
+public sealed record PostgresBackupResult(
+    string Database,
+    string Path,
+    string Command,
+    long? ExitCode,
+    string Stdout,
+    string Stderr,
+    string Sha256,
+    long Size,
+    byte[] Content,
+    DateTimeOffset StartedAtUtc,
+    DateTimeOffset CompletedAtUtc);
+
+public sealed record PostgresRestoreResult(
+    string Database,
+    string ConnectionString,
+    string CreateCommand,
+    long? CreateExitCode,
+    string CreateStdout,
+    string CreateStderr,
+    string RestoreCommand,
+    long? RestoreExitCode,
+    string RestoreStdout,
+    string RestoreStderr,
+    DateTimeOffset StartedAtUtc,
+    DateTimeOffset CompletedAtUtc);
+
 public sealed class ApiPostgresFixture : IAsyncLifetime
 {
     private readonly PostgreSqlContainer container = new PostgreSqlBuilder("postgres:17.6-alpine").Build();
@@ -42,6 +69,54 @@ public sealed class ApiPostgresFixture : IAsyncLifetime
         await db.Database.MigrateAsync();
         Assert.False(db.Database.HasPendingModelChanges());
         return factory;
+    }
+    public async Task<string> RestartPostgres(string connectionString)
+    {
+        var database = new NpgsqlConnectionStringBuilder(connectionString).Database!;
+        await container.StopAsync();
+        await container.StartAsync();
+        return new NpgsqlConnectionStringBuilder(container.GetConnectionString())
+            { Database = database, Pooling = false }.ConnectionString;
+    }
+    public async Task<PostgresBackupResult> Backup(string connectionString)
+    {
+        var database = new NpgsqlConnectionStringBuilder(connectionString).Database!;
+        Assert.StartsWith("c2_", database);
+        var path = "/tmp/" + database + ".dump";
+        var command = $"pg_dump -U postgres -Fc -f {path} {database}";
+        var startedAtUtc = TimeProvider.System.GetUtcNow();
+        var dumped = await container.ExecAsync(["pg_dump", "-U", "postgres", "-Fc", "-f", path, database]);
+        var completedAtUtc = TimeProvider.System.GetUtcNow();
+        Assert.True(dumped.ExitCode == 0, dumped.Stderr);
+        var hashed = await container.ExecAsync(["sha256sum", path]);
+        Assert.True(hashed.ExitCode == 0, hashed.Stderr);
+        var sized = await container.ExecAsync(["stat", "-c", "%s", path]);
+        Assert.True(sized.ExitCode == 0, sized.Stderr);
+        var content = await container.ReadFileAsync(path);
+        return new PostgresBackupResult(database, path, command, dumped.ExitCode, dumped.Stdout, dumped.Stderr,
+            hashed.Stdout.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0],
+            long.Parse(sized.Stdout.Trim(), System.Globalization.CultureInfo.InvariantCulture), content,
+            startedAtUtc, completedAtUtc);
+    }
+    public async Task<PostgresRestoreResult> Restore(string backupPath)
+    {
+        Assert.StartsWith("/tmp/c2_", backupPath);
+        var name = "c2_" + Guid.NewGuid().ToString("N");
+        var createCommand = $"createdb -U postgres {name}";
+        var restoreCommand = $"pg_restore -U postgres --exit-on-error -d {name} {backupPath}";
+        var startedAtUtc = TimeProvider.System.GetUtcNow();
+        var created = await container.ExecAsync(["createdb", "-U", "postgres", name]);
+        Assert.True(created.ExitCode == 0, created.Stderr);
+        var restored = await container.ExecAsync(
+            ["pg_restore", "-U", "postgres", "--exit-on-error", "-d", name, backupPath]);
+        var completedAtUtc = TimeProvider.System.GetUtcNow();
+        Assert.True(restored.ExitCode == 0, restored.Stderr);
+        var restoredConnection = new NpgsqlConnectionStringBuilder(container.GetConnectionString())
+            { Database = name, Pooling = false }.ConnectionString;
+        return new PostgresRestoreResult(name, restoredConnection,
+            createCommand, created.ExitCode, created.Stdout, created.Stderr,
+            restoreCommand, restored.ExitCode, restored.Stdout, restored.Stderr,
+            startedAtUtc, completedAtUtc);
     }
 }
 
@@ -142,6 +217,7 @@ public sealed class ApiFactory(string connectionString, bool testAuthentication,
         await using (var db = Open())
         {
             db.Add(new Organization { OrganizationId = OrganizationId, State = "Enabled", SyntheticOnly = true });
+            db.Add(new OrganizationProfile { OrganizationId = OrganizationId, Name = "Синтетическая организация" });
             db.AddRange(new ActorRecord { ActorId = Teacher }, new ActorRecord { ActorId = Student });
             db.Add(new CourseRegistration { CourseId = "security-bootstrap", OrganizationId = OrganizationId, MappingState = "Verified" });
             db.Add(new CourseGroup { CourseId = "security-bootstrap", GroupId = "bootstrap" });

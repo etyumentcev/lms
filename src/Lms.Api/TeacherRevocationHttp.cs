@@ -22,8 +22,8 @@ public static class TeacherRevocationHttp
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
         Converters = { new JsonStringEnumConverter() }
     };
-    public sealed record LoginBody(string UserName, string Password, Guid OrganizationId);
-    public sealed record OrganizationBody(Guid OrganizationId);
+    public sealed record LoginBody(string UserName, string Password, Guid? OrganizationId = null);
+    public sealed record OrganizationBody(Guid? OrganizationId = null);
     public sealed record ReviewBody(Guid CommandId, Guid SubmissionId, long ExpectedVersion, string? Feedback, AnnotatedAttachment[]? Annotations);
     public sealed record MessageBody(Guid CommandId, Guid IntentId, string Body, Guid? ReplyTo, Guid[] Attachments);
 
@@ -64,23 +64,29 @@ public static class TeacherRevocationHttp
                 Run(context, csrf, allowedOrigin, async d => {
                     await using var db = await contexts.CreateDbContextAsync(context.RequestAborted);
                     var issuer = new PostgresComponentTokenIssuer(db, clock, jwt, restrictedDatabaseCapabilities);
-                    SessionResult result;
+                    BrowserSessionResult browser;
                     if (action == "login")
                     {
                         var body = await Body<LoginBody>(context);
-                        result = await issuer.Login(body.UserName, body.Password, body.OrganizationId, d, context.RequestAborted);
+                        browser = await issuer.LoginForBrowser(body.UserName, body.Password, body.OrganizationId, d, context.RequestAborted);
                     }
                     else
                     {
                         var body = await Body<OrganizationBody>(context);
                         if (!context.Request.Cookies.TryGetValue(RefreshCookie, out var refresh))
                             throw new UseCaseException("Forbidden");
-                        result = await issuer.Refresh(new(refresh), body.OrganizationId, d, context.RequestAborted);
+                        browser = await issuer.RefreshForBrowser(new(refresh), body.OrganizationId, d, context.RequestAborted);
                     }
+                    var result = browser.Session;
                     if (result.Outcome != SessionOutcome.Success)
                     {
-                        var status = result.Outcome == SessionOutcome.RefreshAlreadyRotated ? 409 : 401;
-                        await ApiErrors.Write(context, result.ErrorCode ?? (status == 409 ? "refresh_already_rotated" : "Unauthenticated"), status);
+                        var status = result.Outcome switch
+                        {
+                            SessionOutcome.RefreshAlreadyRotated => 409,
+                            SessionOutcome.NoOrganizations => 403,
+                            _ => 401
+                        };
+                        await ApiErrors.Write(context, result.ErrorCode ?? "Unauthenticated", status);
                         return;
                     }
                     var authority = result.AccessToken is { } issued ? jwt.Validate(issued) : null;
@@ -88,8 +94,13 @@ public static class TeacherRevocationHttp
                         authority.Authority.Grants.Count > 0;
                     var hasOrganizationAdminScope = authority != null &&
                         OrganizationPermissionPolicy.CanManageOrganization(authority.Authority.Membership);
+                    var organizationName = browser.Organizations
+                        .SingleOrDefault(x => x.OrganizationId == browser.OrganizationId)?.Name;
                     var bytes = JsonSerializer.SerializeToUtf8Bytes(new {
-                        accessToken = result.AccessToken?.Reveal(), hasEducationalScope, hasOrganizationAdminScope
+                        accessToken = result.AccessToken?.Reveal(), hasEducationalScope, hasOrganizationAdminScope,
+                        organizationId = browser.OrganizationId, organizationName,
+                        selectionRequired = browser.OrganizationId == null && browser.Organizations.Count > 0,
+                        organizations = browser.Organizations.Select(x => new { x.OrganizationId, x.Name })
                     }, Json);
                     Gate(d);
                     context.Response.OnStarting(() => {
